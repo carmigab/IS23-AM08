@@ -2,7 +2,7 @@ package it.polimi.ingsw;
 
 /**
  * Hello world!
- * prova commit
+ * prova commit & push
  */
 public class App 
 {

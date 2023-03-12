@@ -13,7 +13,21 @@ public class PlayerState {
 
 
 
+    public String getNickname(){};
+    public Library getLibrary(){};
+    public int getPoints(){};
+    public boolean[] getCODone(){};
 
+
+    public void addCOPoints(int p){};
+    private void setPOPoints(int p){};
+    private void setGroupPoints(int p){};
+    public void setFirstPoints(){};
+    public void setCODone(int pos){};
+
+
+    public void evaluateGroupPoints(){};
+    public void evaluatePOPoints(){};
 
 
 

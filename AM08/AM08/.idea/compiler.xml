@@ -9,8 +9,5 @@
         <module name="AM08" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="AM08" target="1.5" />
-    </bytecodeTargetLevel>
   </component>
 </project>

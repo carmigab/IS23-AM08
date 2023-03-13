@@ -1,5 +1,5 @@
-
-
+package it.polimi.ingsw;
+import it.polimi.ingsw.AppConstants.*;
 
 public class PlayerState {
     private String nickname;
@@ -9,7 +9,7 @@ public class PlayerState {
     private int firstPoint;
     private int groupPoints;
     private PersonalObjective PersonalObj;
-    private boolean comObjDone[2];
+    private boolean comObjDone[];
 
 
 

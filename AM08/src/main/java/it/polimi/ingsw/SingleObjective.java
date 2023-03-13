@@ -1,16 +1,12 @@
-
-
-
-
-
-
+package it.polimi.ingsw;
+import java.util.List;
 
 public class SingleObjective {
-    private int position[];
+    private List<Integer> position;
     private CardColor color;
 
 
-    public int[] getPosition(){};
+    public List<Integer> getPosition(){};
     public CardColor getColor(){};
 
 

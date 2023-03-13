@@ -1,13 +1,11 @@
-
-
-
+package it.polimi.ingsw;
 
 public class PersonalObjective {
 
     private SingleObjective personalObj[];
 
 
-    public SingleObjective[] getObjective(){};
+    public List<SingleObjective> getObjective(){};
     public int evaluate(){};
 
 

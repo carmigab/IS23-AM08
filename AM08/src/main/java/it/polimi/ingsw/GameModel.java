@@ -1,11 +1,12 @@
-
+package it.polimi.ingsw;
+import java.util.List;
 
 public class GameModel {
     private int numPlayers;
     private PlayerState playersList;
     private GameBoard gameBoard;
-    private CommonObjective commonObjs[];
-    private PersonalObjective personalObjs[];
+    private List<CommonObjective> commonObjs;
+    private List<PersonalObjective> personalObjs;
     private int currentPlayer;
     private boolean isLastTurn;
 
@@ -13,7 +14,7 @@ public class GameModel {
 
 
     private void makeMove(int x, int y, int column){};
-    public boolean checkValidMove(int pos[][], int num){};
+    public boolean checkValidMove(int pos[][], int num){}; // ?????????????? awful, disgusting
 
 
     public void evaluatePoints(){};

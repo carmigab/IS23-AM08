@@ -1,10 +1,8 @@
-
-
-
+package it.polimi.ingsw;
+import it.polimi.ingsw.AppConstants.*;
 
 public class Library{
-    private Card myLibrary[6][5];
-
+    private Card myLibrary[][];
 
     public void add(Card c, int col){};
     public boolean isFull(){};

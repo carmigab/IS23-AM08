@@ -40,7 +40,7 @@ public class PlayerState {
      */
     public String getNickname(){
         return this.nickname;
-    };
+    }
 
 
     /**
@@ -49,7 +49,7 @@ public class PlayerState {
      */
     public Library getLibrary(){
         return this.myLibrary;
-    };
+    }
 
 
     /**
@@ -58,7 +58,7 @@ public class PlayerState {
      */
     public int getPoints(){
         return POPoints + COPoints + groupPoints + firstPoint;
-    };
+    }
 
 
     /**
@@ -67,16 +67,16 @@ public class PlayerState {
      */
     public boolean[] getCODone(){
         return comObjDone;
-    };
+    }
 
 
     /**
-     * This methods adds points to COPoints counter
+     * This method adds points to COPoints counter
      * @param p : the points to add
      */
     public void addCOPoints(int p){
         this.COPoints += p;
-    };
+    }
 
     /**
      * This method sets the POPoints counter
@@ -84,7 +84,7 @@ public class PlayerState {
      */
     private void setPOPoints(int p){
         this.POPoints = p;
-    };
+    }
 
 
     /**
@@ -93,14 +93,40 @@ public class PlayerState {
      */
     private void setGroupPoints(int p){
         this.groupPoints = p;
-    };
-    public void setFirstPoints(){};
-
-    public void setCODone(int pos){};
+    }
 
 
-    public void evaluateGroupPoints(){};
-    public void evaluatePOPoints(){};
+    /**
+     * This method sets firstPoint to 1
+     */
+    public void setFirstPoint(){
+        this.firstPoint = 1;
+    }
+
+
+    /**
+     * This method sets a position in comObjDone to true
+     * @param pos: position in array comObjDone
+     */
+    public void setCODone(int pos){
+        this.comObjDone[pos] = true;
+    }
+
+
+    /**
+     * This method evaluates and sets the groupPoints
+     */
+    public void evaluateGroupPoints(){
+        setGroupPoints(myLibrary.evaluateGroupPoints());
+    }
+
+
+    /**
+     * This method evaluates and sets the POPoints
+     */
+    public void evaluatePOPoints(){
+        setPOPoints(personalObj.evaluate(this.myLibrary));
+    }
 
 
 

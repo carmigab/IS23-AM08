@@ -6,7 +6,7 @@ public class PersonalObjective {
 
 
     public List<SingleObjective> getObjective(){};
-    public int evaluate(){};
+    public int evaluate(Library lib){};
 
 
 

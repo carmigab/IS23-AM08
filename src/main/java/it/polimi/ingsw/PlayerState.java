@@ -2,14 +2,45 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.AppConstants.*;
 
 public class PlayerState {
+    /**
+     * This attribute is the nickname of the player
+     */
     private String nickname;
+
+    /**
+     * This attribute is the Library of the player
+     */
     private Library myLibrary;
+
+    /**
+     * This attribute is the POPoints counter of the player
+     */
     private int POPoints;
+
+    /**
+     * This attribute is the COPoints counter of the player
+     */
     private int COPoints;
+
+    /**
+     * This attribute is the groupPoints counter of the player
+     */
     private int groupPoints;
+
+    /**
+     * This attribute is the firstPoints counter of the player
+     */
     private int firstPoint;
 
+    /**
+     * This attribute is the Personal Objective of the player
+     */
     private PersonalObjective personalObj;
+
+    /**
+     * This attribute rappresents the state of the common
+     *  Objectives for the player
+     */
     private boolean comObjDone[];
 
 
@@ -62,11 +93,12 @@ public class PlayerState {
 
 
     /**
-     * This method returns the array that tells if a commonObj is done or not
+     * This method returns if a commonObj is done or not
+     * @param index: position in array comObjDone
      * @return array that tells if a commonObj is done or not
      */
-    public boolean[] getCODone(){
-        return comObjDone;
+    public boolean isCODone(int index){
+        return comObjDone[index];
     }
 
 
@@ -106,10 +138,10 @@ public class PlayerState {
 
     /**
      * This method sets a position in comObjDone to true
-     * @param pos: position in array comObjDone
+     * @param index: position in array comObjDone
      */
-    public void setCODone(int pos){
-        this.comObjDone[pos] = true;
+    public void setCODone(int index){
+        this.comObjDone[index] = true;
     }
 
 

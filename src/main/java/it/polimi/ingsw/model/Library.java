@@ -42,7 +42,7 @@ public class Library{
         int rowToInsertInIdx = AppConstants.ROWS_NUMBER - 1;
 
         // decrement the row idx till it reach an empty cell
-        while(!myLibrary[rowToInsertInIdx][col].getColor().equals(CardColor.EMPTY)) rowToInsertInIdx--;
+        while(!myLibrary[rowToInsertInIdx][col].isEmpty()) rowToInsertInIdx--;
 
         // add the given card in the empty cell
         myLibrary[rowToInsertInIdx][col] = c;
@@ -55,7 +55,7 @@ public class Library{
     public boolean isFull() {
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
-                if (myLibrary[i][j].getColor().equals(CardColor.EMPTY)) return false;
+                if (myLibrary[i][j].isEmpty()) return false;
             }
         }
 
@@ -84,7 +84,7 @@ public class Library{
         int rowIdx = 0;
 
         // starting from the top row, go down until finds a not empty cell
-        while(rowIdx < AppConstants.ROWS_NUMBER && myLibrary[rowIdx][col].getColor().equals(CardColor.EMPTY)) {
+        while(rowIdx < AppConstants.ROWS_NUMBER && myLibrary[rowIdx][col].isEmpty()) {
             rowIdx++;
             result++;
         }

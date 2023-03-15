@@ -38,7 +38,7 @@ public final class GameBoard {
     /**
      * Attribute frm the java.io package used for reading the json config file
      */
-    protected Reader fileReader;
+    private Reader fileReader;
 
     /**
      * This method is the utility used by the GameModel to get the gameBoard based on the number of players

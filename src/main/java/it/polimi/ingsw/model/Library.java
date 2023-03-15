@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.constants.AppConstants;
 
+import java.util.ArrayList;
+
 /**
  * This class represent the library of one of the player
  */
@@ -90,17 +92,78 @@ public class Library{
         return result;
     }
 
+
+
     /**
      * This method finds the group of cells in the player library and return the sum of the points
      * given by each group
      *
+     * It requires that the library is always full (with empty or normal cards)
      * @return : int, total points for groups
      */
-    public int evaluateGroupPoints() {
-        int points = 0;
+    public int evaluateGroupPoints() {return 1;}
+
+
+
+    /**
+     * This method calculate the number of components of all the groups present
+     * @return an arrayList that contans the number of components for each group
+     */
+    public ArrayList<Integer> evaluateGroupComponents() {
+
+        Card tempLib[][] = new Card[AppConstants.ROWS_NUMBER][AppConstants.COLS_NUMBER];
+        ArrayList<Position> posToExplore = new ArrayList<>();
+        ArrayList<Integer> components = new ArrayList<>();
+
+
+        // Builds a copy of the current library
+        for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
+            for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
+                tempLib[i][j] = this.myLibrary[i][j];
+            }
+        }
+
+        // Adds all the positions that don't have an empty card to the list
+        for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
+            for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
+                if(!tempLib[i][j].color().equals(CardColor.EMPTY))
+                    posToExplore.add(new Position(i, j));
+            }
+        }
+
+        // Main logic of the method
+        // Create an array
+        while(!posToExplore.isEmpty()){
+            Position p = posToExplore.get(0);
+            components.add(searchGroup(p, posToExplore));
+        }
 
         // TODO
+        // oss: mi serve un oggetto che si comporta come una queue ma da cui posso pure rimuovere
+        //      senza rispettare la queue (fare dopo)
 
-        return points;
+        return components;
     }
+
+
+    private int searchGroup(Position pos, ArrayList<Position> toExplore ){
+        return 1;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
+
+

@@ -2,7 +2,7 @@ package it.polimi.ingsw;
 
 
 /**
- *
+ * This class contains all the possible color value for cards
  */
 public enum CardColor {
     GREEN,
@@ -12,6 +12,6 @@ public enum CardColor {
     LIGHT_BLUE,
     VIOLET,
     EMPTY,
-    INVALID;
+    INVALID
 
 }

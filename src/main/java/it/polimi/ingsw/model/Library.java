@@ -126,7 +126,7 @@ public class Library{
         // Adds all the positions that don't have an empty card to the list
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
-                if(!tempLib[i][j].color().equals(CardColor.EMPTY))
+                if(!tempLib[i][j].getColor().equals(CardColor.EMPTY))
                     posToExplore.add(new Position(i, j));
             }
         }

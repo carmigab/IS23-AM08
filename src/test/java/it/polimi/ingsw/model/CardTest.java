@@ -1,4 +1,7 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
+
+import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.CardColor;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model.constants;
 
 /**
  * This class is used to store all the constant values needed by the classes of the game model

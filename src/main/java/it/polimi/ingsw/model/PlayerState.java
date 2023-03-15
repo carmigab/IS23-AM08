@@ -1,5 +1,4 @@
-package it.polimi.ingsw;
-import it.polimi.ingsw.AppConstants.*;
+package it.polimi.ingsw.model;
 
 public class PlayerState {
     /**

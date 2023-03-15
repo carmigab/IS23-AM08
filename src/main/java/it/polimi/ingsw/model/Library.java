@@ -1,4 +1,6 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
+
+import it.polimi.ingsw.model.constants.AppConstants;
 
 /**
  * This class represent the library of one of the player

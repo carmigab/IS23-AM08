@@ -58,18 +58,18 @@ public class Library{
      * the given card because this control is delegated to the GameModel class, it will check if
      * the given player move is valid before calling this method
      *
-     * @param c = card object to be inserted
-     * @param col = column in which you must insert the card
+     * @param card = card object to be inserted
+     * @param column = column in which you must insert the card
      */
-    public void add(Card c, int col) {
+    public void add(Card card, Integer column) {
         // rowToInsertInIdx set to the bottom row
         int rowToInsertInIdx = AppConstants.ROWS_NUMBER - 1;
 
         // decrement the row idx till it reach an empty cell
-        while(!myLibrary[rowToInsertInIdx][col].isEmpty()) rowToInsertInIdx--;
+        while(!myLibrary[rowToInsertInIdx][column].isEmpty()) rowToInsertInIdx--;
 
         // add the given card in the empty cell
-        myLibrary[rowToInsertInIdx][col] = c;
+        myLibrary[rowToInsertInIdx][column] = card;
     }
 
     /**
@@ -93,17 +93,17 @@ public class Library{
      * @return : Card
      */
     public Card getCard(Position position) {
-        return myLibrary[position.x()][position.y()];
+        return myLibrary[position.y()][position.x()];
     }
 
     /**
      * This method is used by the GameModel class to check if in the column given by the player
      * there's enough space to insert the card selected by the player
      *
-     * @param col : int, indicate the column to check
-     * @return : int, the number of free spaces in the column
+     * @param col indicate the column to check
+     * @return the number of free spaces in the column
      */
-    public int getFreeSpaces(int col) {
+    public Integer getFreeSpaces(Integer col) {
         int result = 0;
         int rowIdx = 0;
 
@@ -120,11 +120,10 @@ public class Library{
     /**
      * This method finds the group of cells in the player library and return the sum of the points
      * given by each group
-     *
      * It requires that the library is always full (with empty or normal cards)
-     * @return : int, total points for groups
+     * @return total points for groups
      */
-    public int evaluateGroupPoints() {return 1;}
+    public Integer evaluateGroupPoints() {return 1;}
 
 
 
@@ -169,7 +168,7 @@ public class Library{
     }
 
 
-    private int searchGroup(Position pos, ArrayList<Position> toExplore ){
+    private Integer searchGroup(Position pos, ArrayList<Position> toExplore ){
         return 1;
     }
 

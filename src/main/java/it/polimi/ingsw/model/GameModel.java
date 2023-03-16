@@ -102,6 +102,32 @@ public class GameModel {
 
     }
 
+
+    /**
+     * This method updates the score of the current player
+     */
+    public void evaluatePoints(){
+        PlayerState currP = playerList.get(currentPlayer);
+        CommonObjective obj;
+
+        currP.evaluatePOPoints();
+        currP.evaluateGroupPoints();
+
+        // Evaluate common objectives
+        for(int i=0; i<2; i++) {
+            if (!currP.isCODone(i)) {
+                obj = gameBoard.getCommonObjective(i);
+                if (obj.evaluate(currP.getLibrary())) {
+                    currP.addCOPoints(obj.pop());
+                    currP.setCODone(i);
+                }
+            }
+        }
+    }
+
+
+
+
     //GetWinner: prende tutti i punteggi dei giocatori e ritorna il nome di quello che ha più punti;
     //NextTurn : prima facciamo il controller
 }

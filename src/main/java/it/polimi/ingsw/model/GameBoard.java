@@ -231,18 +231,11 @@ public final class GameBoard {
         return true;
     }
 
-    /**
-     * This method checks if one of the common objectives is satisfied
-     * @param numObjective 0 or 1 depending on the common objective we want to evaluate
-     * @param l library of the player so that it can be passed as an argument to the CommonObjective class
-     * @return points assigned for the common objective (0 if not completed)
-     */
-    public Integer evaluateCommonObjective(Integer numObjective, Library l){
-        if(commonObjectives.get(numObjective).evaluate(l)){
-            return commonObjectives.get(numObjective).pop();
-        }
-        return 0;
+
+    public CommonObjective getCommonObjective(int idx){
+        return commonObjectives.get(idx);
     }
+
 
     /**
      * This method is useful to the GameModel when the player makes a move, it removes it from the current board (sets it to empty) and returns it

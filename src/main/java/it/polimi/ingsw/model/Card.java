@@ -32,18 +32,22 @@ public class Card {
         this.color = copy.color;
         this.sprite = copy.sprite;
     }
+
     /**
      * this method return the value of the attribute color
+     * @return a CardColor, the color of the card
      */
     public CardColor getColor() {return color;}
 
     /**
-     * this method return the value of the attribute sprite
+     * * this method return the value of the attribute sprite
+     * @return an int, the sprite of the card
      */
     public int getSprite() {return sprite;}
 
     /**
      * this method return true if the card is empty
+     * @return a boolean
      */
     public boolean isEmpty(){
         return this.color == CardColor.EMPTY;
@@ -51,6 +55,7 @@ public class Card {
 
     /**
      * this method return true if the card is empty
+     * @return a boolean
      */
     public boolean isInvalid(){
         return this.color == CardColor.INVALID;
@@ -65,6 +70,13 @@ public class Card {
      * this method set the card color to invalid
      */
     public void setInvalid(){this.color = CardColor.INVALID;}
+
+    /**
+     * this method overrides the method equals. it assumes that two cards are equals if they have the same color;
+     * if the parameter isn't a card, the method return false
+     * @param obj
+     * @return a boolean
+     */
 
     @Override
     public boolean equals(Object obj) {

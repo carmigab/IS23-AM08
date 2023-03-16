@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="minor fixes">
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="I added the class SingleObjective">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Card.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Card.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PersonalObjective.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PersonalObjective.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/constants/BoardConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/constants/BoardConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/model/config/gameBoard2.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/config/model/gameBoard2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/model/config/gameBoard3.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/config/model/gameBoard3.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/model/config/gameBoard4.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/config/model/gameBoard4.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CardTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -17,8 +22,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -60,6 +65,7 @@
       <recent name="" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\capel\IdeaProjects\IS23-AM08\src\main\config\model" />
       <recent name="C:\Users\cenza\Desktop\UNIVERSITA\TERZO ANNO\SECONDO SEMESTRE\PROVA FINALE IDS\IS23-AM08\src\main\resources\model\config" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -70,8 +76,8 @@
       <recent name="it.polimi.ingsw" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.PlayerStateTest">
-    <configuration name="CardTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.CardTest.equals">
+    <configuration name="CardTest.equals" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
         <pattern>
@@ -81,12 +87,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.CardTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="METHOD_NAME" value="equals" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PlayerStateTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CardTest.isEmpty" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
         <pattern>
@@ -95,16 +102,68 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.PlayerStateTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.CardTest" />
+      <option name="METHOD_NAME" value="isEmpty" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CardTest.isInvalid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="AM08" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.CardTest" />
+      <option name="METHOD_NAME" value="isInvalid" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CardTest.setEmpty" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="AM08" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.CardTest" />
+      <option name="METHOD_NAME" value="setEmpty" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CardTest.setInvalid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="AM08" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.CardTest" />
+      <option name="METHOD_NAME" value="setInvalid" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.PlayerStateTest" />
-        <item itemvalue="JUnit.CardTest" />
+        <item itemvalue="JUnit.CardTest.equals" />
+        <item itemvalue="JUnit.CardTest.setInvalid" />
+        <item itemvalue="JUnit.CardTest.setEmpty" />
+        <item itemvalue="JUnit.CardTest.isInvalid" />
+        <item itemvalue="JUnit.CardTest.isEmpty" />
       </list>
     </recent_temporary>
   </component>
@@ -119,7 +178,8 @@
       <workItem from="1678797796216" duration="138000" />
       <workItem from="1678814120169" duration="613000" />
       <workItem from="1678868479103" duration="674000" />
-      <workItem from="1678910011469" duration="1026000" />
+      <workItem from="1678910011469" duration="1440000" />
+      <workItem from="1678954028114" duration="1414000" />
     </task>
     <task id="LOCAL-00001" summary="minor fixes &amp; player state tests">
       <created>1678896857551</created>
@@ -135,7 +195,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678897071055</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="I added the class SingleObjective">
+      <created>1678911384775</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1678911384775</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -155,7 +222,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="minor fixes &amp; player state tests" />
     <MESSAGE value="minor fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor fixes" />
+    <MESSAGE value="I added the class SingleObjective" />
+    <option name="LAST_COMMIT_MESSAGE" value="I added the class SingleObjective" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

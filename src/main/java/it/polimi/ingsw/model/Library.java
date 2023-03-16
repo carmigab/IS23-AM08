@@ -101,8 +101,22 @@ public class Library{
      * It requires that the library is always full (with empty or normal cards)
      * @return : int, total points for groups
      */
-    public int evaluateGroupPoints() {return 1;}
+    public int evaluateGroupPoints() {
 
+        int points = 0;
+        ArrayList<Integer> comp = evaluateGroupComponents();
+
+        for(int x: comp) {
+            if (x<3) points +=0;
+            else if (x==3) points += 2;
+            else if (x==4) points += 3;
+            else if (x==5) points += 5;
+            else points += 8;
+
+        }
+
+        return points;
+    }
 
 
     /**

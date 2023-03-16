@@ -105,6 +105,7 @@ public class GameModel {
 
     /**
      * This method updates the score of the current player
+     * and sets lastTurn to true if he filled the library
      */
     public void evaluatePoints(){
         PlayerState currP = playerList.get(currentPlayer);
@@ -121,6 +122,14 @@ public class GameModel {
                     currP.addCOPoints(obj.pop());
                     currP.setCODone(i);
                 }
+            }
+        }
+
+        // Evaluate First Point and sets last turn
+        if (!isLastTurn){
+            if (currP.getLibrary().isFull()) {
+                currP.setFirstPoint();
+                isLastTurn = true;
             }
         }
     }

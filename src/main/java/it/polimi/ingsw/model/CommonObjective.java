@@ -21,7 +21,7 @@ public abstract class CommonObjective {
     }
 
     /**
-     * This method is the push function for an usual stack
+     * This method is the push function for a usual stack
      * @param i integer to push in the stack
      */
     public void push(Integer i){
@@ -29,7 +29,7 @@ public abstract class CommonObjective {
     }
 
     /**
-     * This method is the push function for an usual stack
+     * This method is the push function for a usual stack
      * @return pop of the integer from the stack
      */
     public Integer pop(){

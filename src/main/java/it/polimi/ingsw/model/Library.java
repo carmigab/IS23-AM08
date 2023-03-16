@@ -28,6 +28,30 @@ public class Library{
     }
 
     /**
+     * This method is the class constructor used to create a copy of an existing library
+     */
+    public Library(Card[][] myLibrary) {
+        this.myLibrary = myLibrary;
+    }
+
+    /**
+     * This method return a copy of the array of card of the library
+     *
+     * @return a copy of myLibrary
+     */
+    public Card[][] getMyLibrary() {
+        Card myLibraryCopy[][] = new Card[AppConstants.ROWS_NUMBER][AppConstants.COLS_NUMBER];
+
+        for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
+            for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
+                myLibraryCopy[i][j] = new Card(myLibrary[i][j]);
+            }
+        }
+
+        return myLibraryCopy;
+    }
+
+    /**
      * This method receive a card object and an int representing the column in which the card
      * must be added
      * This method doesn't need to check if there's enough space in the given column to insert
@@ -91,7 +115,6 @@ public class Library{
 
         return result;
     }
-
 
 
     /**

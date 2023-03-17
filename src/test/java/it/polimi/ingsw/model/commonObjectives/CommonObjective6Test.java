@@ -24,8 +24,6 @@ class CommonObjective6Test {
         // cards used to fill the library
         Card cardBlue = new Card(CardColor.BLUE, 0);
         Card cardYellow = new Card(CardColor.YELLOW, 0);
-        Card cardWhite = new Card(CardColor.WHITE, 0);
-        Card cardViolet = new Card(CardColor.VIOLET, 0);
 
         // check with empty library
         assertFalse(co6.evaluate(library));

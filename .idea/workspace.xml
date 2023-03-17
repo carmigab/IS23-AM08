@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="created and tested CommonObjective5, little fixes in javadoc and naming in other classes, added a new utility functio">
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="created and tested CommonObjective6, little fixes naming in CommonObjective abstract class">
       <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective4.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective6.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective6Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective7.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective7Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective6Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective6Test.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +76,7 @@
       <recent name="it.polimi.ingsw" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.CommonObjective6Test">
+  <component name="RunManager" selected="JUnit.CommonObjective7Test">
     <configuration name="CommonObjective1Test" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
@@ -121,6 +121,16 @@
       <module name="AM08" />
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonObjectives" />
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonObjectives.CommonObjective6Test" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CommonObjective7Test" type="JUnit" factoryName="JUnit">
+      <module name="AM08" />
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonObjectives" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonObjectives.CommonObjective7Test" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
@@ -179,6 +189,7 @@
       <item itemvalue="JUnit.LibraryTest" />
       <item itemvalue="JUnit.CommonObjective5Test" />
       <item itemvalue="JUnit.CommonObjective6Test" />
+      <item itemvalue="JUnit.CommonObjective7Test" />
       <item itemvalue="JUnit.UtilityFunctionsTest" />
       <item itemvalue="JUnit.PlayerStateTest" />
     </list>
@@ -260,7 +271,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679088179507</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="created and tested CommonObjective6, little fixes naming in CommonObjective abstract class">
+      <created>1679089489351</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1679089489351</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -299,7 +317,8 @@
     <MESSAGE value="minor fixes" />
     <MESSAGE value="fixed a bug for which an object was passed as a value and not reference" />
     <MESSAGE value="created and tested CommonObjective5, little fixes in javadoc and naming in other classes, added a new utility functio" />
-    <option name="LAST_COMMIT_MESSAGE" value="created and tested CommonObjective5, little fixes in javadoc and naming in other classes, added a new utility functio" />
+    <MESSAGE value="created and tested CommonObjective6, little fixes naming in CommonObjective abstract class" />
+    <option name="LAST_COMMIT_MESSAGE" value="created and tested CommonObjective6, little fixes naming in CommonObjective abstract class" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.constants.AppConstants;
+import it.polimi.ingsw.model.utilities.UtilityFunctions;
 
 import java.util.ArrayDeque;
 
@@ -30,60 +31,11 @@ public class CommonObjective2 extends CommonObjective{
                 // execute the algorithm only if the current card is not empty
                 if (!c.isEmpty()) {
                     // find the dimension of the group of which c is part and return its dimension divided by 4
-                    groupNum += findGroupSize(copy, new Position(j, i)) / 4;
+                    groupNum += UtilityFunctions.findGroupSize(copy, new Position(j, i)) / 4;
                 }
             }
         }
 
         return groupNum >= 4;
-    }
-
-    /**
-     * This method is a private method used by the evaluate method to find the size of a group containing the given card
-     * This method use BFS to search for groups and mark the visited cards as empty to avoid double-checking
-     *
-     * @param library library to find groups in
-     * @param position position of the given card
-     * @return size of the group found
-     */
-    private Integer findGroupSize(Library library, Position position) {
-        // group size
-        Integer groupSize = 0;
-
-        // frontier to store the position to be examined
-        ArrayDeque<Position> frontier = new ArrayDeque<>();
-
-        // color of the current group
-        CardColor color = library.getCard(position).getColor();
-
-        // add the given position to the frontier to start the algorithm
-        frontier.add(position);
-
-        // while the frontier is not empty extract the first element, if the card in that position has the same color of the group add one to
-        // group size, set the corresponding card to empty and add the right and bottom position to the queue if not already presents
-        while (!frontier.isEmpty()) {
-            Position extraxtedPosition = frontier.removeFirst();
-            Card card = library.getCard(extraxtedPosition);
-
-            // if the card in the position extracted from the frontier has the same color of the group
-            if (card.getColor().equals(color)) {
-                groupSize++;
-
-                // if the extracted position is in the last column do not execute this part
-                if (extraxtedPosition.x() < AppConstants.COLS_NUMBER - 1) {
-                    frontier.add(new Position(extraxtedPosition.x() + 1, extraxtedPosition.y()));
-                }
-
-                // if the extracted position is in the last column do not execute this part
-                if (extraxtedPosition.y() < AppConstants.ROWS_NUMBER - 1) {
-                    frontier.add(new Position(extraxtedPosition.x(), extraxtedPosition.y() + 1));
-                }
-            }
-
-            // set the card in the extracted position to empty to avoid double-checking
-            card.setEmpty();
-        }
-
-        return groupSize;
     }
 }

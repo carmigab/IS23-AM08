@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="Created CommonObjective1 class with its own evaluate function, added two method in Library class useful for the evaluate method of CommonObjective1.&#10;The two methods are a new constructor which receives an array of Card, and the method getMyLibrary to get a copy of the Card array of the class Library">
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="created CommonObjective2 class and findGroupSize method to find the size of the group containing the position of the card passed via parameter (this method must be generalized to be used in different classes)">
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/UtilityFunctions.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonObjective2Test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/utilities/UtilityFunctionsTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonObjective2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonObjective2.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Library.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonObjective1Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonObjective1Test.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +21,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -38,24 +43,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "OverrideImplement.generate.javadoc": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.includeInheritedMembers": "true",
-    "last_opened_file_path": "C:/Users/cenza/Desktop/UNIVERSITA/TERZO ANNO/SECONDO SEMESTRE/PROVA FINALE IDS/IS23-AM08",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;OverrideImplement.generate.javadoc&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.includeInheritedMembers&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/cenza/Desktop/UNIVERSITA/TERZO ANNO/SECONDO SEMESTRE/PROVA FINALE IDS/IS23-AM08&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -68,12 +73,13 @@
       <recent name="it.polimi.ingsw.model" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="it.polimi.ingsw.model.utilities" />
       <recent name="it.polimi.ingsw.model" />
       <recent name="it.polimi.ingsw" />
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="CO1Test.popAndPush" type="JUnit" factoryName="JUnit" temporary="true">
+    <configuration name="CO1Test.popAndPush" type="JUnit" factoryName="JUnit">
       <module name="AM08" />
       <extension name="coverage">
         <pattern>
@@ -162,7 +168,6 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.CO1Test.popAndPush" />
         <item itemvalue="JUnit.CardTest.setInvalid" />
         <item itemvalue="JUnit.CardTest.setEmpty" />
         <item itemvalue="JUnit.CardTest.isInvalid" />
@@ -183,6 +188,9 @@
       <workItem from="1678868479103" duration="674000" />
       <workItem from="1678910011469" duration="1440000" />
       <workItem from="1678954028114" duration="1414000" />
+      <workItem from="1678972201505" duration="1673000" />
+      <workItem from="1678978920002" duration="1777000" />
+      <workItem from="1679043109392" duration="2864000" />
     </task>
     <task id="LOCAL-00001" summary="minor fixes &amp; player state tests">
       <created>1678896857551</created>
@@ -212,7 +220,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678964104521</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="created CommonObjective2 class and findGroupSize method to find the size of the group containing the position of the card passed via parameter (this method must be generalized to be used in different classes)">
+      <created>1678968594887</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1678968594887</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -234,7 +249,8 @@
     <MESSAGE value="minor fixes" />
     <MESSAGE value="I added the class SingleObjective" />
     <MESSAGE value="Created CommonObjective1 class with its own evaluate function, added two method in Library class useful for the evaluate method of CommonObjective1.&#10;The two methods are a new constructor which receives an array of Card, and the method getMyLibrary to get a copy of the Card array of the class Library" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created CommonObjective1 class with its own evaluate function, added two method in Library class useful for the evaluate method of CommonObjective1.&#10;The two methods are a new constructor which receives an array of Card, and the method getMyLibrary to get a copy of the Card array of the class Library" />
+    <MESSAGE value="created CommonObjective2 class and findGroupSize method to find the size of the group containing the position of the card passed via parameter (this method must be generalized to be used in different classes)" />
+    <option name="LAST_COMMIT_MESSAGE" value="created CommonObjective2 class and findGroupSize method to find the size of the group containing the position of the card passed via parameter (this method must be generalized to be used in different classes)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -249,17 +265,12 @@
           <line>52</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonObjective1Test.java</url>
-          <line>77</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonObjective1Test.java</url>
-          <line>72</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="it.polimi.ingsw.model.Library" memberName="myLibrary" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>

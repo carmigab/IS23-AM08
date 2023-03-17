@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.constants.AppConstants;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This class represent the library of one of the player
@@ -69,7 +70,7 @@ public class Library{
         while(!myLibrary[rowToInsertInIdx][column].isEmpty()) rowToInsertInIdx--;
 
         // add the given card in the empty cell
-        myLibrary[rowToInsertInIdx][column] = card;
+        myLibrary[rowToInsertInIdx][column] = new Card(card);
     }
 
     /**
@@ -115,6 +116,8 @@ public class Library{
 
         return result;
     }
+
+
 
 
     /**

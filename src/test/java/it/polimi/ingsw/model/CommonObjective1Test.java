@@ -29,6 +29,9 @@ class CommonObjective1Test {
         assertEquals(2, co1.pop());
     }
 
+    /**
+     * This method test the evaluate method of CommonObjective1
+     */
     @Test
     void evaluate() {
         Library lib = new Library();

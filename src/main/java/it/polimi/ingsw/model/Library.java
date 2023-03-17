@@ -180,7 +180,7 @@ public class Library{
      * This method calculates the number of components of all the groups present
      * @return an arrayList that contains the number of components for each group
      */
-    public ArrayList<Integer> evaluateGroupComponents() {
+    private ArrayList<Integer> evaluateGroupComponents() {
 
         Library tempLib = new Library(this);
         ArrayDeque<Position> posToExplore = new ArrayDeque<>();

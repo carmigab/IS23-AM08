@@ -44,7 +44,7 @@ public class UtilityFunctions {
             Card card = library.getCard(extraxtedPosition);
 
             // if the card in the position extracted from the frontier has the same color of the group
-            if (card.getColor().equals(color)) {
+            if (card.getColor().equals(color) && !card.isEmpty()) { // Bill1!!!!!
                 groupSize++;
                 // set the card in the extracted position to empty to avoid double-checking
                 card.setEmpty();

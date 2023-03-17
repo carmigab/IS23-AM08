@@ -62,6 +62,34 @@ public class LibraryTest{
      */
     @org.junit.jupiter.api.Test
     void evaluateGroupPoints() {
-        // TODO
+        Library newLib = new Library();
+
+        // G: 4
+        newLib.add(new Card(CardColor.GREEN, 0), 0);
+        newLib.add(new Card(CardColor.GREEN, 0), 0);
+        newLib.add(new Card(CardColor.GREEN, 0), 0);
+        newLib.add(new Card(CardColor.GREEN, 0), 0);
+
+        // B: 7
+        newLib.add(new Card(CardColor.BLUE, 0), 1);
+        newLib.add(new Card(CardColor.BLUE, 0), 1);
+        newLib.add(new Card(CardColor.BLUE, 0), 1);
+        newLib.add(new Card(CardColor.BLUE, 0), 1);
+
+        newLib.add(new Card(CardColor.BLUE, 0), 2);
+        newLib.add(new Card(CardColor.BLUE, 0), 3);
+        newLib.add(new Card(CardColor.BLUE, 0), 4);
+
+        // W: 3
+        newLib.add(new Card(CardColor.WHITE, 0), 3);
+        newLib.add(new Card(CardColor.WHITE, 0), 3);
+        newLib.add(new Card(CardColor.WHITE, 0), 3);
+
+        // V: 1
+        newLib.add(new Card(CardColor.VIOLET, 0), 4);
+
+        //assertEquals(13, newLib.evaluateGroupPoints());
+
+
     }
 }

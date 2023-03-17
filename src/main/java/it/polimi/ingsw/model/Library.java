@@ -99,7 +99,7 @@ public class Library{
         while(!myLibrary[rowToInsertInIdx][column].isEmpty()) rowToInsertInIdx--;
 
         // add the given card in the empty cell
-        myLibrary[rowToInsertInIdx][column] = new Card(card);
+        myLibrary[rowToInsertInIdx][column] = card;
     }
 
 
@@ -197,7 +197,7 @@ public class Library{
         // Main logic of the method
         // Create an array
         while(!posToExplore.isEmpty()){
-            Position p = posToExplore.getFirst();
+            Position p = posToExplore.pop();
             components.add(UtilityFunctions.findGroupSize(tempLib, p));
 
         }

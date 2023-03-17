@@ -13,8 +13,10 @@ import java.util.ArrayDeque;
  */
 public class UtilityFunctions {
      /**
-     * This method is a private method used by the evaluate method to find the size of a group containing the given card
-     * This method use BFS to search for groups and mark the visited cards as empty to avoid double-checking
+     * This method is a private method used by the evaluate method to find the size of a group
+      * containing the given card
+     * This method use BFS to search for groups and mark the visited cards as empty to avoid
+      * double-checking
      *
      * @param library library to find groups in
      * @param position position of the given card
@@ -33,8 +35,10 @@ public class UtilityFunctions {
         // add the given position to the frontier to start the algorithm
         frontier.add(position);
 
-        // while the frontier is not empty extract the first element, if the card in that position has the same color of the group add one to
-        // group size, set the corresponding card to empty and add the right and bottom position to the queue if not already presents
+        // while the frontier is not empty extract the first element, if the card in that
+        // position has the same color of the group add one to group size,
+        // set the corresponding card to empty and add the right, bottom, top and left position
+        // to the queue if not already presents
         while (!frontier.isEmpty()) {
             Position extraxtedPosition = frontier.removeFirst();
             Card card = library.getCard(extraxtedPosition);

@@ -1,5 +1,9 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.commonObjectives;
 
+import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.CardColor;
+import it.polimi.ingsw.model.Library;
+import it.polimi.ingsw.model.commonObjectives.CommonObjective11;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

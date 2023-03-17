@@ -1,7 +1,13 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.commonObjectives;
 
+import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.Library;
+import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.constants.AppConstants;
 
+/**
+ * This class implements the eleventh common objective: cross of five card of the same color
+ */
 public class CommonObjective11 extends CommonObjective{
     /**
      * This method finds the cross in the library.

@@ -1,18 +1,22 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.commonObjectives;
 
+import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.CardColor;
+import it.polimi.ingsw.model.Library;
+import it.polimi.ingsw.model.commonObjectives.CommonObjective3;
 import it.polimi.ingsw.model.constants.AppConstants;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit test for CommonObjective2
+ * Unit test for CommonObjective3
  */
 class CommonObjective3Test {
     CommonObjective3 co3 = new CommonObjective3();
 
     /**
-     * This method test the evaluate method of CommonObjective2
+     * This method test the evaluate method of CommonObjective3
      */
     @Test
     void evaluate() {

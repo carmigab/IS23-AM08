@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.commonObjectives.CommonObjective;
 import it.polimi.ingsw.model.constants.BoardConstants;
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.exceptions.NoMoreCardsAtStartFillBoardException;

@@ -1,6 +1,8 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.commonObjectives;
 
-import it.polimi.ingsw.App;
+import it.polimi.ingsw.model.CardColor;
+import it.polimi.ingsw.model.Library;
+import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.constants.AppConstants;
 
 import java.util.ArrayList;

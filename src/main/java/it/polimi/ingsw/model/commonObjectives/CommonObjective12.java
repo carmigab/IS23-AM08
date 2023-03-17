@@ -1,7 +1,12 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.commonObjectives;
 
+import it.polimi.ingsw.model.Library;
+import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.constants.AppConstants;
 
+/**
+ * This class implements the twelve common objective: ladder in the card
+ */
 public class CommonObjective12 extends CommonObjective{
     /**
      * This method needs to find the ladder in the library.

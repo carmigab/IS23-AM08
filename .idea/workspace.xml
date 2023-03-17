@@ -5,8 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="index for commonObjective">
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective4.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective5.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective5Test.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonObjective.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonObjective1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonObjective11.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective11.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonObjective12.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective12.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonObjective2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonObjective3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective3.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/UtilityFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/UtilityFunctions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonObjective11Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective11Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonObjective12Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective12Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonObjective1Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective1Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonObjective2Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective2Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonObjective3Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective3Test.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +33,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -64,65 +81,78 @@
       <recent name="C:\Users\cenza\Desktop\UNIVERSITA\TERZO ANNO\SECONDO SEMESTRE\PROVA FINALE IDS\IS23-AM08\src\main\resources\model\config" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="it.polimi.ingsw.model.commonObjectives" />
       <recent name="it.polimi.ingsw.model" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="it.polimi.ingsw.model.commonObjectives" />
       <recent name="it.polimi.ingsw.model.utilities" />
       <recent name="it.polimi.ingsw.model" />
       <recent name="it.polimi.ingsw" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.LibraryTest">
-    <configuration name="CommonObjective1Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.CommonObjective5Test">
+    <configuration name="CommonObjective1Test" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
+          <option name="PATTERN" value="it.polimi.ingsw.model.commonObjectives.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.CommonObjective1Test" />
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonObjectives" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonObjectives.CommonObjective1Test" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CommonObjective2Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CommonObjective2Test" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
+          <option name="PATTERN" value="it.polimi.ingsw.model.commonObjectives.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.CommonObjective2Test" />
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonObjectives" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonObjectives.CommonObjective2Test" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LibraryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CommonObjective5Test" type="JUnit" factoryName="JUnit">
+      <module name="AM08" />
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonObjectives" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonObjectives.CommonObjective5Test" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LibraryTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
+          <option name="PATTERN" value="it.polimi.ingsw.model.commonObjectives.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.LibraryTest" />
+      <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PlayerStateTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PlayerStateTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
+          <option name="PATTERN" value="it.polimi.ingsw.model.commonObjectives.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -133,7 +163,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UtilityFunctionsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UtilityFunctionsTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
         <pattern>
@@ -152,18 +182,10 @@
       <item itemvalue="JUnit.CommonObjective1Test" />
       <item itemvalue="JUnit.CommonObjective2Test" />
       <item itemvalue="JUnit.LibraryTest" />
+      <item itemvalue="JUnit.CommonObjective5Test" />
       <item itemvalue="JUnit.UtilityFunctionsTest" />
       <item itemvalue="JUnit.PlayerStateTest" />
     </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="JUnit.LibraryTest" />
-        <item itemvalue="JUnit.CommonObjective2Test" />
-        <item itemvalue="JUnit.CommonObjective1Test" />
-        <item itemvalue="JUnit.UtilityFunctionsTest" />
-        <item itemvalue="JUnit.PlayerStateTest" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 import com.google.gson.Gson;
-import it.polimi.ingsw.App;
+import it.polimi.ingsw.model.commonObjectives.CommonObjective;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.constants.BoardConstants;
 import it.polimi.ingsw.model.utilities.JsonLoader;

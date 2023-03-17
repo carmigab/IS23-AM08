@@ -1,4 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.commonObjectives;
+
+import it.polimi.ingsw.model.Library;
 
 import java.util.Stack;
 

@@ -1,5 +1,8 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.commonObjectives;
 
+import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.Library;
+import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.constants.AppConstants;
 
 /**

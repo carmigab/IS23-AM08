@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.constants.BoardConstants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 public class GameModel {
     /**
      * this attribute is the number of the player of a specific match
@@ -87,19 +89,15 @@ public class GameModel {
         return this.gameBoard.hasToBeFilled();
     }
 
+    /**
+     * this method returns the player who won the match; a player win a match if he has the higher total points. if two
+     * player have the same total points, the winner is the player who is farther from the first player clockwise
+     * @return the name of the player who won the match
+     */
     public String getWinner(){
-        String tempString = new String();
-        int tempInt = 0;
-        for(PlayerState player : playerList){
-            if(player.getPoints()> tempInt){
-                tempInt = player.getPoints();
-                tempString = player.getNickname();
-            }
-            //non corretto : manca il caso in cui ho lo stesso punteggio : in quel caso vince il
-            //più "lontano"
-        }
-        return tempString;
-
+       Optional<PlayerState> pl = playerList.stream().reduce((player1, player2) ->
+               player1.getPoints() < player2.getPoints() ? player2 : player1);
+       return pl.get().getNickname();
     }
 
 

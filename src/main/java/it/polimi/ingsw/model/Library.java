@@ -45,35 +45,17 @@ public class Library{
         this.myLibrary = myLibrary;
     }
 
-
-    /**
-     * This returns a new library with copies of the cards
-     */
-    public Card[][] getCopy(){
-        Card[][] newLib = new Card[AppConstants.ROWS_NUMBER][AppConstants.COLS_NUMBER];
-
-        // Builds a copy of the current library (with new cards)
-        for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
-            for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
-                newLib[i][j] = new Card(this.myLibrary[i][j]);
-            }
-        }
-
-        return newLib;
-    }
-
-
     /**
      * This method return a copy of the array of card of the library
      *
      * @return a copy of myLibrary
      */
-    public Card[][] getMyLibrary() {
+    public Card[][] getCopy() {
         Card myLibraryCopy[][] = new Card[AppConstants.ROWS_NUMBER][AppConstants.COLS_NUMBER];
 
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
-                myLibraryCopy[i][j] = new Card(myLibrary[i][j]);
+                myLibraryCopy[i][j] = new Card(this.myLibrary[i][j]);
             }
         }
 
@@ -99,7 +81,8 @@ public class Library{
         while(!myLibrary[rowToInsertInIdx][column].isEmpty()) rowToInsertInIdx--;
 
         // add the given card in the empty cell
-        myLibrary[rowToInsertInIdx][column] = card;
+        // myLibrary[rowToInsertInIdx][column] = card;
+        myLibrary[rowToInsertInIdx][column] = new Card(card);
     }
 
 
@@ -190,7 +173,7 @@ public class Library{
         // Adds all the positions that don't have an empty card to the list
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
-                posToExplore.addLast(new Position(i, j));
+                posToExplore.addLast(new Position(j, i));
             }
         }
 

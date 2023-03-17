@@ -17,7 +17,7 @@ public class CommonObjective2 extends CommonObjective{
      */
     @Override
     public boolean evaluate(Library x) {
-        Library copy = new Library(x.getMyLibrary());
+        Library copy = new Library(x);
 
         // counter for group of two cards
         int groupNum = 0;

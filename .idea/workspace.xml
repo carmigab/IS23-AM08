@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="minor fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonObjective1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonObjective1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonObjective2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonObjective2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Library.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/LibraryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/LibraryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/utilities/UtilityFunctionsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/utilities/UtilityFunctionsTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +76,7 @@
       <recent name="it.polimi.ingsw" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.UtilityFunctionsTest">
+  <component name="RunManager" selected="JUnit.LibraryTest">
     <configuration name="CommonObjective1Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
@@ -157,10 +161,10 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.UtilityFunctionsTest" />
         <item itemvalue="JUnit.LibraryTest" />
-        <item itemvalue="JUnit.CommonObjective1Test" />
         <item itemvalue="JUnit.CommonObjective2Test" />
+        <item itemvalue="JUnit.CommonObjective1Test" />
+        <item itemvalue="JUnit.UtilityFunctionsTest" />
         <item itemvalue="JUnit.PlayerStateTest" />
       </list>
     </recent_temporary>
@@ -235,14 +239,7 @@
       <option name="project" value="LOCAL" />
       <updated>1679073954994</updated>
     </task>
-    <task id="LOCAL-00009" summary="minor fixes">
-      <created>1679075237697</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1679075237697</updated>
-    </task>
-    <option name="localTasksCounter" value="10" />
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -278,17 +275,22 @@
     <MESSAGE value="I added the class SingleObjective" />
     <MESSAGE value="Created CommonObjective1 class with its own evaluate function, added two method in Library class useful for the evaluate method of CommonObjective1.&#10;The two methods are a new constructor which receives an array of Card, and the method getMyLibrary to get a copy of the Card array of the class Library" />
     <MESSAGE value="created CommonObjective2 class and findGroupSize method to find the size of the group containing the position of the card passed via parameter (this method must be generalized to be used in different classes)" />
-    <MESSAGE value="fixed a bug for which an object was passed as a value and not reference" />
     <MESSAGE value="minor fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="minor fixes" />
+    <MESSAGE value="fixed a bug for which an object was passed as a value and not reference" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed a bug for which an object was passed as a value and not reference" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Library.java</url>
-          <line>127</line>
-          <option name="timeStamp" value="5" />
+          <line>200</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Library.java</url>
+          <line>201</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

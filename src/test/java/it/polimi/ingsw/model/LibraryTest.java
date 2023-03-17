@@ -88,7 +88,7 @@ public class LibraryTest{
         // V: 1
         newLib.add(new Card(CardColor.VIOLET, 0), 4);
 
-        //assertEquals(13, newLib.evaluateGroupPoints());
+        assertEquals(13, newLib.evaluateGroupPoints());
 
 
     }

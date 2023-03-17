@@ -4,26 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="index for commonObjective">
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="created and tested CommonObjective5, little fixes in javadoc and naming in other classes, added a new utility functio">
       <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective4.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective5.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective5Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonObjective.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonObjective1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonObjective11.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective11.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonObjective12.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective12.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonObjective2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonObjective3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/UtilityFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/UtilityFunctions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonObjective11Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective11Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonObjective12Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective12Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonObjective1Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective1Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonObjective2Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective2Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonObjective3Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective3Test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective6.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective6Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,7 +76,7 @@
       <recent name="it.polimi.ingsw" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.CommonObjective5Test">
+  <component name="RunManager" selected="JUnit.CommonObjective6Test">
     <configuration name="CommonObjective1Test" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
@@ -126,6 +111,16 @@
       <module name="AM08" />
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonObjectives" />
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonObjectives.CommonObjective5Test" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CommonObjective6Test" type="JUnit" factoryName="JUnit">
+      <module name="AM08" />
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonObjectives" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonObjectives.CommonObjective6Test" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
@@ -183,6 +178,7 @@
       <item itemvalue="JUnit.CommonObjective2Test" />
       <item itemvalue="JUnit.LibraryTest" />
       <item itemvalue="JUnit.CommonObjective5Test" />
+      <item itemvalue="JUnit.CommonObjective6Test" />
       <item itemvalue="JUnit.UtilityFunctionsTest" />
       <item itemvalue="JUnit.PlayerStateTest" />
     </list>
@@ -257,7 +253,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679073954994</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="created and tested CommonObjective5, little fixes in javadoc and naming in other classes, added a new utility functio">
+      <created>1679088179507</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1679088179507</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -295,7 +298,8 @@
     <MESSAGE value="created CommonObjective2 class and findGroupSize method to find the size of the group containing the position of the card passed via parameter (this method must be generalized to be used in different classes)" />
     <MESSAGE value="minor fixes" />
     <MESSAGE value="fixed a bug for which an object was passed as a value and not reference" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed a bug for which an object was passed as a value and not reference" />
+    <MESSAGE value="created and tested CommonObjective5, little fixes in javadoc and naming in other classes, added a new utility functio" />
+    <option name="LAST_COMMIT_MESSAGE" value="created and tested CommonObjective5, little fixes in javadoc and naming in other classes, added a new utility functio" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

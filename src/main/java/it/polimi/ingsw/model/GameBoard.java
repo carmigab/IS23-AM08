@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.constants.BoardConstants;
 import com.google.gson.Gson;
+import it.polimi.ingsw.model.exceptions.NoMoreCardsAtStartFillBoardException;
+import it.polimi.ingsw.model.exceptions.NoMoreCardsToFillBoardException;
 import it.polimi.ingsw.model.utilities.JsonLoader;
 
 import java.io.FileNotFoundException;
@@ -105,11 +107,26 @@ public final class GameBoard {
     }
 
     /**
-     * TODO
-     * @return
+     * The method fills the board up until it is possible.
+     * It fills just the positions which are empty, so it avoids to overwrite the remaining cards on the board.
+     * If at the start of the method the bag is empty, then it throws an exception that needs to be checked
+     * If at some moment after it started filling it finds out that the bag is empty, then also needs to throw an exception (different)
+     * that can be checked maybe to avoid calling the function again
+     * @throws NoMoreCardsAtStartFillBoardException self-explainatory
+     * @throws NoMoreCardsToFillBoardException self-explainatory
      */
-    public boolean fillBoard(){
-        return true;
+    public void fillBoard() throws NoMoreCardsAtStartFillBoardException, NoMoreCardsToFillBoardException {
+        if(allCards.size()==0) throw new NoMoreCardsAtStartFillBoardException();
+
+        for(int y=0;y<BoardConstants.BOARD_DIMENSION;y++){
+            for(int x=0;x<BoardConstants.BOARD_DIMENSION;x++){
+                if(!myGameBoard[y][x].isInvalid() && myGameBoard[y][x].isEmpty()){
+                    myGameBoard[y][x]=new Card(allCards.remove(this.r.nextInt(allCards.size())));
+                    if(allCards.size()==0) throw new NoMoreCardsToFillBoardException();
+                }
+            }
+        }
+
     }
 
     /**

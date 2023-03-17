@@ -40,6 +40,12 @@ public class Library{
     }
 
 
+    // Delete this method
+    public Library(Card[][] myLibrary) {
+        this.myLibrary = myLibrary;
+    }
+
+
     /**
      * This returns a new library with copies of the cards
      */
@@ -176,23 +182,15 @@ public class Library{
      */
     public ArrayList<Integer> evaluateGroupComponents() {
 
-        Card tempLib[][] = new Card[AppConstants.ROWS_NUMBER][AppConstants.COLS_NUMBER];
+        Library tempLib = new Library(this);
         ArrayDeque<Position> posToExplore = new ArrayDeque<>();
         ArrayList<Integer> components = new ArrayList<>();
 
 
-        // Builds a copy of the current library
-        for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
-            for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
-                tempLib[i][j] = new Card(this.myLibrary[i][j]);
-            }
-        }
-
         // Adds all the positions that don't have an empty card to the list
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
-                if(!tempLib[i][j].getColor().equals(CardColor.EMPTY))
-                    posToExplore.addLast(new Position(i, j));
+                posToExplore.addLast(new Position(i, j));
             }
         }
 
@@ -200,19 +198,11 @@ public class Library{
         // Create an array
         while(!posToExplore.isEmpty()){
             Position p = posToExplore.getFirst();
-            //components.add(UtilityFunctions.findGroupSize(tempLib, p);
+            components.add(UtilityFunctions.findGroupSize(tempLib, p));
 
         }
 
-        // TODO
-        //
-
         return components;
-    }
-
-
-    private Integer searchGroup(Position pos, ArrayList<Position> toExplore ){
-        return 1;
     }
 
 

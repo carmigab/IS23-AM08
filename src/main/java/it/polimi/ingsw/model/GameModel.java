@@ -1,9 +1,17 @@
 package it.polimi.ingsw.model;
+import com.google.gson.Gson;
+import it.polimi.ingsw.App;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.constants.BoardConstants;
+import it.polimi.ingsw.model.utilities.JsonLoader;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 public class GameModel {
     /**
      * this attribute is the number of the player of a specific match
@@ -35,8 +43,18 @@ public class GameModel {
      * this attribute is used to indicate that the current turn is the last turn of the match;
      */
     private Boolean isLastTurn;
+    /**
+     *
+     */
+    private Random r;
 
-    public GameModel(int numPlayers){
+    /**
+     * TODO: initialize gameboard
+     * @param numPlayers
+     * @param nicknames
+     */
+
+    public GameModel(int numPlayers, List<String> nicknames){
         this.numPlayers = numPlayers;
         playerList = new ArrayList<>(this.numPlayers);
         gameBoard = GameBoard.createGameBoard(this.numPlayers);
@@ -44,6 +62,33 @@ public class GameModel {
         personalObjs = new ArrayList<>(AppConstants.TOTAL_OBJECTIVES);
         this.currentPlayer = 0;
         this.isLastTurn = false;
+        initializePlayers(nicknames);
+    }
+
+    /**
+     * This method reads all the single objectives from the file singleObjectives.json and gives a random one to every player
+     * @param nicknames list of nicknames of all the players
+     */
+    private void initializePlayers(List<String> nicknames){
+
+        Gson jsonLoader= JsonLoader.getJsonLoader();
+        Reader fileReader= null;
+        try {
+            fileReader = new FileReader(BoardConstants.FILE_CONFIG_GAMEBOARD2);
+        }
+        catch(FileNotFoundException e){
+            System.out.println(e);
+        }
+
+        PersonalObjectivesConfiguration poc=jsonLoader.fromJson(fileReader, PersonalObjectivesConfiguration.class);
+        for(int i=0;i< AppConstants.TOTAL_OBJECTIVES;i++){
+            this.personalObjs.add(poc.getPersonalObjectiveAtIndex(i));
+            this.personalObjs.get(this.personalObjs.size()-1).setPointsForCompletion(poc.getPointsForCompletion());
+        }
+
+        for(String s: nicknames){
+            playerList.add(new PlayerState(s, this.personalObjs.remove(r.nextInt(this.personalObjs.size()))));
+        }
     }
 
     /**

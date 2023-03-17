@@ -23,7 +23,7 @@ public class SingleObjective {
 
     //Doubts on the class construct: i don't know if, using a json file, i had to change the class construct
     public SingleObjective(Position position, CardColor color) {
-        this.position = position;
+        this.position = new Position(position);
         this.color = color;
     }
 

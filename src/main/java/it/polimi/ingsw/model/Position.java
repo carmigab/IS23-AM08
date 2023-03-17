@@ -2,18 +2,28 @@ package it.polimi.ingsw.model;
 
 /**
  * this class represent the position of a specific card in the game board
- *
- * @param x this attribute represent the row of the position
- * @param y this attribute represent the column of the position
  */
-public record Position(int x, int y) {
+public class Position {
+    private int x;
+    private int y;
+
     /**
-     * this method is the class constructor
-     *
-     * @param x : set attribute x to x value
-     * @param y : set attribute y to y value
+     * This is the constructor of the class
+     * @param x this attribute represent the row of the position
+     * @param y this attribute represent the column of the position
      */
-    public Position {
+    public Position (int x, int y){
+        this.x=x;
+        this.y=y;
+    }
+
+    /**
+     * This is the copy constructor of the class
+     * @param p position to be copied
+     */
+    public Position (Position p){
+        this.x=p.x;
+        this.y=p.y;
     }
 
     /**
@@ -21,7 +31,6 @@ public record Position(int x, int y) {
      *
      * @return an int.
      */
-    @Override
     public int x() {
         return x;
     }
@@ -31,8 +40,6 @@ public record Position(int x, int y) {
      *
      * @return an int.
      */
-
-    @Override
     public int y() {
         return y;
     }

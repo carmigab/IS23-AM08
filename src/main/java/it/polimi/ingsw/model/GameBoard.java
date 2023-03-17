@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.constants.BoardConstants;
 import com.google.gson.Gson;
+import it.polimi.ingsw.model.utilities.JsonLoader;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -31,14 +32,6 @@ public final class GameBoard {
      * Attribute from the java.util.package used for utility, such as choosing a random card from the bucket when filling the board
      */
     private final Random r;
-    /**
-     * Attribute from the com.google.gson package (<a href="https://github.com/google/gson">...</a>) used for parsing the json config file
-     */
-    private final Gson jsonParser;
-    /**
-     * Attribute frm the java.io package used for reading the json config file
-     */
-    private Reader fileReader;
 
     /**
      * This method is the utility used by the GameModel to get the gameBoard based on the number of players
@@ -62,14 +55,15 @@ public final class GameBoard {
         commonObjectives=new ArrayList<>(BoardConstants.TOTAL_CO_PER_GAME);
         allCards=new ArrayList<>(BoardConstants.TOTAL_CARDS);
         r=new Random();
-        jsonParser=new Gson();
+        Gson jsonParser= JsonLoader.getJsonLoader();
+        Reader fileReader = null;
         try {
             fileReader = new FileReader(BoardConstants.FILE_CONFIG_GAMEBOARD2);
         }
         catch(FileNotFoundException e){
-            System.out.println(e.toString());
+            System.out.println(e);
         }
-        GameBoardConfiguration g=jsonParser.fromJson(typeOfBoard, GameBoardConfiguration.class);
+        GameBoardConfiguration g=jsonParser.fromJson(fileReader, GameBoardConfiguration.class);
 
         fillAllCardsList();
         initialGameBoardFill(g.getValidPositions(),g.getInvalidPositions());

@@ -41,4 +41,14 @@ public class AppConstants {
      * max number of players per game
      */
     public static int MAX_PLAYERS           =   4;
+
+    /**
+     *
+     */
+    public static int TOTAL_POINTS_FOR_PO   =   6;
+    /**
+     *
+     */
+    public static String FILE_CONFIG_PERSONALOBJECTIVES = "src/main/config/model/singleObjectives.json";
+
 }

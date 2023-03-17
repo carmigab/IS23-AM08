@@ -19,11 +19,9 @@ class CommonObjective2Test {
     void evaluate() {
         Library lib = new Library();
 
-        // creating one card per color to fill the board
+        // creating some card of different color to fill the board
         Card cBlue = new Card(CardColor.BLUE, 0);
         Card cWhite = new Card(CardColor.WHITE, 0);
-        Card cYellow = new Card(CardColor.YELLOW, 0);
-        Card cLightBlue = new Card(CardColor.LIGHT_BLUE, 0);
         Card cGreen = new Card(CardColor.GREEN, 0);
         Card cViolet = new Card(CardColor.VIOLET, 0);
 

@@ -13,6 +13,7 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Library.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonObjective1Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonObjective1Test.java" afterDir="false" />
     </list>
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="added check for First Point to evaluatePoints in Game Model" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,8 +22,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -36,9 +37,6 @@
     <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2N0OzAjZIrxoEcZAcFMj1atr5JU" />
-  <component name="ProjectLevelVcsManager">
-    <OptionsSetting value="false" id="Update" />
-  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -66,7 +64,6 @@
       <recent name="" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\capel\IdeaProjects\IS23-AM08\src\main\config\model" />
       <recent name="C:\Users\cenza\Desktop\UNIVERSITA\TERZO ANNO\SECONDO SEMESTRE\PROVA FINALE IDS\IS23-AM08\src\main\resources\model\config" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -128,6 +125,10 @@
       </method>
     </configuration>
     <configuration name="CardTest.setEmpty" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    </configuration>
+  </component>
+  <component name="RunManager" selected="JUnit.PlayerStateTest">
+    <configuration name="CardTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
         <pattern>
@@ -137,13 +138,12 @@
       </extension>
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.CardTest" />
-      <option name="METHOD_NAME" value="setEmpty" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CardTest.setInvalid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PlayerStateTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
         <pattern>
@@ -152,9 +152,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.CardTest" />
-      <option name="METHOD_NAME" value="setInvalid" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.PlayerStateTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -172,6 +171,8 @@
         <item itemvalue="JUnit.CardTest.setEmpty" />
         <item itemvalue="JUnit.CardTest.isInvalid" />
         <item itemvalue="JUnit.CardTest.isEmpty" />
+        <item itemvalue="JUnit.PlayerStateTest" />
+        <item itemvalue="JUnit.CardTest" />
       </list>
     </recent_temporary>
   </component>
@@ -188,9 +189,6 @@
       <workItem from="1678868479103" duration="674000" />
       <workItem from="1678910011469" duration="1440000" />
       <workItem from="1678954028114" duration="1414000" />
-      <workItem from="1678972201505" duration="1673000" />
-      <workItem from="1678978920002" duration="1777000" />
-      <workItem from="1679043109392" duration="2864000" />
     </task>
     <task id="LOCAL-00001" summary="minor fixes &amp; player state tests">
       <created>1678896857551</created>
@@ -206,12 +204,19 @@
       <option name="project" value="LOCAL" />
       <updated>1678897071055</updated>
     </task>
-    <task id="LOCAL-00003" summary="I added the class SingleObjective">
-      <created>1678911384775</created>
+    <task id="LOCAL-00003" summary="minor fixes">
+      <created>1678898678256</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1678911384775</updated>
+      <updated>1678898678256</updated>
+    </task>
+    <task id="LOCAL-00004" summary="added getCommonObjective to GameBoard&#10;removed evaluateCommonObjective from GameBoard &#10;added evaluatePoints to GameModel">
+      <created>1678993984142</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1678993984142</updated>
     </task>
     <task id="LOCAL-00004" summary="Created CommonObjective1 class with its own evaluate function, added two method in Library class useful for the evaluate method of CommonObjective1.&#10;The two methods are a new constructor which receives an array of Card, and the method getMyLibrary to get a copy of the Card array of the class Library">
       <created>1678964104521</created>
@@ -226,6 +231,14 @@
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
       <updated>1678968594887</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00005" summary="added check for First Point to evaluatePoints in Game Model">
+      <created>1678995105079</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1678995105079</updated>
     </task>
     <option name="localTasksCounter" value="6" />
     <servers />
@@ -247,6 +260,9 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="minor fixes &amp; player state tests" />
     <MESSAGE value="minor fixes" />
+    <MESSAGE value="added getCommonObjective to GameBoard&#10;removed evaluateCommonObjective from GameBoard &#10;added evaluatePoints to GameModel" />
+    <MESSAGE value="added check for First Point to evaluatePoints in Game Model" />
+    <option name="LAST_COMMIT_MESSAGE" value="added check for First Point to evaluatePoints in Game Model" />
     <MESSAGE value="I added the class SingleObjective" />
     <MESSAGE value="Created CommonObjective1 class with its own evaluate function, added two method in Library class useful for the evaluate method of CommonObjective1.&#10;The two methods are a new constructor which receives an array of Card, and the method getMyLibrary to get a copy of the Card array of the class Library" />
     <MESSAGE value="created CommonObjective2 class and findGroupSize method to find the size of the group containing the position of the card passed via parameter (this method must be generalized to be used in different classes)" />

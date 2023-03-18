@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.utilities.UtilityFunctions;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * This class represent the library of one of the player
@@ -168,7 +169,6 @@ public class Library{
         Library tempLib = new Library(this);
         ArrayDeque<Position> posToExplore = new ArrayDeque<>();
         ArrayList<Integer> components = new ArrayList<>();
-
 
         // Adds all the positions that don't have an empty card to the list
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {

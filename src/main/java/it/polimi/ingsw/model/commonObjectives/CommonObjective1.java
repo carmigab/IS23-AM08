@@ -5,6 +5,10 @@ import it.polimi.ingsw.model.Library;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.constants.AppConstants;
 
+import java.util.List;
+
+import static it.polimi.ingsw.model.utilities.UtilityFunctions.findGroupContainingGivenPosition;
+
 /**
  * This class implements the first common objective: six group of two cards of the same color (different groups can have different colors)
  */
@@ -20,44 +24,16 @@ public class CommonObjective1 extends CommonObjective{
     public boolean evaluate(Library x) {
         Library copy = new Library(x);
 
+        // variable used to store each group and to count how many groups of two cards it contains
+        List<Position> group;
+
         // counter for group of two cards
         int groupNum = 0;
 
-        // create a copy of the library to be modified
-
-        // foreach Card in library look at the card on the right and bottom to check if they have the same color
+        // foreach Card in library find the group containing it and analyze the group to find how many groups of two cards it contains
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
-                // c1 is the card being examined
-                Card c1 = copy.getCard(new Position(j, i));
-
-                // execute this only when c1 is not in the last column
-                if (j < AppConstants.COLS_NUMBER - 1) {
-                    // c2 is the card on the right of c1
-                    Card c2 = copy.getCard(new Position(j + 1, i));
-
-                    // check if c2 has the same color of c1
-                    if (!c1.isEmpty() && sameColor(c1, c2)) {
-                        groupNum++;
-                        // set c1 and c2 to empty to not examine them twice
-                        c1.setEmpty();
-                        c2.setEmpty();
-                    }
-                }
-
-                // execute this only when c1 is not in the last row
-                if (i < AppConstants.ROWS_NUMBER - 1) {
-                    // c3 is the card at the bottom of c1
-                    Card c3 = copy.getCard(new Position(j, i + 1));
-
-                    // check if c3 has the same color of c1
-                    if (!c1.isEmpty() && sameColor(c1, c3)) {
-                        groupNum++;
-                        // set c1 and c3 to empty to not examine them twice
-                        c1.setEmpty();
-                        c3.setEmpty();
-                    }
-                }
+                group = findGroupContainingGivenPosition(copy, new Position(j, i));
             }
         }
 

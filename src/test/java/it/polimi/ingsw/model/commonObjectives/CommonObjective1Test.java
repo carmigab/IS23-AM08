@@ -82,5 +82,21 @@ class CommonObjective1Test {
         lib.add(cYellow, 4);
         lib.add(cYellow, 4);
         assertTrue(co1.evaluate(lib));
+
+        // check bad edge case
+        lib = new Library();
+        lib.add(cBlue, 0);
+        lib.add(cBlue, 0);
+        lib.add(cGreen, 1);
+        lib.add(cBlue, 1);
+        lib.add(cGreen, 2);
+        lib.add(cBlue, 2);
+        lib.add(cYellow, 4);
+        lib.add(cYellow, 4);
+        lib.add(cViolet, 4);
+        lib.add(cViolet, 4);
+        lib.add(cYellow, 4);
+        lib.add(cYellow, 4);
+        assertTrue(co1.evaluate(lib));
     }
 }

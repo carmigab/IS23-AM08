@@ -6,7 +6,7 @@ import java.util.Stack;
 
 // Who works on what:  exemple (12: X)  (1: O)                  GabriCarr == X
 // COLUMN 1) --  1: O  2: O  3: O  4:  O  5: O   6: O           GabriCarm == O
-// COLUMN 2) --  7:    8:    9:    10:    11: Z  12: Z          MatteCenz == Z
+// COLUMN 2) --  7: 0  8:    9:    10:    11: Z  12: Z          MatteCenz == Z
 
 
 /**

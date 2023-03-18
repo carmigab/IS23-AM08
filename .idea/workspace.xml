@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="index for commonObjective">
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="Common Objective 10 and Test">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -73,7 +73,7 @@
       <recent name="it.polimi.ingsw" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.CommonObjective10Test">
+  <component name="RunManager" selected="JUnit.CommonObjective9Test">
     <configuration name="CommonObjective10Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
@@ -149,6 +149,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="CommonObjective9Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="AM08" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.model.commonObjectives.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonObjectives" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonObjectives.CommonObjective9Test" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="LibraryTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
@@ -205,9 +220,11 @@
       <item itemvalue="JUnit.UtilityFunctionsTest" />
       <item itemvalue="JUnit.PlayerStateTest" />
       <item itemvalue="JUnit.CommonObjective10Test" />
+      <item itemvalue="JUnit.CommonObjective9Test" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.CommonObjective9Test" />
         <item itemvalue="JUnit.CommonObjective10Test" />
       </list>
     </recent_temporary>
@@ -296,7 +313,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679089489351</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Common Objective 10 and Test">
+      <created>1679166132943</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1679166132943</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -336,7 +360,8 @@
     <MESSAGE value="fixed a bug for which an object was passed as a value and not reference" />
     <MESSAGE value="created and tested CommonObjective5, little fixes in javadoc and naming in other classes, added a new utility functio" />
     <MESSAGE value="created and tested CommonObjective6, little fixes naming in CommonObjective abstract class" />
-    <option name="LAST_COMMIT_MESSAGE" value="created and tested CommonObjective6, little fixes naming in CommonObjective abstract class" />
+    <MESSAGE value="Common Objective 10 and Test" />
+    <option name="LAST_COMMIT_MESSAGE" value="Common Objective 10 and Test" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

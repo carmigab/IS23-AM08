@@ -20,7 +20,7 @@ class UtilityFunctionsTest {
     @Test
     void findGroupSize() {
         Library library = new Library();
-        Library copy = new Library(library.getMyLibrary());
+        Library copy = new Library(library.getCopy());
         Card card = new Card(CardColor.BLUE, 0);
 
         // initializing the library with a group of only one card and check if the method return 1 and if the library has not been changed except for the card valued
@@ -115,7 +115,7 @@ class UtilityFunctionsTest {
         library.add(card1, 2);
         library.add(card1, 2);
         library.add(card1, 1);
-        copy = new Library(library.getMyLibrary());
+        copy = new Library(library.getCopy());
         library.add(card, 0);
         library.add(card, 0);
         library.add(card, 1);

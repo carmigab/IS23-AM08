@@ -1,0 +1,557 @@
+{
+  "personalObjectives": [
+    {
+      "personalObjective": [
+        {
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "color": "VIOLET"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 3
+          },
+          "color": "YELLOW"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 0
+          },
+          "color": "BLUE"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 5
+          },
+          "color": "LIGHT_BLUE"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 2
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 1
+          },
+          "color": "GREEN"
+        }
+      ]
+    },
+    {
+      "personalObjective": [
+        {
+          "position": {
+            "x": 0,
+            "y": 2
+          },
+          "color": "GREEN"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 1
+          },
+          "color": "VIOLET"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 2
+          },
+          "color": "YELLOW"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 4
+          },
+          "color": "LIGHT_BLUE"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 3
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 5
+          },
+          "color": "BLUE"
+        }
+      ]
+    },
+    {
+      "personalObjective": [
+        {
+          "position": {
+            "x": 0,
+            "y": 1
+          },
+          "color": "BLUE"
+        },
+        {
+          "position": {
+            "x": 0,
+            "y": 5
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 3
+          },
+          "color": "GREEN"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 2
+          },
+          "color": "VIOLET"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 1
+          },
+          "color": "YELLOW"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 3
+          },
+          "color": "LIGHT_BLUE"
+        }
+      ]
+    },
+    {
+      "personalObjective": [
+        {
+          "position": {
+            "x": 0,
+            "y": 2
+          },
+          "color": "LIGHT_BLUE"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 4
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 2
+          },
+          "color": "BLUE"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 4
+          },
+          "color": "GREEN"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 3
+          },
+          "color": "VIOLET"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 0
+          },
+          "color": "YELLOW"
+        }
+      ]
+    },
+    {
+      "personalObjective": [
+        {
+          "position": {
+            "x": 0,
+            "y": 5
+          },
+          "color": "YELLOW"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 1
+          },
+          "color": "LIGHT_BLUE"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 3
+          },
+          "color": "BLUE"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 3
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 5
+          },
+          "color": "GREEN"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 4
+          },
+          "color": "VIOLET"
+        }
+      ]
+    },
+    {
+      "personalObjective": [
+        {
+          "position": {
+            "x": 0,
+            "y": 5
+          },
+          "color": "VIOLET"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 4
+          },
+          "color": "YELLOW"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 0
+          },
+          "color": "LIGHT_BLUE"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 2
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 4
+          },
+          "color": "BLUE"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 0
+          },
+          "color": "GREEN"
+        }
+      ]
+    },
+    {
+      "personalObjective": [
+        {
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "color": "GREEN"
+        },
+        {
+          "position": {
+            "x": 0,
+            "y": 3
+          },
+          "color": "LIGHT_BLUE"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 2
+          },
+          "color": "VIOLET"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 5
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 1
+          },
+          "color": "BLUE"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 4
+          },
+          "color": "YELLOW"
+        }
+      ]
+    },
+    {
+      "personalObjective": [
+        {
+          "position": {
+            "x": 0,
+            "y": 3
+          },
+          "color": "VIOLET"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 1
+          },
+          "color": "GREEN"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 2
+          },
+          "color": "LIGHT_BLUE"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 4
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 5
+          },
+          "color": "YELLOW"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 0
+          },
+          "color": "BLUE"
+        }
+      ]
+    },
+    {
+      "personalObjective": [
+        {
+          "position": {
+            "x": 0,
+            "y": 5
+          },
+          "color": "BLUE"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 4
+          },
+          "color": "LIGHT_BLUE"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 0
+          },
+          "color": "YELLOW"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 2
+          },
+          "color": "GREEN"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 3
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 4
+          },
+          "color": "VIOLET"
+        }
+      ]
+    },
+    {
+      "personalObjective": [
+        {
+          "position": {
+            "x": 0,
+            "y": 2
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 1
+          },
+          "color": "YELLOW"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 4
+          },
+          "color": "BLUE"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 3
+          },
+          "color": "GREEN"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 5
+          },
+          "color": "VIOLET"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 0
+          },
+          "color": "LIGHT_BLUE"
+        }
+      ]
+    },
+    {
+      "personalObjective": [
+        {
+          "position": {
+            "x": 0,
+            "y": 2
+          },
+          "color": "YELLOW"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 1
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 0
+          },
+          "color": "VIOLET"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 3
+          },
+          "color": "BLUE"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 5
+          },
+          "color": "LIGHT_BLUE"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 4
+          },
+          "color": "GREEN"
+        }
+      ]
+    },
+    {
+      "personalObjective": [
+        {
+          "position": {
+            "x": 0,
+            "y": 5
+          },
+          "color": "GREEN"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 1
+          },
+          "color": "VIOLET"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 0
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 2
+          },
+          "color": "BLUE"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 3
+          },
+          "color": "LIGHT_BLUE"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 4
+          },
+          "color": "YELLOW"
+        }
+      ]
+    }
+  ],
+  "pointsForCompletion": [1,2,4,6,9,12]
+}

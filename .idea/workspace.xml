@@ -4,16 +4,47 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="created CommonObjective2 class and findGroupSize method to find the size of the group containing the position of the card passed via parameter (this method must be generalized to be used in different classes)">
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/UtilityFunctions.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonObjective2Test.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/utilities/UtilityFunctionsTest.java" afterDir="false" />
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="index for commonObjective">
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/App.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/Card.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/CardColor.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/CommonObjective.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/CommonObjective1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/CommonObjective11.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/CommonObjective12.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/CommonObjective2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/GameBoard.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/GameBoardConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/GameModel.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/Library.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/PersonalObjective.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/PersonalObjectivesConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/PlayerState.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/Position.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/SingleObjective.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/constants/AppConstants.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/constants/BoardConstants.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/utilities/JsonLoader.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/utilities/UtilityFunctions.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/AppTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/CardTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/CommonObjective11Test.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/CommonObjective12Test.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/CommonObjective1Test.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/CommonObjective2Test.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/GameBoardTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/LibraryTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/PlayerStateTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/PositionTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/SingleObjectiveTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/utilities/UtilityFunctionsTest.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonObjective2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/CommonObjective2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Library.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonObjective1Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CommonObjective1Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/config/model/gameBoard2.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/config/model/gameBoard2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/config/model/gameBoard3.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/config/model/gameBoard3.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/config/model/gameBoard4.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/config/model/gameBoard4.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoardConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoardConfiguration.java" afterDir="false" />
     </list>
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="added check for First Point to evaluatePoints in Game Model" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,8 +53,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -37,6 +68,9 @@
     <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2N0OzAjZIrxoEcZAcFMj1atr5JU" />
+  <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="false" id="Update" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -67,87 +101,98 @@
       <recent name="C:\Users\cenza\Desktop\UNIVERSITA\TERZO ANNO\SECONDO SEMESTRE\PROVA FINALE IDS\IS23-AM08\src\main\resources\model\config" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="it.polimi.ingsw.model.commonObjectives" />
       <recent name="it.polimi.ingsw.model" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="it.polimi.ingsw.model.commonObjectives" />
       <recent name="it.polimi.ingsw.model.utilities" />
       <recent name="it.polimi.ingsw.model" />
       <recent name="it.polimi.ingsw" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="CO1Test.popAndPush" type="JUnit" factoryName="JUnit">
+  <component name="RunManager" selected="JUnit.CommonObjective7Test">
+    <configuration name="CommonObjective1Test" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
+          <option name="PATTERN" value="it.polimi.ingsw.model.commonObjectives.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.CardTest" />
-      <option name="METHOD_NAME" value="equals" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CardTest.isEmpty" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="AM08" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.CardTest" />
-      <option name="METHOD_NAME" value="isEmpty" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CardTest.isInvalid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="AM08" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.CardTest" />
-      <option name="METHOD_NAME" value="isInvalid" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CardTest.setEmpty" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-    </configuration>
-  </component>
-  <component name="RunManager" selected="JUnit.PlayerStateTest">
-    <configuration name="CardTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="AM08" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.CardTest" />
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonObjectives" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonObjectives.CommonObjective1Test" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PlayerStateTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CommonObjective2Test" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
+          <option name="PATTERN" value="it.polimi.ingsw.model.commonObjectives.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonObjectives" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonObjectives.CommonObjective2Test" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CommonObjective5Test" type="JUnit" factoryName="JUnit">
+      <module name="AM08" />
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonObjectives" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonObjectives.CommonObjective5Test" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CommonObjective6Test" type="JUnit" factoryName="JUnit">
+      <module name="AM08" />
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonObjectives" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonObjectives.CommonObjective6Test" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CommonObjective7Test" type="JUnit" factoryName="JUnit">
+      <module name="AM08" />
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonObjectives" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonObjectives.CommonObjective7Test" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LibraryTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="AM08" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.model.commonObjectives.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.LibraryTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlayerStateTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="AM08" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.model.commonObjectives.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -158,23 +203,31 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="UtilityFunctionsTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="AM08" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.model.utilities.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.utilities" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.utilities.UtilityFunctionsTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
-      <item itemvalue="JUnit.CO1Test.popAndPush" />
-      <item itemvalue="JUnit.CardTest.isEmpty" />
-      <item itemvalue="JUnit.CardTest.isInvalid" />
-      <item itemvalue="JUnit.CardTest.setEmpty" />
-      <item itemvalue="JUnit.CardTest.setInvalid" />
+      <item itemvalue="JUnit.CommonObjective1Test" />
+      <item itemvalue="JUnit.CommonObjective2Test" />
+      <item itemvalue="JUnit.LibraryTest" />
+      <item itemvalue="JUnit.CommonObjective5Test" />
+      <item itemvalue="JUnit.CommonObjective6Test" />
+      <item itemvalue="JUnit.CommonObjective7Test" />
+      <item itemvalue="JUnit.UtilityFunctionsTest" />
+      <item itemvalue="JUnit.PlayerStateTest" />
     </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="JUnit.CardTest.setInvalid" />
-        <item itemvalue="JUnit.CardTest.setEmpty" />
-        <item itemvalue="JUnit.CardTest.isInvalid" />
-        <item itemvalue="JUnit.CardTest.isEmpty" />
-        <item itemvalue="JUnit.PlayerStateTest" />
-        <item itemvalue="JUnit.CardTest" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -211,13 +264,6 @@
       <option name="project" value="LOCAL" />
       <updated>1678898678256</updated>
     </task>
-    <task id="LOCAL-00004" summary="added getCommonObjective to GameBoard&#10;removed evaluateCommonObjective from GameBoard &#10;added evaluatePoints to GameModel">
-      <created>1678993984142</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1678993984142</updated>
-    </task>
     <task id="LOCAL-00004" summary="Created CommonObjective1 class with its own evaluate function, added two method in Library class useful for the evaluate method of CommonObjective1.&#10;The two methods are a new constructor which receives an array of Card, and the method getMyLibrary to get a copy of the Card array of the class Library">
       <created>1678964104521</created>
       <option name="number" value="00004" />
@@ -225,14 +271,6 @@
       <option name="project" value="LOCAL" />
       <updated>1678964104521</updated>
     </task>
-    <task id="LOCAL-00005" summary="created CommonObjective2 class and findGroupSize method to find the size of the group containing the position of the card passed via parameter (this method must be generalized to be used in different classes)">
-      <created>1678968594887</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1678968594887</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
     <task id="LOCAL-00005" summary="added check for First Point to evaluatePoints in Game Model">
       <created>1678995105079</created>
       <option name="number" value="00005" />
@@ -240,11 +278,57 @@
       <option name="project" value="LOCAL" />
       <updated>1678995105079</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="index for commonObjective">
+      <created>1679044090075</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1679044090075</updated>
+    </task>
+    <task id="LOCAL-00007" summary="minor fixes">
+      <created>1679072077193</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1679072077193</updated>
+    </task>
+    <task id="LOCAL-00008" summary="fixed a bug for which an object was passed as a value and not reference">
+      <created>1679073954994</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1679073954994</updated>
+    </task>
+    <task id="LOCAL-00009" summary="created and tested CommonObjective5, little fixes in javadoc and naming in other classes, added a new utility functio">
+      <created>1679088179507</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1679088179507</updated>
+    </task>
+    <task id="LOCAL-00010" summary="created and tested CommonObjective6, little fixes naming in CommonObjective abstract class">
+      <created>1679089489351</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1679089489351</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -259,27 +343,30 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="minor fixes &amp; player state tests" />
-    <MESSAGE value="minor fixes" />
     <MESSAGE value="added getCommonObjective to GameBoard&#10;removed evaluateCommonObjective from GameBoard &#10;added evaluatePoints to GameModel" />
     <MESSAGE value="added check for First Point to evaluatePoints in Game Model" />
-    <option name="LAST_COMMIT_MESSAGE" value="added check for First Point to evaluatePoints in Game Model" />
+    <MESSAGE value="index for commonObjective" />
     <MESSAGE value="I added the class SingleObjective" />
     <MESSAGE value="Created CommonObjective1 class with its own evaluate function, added two method in Library class useful for the evaluate method of CommonObjective1.&#10;The two methods are a new constructor which receives an array of Card, and the method getMyLibrary to get a copy of the Card array of the class Library" />
     <MESSAGE value="created CommonObjective2 class and findGroupSize method to find the size of the group containing the position of the card passed via parameter (this method must be generalized to be used in different classes)" />
-    <option name="LAST_COMMIT_MESSAGE" value="created CommonObjective2 class and findGroupSize method to find the size of the group containing the position of the card passed via parameter (this method must be generalized to be used in different classes)" />
+    <MESSAGE value="minor fixes" />
+    <MESSAGE value="fixed a bug for which an object was passed as a value and not reference" />
+    <MESSAGE value="created and tested CommonObjective5, little fixes in javadoc and naming in other classes, added a new utility functio" />
+    <MESSAGE value="created and tested CommonObjective6, little fixes naming in CommonObjective abstract class" />
+    <option name="LAST_COMMIT_MESSAGE" value="created and tested CommonObjective6, little fixes naming in CommonObjective abstract class" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/LibraryTest.java</url>
-          <line>51</line>
-          <option name="timeStamp" value="1" />
+          <url>file://$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Library.java</url>
+          <line>200</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/LibraryTest.java</url>
-          <line>52</line>
-          <option name="timeStamp" value="2" />
+          <url>file://$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Library.java</url>
+          <line>201</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

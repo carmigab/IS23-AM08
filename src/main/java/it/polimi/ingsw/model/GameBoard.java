@@ -1,7 +1,11 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.commonObjectives.CommonObjective;
 import it.polimi.ingsw.model.constants.BoardConstants;
 import com.google.gson.Gson;
+import it.polimi.ingsw.model.exceptions.NoMoreCardsAtStartFillBoardException;
+import it.polimi.ingsw.model.exceptions.NoMoreCardsToFillBoardException;
+import it.polimi.ingsw.model.utilities.JsonLoader;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -31,14 +35,6 @@ public final class GameBoard {
      * Attribute from the java.util.package used for utility, such as choosing a random card from the bucket when filling the board
      */
     private final Random r;
-    /**
-     * Attribute from the com.google.gson package (<a href="https://github.com/google/gson">...</a>) used for parsing the json config file
-     */
-    private final Gson jsonParser;
-    /**
-     * Attribute frm the java.io package used for reading the json config file
-     */
-    private Reader fileReader;
 
     /**
      * This method is the utility used by the GameModel to get the gameBoard based on the number of players
@@ -62,17 +58,18 @@ public final class GameBoard {
         commonObjectives=new ArrayList<>(BoardConstants.TOTAL_CO_PER_GAME);
         allCards=new ArrayList<>(BoardConstants.TOTAL_CARDS);
         r=new Random();
-        jsonParser=new Gson();
+        Gson jsonParser= JsonLoader.getJsonLoader();
+        Reader fileReader = null;
         try {
             fileReader = new FileReader(BoardConstants.FILE_CONFIG_GAMEBOARD2);
         }
         catch(FileNotFoundException e){
-            System.out.println(e.toString());
+            System.out.println(e);
         }
-        GameBoardConfiguration g=jsonParser.fromJson(typeOfBoard, GameBoardConfiguration.class);
+        GameBoardConfiguration g=jsonParser.fromJson(fileReader, GameBoardConfiguration.class);
 
         fillAllCardsList();
-        initialGameBoardFill(g.getValidPositions(),g.getInvalidPositions());
+        initialGameBoardFill(g.getValidPositions());
         fillPointStack(g.getPointStack());
     }
 
@@ -98,24 +95,39 @@ public final class GameBoard {
 
     /**
      * This method is called only in the constructor and its only purpose is to fill the board with the valid and invalid positions
+     * The invalid positions are the ones which in the json file are set to 0
      * @param validPositions integer matrix loaded from the json config file containing the information of a valid position
-     * @param invalidPositions integer matrix loaded from the json config file containing the information of an invalid position
      */
-    private void initialGameBoardFill(Integer[][] validPositions, Integer[][] invalidPositions){
+    private void initialGameBoardFill(Integer[][] validPositions){
         for(int y=0; y<BoardConstants.BOARD_DIMENSION; y++){
             for(int x=0; x<BoardConstants.BOARD_DIMENSION; x++){
                 if(validPositions[y][x]==1) myGameBoard[y][x]=new Card(allCards.remove(this.r.nextInt(allCards.size())));
-                if(invalidPositions[y][x]==1) myGameBoard[y][x]=new Card(CardColor.INVALID,1);
+                else myGameBoard[y][x]=new Card(CardColor.INVALID,1);
             }
         }
     }
 
     /**
-     * TODO
-     * @return
+     * The method fills the board up until it is possible.
+     * It fills just the positions which are empty, so it avoids to overwrite the remaining cards on the board.
+     * If at the start of the method the bag is empty, then it throws an exception that needs to be checked
+     * If at some moment after it started filling it finds out that the bag is empty, then also needs to throw an exception (different)
+     * that can be checked maybe to avoid calling the function again
+     * @throws NoMoreCardsAtStartFillBoardException self-explainatory
+     * @throws NoMoreCardsToFillBoardException self-explainatory
      */
-    public boolean fillBoard(){
-        return true;
+    public void fillBoard() throws NoMoreCardsAtStartFillBoardException, NoMoreCardsToFillBoardException {
+        if(allCards.size()==0) throw new NoMoreCardsAtStartFillBoardException();
+
+        for(int y=0;y<BoardConstants.BOARD_DIMENSION;y++){
+            for(int x=0;x<BoardConstants.BOARD_DIMENSION;x++){
+                if(!myGameBoard[y][x].isInvalid() && myGameBoard[y][x].isEmpty()){
+                    myGameBoard[y][x]=new Card(allCards.remove(this.r.nextInt(allCards.size())));
+                    if(allCards.size()==0) throw new NoMoreCardsToFillBoardException();
+                }
+            }
+        }
+
     }
 
     /**

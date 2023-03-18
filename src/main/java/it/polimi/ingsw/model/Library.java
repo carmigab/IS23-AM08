@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.constants.AppConstants;
+import it.polimi.ingsw.model.utilities.UtilityFunctions;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,6 +15,7 @@ public class Library{
      * This attribute store all the card in the player's library
      */
     private final Card myLibrary[][];
+
 
     /**
      * This method is the class constructor, it doesn't receive parameters and simply fill the library with empty
@@ -28,9 +31,16 @@ public class Library{
         }
     }
 
+
     /**
      * This method is the class constructor used to create a copy of an existing library
      */
+    public Library(Library myLibrary) {
+        this.myLibrary = myLibrary.getCopy();
+    }
+
+
+    // Delete this method
     public Library(Card[][] myLibrary) {
         this.myLibrary = myLibrary;
     }
@@ -40,17 +50,18 @@ public class Library{
      *
      * @return a copy of myLibrary
      */
-    public Card[][] getMyLibrary() {
+    public Card[][] getCopy() {
         Card myLibraryCopy[][] = new Card[AppConstants.ROWS_NUMBER][AppConstants.COLS_NUMBER];
 
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
-                myLibraryCopy[i][j] = new Card(myLibrary[i][j]);
+                myLibraryCopy[i][j] = new Card(this.myLibrary[i][j]);
             }
         }
 
         return myLibraryCopy;
     }
+
 
     /**
      * This method receive a card object and an int representing the column in which the card
@@ -70,8 +81,10 @@ public class Library{
         while(!myLibrary[rowToInsertInIdx][column].isEmpty()) rowToInsertInIdx--;
 
         // add the given card in the empty cell
+        // myLibrary[rowToInsertInIdx][column] = card;
         myLibrary[rowToInsertInIdx][column] = new Card(card);
     }
+
 
     /**
      * This method check if there is at least one empty cell in the library, if so return false else true
@@ -87,6 +100,7 @@ public class Library{
         return true;
     }
 
+
     /**
      * This method return the card in the given position in the library
      *
@@ -96,6 +110,7 @@ public class Library{
     public Card getCard(Position position) {
         return myLibrary[position.y()][position.x()];
     }
+
 
     /**
      * This method is used by the GameModel class to check if in the column given by the player
@@ -145,64 +160,31 @@ public class Library{
 
 
     /**
-     * This method calculate the number of components of all the groups present
-     * @return an arrayList that contans the number of components for each group
+     * This method calculates the number of components of all the groups present
+     * @return an arrayList that contains the number of components for each group
      */
-    public ArrayList<Integer> evaluateGroupComponents() {
+    private ArrayList<Integer> evaluateGroupComponents() {
 
-        Card tempLib[][] = new Card[AppConstants.ROWS_NUMBER][AppConstants.COLS_NUMBER];
-        ArrayList<Position> posToExplore = new ArrayList<>();
+        Library tempLib = new Library(this);
+        ArrayDeque<Position> posToExplore = new ArrayDeque<>();
         ArrayList<Integer> components = new ArrayList<>();
 
-
-        // Builds a copy of the current library
-        for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
-            for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
-                tempLib[i][j] = this.myLibrary[i][j];
-            }
-        }
 
         // Adds all the positions that don't have an empty card to the list
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
-                if(!tempLib[i][j].getColor().equals(CardColor.EMPTY))
-                    posToExplore.add(new Position(i, j));
+                posToExplore.addLast(new Position(j, i));
             }
         }
 
         // Main logic of the method
         // Create an array
         while(!posToExplore.isEmpty()){
-            Position p = posToExplore.get(0);
-            components.add(searchGroup(p, posToExplore));
-        }
+            Position p = posToExplore.pop();
+            components.add(UtilityFunctions.findGroupSize(tempLib, p));
 
-        // TODO
-        // oss: mi serve un oggetto che si comporta come una queue ma da cui posso pure rimuovere
-        //      senza rispettare la queue (fare dopo)
+        }
 
         return components;
     }
-
-
-    private Integer searchGroup(Position pos, ArrayList<Position> toExplore ){
-        return 1;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
-
-

@@ -1,9 +1,11 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.commonObjectives;
+
+import it.polimi.ingsw.model.Library;
 
 import java.util.Stack;
 
 // Who works on what:  exemple (12: X)  (1: O)                  GabriCarr == X
-// COLUMN 1) --  1: O  2: O  3:    4:     5:     6:             GabriCarm == O
+// COLUMN 1) --  1: O  2: O  3: O  4:  O  5: O   6: O           GabriCarm == O
 // COLUMN 2) --  7:    8:    9:    10:    11: Z  12: Z          MatteCenz == Z
 
 
@@ -43,9 +45,9 @@ public abstract class CommonObjective {
 
     /**
      * This method has to be overrided in its subclasses, with each implementation being a different algorithm to calculate the objective
-     * @param x
+     * @param library Library of the current player
      * @return true if the objective has been satisfied
      */
-    public abstract boolean evaluate(Library x);
+    public abstract boolean evaluate(Library library);
 
 }

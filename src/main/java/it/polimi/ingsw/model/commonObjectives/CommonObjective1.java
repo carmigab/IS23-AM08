@@ -1,5 +1,8 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.commonObjectives;
 
+import it.polimi.ingsw.model.Card;
+import it.polimi.ingsw.model.Library;
+import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.constants.AppConstants;
 
 /**
@@ -15,7 +18,7 @@ public class CommonObjective1 extends CommonObjective{
      */
     @Override
     public boolean evaluate(Library x) {
-        Library copy = new Library(x.getMyLibrary());
+        Library copy = new Library(x);
 
         // counter for group of two cards
         int groupNum = 0;
@@ -29,9 +32,9 @@ public class CommonObjective1 extends CommonObjective{
                 Card c1 = copy.getCard(new Position(j, i));
 
                 // execute this only when c1 is not in the last column
-                if (i < AppConstants.COLS_NUMBER - 1) {
+                if (j < AppConstants.COLS_NUMBER - 1) {
                     // c2 is the card on the right of c1
-                    Card c2 = copy.getCard(new Position(j, i + 1));
+                    Card c2 = copy.getCard(new Position(j + 1, i));
 
                     // check if c2 has the same color of c1
                     if (!c1.isEmpty() && sameColor(c1, c2)) {
@@ -43,9 +46,9 @@ public class CommonObjective1 extends CommonObjective{
                 }
 
                 // execute this only when c1 is not in the last row
-                if (j < AppConstants.ROWS_NUMBER - 1) {
+                if (i < AppConstants.ROWS_NUMBER - 1) {
                     // c3 is the card at the bottom of c1
-                    Card c3 = copy.getCard(new Position(j + 1, i));
+                    Card c3 = copy.getCard(new Position(j, i + 1));
 
                     // check if c3 has the same color of c1
                     if (!c1.isEmpty() && sameColor(c1, c3)) {

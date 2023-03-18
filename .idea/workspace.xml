@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="Common Objective 9 and Test">
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="Common Objective 9, 10 and Test minor fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -73,8 +73,21 @@
       <recent name="it.polimi.ingsw" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.SingleObjectiveTest">
-    <configuration name="CardTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.All tests">
+    <configuration name="All tests" type="JUnit" factoryName="JUnit">
+      <module name="AM08" />
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CardTest.getColor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
         <pattern>
@@ -84,27 +97,8 @@
       </extension>
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.CardTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CommonObjective1Test and 10 more" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="AM08" />
-      <option name="TEST_OBJECT" value="pattern" />
-      <patterns>
-        <pattern testClass="it.polimi.ingsw.model.commonObjectives.CommonObjective1Test" />
-        <pattern testClass="it.polimi.ingsw.model.commonObjectives.CommonObjective2Test" />
-        <pattern testClass="it.polimi.ingsw.model.commonObjectives.CommonObjective3Test" />
-        <pattern testClass="it.polimi.ingsw.model.commonObjectives.CommonObjective5Test" />
-        <pattern testClass="it.polimi.ingsw.model.commonObjectives.CommonObjective6Test" />
-        <pattern testClass="it.polimi.ingsw.model.commonObjectives.CommonObjective7Test" />
-        <pattern testClass="it.polimi.ingsw.model.commonObjectives.CommonObjective8Test" />
-        <pattern testClass="it.polimi.ingsw.model.commonObjectives.CommonObjective9Test" />
-        <pattern testClass="it.polimi.ingsw.model.commonObjectives.CommonObjective10Test" />
-        <pattern testClass="it.polimi.ingsw.model.commonObjectives.CommonObjective11Test" />
-        <pattern testClass="it.polimi.ingsw.model.commonObjectives.CommonObjective12Test" />
-      </patterns>
+      <option name="METHOD_NAME" value="getColor" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -169,16 +163,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GameBoardTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CommonObjective9Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
+          <option name="PATTERN" value="it.polimi.ingsw.model.commonObjectives.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameBoardTest" />
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonObjectives" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonObjectives.CommonObjective9Test" />
+      <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -260,6 +255,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="it.polimi.ingsw.model in AM08" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="AM08" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="JUnit.CommonObjective1Test" />
       <item itemvalue="JUnit.CommonObjective2Test" />
@@ -269,19 +278,20 @@
       <item itemvalue="JUnit.CommonObjective7Test" />
       <item itemvalue="JUnit.UtilityFunctionsTest" />
       <item itemvalue="JUnit.PlayerStateTest" />
-      <item itemvalue="JUnit.CardTest" />
-      <item itemvalue="JUnit.CommonObjective1Test and 10 more" />
-      <item itemvalue="JUnit.GameBoardTest" />
+      <item itemvalue="JUnit.All tests" />
+      <item itemvalue="JUnit.CardTest.getColor" />
+      <item itemvalue="JUnit.CommonObjective9Test" />
       <item itemvalue="JUnit.PositionTest" />
       <item itemvalue="JUnit.SingleObjectiveTest" />
+      <item itemvalue="JUnit.it.polimi.ingsw.model in AM08" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.CommonObjective9Test" />
+        <item itemvalue="JUnit.it.polimi.ingsw.model in AM08" />
+        <item itemvalue="JUnit.CardTest.getColor" />
         <item itemvalue="JUnit.SingleObjectiveTest" />
         <item itemvalue="JUnit.PositionTest" />
-        <item itemvalue="JUnit.GameBoardTest" />
-        <item itemvalue="JUnit.CardTest" />
-        <item itemvalue="JUnit.CommonObjective1Test and 10 more" />
       </list>
     </recent_temporary>
   </component>
@@ -383,7 +393,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679166710259</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Common Objective 9, 10 and Test minor fixes">
+      <created>1679167080276</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1679167080276</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -425,7 +442,8 @@
     <MESSAGE value="created and tested CommonObjective6, little fixes naming in CommonObjective abstract class" />
     <MESSAGE value="Common Objective 10 and Test" />
     <MESSAGE value="Common Objective 9 and Test" />
-    <option name="LAST_COMMIT_MESSAGE" value="Common Objective 9 and Test" />
+    <MESSAGE value="Common Objective 9, 10 and Test minor fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Common Objective 9, 10 and Test minor fixes" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

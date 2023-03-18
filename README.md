@@ -29,9 +29,9 @@
 | CO5           | :green_circle:  | gabricarm  | |
 | CO6           | :green_circle:  | gabricarm  | |
 | CO7           | :green_circle:  | gabricarm  | |
-| CO8           | :red_circle:    |            | |
-| CO9           | :yellow_circle: | gabricarr  | |
-| CO10          | :yellow_circle: | gabricarr  | |
+| CO8           | :yellow_circle: |            | |
+| CO9           | :green_circle:  | gabricarr  | |
+| CO10          | :green_circle:  | gabricarr  | |
 | CO11          | :green_circle:  | mattecenz  | |
 | CO12          | :green_circle:  | mattecenz  | |
 

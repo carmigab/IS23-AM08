@@ -69,7 +69,7 @@ public final class GameBoard {
         GameBoardConfiguration g=jsonParser.fromJson(fileReader, GameBoardConfiguration.class);
 
         fillAllCardsList();
-        initialGameBoardFill(g.getValidPositions(),g.getInvalidPositions());
+        initialGameBoardFill(g.getValidPositions());
         fillPointStack(g.getPointStack());
     }
 
@@ -95,14 +95,14 @@ public final class GameBoard {
 
     /**
      * This method is called only in the constructor and its only purpose is to fill the board with the valid and invalid positions
+     * The invalid positions are the ones which in the json file are set to 0
      * @param validPositions integer matrix loaded from the json config file containing the information of a valid position
-     * @param invalidPositions integer matrix loaded from the json config file containing the information of an invalid position
      */
-    private void initialGameBoardFill(Integer[][] validPositions, Integer[][] invalidPositions){
+    private void initialGameBoardFill(Integer[][] validPositions){
         for(int y=0; y<BoardConstants.BOARD_DIMENSION; y++){
             for(int x=0; x<BoardConstants.BOARD_DIMENSION; x++){
                 if(validPositions[y][x]==1) myGameBoard[y][x]=new Card(allCards.remove(this.r.nextInt(allCards.size())));
-                if(invalidPositions[y][x]==1) myGameBoard[y][x]=new Card(CardColor.INVALID,1);
+                else myGameBoard[y][x]=new Card(CardColor.INVALID,1);
             }
         }
     }

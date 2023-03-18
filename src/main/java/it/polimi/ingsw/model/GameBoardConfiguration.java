@@ -10,10 +10,6 @@ public final class GameBoardConfiguration {
      */
     private Integer[][] validPositions;
     /**
-     * This attribute stores the invalid positions read from the config file
-     */
-    private Integer[][] invalidPositions;
-    /**
      * This attribute stores the point stack read from the config file
      */
     private Integer[] pointStack;
@@ -24,14 +20,6 @@ public final class GameBoardConfiguration {
      */
     public Integer[][] getValidPositions(){
         return this.validPositions;
-    }
-
-    /**
-     * Getter of the invalid positions
-     * @return matrix of invalid positions
-     */
-    public Integer[][] getInvalidPositions(){
-        return this.invalidPositions;
     }
 
     /**

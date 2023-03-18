@@ -4,11 +4,46 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="created and tested CommonObjective6, little fixes naming in CommonObjective abstract class">
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective4.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective7.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective7Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective6Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective6Test.java" afterDir="false" />
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="index for commonObjective">
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/App.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/Card.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/CardColor.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/CommonObjective.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/CommonObjective1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/CommonObjective11.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/CommonObjective12.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/CommonObjective2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/GameBoard.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/GameBoardConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/GameModel.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/Library.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/PersonalObjective.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/PersonalObjectivesConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/PlayerState.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/Position.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/SingleObjective.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/constants/AppConstants.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/constants/BoardConstants.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/utilities/JsonLoader.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/utilities/UtilityFunctions.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/AppTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/CardTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/CommonObjective11Test.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/CommonObjective12Test.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/CommonObjective1Test.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/CommonObjective2Test.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/GameBoardTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/LibraryTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/PlayerStateTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/PositionTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/SingleObjectiveTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/utilities/UtilityFunctionsTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/config/model/gameBoard2.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/config/model/gameBoard2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/config/model/gameBoard3.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/config/model/gameBoard3.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/config/model/gameBoard4.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/config/model/gameBoard4.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoardConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoardConfiguration.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

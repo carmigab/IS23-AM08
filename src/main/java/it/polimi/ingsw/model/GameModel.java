@@ -1,9 +1,15 @@
 package it.polimi.ingsw.model;
+import com.google.gson.Gson;
+import it.polimi.ingsw.model.commonObjectives.*;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.constants.BoardConstants;
+import it.polimi.ingsw.model.utilities.JsonLoader;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.Reader;
+import java.util.*;
+
 public class GameModel {
     /**
      * this attribute is the number of the player of a specific match
@@ -19,9 +25,9 @@ public class GameModel {
      */
     private final GameBoard gameBoard;
     /**
-     * this attribute is the list of all possible common objectives of the game;
+     * this attribute is the list of common objectives created in the specified game;
      */
-    private final List<CommonObjective>  commonObjs;
+    private final List<Integer> commonObjsCreated;
     /**
      * this attribute is the list of all possible personal objectives of the game;
      */
@@ -35,15 +41,90 @@ public class GameModel {
      * this attribute is used to indicate that the current turn is the last turn of the match;
      */
     private Boolean isLastTurn;
+    /**
+     *
+     */
+    private Random r;
 
-    public GameModel(int numPlayers){
+    /**
+     * TODO: initialize gameboard
+     * @param numPlayers
+     * @param nicknames
+     */
+
+    public GameModel(int numPlayers, List<String> nicknames){
         this.numPlayers = numPlayers;
         playerList = new ArrayList<>(this.numPlayers);
-        gameBoard = GameBoard.createGameBoard(this.numPlayers);
-        commonObjs = new ArrayList<>(AppConstants.TOTAL_OBJECTIVES);
+        commonObjsCreated = new ArrayList<>(AppConstants.TOTAL_CO_PER_GAME);
+        gameBoard = GameBoard.createGameBoard(numPlayers, getRandomCommonObjectives());
         personalObjs = new ArrayList<>(AppConstants.TOTAL_OBJECTIVES);
         this.currentPlayer = 0;
         this.isLastTurn = false;
+        initializePlayers(nicknames);
+    }
+
+    /**
+     * This method reads all the single objectives from the file singleObjectives.json and gives a random one to every player
+     * @param nicknames list of nicknames of all the players
+     */
+    private void initializePlayers(List<String> nicknames){
+
+        Gson jsonLoader= JsonLoader.getJsonLoader();
+        Reader fileReader= null;
+        try {
+            fileReader = new FileReader(BoardConstants.FILE_CONFIG_GAMEBOARD2);
+        }
+        catch(FileNotFoundException e){
+            System.out.println(e);
+        }
+
+        PersonalObjectivesConfiguration poc=jsonLoader.fromJson(fileReader, PersonalObjectivesConfiguration.class);
+        for(int i=0;i< AppConstants.TOTAL_OBJECTIVES;i++){
+            this.personalObjs.add(poc.getPersonalObjectiveAtIndex(i));
+            this.personalObjs.get(this.personalObjs.size()-1).setPointsForCompletion(poc.getPointsForCompletion());
+        }
+
+        for(String s: nicknames){
+            playerList.add(new PlayerState(s, this.personalObjs.remove(r.nextInt(this.personalObjs.size()))));
+        }
+    }
+
+    /**
+     * This method selects two random numbers between 0 and 12 (total objectives, 12 excluded) and assigns a common objective to it.
+     * It is important to note that it checks that which common objectives are created
+     * @return the list of 2 random common objectives created
+     */
+    private List<CommonObjective> getRandomCommonObjectives(){
+        List<Integer> pool=new ArrayList<>(AppConstants.TOTAL_OBJECTIVES);
+        List<CommonObjective> toReturn=new ArrayList<>(AppConstants.TOTAL_CO_PER_GAME);
+        for(int i=0;i<AppConstants.TOTAL_OBJECTIVES;i++) pool.add(i);
+        for(int i=0;i<AppConstants.TOTAL_CO_PER_GAME;){
+            Integer candidate=r.nextInt(pool.size());
+            if(!this.commonObjsCreated.contains(candidate)) {
+                this.commonObjsCreated.add(candidate);
+                i++;
+            }
+        }
+        for(int i=0;i<AppConstants.TOTAL_CO_PER_GAME;i++){
+            CommonObjective co;
+            Integer selected=this.commonObjsCreated.get(i);
+            co = switch (selected) {
+                case 0 -> new CommonObjective1();
+                case 1 -> new CommonObjective2();
+                case 2 -> new CommonObjective3();
+                case 3 -> new CommonObjective4();
+                case 4 -> new CommonObjective5();
+                case 5 -> new CommonObjective6();
+                case 6 -> new CommonObjective7();
+                case 7 -> new CommonObjective8();
+                case 8 -> new CommonObjective9();
+                case 9 -> new CommonObjective10();
+                case 10 -> new CommonObjective11();
+                default -> new CommonObjective12();
+            };
+            toReturn.add(co);
+        }
+        return toReturn;
     }
 
     /**

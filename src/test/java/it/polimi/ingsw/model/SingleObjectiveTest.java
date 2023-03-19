@@ -16,8 +16,10 @@ class SingleObjectiveTest {
     @Test
     void getPosition() {
         Position p = new Position(5,5);
-        SingleObjective s = new SingleObjective(p, CardColor.EMPTY);
-        assertEquals(p,s.getPosition());
+        SingleObjective  s= new SingleObjective(p, CardColor.EMPTY);
+        // you cannot say assertEquals(p,s.getPosition()); since the position p is copied in s by creating a new object
+        assertEquals(p.x(),s.getPosition().x());
+        assertEquals(p.y(),s.getPosition().y());
     }
 
     @Test

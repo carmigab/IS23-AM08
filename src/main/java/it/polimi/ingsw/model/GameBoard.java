@@ -39,12 +39,13 @@ public final class GameBoard {
     /**
      * This method is the utility used by the GameModel to get the gameBoard based on the number of players
      * @param numPlayers number of players of the current game (between 2 and 4)
+     * @param co
      * @return game board configurated and filled
      */
-    public static GameBoard createGameBoard(int numPlayers){
-        if(numPlayers==2) return new GameBoard(BoardConstants.FILE_CONFIG_GAMEBOARD2);
-        if(numPlayers==3) return new GameBoard(BoardConstants.FILE_CONFIG_GAMEBOARD3);
-        return new GameBoard(BoardConstants.FILE_CONFIG_GAMEBOARD4);
+    public static GameBoard createGameBoard(int numPlayers, List<CommonObjective> co){
+        if(numPlayers==2) return new GameBoard(BoardConstants.FILE_CONFIG_GAMEBOARD2, co);
+        if(numPlayers==3) return new GameBoard(BoardConstants.FILE_CONFIG_GAMEBOARD3, co);
+        return new GameBoard(BoardConstants.FILE_CONFIG_GAMEBOARD4, co);
     }
     /**
      * TODO: decide which common objectives should be passed, maybe through the constructor
@@ -53,15 +54,16 @@ public final class GameBoard {
      * Note also that it creates a temporary object GameBoardConfiguration used to store all the loaded data
      * @param typeOfBoard string chosen in the GameBoardFactory containing the path of the config file
      */
-    private GameBoard(String typeOfBoard){
+    private GameBoard(String typeOfBoard, List<CommonObjective> co){
         myGameBoard=new Card[BoardConstants.BOARD_DIMENSION][BoardConstants.BOARD_DIMENSION];
         commonObjectives=new ArrayList<>(BoardConstants.TOTAL_CO_PER_GAME);
+        commonObjectives.addAll(co);
         allCards=new ArrayList<>(BoardConstants.TOTAL_CARDS);
         r=new Random();
         Gson jsonParser= JsonLoader.getJsonLoader();
         Reader fileReader = null;
         try {
-            fileReader = new FileReader(BoardConstants.FILE_CONFIG_GAMEBOARD2);
+            fileReader = new FileReader(typeOfBoard);
         }
         catch(FileNotFoundException e){
             System.out.println(e);
@@ -259,5 +261,4 @@ public final class GameBoard {
         myGameBoard[p.y()][p.x()].setEmpty();
         return copy;
     }
-
 }

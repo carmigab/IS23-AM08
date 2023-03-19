@@ -9,7 +9,7 @@
 
 | Functionality      | State           |
 |--------------------|-----------------|
-| GameModel          | :yellow_circle: | 
+| GameModel          | :green_circle: | 
 | GameBoard          | :green_circle:  |  
 | PlayerState        | :green_circle:  |
 | Library            | :green_circle:  |

@@ -1,9 +1,11 @@
 package it.polimi.ingsw.model;
 import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.model.commonObjectives.*;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.constants.BoardConstants;
-import it.polimi.ingsw.model.utilities.JsonLoader;
+import it.polimi.ingsw.model.utilities.JsonSingleton;
+import it.polimi.ingsw.model.utilities.RandomSingleton;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -41,10 +43,6 @@ public class GameModel {
      * this attribute is used to indicate that the current turn is the last turn of the match;
      */
     private Boolean isLastTurn;
-    /**
-     *
-     */
-    private Random r;
 
     /**
      * TODO: initialize gameboard
@@ -69,10 +67,10 @@ public class GameModel {
      */
     private void initializePlayers(List<String> nicknames){
 
-        Gson jsonLoader= JsonLoader.getJsonLoader();
+        Gson jsonLoader= JsonSingleton.getJsonSingleton();
         Reader fileReader= null;
         try {
-            fileReader = new FileReader(BoardConstants.FILE_CONFIG_GAMEBOARD2);
+            fileReader = new FileReader(AppConstants.FILE_CONFIG_PERSONALOBJECTIVES);
         }
         catch(FileNotFoundException e){
             System.out.println(e);
@@ -84,6 +82,7 @@ public class GameModel {
             this.personalObjs.get(this.personalObjs.size()-1).setPointsForCompletion(poc.getPointsForCompletion());
         }
 
+        Random r= RandomSingleton.getRandomSingleton();
         for(String s: nicknames){
             playerList.add(new PlayerState(s, this.personalObjs.remove(r.nextInt(this.personalObjs.size()))));
         }
@@ -95,6 +94,7 @@ public class GameModel {
      * @return the list of 2 random common objectives created
      */
     private List<CommonObjective> getRandomCommonObjectives(){
+        Random r= RandomSingleton.getRandomSingleton();
         List<Integer> pool=new ArrayList<>(AppConstants.TOTAL_OBJECTIVES);
         List<CommonObjective> toReturn=new ArrayList<>(AppConstants.TOTAL_CO_PER_GAME);
         for(int i=0;i<AppConstants.TOTAL_OBJECTIVES;i++) pool.add(i);

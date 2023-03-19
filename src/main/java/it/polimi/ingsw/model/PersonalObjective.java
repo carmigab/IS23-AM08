@@ -39,6 +39,7 @@ public class PersonalObjective {
      * @param points array of integers
      */
     public void setPointsForCompletion(int[] points){
+        this.pointsForCompletion=new ArrayList<>();
         for(int i=0;i<points.length;i++) this.pointsForCompletion.add(points[i]);
     }
 

@@ -77,7 +77,6 @@ public class Card {
      * @param obj
      * @return a boolean
      */
-
     @Override
     public boolean equals(Object obj) {
         if(!(obj instanceof Card)) return false;

@@ -148,14 +148,14 @@
           {
             "position": {
               "x": 0,
-              "y": 0
+              "y": 5
             },
             "color": "VIOLET"
           },
           {
             "position": {
               "x": 1,
-              "y": 3
+              "y": 4
             },
             "color": "YELLOW"
           },
@@ -163,13 +163,6 @@
             "position": {
               "x": 2,
               "y": 0
-            },
-            "color": "BLUE"
-          },
-          {
-            "position": {
-              "x": 2,
-              "y": 5
             },
             "color": "LIGHT_BLUE"
           },
@@ -182,8 +175,15 @@
           },
           {
             "position": {
+              "x": 3,
+              "y": 4
+            },
+            "color": "BLUE"
+          },
+          {
+            "position": {
               "x": 4,
-              "y": 1
+              "y": 0
             },
             "color": "GREEN"
           }
@@ -349,42 +349,42 @@
           {
             "position": {
               "x": 0,
-              "y": 2
+              "y": 3
             },
-            "color": "GREEN"
+            "color": "VIOLET"
           },
           {
             "position": {
               "x": 1,
               "y": 1
             },
-            "color": "VIOLET"
+            "color": "GREEN"
           },
           {
             "position": {
               "x": 2,
               "y": 2
             },
-            "color": "YELLOW"
+            "color": "LIGHT_BLUE"
           },
           {
             "position": {
               "x": 3,
               "y": 4
             },
-            "color": "LIGHT_BLUE"
-          },
-          {
-            "position": {
-              "x": 4,
-              "y": 3
-            },
             "color": "WHITE"
           },
           {
             "position": {
-              "x": 4,
+              "x": 3,
               "y": 5
+            },
+            "color": "YELLOW"
+          },
+          {
+            "position": {
+              "x": 4,
+              "y": 0
             },
             "color": "BLUE"
           }
@@ -550,7 +550,7 @@
           {
             "position": {
               "x": 0,
-              "y": 5
+              "y": 2
             },
             "color": "YELLOW"
           },
@@ -559,35 +559,35 @@
               "x": 1,
               "y": 1
             },
-            "color": "LIGHT_BLUE"
+            "color": "WHITE"
           },
           {
             "position": {
-              "x": 1,
-              "y": 3
+              "x": 2,
+              "y": 0
             },
-            "color": "BLUE"
+            "color": "VIOLET"
           },
           {
             "position": {
               "x": 2,
               "y": 3
             },
-            "color": "WHITE"
+            "color": "BLUE"
           },
           {
             "position": {
               "x": 3,
               "y": 5
             },
-            "color": "GREEN"
+            "color": "LIGHT_BLUE"
           },
           {
             "position": {
               "x": 4,
               "y": 4
             },
-            "color": "VIOLET"
+            "color": "GREEN"
           }
         ],
         "pointsForCompletion": [
@@ -751,37 +751,37 @@
           {
             "position": {
               "x": 0,
-              "y": 0
+              "y": 5
             },
             "color": "GREEN"
           },
           {
             "position": {
-              "x": 0,
-              "y": 3
-            },
-            "color": "LIGHT_BLUE"
-          },
-          {
-            "position": {
               "x": 1,
-              "y": 2
+              "y": 1
             },
             "color": "VIOLET"
           },
           {
             "position": {
               "x": 2,
-              "y": 5
+              "y": 0
             },
             "color": "WHITE"
           },
           {
             "position": {
-              "x": 3,
-              "y": 1
+              "x": 2,
+              "y": 2
             },
             "color": "BLUE"
+          },
+          {
+            "position": {
+              "x": 3,
+              "y": 3
+            },
+            "color": "LIGHT_BLUE"
           },
           {
             "position": {
@@ -822,12 +822,12 @@
           "sprite": 1
         },
         {
-          "color": "GREEN",
+          "color": "WHITE",
           "sprite": 2
         },
         {
           "color": "LIGHT_BLUE",
-          "sprite": 2
+          "sprite": 1
         },
         {
           "color": "INVALID",
@@ -860,130 +860,8 @@
           "sprite": 1
         },
         {
-          "color": "YELLOW",
-          "sprite": 2
-        },
-        {
-          "color": "WHITE",
-          "sprite": 2
-        },
-        {
-          "color": "WHITE",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        }
-      ],
-      [
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "YELLOW",
-          "sprite": 2
-        },
-        {
           "color": "LIGHT_BLUE",
           "sprite": 1
-        },
-        {
-          "color": "YELLOW",
-          "sprite": 1
-        },
-        {
-          "color": "YELLOW",
-          "sprite": 1
-        },
-        {
-          "color": "BLUE",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        }
-      ],
-      [
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "WHITE",
-          "sprite": 1
-        },
-        {
-          "color": "WHITE",
-          "sprite": 2
-        },
-        {
-          "color": "GREEN",
-          "sprite": 2
-        },
-        {
-          "color": "BLUE",
-          "sprite": 2
-        },
-        {
-          "color": "LIGHT_BLUE",
-          "sprite": 1
-        },
-        {
-          "color": "VIOLET",
-          "sprite": 1
-        },
-        {
-          "color": "LIGHT_BLUE",
-          "sprite": 2
-        },
-        {
-          "color": "VIOLET",
-          "sprite": 2
-        }
-      ],
-      [
-        {
-          "color": "VIOLET",
-          "sprite": 1
-        },
-        {
-          "color": "BLUE",
-          "sprite": 1
-        },
-        {
-          "color": "GREEN",
-          "sprite": 1
-        },
-        {
-          "color": "BLUE",
-          "sprite": 1
-        },
-        {
-          "color": "WHITE",
-          "sprite": 2
-        },
-        {
-          "color": "GREEN",
-          "sprite": 2
         },
         {
           "color": "VIOLET",
@@ -994,21 +872,33 @@
           "sprite": 2
         },
         {
-          "color": "LIGHT_BLUE",
-          "sprite": 2
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
         }
       ],
       [
         {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
           "color": "LIGHT_BLUE",
           "sprite": 2
         },
         {
-          "color": "WHITE",
-          "sprite": 2
-        },
-        {
-          "color": "YELLOW",
+          "color": "LIGHT_BLUE",
           "sprite": 2
         },
         {
@@ -1020,15 +910,11 @@
           "sprite": 2
         },
         {
-          "color": "VIOLET",
+          "color": "YELLOW",
           "sprite": 1
         },
         {
-          "color": "YELLOW",
-          "sprite": 2
-        },
-        {
-          "color": "VIOLET",
+          "color": "INVALID",
           "sprite": 1
         },
         {
@@ -1037,6 +923,204 @@
         }
       ],
       [
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "VIOLET",
+          "sprite": 2
+        },
+        {
+          "color": "VIOLET",
+          "sprite": 2
+        },
+        {
+          "color": "YELLOW",
+          "sprite": 1
+        },
+        {
+          "color": "LIGHT_BLUE",
+          "sprite": 1
+        },
+        {
+          "color": "VIOLET",
+          "sprite": 2
+        },
+        {
+          "color": "LIGHT_BLUE",
+          "sprite": 2
+        },
+        {
+          "color": "LIGHT_BLUE",
+          "sprite": 2
+        },
+        {
+          "color": "WHITE",
+          "sprite": 1
+        }
+      ],
+      [
+        {
+          "color": "LIGHT_BLUE",
+          "sprite": 2
+        },
+        {
+          "color": "YELLOW",
+          "sprite": 1
+        },
+        {
+          "color": "BLUE",
+          "sprite": 2
+        },
+        {
+          "color": "BLUE",
+          "sprite": 1
+        },
+        {
+          "color": "VIOLET",
+          "sprite": 2
+        },
+        {
+          "color": "BLUE",
+          "sprite": 1
+        },
+        {
+          "color": "WHITE",
+          "sprite": 1
+        },
+        {
+          "color": "WHITE",
+          "sprite": 2
+        },
+        {
+          "color": "BLUE",
+          "sprite": 1
+        }
+      ],
+      [
+        {
+          "color": "YELLOW",
+          "sprite": 1
+        },
+        {
+          "color": "VIOLET",
+          "sprite": 1
+        },
+        {
+          "color": "GREEN",
+          "sprite": 2
+        },
+        {
+          "color": "BLUE",
+          "sprite": 2
+        },
+        {
+          "color": "WHITE",
+          "sprite": 2
+        },
+        {
+          "color": "VIOLET",
+          "sprite": 1
+        },
+        {
+          "color": "YELLOW",
+          "sprite": 2
+        },
+        {
+          "color": "LIGHT_BLUE",
+          "sprite": 2
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        }
+      ],
+      [
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "GREEN",
+          "sprite": 1
+        },
+        {
+          "color": "YELLOW",
+          "sprite": 1
+        },
+        {
+          "color": "WHITE",
+          "sprite": 2
+        },
+        {
+          "color": "BLUE",
+          "sprite": 1
+        },
+        {
+          "color": "LIGHT_BLUE",
+          "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        }
+      ],
+      [
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "VIOLET",
+          "sprite": 2
+        },
+        {
+          "color": "VIOLET",
+          "sprite": 2
+        },
+        {
+          "color": "GREEN",
+          "sprite": 2
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        }
+      ],
+      [
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
         {
           "color": "INVALID",
           "sprite": 1
@@ -1047,94 +1131,10 @@
         },
         {
           "color": "BLUE",
-          "sprite": 1
-        },
-        {
-          "color": "LIGHT_BLUE",
-          "sprite": 2
-        },
-        {
-          "color": "YELLOW",
-          "sprite": 1
-        },
-        {
-          "color": "WHITE",
           "sprite": 2
         },
         {
           "color": "WHITE",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        }
-      ],
-      [
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "VIOLET",
-          "sprite": 2
-        },
-        {
-          "color": "WHITE",
-          "sprite": 1
-        },
-        {
-          "color": "WHITE",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        }
-      ],
-      [
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "VIOLET",
-          "sprite": 2
-        },
-        {
-          "color": "VIOLET",
           "sprite": 2
         },
         {
@@ -1176,30 +1176,6 @@
       },
       {
         "color": "BLUE",
-        "sprite": 2
-      },
-      {
-        "color": "BLUE",
-        "sprite": 1
-      },
-      {
-        "color": "BLUE",
-        "sprite": 2
-      },
-      {
-        "color": "BLUE",
-        "sprite": 1
-      },
-      {
-        "color": "BLUE",
-        "sprite": 1
-      },
-      {
-        "color": "BLUE",
-        "sprite": 1
-      },
-      {
-        "color": "BLUE",
         "sprite": 1
       },
       {
@@ -1224,6 +1200,10 @@
       },
       {
         "color": "BLUE",
+        "sprite": 1
+      },
+      {
+        "color": "BLUE",
         "sprite": 2
       },
       {
@@ -1231,8 +1211,16 @@
         "sprite": 2
       },
       {
-        "color": "GREEN",
+        "color": "BLUE",
         "sprite": 1
+      },
+      {
+        "color": "BLUE",
+        "sprite": 1
+      },
+      {
+        "color": "BLUE",
+        "sprite": 2
       },
       {
         "color": "GREEN",
@@ -1244,11 +1232,7 @@
       },
       {
         "color": "GREEN",
-        "sprite": 2
-      },
-      {
-        "color": "GREEN",
-        "sprite": 2
+        "sprite": 1
       },
       {
         "color": "GREEN",
@@ -1257,6 +1241,18 @@
       {
         "color": "GREEN",
         "sprite": 1
+      },
+      {
+        "color": "GREEN",
+        "sprite": 1
+      },
+      {
+        "color": "GREEN",
+        "sprite": 1
+      },
+      {
+        "color": "GREEN",
+        "sprite": 2
       },
       {
         "color": "GREEN",
@@ -1300,18 +1296,6 @@
       },
       {
         "color": "WHITE",
-        "sprite": 2
-      },
-      {
-        "color": "WHITE",
-        "sprite": 2
-      },
-      {
-        "color": "WHITE",
-        "sprite": 1
-      },
-      {
-        "color": "WHITE",
         "sprite": 1
       },
       {
@@ -1328,7 +1312,15 @@
       },
       {
         "color": "WHITE",
+        "sprite": 1
+      },
+      {
+        "color": "WHITE",
         "sprite": 2
+      },
+      {
+        "color": "WHITE",
+        "sprite": 1
       },
       {
         "color": "WHITE",
@@ -1347,43 +1339,19 @@
         "sprite": 1
       },
       {
-        "color": "LIGHT_BLUE",
+        "color": "WHITE",
+        "sprite": 2
+      },
+      {
+        "color": "WHITE",
         "sprite": 1
       },
       {
-        "color": "LIGHT_BLUE",
+        "color": "WHITE",
         "sprite": 1
       },
       {
-        "color": "LIGHT_BLUE",
-        "sprite": 2
-      },
-      {
-        "color": "LIGHT_BLUE",
-        "sprite": 2
-      },
-      {
-        "color": "LIGHT_BLUE",
-        "sprite": 2
-      },
-      {
-        "color": "LIGHT_BLUE",
-        "sprite": 1
-      },
-      {
-        "color": "LIGHT_BLUE",
-        "sprite": 2
-      },
-      {
-        "color": "LIGHT_BLUE",
-        "sprite": 2
-      },
-      {
-        "color": "LIGHT_BLUE",
-        "sprite": 1
-      },
-      {
-        "color": "LIGHT_BLUE",
+        "color": "WHITE",
         "sprite": 2
       },
       {
@@ -1400,15 +1368,63 @@
       },
       {
         "color": "LIGHT_BLUE",
-        "sprite": 2
+        "sprite": 1
       },
       {
         "color": "LIGHT_BLUE",
         "sprite": 2
       },
       {
+        "color": "LIGHT_BLUE",
+        "sprite": 1
+      },
+      {
+        "color": "LIGHT_BLUE",
+        "sprite": 1
+      },
+      {
+        "color": "LIGHT_BLUE",
+        "sprite": 1
+      },
+      {
+        "color": "LIGHT_BLUE",
+        "sprite": 2
+      },
+      {
+        "color": "LIGHT_BLUE",
+        "sprite": 1
+      },
+      {
+        "color": "LIGHT_BLUE",
+        "sprite": 1
+      },
+      {
+        "color": "LIGHT_BLUE",
+        "sprite": 1
+      },
+      {
         "color": "YELLOW",
         "sprite": 2
+      },
+      {
+        "color": "YELLOW",
+        "sprite": 1
+      },
+      {
+        "color": "YELLOW",
+        "sprite": 2
+      },
+      {
+        "color": "YELLOW",
+        "sprite": 1
+      },
+      {
+        "color": "YELLOW",
+        "sprite": 1
+      },
+      {
+        "color": "YELLOW",
+        "sprite": 1
       },
       {
         "color": "YELLOW",
@@ -1428,18 +1444,6 @@
       },
       {
         "color": "YELLOW",
-        "sprite": 1
-      },
-      {
-        "color": "YELLOW",
-        "sprite": 1
-      },
-      {
-        "color": "YELLOW",
-        "sprite": 1
-      },
-      {
-        "color": "YELLOW",
         "sprite": 2
       },
       {
@@ -1460,10 +1464,26 @@
       },
       {
         "color": "YELLOW",
+        "sprite": 2
+      },
+      {
+        "color": "VIOLET",
+        "sprite": 2
+      },
+      {
+        "color": "VIOLET",
+        "sprite": 2
+      },
+      {
+        "color": "VIOLET",
+        "sprite": 2
+      },
+      {
+        "color": "VIOLET",
         "sprite": 1
       },
       {
-        "color": "YELLOW",
+        "color": "VIOLET",
         "sprite": 1
       },
       {
@@ -1484,14 +1504,6 @@
       },
       {
         "color": "VIOLET",
-        "sprite": 2
-      },
-      {
-        "color": "VIOLET",
-        "sprite": 2
-      },
-      {
-        "color": "VIOLET",
         "sprite": 1
       },
       {
@@ -1504,25 +1516,13 @@
       },
       {
         "color": "VIOLET",
-        "sprite": 1
-      },
-      {
-        "color": "VIOLET",
-        "sprite": 1
-      },
-      {
-        "color": "VIOLET",
-        "sprite": 1
-      },
-      {
-        "color": "VIOLET",
-        "sprite": 1
+        "sprite": 2
       }
     ]
   },
   "commonObjsCreated": [
-    7,
-    9
+    10,
+    8
   ],
   "personalObjs": [
     {
@@ -1530,6 +1530,114 @@
         {
           "position": {
             "x": 0,
+            "y": 0
+          },
+          "color": "VIOLET"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 3
+          },
+          "color": "YELLOW"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 0
+          },
+          "color": "BLUE"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 5
+          },
+          "color": "LIGHT_BLUE"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 2
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 1
+          },
+          "color": "GREEN"
+        }
+      ],
+      "pointsForCompletion": [
+        1,
+        2,
+        4,
+        6,
+        9,
+        12
+      ]
+    },
+    {
+      "personalObjective": [
+        {
+          "position": {
+            "x": 0,
+            "y": 2
+          },
+          "color": "GREEN"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 1
+          },
+          "color": "VIOLET"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 2
+          },
+          "color": "YELLOW"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 4
+          },
+          "color": "LIGHT_BLUE"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 3
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 5
+          },
+          "color": "BLUE"
+        }
+      ],
+      "pointsForCompletion": [
+        1,
+        2,
+        4,
+        6,
+        9,
+        12
+      ]
+    },
+    {
+      "personalObjective": [
+        {
+          "position": {
+            "x": 0,
             "y": 1
           },
           "color": "BLUE"
@@ -1640,222 +1748,6 @@
             "x": 0,
             "y": 5
           },
-          "color": "VIOLET"
-        },
-        {
-          "position": {
-            "x": 1,
-            "y": 4
-          },
-          "color": "YELLOW"
-        },
-        {
-          "position": {
-            "x": 2,
-            "y": 0
-          },
-          "color": "LIGHT_BLUE"
-        },
-        {
-          "position": {
-            "x": 3,
-            "y": 2
-          },
-          "color": "WHITE"
-        },
-        {
-          "position": {
-            "x": 3,
-            "y": 4
-          },
-          "color": "BLUE"
-        },
-        {
-          "position": {
-            "x": 4,
-            "y": 0
-          },
-          "color": "GREEN"
-        }
-      ],
-      "pointsForCompletion": [
-        1,
-        2,
-        4,
-        6,
-        9,
-        12
-      ]
-    },
-    {
-      "personalObjective": [
-        {
-          "position": {
-            "x": 0,
-            "y": 3
-          },
-          "color": "VIOLET"
-        },
-        {
-          "position": {
-            "x": 1,
-            "y": 1
-          },
-          "color": "GREEN"
-        },
-        {
-          "position": {
-            "x": 2,
-            "y": 2
-          },
-          "color": "LIGHT_BLUE"
-        },
-        {
-          "position": {
-            "x": 3,
-            "y": 4
-          },
-          "color": "WHITE"
-        },
-        {
-          "position": {
-            "x": 3,
-            "y": 5
-          },
-          "color": "YELLOW"
-        },
-        {
-          "position": {
-            "x": 4,
-            "y": 0
-          },
-          "color": "BLUE"
-        }
-      ],
-      "pointsForCompletion": [
-        1,
-        2,
-        4,
-        6,
-        9,
-        12
-      ]
-    },
-    {
-      "personalObjective": [
-        {
-          "position": {
-            "x": 0,
-            "y": 5
-          },
-          "color": "BLUE"
-        },
-        {
-          "position": {
-            "x": 1,
-            "y": 4
-          },
-          "color": "LIGHT_BLUE"
-        },
-        {
-          "position": {
-            "x": 2,
-            "y": 0
-          },
-          "color": "YELLOW"
-        },
-        {
-          "position": {
-            "x": 2,
-            "y": 2
-          },
-          "color": "GREEN"
-        },
-        {
-          "position": {
-            "x": 4,
-            "y": 3
-          },
-          "color": "WHITE"
-        },
-        {
-          "position": {
-            "x": 4,
-            "y": 4
-          },
-          "color": "VIOLET"
-        }
-      ],
-      "pointsForCompletion": [
-        1,
-        2,
-        4,
-        6,
-        9,
-        12
-      ]
-    },
-    {
-      "personalObjective": [
-        {
-          "position": {
-            "x": 0,
-            "y": 2
-          },
-          "color": "WHITE"
-        },
-        {
-          "position": {
-            "x": 1,
-            "y": 1
-          },
-          "color": "YELLOW"
-        },
-        {
-          "position": {
-            "x": 1,
-            "y": 4
-          },
-          "color": "BLUE"
-        },
-        {
-          "position": {
-            "x": 3,
-            "y": 3
-          },
-          "color": "GREEN"
-        },
-        {
-          "position": {
-            "x": 3,
-            "y": 5
-          },
-          "color": "VIOLET"
-        },
-        {
-          "position": {
-            "x": 4,
-            "y": 0
-          },
-          "color": "LIGHT_BLUE"
-        }
-      ],
-      "pointsForCompletion": [
-        1,
-        2,
-        4,
-        6,
-        9,
-        12
-      ]
-    },
-    {
-      "personalObjective": [
-        {
-          "position": {
-            "x": 0,
-            "y": 2
-          },
           "color": "YELLOW"
         },
         {
@@ -1863,35 +1755,89 @@
             "x": 1,
             "y": 1
           },
-          "color": "WHITE"
+          "color": "LIGHT_BLUE"
         },
         {
           "position": {
-            "x": 2,
-            "y": 0
-          },
-          "color": "VIOLET"
-        },
-        {
-          "position": {
-            "x": 2,
+            "x": 1,
             "y": 3
           },
           "color": "BLUE"
         },
         {
           "position": {
+            "x": 2,
+            "y": 3
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
             "x": 3,
             "y": 5
           },
-          "color": "LIGHT_BLUE"
+          "color": "GREEN"
         },
         {
           "position": {
             "x": 4,
             "y": 4
           },
+          "color": "VIOLET"
+        }
+      ],
+      "pointsForCompletion": [
+        1,
+        2,
+        4,
+        6,
+        9,
+        12
+      ]
+    },
+    {
+      "personalObjective": [
+        {
+          "position": {
+            "x": 0,
+            "y": 0
+          },
           "color": "GREEN"
+        },
+        {
+          "position": {
+            "x": 0,
+            "y": 3
+          },
+          "color": "LIGHT_BLUE"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 2
+          },
+          "color": "VIOLET"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 5
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 1
+          },
+          "color": "BLUE"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 4
+          },
+          "color": "YELLOW"
         }
       ],
       "pointsForCompletion": [
@@ -1910,26 +1856,73 @@
             "x": 0,
             "y": 5
           },
-          "color": "GREEN"
+          "color": "BLUE"
         },
         {
           "position": {
             "x": 1,
-            "y": 1
+            "y": 4
           },
-          "color": "VIOLET"
+          "color": "LIGHT_BLUE"
         },
         {
           "position": {
             "x": 2,
             "y": 0
           },
-          "color": "WHITE"
+          "color": "YELLOW"
         },
         {
           "position": {
             "x": 2,
             "y": 2
+          },
+          "color": "GREEN"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 3
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 4
+          },
+          "color": "VIOLET"
+        }
+      ],
+      "pointsForCompletion": [
+        1,
+        2,
+        4,
+        6,
+        9,
+        12
+      ]
+    },
+    {
+      "personalObjective": [
+        {
+          "position": {
+            "x": 0,
+            "y": 2
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 1
+          },
+          "color": "YELLOW"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 4
           },
           "color": "BLUE"
         },
@@ -1938,14 +1931,21 @@
             "x": 3,
             "y": 3
           },
-          "color": "LIGHT_BLUE"
+          "color": "GREEN"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 5
+          },
+          "color": "VIOLET"
         },
         {
           "position": {
             "x": 4,
-            "y": 4
+            "y": 0
           },
-          "color": "YELLOW"
+          "color": "LIGHT_BLUE"
         }
       ],
       "pointsForCompletion": [

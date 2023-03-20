@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.Library;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.constants.AppConstants;
+import it.polimi.ingsw.model.utilities.UtilityFunctions;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import static it.polimi.ingsw.model.utilities.UtilityFunctions.findGroupContaini
 /**
  * This class implements the first common objective: six group of two cards of the same color (different groups can have different colors)
  */
-public class CommonObjective1 extends CommonObjective{
+public class CommonObjective1 extends CommonObjective {
 
     /**
      * This method evaluate if the current player's library satisfies the common objective
@@ -24,30 +25,23 @@ public class CommonObjective1 extends CommonObjective{
     public boolean evaluate(Library x) {
         Library copy = new Library(x);
 
-        // variable used to store each group and to count how many groups of two cards it contains
-        List<Position> group;
-
         // counter for group of two cards
         int groupNum = 0;
 
-        // foreach Card in library find the group containing it and analyze the group to find how many groups of two cards it contains
+        // foreach card in library look if its part of a group and return the group dimension
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
-                group = findGroupContainingGivenPosition(copy, new Position(j, i));
+                // select the current card
+                Card c = copy.getCard(new Position(j, i));
+
+                // execute the algorithm only if the current card is not empty
+                if (!c.isEmpty()) {
+                    // find the dimension of the group of which c is part and add 1 if the group is made of 4 or more cards
+                    groupNum += UtilityFunctions.findGroupSize(copy, new Position(j, i)) >= 2 ? 1 : 0;
+                }
             }
         }
 
         return groupNum >= 6;
-    }
-
-    /**
-     * This is a private method used by the evaluate method to check if two card have the same color
-     *
-     * @param c1 the first card
-     * @param c2 the second card
-     * @return true if c1 has the same color of c2
-     */
-    private boolean sameColor (Card c1, Card c2) {
-        return c1.getColor().equals(c2.getColor());
     }
 }

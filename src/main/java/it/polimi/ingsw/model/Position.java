@@ -43,4 +43,17 @@ public class Position {
     public int y() {
         return y;
     }
+
+    /**
+     * this method overrides the method equals. it assumes that two positions are equals if they have the same x and y values;
+     * if the parameter isn't a position, the method return false
+     * @param obj
+     * @return a boolean
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Position)) return false;
+        Position position = (Position) obj;
+        return this.x == position.x && this.y == position.y;
+    }
 }

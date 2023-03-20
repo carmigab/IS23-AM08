@@ -91,6 +91,8 @@ class CommonObjective1Test {
         lib.add(cBlue, 1);
         lib.add(cGreen, 2);
         lib.add(cBlue, 2);
+        lib.add(cViolet, 3);
+        lib.add(cViolet, 3);
         lib.add(cYellow, 4);
         lib.add(cYellow, 4);
         lib.add(cViolet, 4);

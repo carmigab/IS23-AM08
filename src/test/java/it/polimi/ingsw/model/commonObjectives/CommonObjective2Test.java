@@ -45,7 +45,7 @@ class CommonObjective2Test {
         lib.add(cViolet, 4);
         assertFalse(co2.evaluate(lib));
 
-        // add other cards to create 4 groups of 4 cards but two of them are of the same color and adjacent
+        // add other cards to create 4 groups of 4 cards
         lib.add(cBlue, 0);
         lib.add(cGreen, 2);
         lib.add(cGreen, 3);
@@ -57,7 +57,7 @@ class CommonObjective2Test {
         lib.add(cWhite, 3);
         assertTrue(co2.evaluate(lib));
 
-        // try with two group of four of the same color and adjacent to assure the method count them as 2 groups and not as 1
+        // try with two group of four of the same color and adjacent to assure the method count them as 1 group and not as 2
         lib = new Library();
         lib.add(cBlue, 0);
         lib.add(cGreen, 1);
@@ -75,6 +75,6 @@ class CommonObjective2Test {
         lib.add(cViolet, 2);
         lib.add(cViolet, 3);
         lib.add(cViolet, 3);
-        assertTrue(co2.evaluate(lib));
+        assertFalse(co2.evaluate(lib));
     }
 }

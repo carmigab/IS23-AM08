@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 /**
  * SINGLETON
  */
-public class JsonLoader {
+public class JsonSingleton {
     /**
      *
      */
@@ -14,14 +14,14 @@ public class JsonLoader {
     /**
      *
      */
-    private JsonLoader(){}
+    private JsonSingleton(){}
 
     /**
      *
      */
-    public static Gson getJsonLoader(){
+    public static Gson getJsonSingleton(){
         if(json==null) json=new Gson();
-        
+
         return json;
     }
 }

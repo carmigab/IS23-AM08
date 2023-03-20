@@ -20,7 +20,7 @@ public class CommonObjective2 extends CommonObjective{
     public boolean evaluate(Library x) {
         Library copy = new Library(x);
 
-        // counter for group of two cards
+        // counter for group of four cards
         int groupNum = 0;
 
         // foreach card in library look if its part of a group and return the group dimension
@@ -31,8 +31,8 @@ public class CommonObjective2 extends CommonObjective{
 
                 // execute the algorithm only if the current card is not empty
                 if (!c.isEmpty()) {
-                    // find the dimension of the group of which c is part and return its dimension divided by 4
-                    groupNum += UtilityFunctions.findGroupSize(copy, new Position(j, i)) / 4;
+                    // find the dimension of the group of which c is part and add 1 if the group is made of 4 or more cards
+                    groupNum += UtilityFunctions.findGroupSize(copy, new Position(j, i)) >= 4 ? 1 : 0;
                 }
             }
         }

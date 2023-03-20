@@ -5,7 +5,8 @@ import it.polimi.ingsw.model.constants.BoardConstants;
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.exceptions.NoMoreCardsAtStartFillBoardException;
 import it.polimi.ingsw.model.exceptions.NoMoreCardsToFillBoardException;
-import it.polimi.ingsw.model.utilities.JsonLoader;
+import it.polimi.ingsw.model.utilities.JsonSingleton;
+import it.polimi.ingsw.model.utilities.RandomSingleton;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -31,10 +32,6 @@ public final class GameBoard {
      * List of all the 132 cards that can be found in the game "bucket"
      */
     private final List<Card> allCards;
-    /**
-     * Attribute from the java.util.package used for utility, such as choosing a random card from the bucket when filling the board
-     */
-    private final Random r;
 
     /**
      * This method is the utility used by the GameModel to get the gameBoard based on the number of players
@@ -59,8 +56,7 @@ public final class GameBoard {
         commonObjectives=new ArrayList<>(BoardConstants.TOTAL_CO_PER_GAME);
         commonObjectives.addAll(co);
         allCards=new ArrayList<>(BoardConstants.TOTAL_CARDS);
-        r=new Random();
-        Gson jsonParser= JsonLoader.getJsonLoader();
+        Gson jsonParser= JsonSingleton.getJsonSingleton();
         Reader fileReader = null;
         try {
             fileReader = new FileReader(typeOfBoard);
@@ -88,9 +84,10 @@ public final class GameBoard {
                 CardColor.YELLOW,
                 CardColor.VIOLET
         };
+        Random r= RandomSingleton.getRandomSingleton();
         for(int j=0; j<BoardConstants.TOTAL_COLORS;j++){
             for(int i=0; i<BoardConstants.TOTAL_CARDS_PER_COLOR; i++){
-                allCards.add(new Card(allColors[j],this.r.nextInt(2)+1));
+                allCards.add(new Card(allColors[j],r.nextInt(2)+1));
             }
         }
     }
@@ -101,9 +98,10 @@ public final class GameBoard {
      * @param validPositions integer matrix loaded from the json config file containing the information of a valid position
      */
     private void initialGameBoardFill(Integer[][] validPositions){
+        Random r= RandomSingleton.getRandomSingleton();
         for(int y=0; y<BoardConstants.BOARD_DIMENSION; y++){
             for(int x=0; x<BoardConstants.BOARD_DIMENSION; x++){
-                if(validPositions[y][x]==1) myGameBoard[y][x]=new Card(allCards.remove(this.r.nextInt(allCards.size())));
+                if(validPositions[y][x]==1) myGameBoard[y][x]=new Card(allCards.remove(r.nextInt(allCards.size())));
                 else myGameBoard[y][x]=new Card(CardColor.INVALID,1);
             }
         }
@@ -121,10 +119,11 @@ public final class GameBoard {
     public void fillBoard() throws NoMoreCardsAtStartFillBoardException, NoMoreCardsToFillBoardException {
         if(allCards.size()==0) throw new NoMoreCardsAtStartFillBoardException();
 
+        Random r= RandomSingleton.getRandomSingleton();
         for(int y=0;y<BoardConstants.BOARD_DIMENSION;y++){
             for(int x=0;x<BoardConstants.BOARD_DIMENSION;x++){
                 if(!myGameBoard[y][x].isInvalid() && myGameBoard[y][x].isEmpty()){
-                    myGameBoard[y][x]=new Card(allCards.remove(this.r.nextInt(allCards.size())));
+                    myGameBoard[y][x]=new Card(allCards.remove(r.nextInt(allCards.size())));
                     if(allCards.size()==0) throw new NoMoreCardsToFillBoardException();
                 }
             }

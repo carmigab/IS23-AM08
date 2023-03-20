@@ -4,16 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="created and tested CommonObjective8, created CommonObjective4 but need changes and test">
-      <change afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective4Test.java" afterDir="false" />
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="fixed gameboard test, now works fine">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/config/model/fileToSave.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/config/model/fileToSave.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Position.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective4.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonObjectives/CommonObjective4.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective1Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective1Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective2Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective2Test.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +74,7 @@
       <recent name="it.polimi.ingsw" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.CommonObjective4Test">
+  <component name="RunManager" selected="JUnit.All tests">
     <configuration name="All tests" type="JUnit" factoryName="JUnit">
       <module name="AM08" />
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
@@ -120,27 +113,6 @@
       </extension>
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonObjectives" />
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonObjectives.CommonObjective2Test" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CommonObjective3Test" type="JUnit" factoryName="JUnit">
-      <module name="AM08" />
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonObjectives" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonObjectives.CommonObjective3Test" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CommonObjective4Test" type="JUnit" factoryName="JUnit">
-      <module name="AM08" />
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonObjectives" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonObjectives.CommonObjective4Test" />
-      <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -302,11 +274,9 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.CommonObjective3Test" />
       <item itemvalue="JUnit.CommonObjective1Test" />
       <item itemvalue="JUnit.CommonObjective2Test" />
       <item itemvalue="JUnit.LibraryTest" />
-      <item itemvalue="JUnit.CommonObjective4Test" />
       <item itemvalue="JUnit.CommonObjective5Test" />
       <item itemvalue="JUnit.CommonObjective6Test" />
       <item itemvalue="JUnit.CommonObjective7Test" />
@@ -342,9 +312,6 @@
       <workItem from="1678868479103" duration="674000" />
       <workItem from="1678910011469" duration="1440000" />
       <workItem from="1678954028114" duration="1414000" />
-      <workItem from="1679126727781" duration="10002000" />
-      <workItem from="1679237840334" duration="2717000" />
-      <workItem from="1679297110530" duration="2202000" />
     </task>
     <task id="LOCAL-00001" summary="minor fixes &amp; player state tests">
       <created>1678896857551</created>
@@ -430,12 +397,12 @@
       <option name="project" value="LOCAL" />
       <updated>1679166710259</updated>
     </task>
-    <task id="LOCAL-00013" summary="created and tested CommonObjective8, created CommonObjective4 but need changes and test">
-      <created>1679141452578</created>
+    <task id="LOCAL-00013" summary="Common Objective 9, 10 and Test minor fixes">
+      <created>1679167080276</created>
       <option name="number" value="00013" />
       <option name="presentableId" value="LOCAL-00013" />
       <option name="project" value="LOCAL" />
-      <updated>1679141452578</updated>
+      <updated>1679167080276</updated>
     </task>
     <task id="LOCAL-00014" summary="added common objective creation and fixed minor issue in singleobjective test">
       <created>1679219121191</created>
@@ -451,7 +418,7 @@
       <option name="project" value="LOCAL" />
       <updated>1679219347169</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -496,18 +463,20 @@
     <MESSAGE value="Common Objective 9, 10 and Test minor fixes" />
     <MESSAGE value="added common objective creation and fixed minor issue in singleobjective test" />
     <MESSAGE value="fixed gameboard test, now works fine" />
-    <MESSAGE value="created and tested CommonObjective7" />
-    <MESSAGE value="readme todo table updated" />
-    <MESSAGE value="created and tested CommonObjective8, created CommonObjective4 but need changes and test" />
-    <option name="LAST_COMMIT_MESSAGE" value="created and tested CommonObjective8, created CommonObjective4 but need changes and test" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed gameboard test, now works fine" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonObjectives/CommonObjective4Test.java</url>
-          <line>55</line>
+          <url>file://$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java</url>
+          <line>221</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java</url>
+          <line>230</line>
+          <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -523,8 +492,6 @@
         <watch expression="((java.util.ArrayList)((GameModel)this).playerList).get(3)" custom="it.polimi.ingsw.model.GameModel,java.util.ArrayList" />
         <watch expression="((java.util.ArrayList)((GameModel)this).playerList).get(3)" custom="it.polimi.ingsw.model.GameModel,java.util.ArrayList" />
         <watch expression="((java.util.ArrayList)((GameModel)this).playerList).get(3)" custom="it.polimi.ingsw.model.GameModel,java.util.ArrayList" />
-        <watch expression="position" />
-        <watch expression="group.get(3)" />
       </configuration>
     </watches-manager>
   </component>

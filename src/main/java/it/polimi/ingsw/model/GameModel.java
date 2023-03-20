@@ -43,6 +43,15 @@ public class GameModel {
      * this attribute is used to indicate that the current turn is the last turn of the match;
      */
     private Boolean isLastTurn;
+    /**
+     * this attribute is used to indicate the end of the game;
+     */
+    private boolean endGame;
+
+    /**
+     * this attribute represents the final leaderboard of the game
+     */
+    private List<PlayerState> leaderBoard;
 
     /**
      * TODO: initialize gameboard
@@ -58,6 +67,7 @@ public class GameModel {
         personalObjs = new ArrayList<>(AppConstants.TOTAL_OBJECTIVES);
         this.currentPlayer = 0;
         this.isLastTurn = false;
+        this.endGame = false;
         initializePlayers(nicknames);
     }
 
@@ -144,7 +154,7 @@ public class GameModel {
 
     public boolean checkValidMove(List<Position> pos){
         for(int i=0; i<pos.size()-1; i++){
-           if(pos.get(i).x() != pos.get(i+1).x()) return false;
+            if(pos.get(i).x() != pos.get(i+1).x()) return false;
         }
         for(int i=0; i<pos.size()-1; i++){
             if(pos.get(i).y() != pos.get(i+1).y()) return false;
@@ -157,7 +167,6 @@ public class GameModel {
     }
 
     //checkValidColumn postponed because maybe we will use an exception
-    //all method evaluate postponed because i wait the push of algorithms calculating common and personal objective
 
     /**
      * this method is used to check if the game board has to be filled; it calls the method hasToBeFilled of the class
@@ -167,22 +176,6 @@ public class GameModel {
     private boolean boardToBeFilled(){
         return this.gameBoard.hasToBeFilled();
     }
-
-    public String getWinner(){
-        String tempString = new String();
-        int tempInt = 0;
-        for(PlayerState player : playerList){
-            if(player.getPoints()> tempInt){
-                tempInt = player.getPoints();
-                tempString = player.getNickname();
-            }
-            //non corretto : manca il caso in cui ho lo stesso punteggio : in quel caso vince il
-            //più "lontano"
-        }
-        return tempString;
-
-    }
-
 
     /**
      * This method updates the score of the current player
@@ -215,9 +208,53 @@ public class GameModel {
         }
     }
 
+    /**
+     * this method creates the final leaderBoard of the match. if two players have the same points, the player who is
+     * farther from the first player will be higher in the leaderboard
+     */
+    private void createLeaderBoard(){
+        List<PlayerState> temp = new ArrayList<>(playerList);
+        leaderBoard = new ArrayList<>(numPlayers);
+        Collections.sort(temp, (p1, p2) -> {
+            return Integer.compare(p1.getPoints(), p2.getPoints());
+        });
+        for(int i=temp.size()-1; i>=0;i--){
+            playerList.add(temp.get(i));
+        }
+    }
 
+    /**
+     * ths method return the final leaderboard of the match
+     * @return the final leaderboard of the match;
+     */
+    public List<PlayerState> getLeaderBoard() {
+        return leaderBoard;
+    }
 
+    /**
+     * this method is used to update the currentPlayer and evaluate the points of the currentPlayer; the currentPlayer
+     * is finished his turn;
+     */
+    public void nextTurn(){
+        this.evaluatePoints();
+        if(!this.isLastTurn){
+            this.currentPlayer = (this.currentPlayer + 1) % this.numPlayers;
+            if(this.boardToBeFilled()){
+                //this.gameBoard.fillBoard();    bisogna gestire le eccezioni
+            }
+        }
+        else{
+            if(this.currentPlayer == this.numPlayers - 1){
+                //endgame
+            }
+            else{
+                this.currentPlayer++;
+                if(this.boardToBeFilled()){
+                    //this.gameBoard.fillBoard();    bisogna gestire le eccezioni
+                }
 
-    //GetWinner: prende tutti i punteggi dei giocatori e ritorna il nome di quello che ha più punti;
-    //NextTurn : prima facciamo il controller
+            }
+        }
+    }
+
 }

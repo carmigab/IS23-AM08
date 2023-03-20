@@ -27,4 +27,18 @@ public class PositionTest {
     void getY() {
         assertEquals(5, p.y());
     }
+
+    /**
+     * this method tests the equals method of the Position class
+     */
+    @Test
+    void equals(){
+        Position p= new Position(5,5);
+        String s = new String();
+        assertFalse(p.equals(s));
+        Position p1 = new Position(5,5);
+        assertTrue(p.equals(p1));
+        Position p2 = new Position(4,5);
+        assertFalse(p.equals(p2));
+    }
 }

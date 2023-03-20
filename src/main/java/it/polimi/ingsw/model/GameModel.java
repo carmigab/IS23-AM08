@@ -152,6 +152,11 @@ public class GameModel {
         }
     }
 
+    /**
+     * this method is used to verify if the move done by the current player is correct
+     * @param pos list of the position of the cards taken by the player from the game board
+     * @return true if the move is valid, false if the move isn't valid
+     */
     public boolean checkValidMove(List<Position> pos){
         for(int i=0; i<pos.size()-1; i++){
             if(pos.get(i).x() != pos.get(i+1).x()) return false;
@@ -166,7 +171,15 @@ public class GameModel {
         return true;
     }
 
-    //checkValidColumn postponed because maybe we will use an exception
+    /**
+     * this method is used to verify if the column col has free spaces to put the cards taken from the game board
+     * @param col column where the player wants to put the cards
+     * @param numCards number of cards taken by the player from the game board
+     * @return true if there is space in the column, false if there isn't space in the column
+     */
+    public boolean checkValidColumn(int col, int numCards){
+        return this.playerList.get(this.currentPlayer).getLibrary().getFreeSpaces(col) >= numCards;
+    }
 
     /**
      * this method is used to check if the game board has to be filled; it calls the method hasToBeFilled of the class
@@ -219,7 +232,7 @@ public class GameModel {
             return Integer.compare(p1.getPoints(), p2.getPoints());
         });
         for(int i=temp.size()-1; i>=0;i--){
-            playerList.add(temp.get(i));
+            leaderBoard.add(temp.get(i));
         }
     }
 

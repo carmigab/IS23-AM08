@@ -215,11 +215,11 @@ public class GameModel {
     private void createLeaderBoard(){
         List<PlayerState> temp = new ArrayList<>(playerList);
         leaderBoard = new ArrayList<>(numPlayers);
-        Collections.sort(temp, (p1, p2) -> {
+        Collections.sort(temp, (p1, p2) -> {                        // sort() preserves the order
             return Integer.compare(p1.getPoints(), p2.getPoints());
         });
         for(int i=temp.size()-1; i>=0;i--){
-            playerList.add(temp.get(i));
+            leaderBoard.add(temp.get(i));
         }
     }
 

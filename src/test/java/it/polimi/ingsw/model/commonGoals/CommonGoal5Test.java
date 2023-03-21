@@ -19,7 +19,7 @@ class CommonGoal5Test {
      */
     @Test
     void evaluate() {
-        Shelf library = new Shelf();
+        Shelf shelf = new Shelf();
 
         // cards use to fill the library
         Tile cardBlue = new Tile(TileColor.BLUE, 0);
@@ -28,45 +28,45 @@ class CommonGoal5Test {
         Tile cardViolet = new Tile(TileColor.VIOLET, 0);
 
         // check if the method does not count empty column as valid columns
-        assertFalse(cg5.evaluate(library));
+        assertFalse(cg5.evaluate(shelf));
 
         // insert some cards in the library but without filling any column
         for (int i = 0; i < 3; i++) {
-            library.add(cardBlue, 0);
+            shelf.add(cardBlue, 0);
         }
         for (int i = 0; i < 3; i++) {
-            library.add(cardYellow, 2);
+            shelf.add(cardYellow, 2);
         }
         for (int i = 0; i < 2; i++) {
-            library.add(cardWhite, 4);
+            shelf.add(cardWhite, 4);
         }
-        assertFalse(cg5.evaluate(library));
+        assertFalse(cg5.evaluate(shelf));
 
         // fill one entire column
         for (int i = 0; i < 3; i++) {
-            library.add(cardBlue, 0);
+            shelf.add(cardBlue, 0);
         }
         for (int i = 0; i < 2; i++) {
-            library.add(cardWhite, 2);
+            shelf.add(cardWhite, 2);
         }
         for (int i = 0; i < 2; i++) {
-            library.add(cardYellow, 4);
+            shelf.add(cardYellow, 4);
         }
-        assertFalse(cg5.evaluate(library));
+        assertFalse(cg5.evaluate(shelf));
 
         // fill 2 entire columns
-        library.add(cardBlue, 2);
-        library.add(cardBlue, 4);
-        assertFalse(cg5.evaluate(library));
+        shelf.add(cardBlue, 2);
+        shelf.add(cardBlue, 4);
+        assertFalse(cg5.evaluate(shelf));
 
         // fill 3 columns but one with 4 colors
-        library.add(cardViolet, 4);
-        assertFalse(cg5.evaluate(library));
+        shelf.add(cardViolet, 4);
+        assertFalse(cg5.evaluate(shelf));
 
         // fill the forth column correctly and assert the result is true
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
-            library.add(cardViolet, 1);
+            shelf.add(cardViolet, 1);
         }
-        assertTrue(cg5.evaluate(library));
+        assertTrue(cg5.evaluate(shelf));
     }
 }

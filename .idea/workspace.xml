@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="added getCommonObjective to GameBoard&#10;removed evaluateCommonObjective from GameBoard &#10;added evaluatePoints to GameModel">
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="fix some forgotten names">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/config/model/fileToSave.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/config/model/fileToSave.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/config/model/singleObjectives.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/config/model/singleObjectives.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameModelTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +71,7 @@
       <recent name="it.polimi.ingsw" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All tests">
+  <component name="RunManager" selected="JUnit.GameModelTest.testPersistency">
     <configuration name="All tests" type="JUnit" factoryName="JUnit">
       <module name="AM08" />
       <option name="PACKAGE_NAME" value="" />
@@ -93,6 +96,22 @@
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.CardTest" />
       <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameModelTest.testPersistency" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="AM08" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameModelTest" />
+      <option name="METHOD_NAME" value="testPersistency" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -130,12 +149,14 @@
     </configuration>
     <list>
       <item itemvalue="JUnit.All tests" />
+      <item itemvalue="JUnit.GameModelTest.testPersistency" />
       <item itemvalue="JUnit.CardTest" />
       <item itemvalue="JUnit.PlayerStateTest" />
       <item itemvalue="JUnit.PositionTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.GameModelTest.testPersistency" />
         <item itemvalue="JUnit.PositionTest" />
         <item itemvalue="JUnit.PlayerStateTest" />
         <item itemvalue="JUnit.CardTest" />
@@ -182,7 +203,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678993984142</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="fix some forgotten names">
+      <created>1679408656331</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1679408656331</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -203,7 +231,8 @@
     <MESSAGE value="minor fixes &amp; player state tests" />
     <MESSAGE value="minor fixes" />
     <MESSAGE value="added getCommonObjective to GameBoard&#10;removed evaluateCommonObjective from GameBoard &#10;added evaluatePoints to GameModel" />
-    <option name="LAST_COMMIT_MESSAGE" value="added getCommonObjective to GameBoard&#10;removed evaluateCommonObjective from GameBoard &#10;added evaluatePoints to GameModel" />
+    <MESSAGE value="fix some forgotten names" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix some forgotten names" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -220,5 +249,11 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="it.polimi.ingsw.model.Library" memberName="myLibrary" />
+        <PinnedItemInfo parentTag="it.polimi.ingsw.model.PlayerState" memberName="comObjDone" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>

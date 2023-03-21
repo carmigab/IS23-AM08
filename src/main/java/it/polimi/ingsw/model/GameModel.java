@@ -26,13 +26,13 @@ public class GameModel {
      */
     private final GameBoard gameBoard;
     /**
-     * this attribute is the list of common shelfs created in the specified game;
+     * this attribute is the list of common goals created in the specified game;
      */
-    private final List<Integer> commonObjsCreated;
+    private final List<Integer> commonGoalsCreated;
     /**
      * this attribute is the list of all possible personal shelfs of the game;
      */
-    private final List<PersonalGoal> personalObjs;
+    private final List<PersonalGoal> personalGoals;
 
     /**
      * this attribute is used to indicate the player who must do the turn
@@ -61,9 +61,9 @@ public class GameModel {
     public GameModel(int numPlayers, List<String> nicknames){
         this.numPlayers = numPlayers;
         playerList = new ArrayList<>(this.numPlayers);
-        commonObjsCreated = new ArrayList<>(AppConstants.TOTAL_CG_PER_GAME);
+        commonGoalsCreated = new ArrayList<>(AppConstants.TOTAL_CG_PER_GAME);
         gameBoard = GameBoard.createGameBoard(numPlayers, getRandomCommonGoals());
-        personalObjs = new ArrayList<>(AppConstants.TOTAL_GOALS);
+        personalGoals = new ArrayList<>(AppConstants.TOTAL_GOALS);
         this.currentPlayer = 0;
         this.isLastTurn = false;
         this.endGame = false;
@@ -87,13 +87,13 @@ public class GameModel {
 
         PersonalGoalsConfiguration poc=jsonLoader.fromJson(fileReader, PersonalGoalsConfiguration.class);
         for(int i = 0; i< AppConstants.TOTAL_GOALS; i++){
-            this.personalObjs.add(poc.getPersonalGoalAtIndex(i));
-            this.personalObjs.get(this.personalObjs.size()-1).setPointsForCompletion(poc.getPointsForCompletion());
+            this.personalGoals.add(poc.getPersonalGoalAtIndex(i));
+            this.personalGoals.get(this.personalGoals.size()-1).setPointsForCompletion(poc.getPointsForCompletion());
         }
 
         Random r= RandomSingleton.getRandomSingleton();
         for(String s: nicknames){
-            playerList.add(new PlayerState(s, this.personalObjs.remove(r.nextInt(this.personalObjs.size()))));
+            playerList.add(new PlayerState(s, this.personalGoals.remove(r.nextInt(this.personalGoals.size()))));
         }
     }
 
@@ -109,14 +109,14 @@ public class GameModel {
         for(int i = 0; i<AppConstants.TOTAL_GOALS; i++) pool.add(i);
         for(int i=0;i<AppConstants.TOTAL_CG_PER_GAME;){
             Integer candidate=r.nextInt(pool.size());
-            if(!this.commonObjsCreated.contains(candidate)) {
-                this.commonObjsCreated.add(candidate);
+            if(!this.commonGoalsCreated.contains(candidate)) {
+                this.commonGoalsCreated.add(candidate);
                 i++;
             }
         }
         for(int i = 0; i<AppConstants.TOTAL_CG_PER_GAME; i++){
             CommonGoal co;
-            Integer selected=this.commonObjsCreated.get(i);
+            Integer selected=this.commonGoalsCreated.get(i);
             co = switch (selected) {
                 case 0 -> new CommonGoal1();
                 case 1 -> new CommonGoal2();

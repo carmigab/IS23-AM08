@@ -5,7 +5,7 @@ package it.polimi.ingsw.model.constants;
  */
 public class AppConstants {
     /**
-     * library rows and cols number
+     * shelf rows and cols number
      */
     public static int ROWS_NUMBER           =   6;
     public static int COLS_NUMBER           =   5;
@@ -18,24 +18,24 @@ public class AppConstants {
     /**
      * total personal and common objectives number (is the same for personal and common)
      */
-    public static int TOTAL_OBJECTIVES      =  12;
+    public static int TOTAL_GOALS =  12;
 
     /**
      * number of cards color, number of cards per color and total number of cards
      */
     public static int TOTAL_COLORS          =   6;
-    public static int TOTAL_CARDS_PER_COLOR =  22;
-    public static int TOTAL_CARDS           = 132;
+    public static int TOTAL_TILES_PER_COLOR =  22;
+    public static int TOTAL_TILES           = 132;
 
     /**
      * number of common objectives per game
      */
-    public static int TOTAL_CO_PER_GAME     =   2;
+    public static int TOTAL_CG_PER_GAME =   2;
 
     /**
      * max number of element in the common objective points stack
      */
-    public static int MAX_STACK_CO          =   4;
+    public static int MAX_STACK_CG          =   4;
 
     /**
      * max number of players per game
@@ -45,10 +45,10 @@ public class AppConstants {
     /**
      *
      */
-    public static int TOTAL_POINTS_FOR_PO   =   6;
+    public static int TOTAL_POINTS_FOR_PG  =   6;
     /**
      *
      */
-    public static String FILE_CONFIG_PERSONALOBJECTIVES = "src/main/config/model/singleObjectives.json";
+    public static String FILE_CONFIG_PERSONALGOAL = "src/main/config/model/singleObjectives.json";
 
 }

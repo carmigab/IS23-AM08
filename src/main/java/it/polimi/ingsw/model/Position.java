@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 /**
- * this class represent the position of a specific card in the game board
+ * this class represent the position of a specific tile in the game board
  */
 public class Position {
     private int x;

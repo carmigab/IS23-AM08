@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.utilities;
 
-import it.polimi.ingsw.model.Card;
-import it.polimi.ingsw.model.CardColor;
-import it.polimi.ingsw.model.Library;
+import it.polimi.ingsw.model.Tile;
+import it.polimi.ingsw.model.TileColor;
+import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.constants.AppConstants;
 
@@ -20,12 +20,12 @@ public class UtilityFunctions {
      * This method use BFS to search for groups and mark the visited cards as empty to avoid
      * double-checking
      *
-     * @param library  library to find groups in
+     * @param shelf  shelf to find groups in
      * @param position position of the given card
      * @return size of the group found
      */
-    public static Integer findGroupSize(Library library, Position position) {
-        return findGroupContainingGivenPosition(library, position).size();
+    public static Integer findGroupSize(Shelf shelf, Position position) {
+        return findGroupContainingGivenPosition(shelf, position).size();
 
 //        group size
 //        Integer groupSize = 0;
@@ -34,7 +34,7 @@ public class UtilityFunctions {
 //        ArrayDeque<Position> frontier = new ArrayDeque<>();
 //
 //        // color of the current group
-//        CardColor color = library.getCard(position).getColor();
+//        TileColor color = shelf.getCard(position).getColor();
 //
 //        // add the given position to the frontier to start the algorithm
 //        frontier.add(position);
@@ -45,7 +45,7 @@ public class UtilityFunctions {
 //        // to the queue if not already presents
 //        while (!frontier.isEmpty()) {
 //            Position extraxtedPosition = frontier.removeFirst();
-//            Card card = library.getCard(extraxtedPosition);
+//            Tile card = shelf.getCard(extraxtedPosition);
 //
 //            // if the card in the position extracted from the frontier has the same color of the group
 //            if (card.getColor().equals(color) && !card.isEmpty()) {
@@ -81,18 +81,18 @@ public class UtilityFunctions {
     /**
      * This method return the list of position that are part of the group containing the given position
      *
-     * @param library  library of the player in which search for group
+     * @param shelf  shelf of the player in which search for group
      * @param position starting position of the group
-     * @return list of position in the library that are part of the group
+     * @return list of position in the shelf that are part of the group
      */
-    public static List<Position> findGroupContainingGivenPosition(Library library, Position position) {
+    public static List<Position> findGroupContainingGivenPosition(Shelf shelf, Position position) {
         List<Position> result = new ArrayList<>();
 
         // frontier to store the position to be examined
         ArrayDeque<Position> frontier = new ArrayDeque<>();
 
         // color of the current group
-        CardColor color = library.getCard(position).getColor();
+        TileColor color = shelf.getTile(position).getColor();
 
         // add the given position to the frontier to start the algorithm
         frontier.add(position);
@@ -103,7 +103,7 @@ public class UtilityFunctions {
         // to the queue if not already presents
         while (!frontier.isEmpty()) {
             Position extractedPosition = frontier.removeFirst();
-            Card card = library.getCard(extractedPosition);
+            Tile card = shelf.getTile(extractedPosition);
 
             // if the card in the position extracted from the frontier has the same color of the group
             if (card.getColor().equals(color) && !card.isEmpty()) {
@@ -140,7 +140,7 @@ public class UtilityFunctions {
     }
 
     /**
-     * This method return the adjacent position in the library to a given position
+     * This method return the adjacent position in the shelf to a given position
      *
      * @param position starting position, the method finds the adjacent to this one
      * @return a list of 2 to 4 positions

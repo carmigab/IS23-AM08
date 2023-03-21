@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.utilities;
 
-import it.polimi.ingsw.model.Card;
-import it.polimi.ingsw.model.CardColor;
-import it.polimi.ingsw.model.Library;
+import it.polimi.ingsw.model.Shelf;
+import it.polimi.ingsw.model.Tile;
+import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.constants.AppConstants;
 import org.junit.jupiter.api.Test;
@@ -19,9 +19,9 @@ class UtilityFunctionsTest {
      */
     @Test
     void findGroupSize() {
-        Library library = new Library();
-        Library copy = new Library(library.getCopy());
-        Card card = new Card(CardColor.BLUE, 0);
+        Shelf library = new Shelf();
+        Shelf copy = new Shelf(library.getCopy());
+        Tile card = new Tile(TileColor.BLUE, 0);
 
         // initializing the library with a group of only one card and check if the method return 1 and if the library has not been changed except for the card valued
         library.add(card, 0);
@@ -29,7 +29,7 @@ class UtilityFunctionsTest {
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
                 Position position = new Position(j, i);
-                assertEquals(copy.getCard(position), library.getCard(position));
+                assertEquals(copy.getTile(position), library.getTile(position));
             }
         }
 
@@ -40,7 +40,7 @@ class UtilityFunctionsTest {
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
                 Position position = new Position(j, i);
-                assertEquals(copy.getCard(position), library.getCard(position));
+                assertEquals(copy.getTile(position), library.getTile(position));
             }
         }
 
@@ -51,7 +51,7 @@ class UtilityFunctionsTest {
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
                 Position position = new Position(j, i);
-                assertEquals(copy.getCard(position), library.getCard(position));
+                assertEquals(copy.getTile(position), library.getTile(position));
             }
         }
 
@@ -63,7 +63,7 @@ class UtilityFunctionsTest {
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
                 Position position = new Position(j, i);
-                assertEquals(copy.getCard(position), library.getCard(position));
+                assertEquals(copy.getTile(position), library.getTile(position));
             }
         }
 
@@ -76,7 +76,7 @@ class UtilityFunctionsTest {
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
                 Position position = new Position(j, i);
-                assertEquals(copy.getCard(position), library.getCard(position));
+                assertEquals(copy.getTile(position), library.getTile(position));
             }
         }
 
@@ -90,7 +90,7 @@ class UtilityFunctionsTest {
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
                 Position position = new Position(j, i);
-                assertEquals(copy.getCard(position), library.getCard(position));
+                assertEquals(copy.getTile(position), library.getTile(position));
             }
         }
 
@@ -105,17 +105,17 @@ class UtilityFunctionsTest {
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
                 Position position = new Position(j, i);
-                assertEquals(copy.getCard(position), library.getCard(position));
+                assertEquals(copy.getTile(position), library.getTile(position));
             }
         }
 
         // refill the library with more than one group one near the other to be sure that findGroupSize does not accidentally modify one group while finding the other
-        Card card1 = new Card(CardColor.GREEN, 0);
+        Tile card1 = new Tile(TileColor.GREEN, 0);
         library.add(card1, 2);
         library.add(card1, 2);
         library.add(card1, 2);
         library.add(card1, 1);
-        copy = new Library(library.getCopy());
+        copy = new Shelf(library.getCopy());
         library.add(card, 0);
         library.add(card, 0);
         library.add(card, 1);
@@ -125,7 +125,7 @@ class UtilityFunctionsTest {
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
                 Position position = new Position(j, i);
-                assertEquals(copy.getCard(position), library.getCard(position));
+                assertEquals(copy.getTile(position), library.getTile(position));
             }
         }
     }

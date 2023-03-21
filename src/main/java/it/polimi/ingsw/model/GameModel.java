@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 import com.google.gson.Gson;
-import com.google.gson.annotations.Expose;
-import it.polimi.ingsw.model.commonObjectives.*;
+import it.polimi.ingsw.model.commonGoals.*;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.constants.BoardConstants;
 import it.polimi.ingsw.model.utilities.JsonSingleton;
@@ -27,13 +26,13 @@ public class GameModel {
      */
     private final GameBoard gameBoard;
     /**
-     * this attribute is the list of common objectives created in the specified game;
+     * this attribute is the list of common shelfs created in the specified game;
      */
     private final List<Integer> commonObjsCreated;
     /**
-     * this attribute is the list of all possible personal objectives of the game;
+     * this attribute is the list of all possible personal shelfs of the game;
      */
-    private final List<PersonalObjective> personalObjs;
+    private final List<PersonalGoal> personalObjs;
 
     /**
      * this attribute is used to indicate the player who must do the turn
@@ -62,9 +61,9 @@ public class GameModel {
     public GameModel(int numPlayers, List<String> nicknames){
         this.numPlayers = numPlayers;
         playerList = new ArrayList<>(this.numPlayers);
-        commonObjsCreated = new ArrayList<>(AppConstants.TOTAL_CO_PER_GAME);
-        gameBoard = GameBoard.createGameBoard(numPlayers, getRandomCommonObjectives());
-        personalObjs = new ArrayList<>(AppConstants.TOTAL_OBJECTIVES);
+        commonObjsCreated = new ArrayList<>(AppConstants.TOTAL_CG_PER_GAME);
+        gameBoard = GameBoard.createGameBoard(numPlayers, getRandomCommonGoals());
+        personalObjs = new ArrayList<>(AppConstants.TOTAL_GOALS);
         this.currentPlayer = 0;
         this.isLastTurn = false;
         this.endGame = false;
@@ -72,7 +71,7 @@ public class GameModel {
     }
 
     /**
-     * This method reads all the single objectives from the file singleObjectives.json and gives a random one to every player
+     * This method reads all the single shelfs from the file singleshelfs.json and gives a random one to every player
      * @param nicknames list of nicknames of all the players
      */
     private void initializePlayers(List<String> nicknames){
@@ -80,15 +79,15 @@ public class GameModel {
         Gson jsonLoader= JsonSingleton.getJsonSingleton();
         Reader fileReader= null;
         try {
-            fileReader = new FileReader(AppConstants.FILE_CONFIG_PERSONALOBJECTIVES);
+            fileReader = new FileReader(AppConstants.FILE_CONFIG_PERSONALGOAL);
         }
         catch(FileNotFoundException e){
             System.out.println(e);
         }
 
-        PersonalObjectivesConfiguration poc=jsonLoader.fromJson(fileReader, PersonalObjectivesConfiguration.class);
-        for(int i=0;i< AppConstants.TOTAL_OBJECTIVES;i++){
-            this.personalObjs.add(poc.getPersonalObjectiveAtIndex(i));
+        PersonalGoalsConfiguration poc=jsonLoader.fromJson(fileReader, PersonalGoalsConfiguration.class);
+        for(int i = 0; i< AppConstants.TOTAL_GOALS; i++){
+            this.personalObjs.add(poc.getPersonalGoalAtIndex(i));
             this.personalObjs.get(this.personalObjs.size()-1).setPointsForCompletion(poc.getPointsForCompletion());
         }
 
@@ -99,38 +98,38 @@ public class GameModel {
     }
 
     /**
-     * This method selects two random numbers between 0 and 12 (total objectives, 12 excluded) and assigns a common objective to it.
-     * It is important to note that it checks that which common objectives are created
-     * @return the list of 2 random common objectives created
+     * This method selects two random numbers between 0 and 12 (total shelfs, 12 excluded) and assigns a common shelf to it.
+     * It is important to note that it checks that which common shelfs are created
+     * @return the list of 2 random common shelfs created
      */
-    private List<CommonObjective> getRandomCommonObjectives(){
+    private List<CommonGoal> getRandomCommonGoals(){
         Random r= RandomSingleton.getRandomSingleton();
-        List<Integer> pool=new ArrayList<>(AppConstants.TOTAL_OBJECTIVES);
-        List<CommonObjective> toReturn=new ArrayList<>(AppConstants.TOTAL_CO_PER_GAME);
-        for(int i=0;i<AppConstants.TOTAL_OBJECTIVES;i++) pool.add(i);
-        for(int i=0;i<AppConstants.TOTAL_CO_PER_GAME;){
+        List<Integer> pool=new ArrayList<>(AppConstants.TOTAL_GOALS);
+        List<CommonGoal> toReturn=new ArrayList<>(AppConstants.TOTAL_CG_PER_GAME);
+        for(int i = 0; i<AppConstants.TOTAL_GOALS; i++) pool.add(i);
+        for(int i=0;i<AppConstants.TOTAL_CG_PER_GAME;){
             Integer candidate=r.nextInt(pool.size());
             if(!this.commonObjsCreated.contains(candidate)) {
                 this.commonObjsCreated.add(candidate);
                 i++;
             }
         }
-        for(int i=0;i<AppConstants.TOTAL_CO_PER_GAME;i++){
-            CommonObjective co;
+        for(int i = 0; i<AppConstants.TOTAL_CG_PER_GAME; i++){
+            CommonGoal co;
             Integer selected=this.commonObjsCreated.get(i);
             co = switch (selected) {
-                case 0 -> new CommonObjective1();
-                case 1 -> new CommonObjective2();
-                case 2 -> new CommonObjective3();
-                case 3 -> new CommonObjective4();
-                case 4 -> new CommonObjective5();
-                case 5 -> new CommonObjective6();
-                case 6 -> new CommonObjective7();
-                case 7 -> new CommonObjective8();
-                case 8 -> new CommonObjective9();
-                case 9 -> new CommonObjective10();
-                case 10 -> new CommonObjective11();
-                default -> new CommonObjective12();
+                case 0 -> new CommonGoal1();
+                case 1 -> new CommonGoal2();
+                case 2 -> new CommonGoal3();
+                case 3 -> new CommonGoal4();
+                case 4 -> new CommonGoal5();
+                case 5 -> new CommonGoal6();
+                case 6 -> new CommonGoal7();
+                case 7 -> new CommonGoal8();
+                case 8 -> new CommonGoal9();
+                case 9 -> new CommonGoal10();
+                case 10 -> new CommonGoal11();
+                default -> new CommonGoal12();
             };
             toReturn.add(co);
         }
@@ -138,8 +137,8 @@ public class GameModel {
     }
 
     /**
-     * this method represents the move done by a player: the player removes from 1 to 3 card from the game board and
-     * adds the cards in his library, in the specific column. We don't check if the positions in the list are correct
+     * this method represents the move done by a player: the player removes from 1 to 3 tile from the game board and
+     * adds the tiles in his shelf, in the specific column. We don't check if the positions in the list are correct
      * because we assumed the positions in the list are already check(by method checkValidMove). We assume the same for
      * the column;
      * @param pos: list of position chosen by the player
@@ -148,13 +147,13 @@ public class GameModel {
 
     public void makeMove(List<Position> pos, int col){
         for(Position p : pos){
-            this.playerList.get(currentPlayer).getLibrary().add(this.gameBoard.removeCard(p), col);
+            this.playerList.get(currentPlayer).getShelf().add(this.gameBoard.removeTile(p), col);
         }
     }
 
     /**
      * this method is used to verify if the move done by the current player is correct
-     * @param pos list of the position of the cards taken by the player from the game board
+     * @param pos list of the position of the tiles taken by the player from the game board
      * @return true if the move is valid, false if the move isn't valid
      */
     public boolean checkValidMove(List<Position> pos){
@@ -172,13 +171,13 @@ public class GameModel {
     }
 
     /**
-     * this method is used to verify if the column col has free spaces to put the cards taken from the game board
-     * @param col column where the player wants to put the cards
-     * @param numCards number of cards taken by the player from the game board
+     * this method is used to verify if the column col has free spaces to put the tiles taken from the game board
+     * @param col column where the player wants to put the tiles
+     * @param numTiles number of tiles taken by the player from the game board
      * @return true if there is space in the column, false if there isn't space in the column
      */
-    public boolean checkValidColumn(int col, int numCards){
-        return this.playerList.get(this.currentPlayer).getLibrary().getFreeSpaces(col) >= numCards;
+    public boolean checkValidColumn(int col, int numTiles){
+        return this.playerList.get(this.currentPlayer).getShelf().getFreeSpaces(col) >= numTiles;
     }
 
     /**
@@ -192,29 +191,29 @@ public class GameModel {
 
     /**
      * This method updates the score of the current player
-     * and sets lastTurn to true if he filled the library
+     * and sets lastTurn to true if he filled the shelf
      */
     public void evaluatePoints(){
         PlayerState currP = playerList.get(currentPlayer);
-        CommonObjective obj;
+        CommonGoal obj;
 
-        currP.evaluatePOPoints();
+        currP.evaluatePGPoints();
         currP.evaluateGroupPoints();
 
-        // Evaluate common objectives
+        // Evaluate common shelfs
         for(int i=0; i<2; i++) {
-            if (!currP.isCODone(i)) {
-                obj = gameBoard.getCommonObjective(i);
-                if (obj.evaluate(currP.getLibrary())) {
-                    currP.addCOPoints(obj.pop());
-                    currP.setCODone(i);
+            if (!currP.isCGDone(i)) {
+                obj = gameBoard.getCommonGoal(i);
+                if (obj.evaluate(currP.getShelf())) {
+                    currP.addCGPoints(obj.pop());
+                    currP.setCGDone(i);
                 }
             }
         }
 
         // Evaluate First Point and sets last turn
         if (!isLastTurn){
-            if (currP.getLibrary().isFull()) {
+            if (currP.getShelf().isFull()) {
                 currP.setFirstPoint();
                 isLastTurn = true;
             }

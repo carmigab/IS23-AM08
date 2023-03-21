@@ -27,9 +27,9 @@ class PlayerStateTest {
         /**
          * to do: integrate in the test the evaluation functions
          */
-        // player.evaluatePOPoints();
+        // player.evaluatePGPoints();
         // player.evaluateGroupPoints();
-        player.addCOPoints(68);
+        player.addCGPoints(68);
         player.setFirstPoint();
 
         assertEquals(69, player.getPoints());
@@ -37,12 +37,12 @@ class PlayerStateTest {
 
 
     /**
-     * This method tests the isCODone method
+     * This method tests the isCGDone method
      */
     @Test
     void isCODone() {
-        player.setCODone(0);
-        assertEquals(true, player.isCODone(0));
-        assertEquals(false, player.isCODone(1));
+        player.setCGDone(0);
+        assertEquals(true, player.isCGDone(0));
+        assertEquals(false, player.isCGDone(1));
     }
 }

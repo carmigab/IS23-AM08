@@ -7,19 +7,19 @@ public class PlayerState {
     private String nickname;
 
     /**
-     * This attribute is the Library of the player
+     * This attribute is the Shelf of the player
      */
-    private Library myLibrary;
+    private Shelf myShelf;
 
     /**
-     * This attribute is the POPoints counter of the player
+     * This attribute is the PGPoints counter of the player
      */
-    private int POPoints;
+    private int PGPoints;
 
     /**
-     * This attribute is the COPoints counter of the player
+     * This attribute is the CGPoints counter of the player
      */
-    private int COPoints;
+    private int CGPoints;
 
     /**
      * This attribute is the groupPoints counter of the player
@@ -32,35 +32,35 @@ public class PlayerState {
     private int firstPoint;
 
     /**
-     * This attribute is the Personal Objective of the player
+     * This attribute is the Personal shelf of the player
      */
-    private PersonalObjective personalObj;
+    private PersonalGoal personalGoal;
 
     /**
      * This attribute rappresents the state of the common
-     *  Objectives for the player
+     *  shelfs for the player
      */
-    private boolean comObjDone[];
+    private boolean comGoalDone[];
 
 
 
     /**
      * This is the constructor
      * @param name: the nickname of the player
-     * @param Obj: the personal objective of the player
+     * @param personalGoal: the personal shelf of the player
      */
-    public PlayerState(String name, PersonalObjective Obj){
+    public PlayerState(String name, PersonalGoal personalGoal){
         this.nickname = name;
-        this.personalObj = Obj;
+        this.personalGoal = personalGoal;
 
         // Initialization
-        this.myLibrary = new Library();
-        this.POPoints = 0;
-        this.COPoints = 0;
+        this.myShelf = new Shelf();
+        this.PGPoints = 0;
+        this.CGPoints = 0;
         this.groupPoints = 0;
         this.firstPoint = 0;
 
-        this.comObjDone = new boolean[2];      // Initialized to false
+        this.comGoalDone = new boolean[2];      // Initialized to false
     }
 
 
@@ -74,11 +74,11 @@ public class PlayerState {
 
 
     /**
-     * This method returns the Library
-     * @return myLibrary
+     * This method returns the Shelf
+     * @return myShelf
      */
-    public Library getLibrary(){
-        return this.myLibrary;
+    public Shelf getShelf(){
+        return this.myShelf;
     }
 
 
@@ -87,34 +87,34 @@ public class PlayerState {
      * @return total points
      */
     public int getPoints(){
-        return POPoints + COPoints + groupPoints + firstPoint;
+        return PGPoints + CGPoints + groupPoints + firstPoint;
     }
 
 
     /**
-     * This method returns if a commonObj is done or not
-     * @param index: position in array comObjDone
-     * @return array that tells if a commonObj is done or not
+     * This method returns if a commonGoal is done or not
+     * @param index: position in array comGoalDone
+     * @return array that tells if a commonGoal is done or not
      */
-    public boolean isCODone(int index){
-        return comObjDone[index];
+    public boolean isCGDone(int index){
+        return comGoalDone[index];
     }
 
 
     /**
-     * This method adds points to COPoints counter
+     * This method adds points to CGPoints counter
      * @param p : the points to add
      */
-    public void addCOPoints(int p){
-        this.COPoints += p;
+    public void addCGPoints(int p){
+        this.CGPoints += p;
     }
 
     /**
-     * This method sets the POPoints counter
-     * @param p : the points to set the PoPoints counter to
+     * This method sets the PGPoints counter
+     * @param p : the points to set the PGPoints counter to
      */
-    private void setPOPoints(int p){
-        this.POPoints = p;
+    private void setPGPoints(int p){
+        this.PGPoints = p;
     }
 
 
@@ -136,11 +136,11 @@ public class PlayerState {
 
 
     /**
-     * This method sets a position in comObjDone to true
-     * @param index: position in array comObjDone
+     * This method sets a position in comGoalDone to true
+     * @param index: position in array comGoalDone
      */
-    public void setCODone(int index){
-        this.comObjDone[index] = true;
+    public void setCGDone(int index){
+        this.comGoalDone[index] = true;
     }
 
 
@@ -148,15 +148,15 @@ public class PlayerState {
      * This method evaluates and sets the groupPoints
      */
     public void evaluateGroupPoints(){
-        setGroupPoints(myLibrary.evaluateGroupPoints());
+        setGroupPoints(myShelf.evaluateGroupPoints());
     }
 
 
     /**
-     * This method evaluates and sets the POPoints
+     * This method evaluates and sets the PGPoints
      */
-    public void evaluatePOPoints(){
-        setPOPoints(personalObj.evaluate(this.myLibrary));
+    public void evaluatePGPoints(){
+        setPGPoints(personalGoal.evaluate(this.myShelf));
     }
 
 

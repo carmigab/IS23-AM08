@@ -2,10 +2,8 @@ package it.polimi.ingsw.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import it.polimi.ingsw.model.commonObjectives.*;
-import it.polimi.ingsw.model.constants.AppConstants;
+import it.polimi.ingsw.model.commonGoals.*;
 import it.polimi.ingsw.model.constants.BoardConstants;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 
@@ -15,9 +13,9 @@ public class GameBoardTest {
 
     @Test
     public void testCorrectGameBoard2Creation(){
-        List<CommonObjective> co=new ArrayList<>(2);
-        co.add(new CommonObjective11());
-        co.add(new CommonObjective12());
+        List<CommonGoal> co=new ArrayList<>(2);
+        co.add(new CommonGoal11());
+        co.add(new CommonGoal12());
         GameBoard gb= GameBoard.createGameBoard(2, co);
         assertTrue(gb.positionOccupied(new Position(4,5)));
         //check 4 extremes of the board, should be invalid
@@ -29,9 +27,9 @@ public class GameBoardTest {
 
     @Test
     public void testCorrectGameBoard3Creation(){
-        List<CommonObjective> co=new ArrayList<>(2);
-        co.add(new CommonObjective11());
-        co.add(new CommonObjective12());
+        List<CommonGoal> co=new ArrayList<>(2);
+        co.add(new CommonGoal11());
+        co.add(new CommonGoal12());
         GameBoard gb= GameBoard.createGameBoard(3, co);
         assertTrue(gb.positionOccupied(new Position(4,5)));
         assertTrue(gb.positionOccupied(new Position(5,BoardConstants.BOARD_DIMENSION-1)));
@@ -45,9 +43,9 @@ public class GameBoardTest {
 
     @Test
     public void testCorrectGameBoard4Creation(){
-        List<CommonObjective> co=new ArrayList<>(2);
-        co.add(new CommonObjective11());
-        co.add(new CommonObjective12());
+        List<CommonGoal> co=new ArrayList<>(2);
+        co.add(new CommonGoal11());
+        co.add(new CommonGoal12());
         GameBoard gb= GameBoard.createGameBoard(4, co);
         assertTrue(gb.positionOccupied(new Position(4,5)));
         assertTrue(gb.positionOccupied(new Position(5,BoardConstants.BOARD_DIMENSION-1)));

@@ -14,13 +14,13 @@ public final class BoardConstants {
      * number of cards color, number of cards per color and total number of cards
      */
     public static final int TOTAL_COLORS          =   6;
-    public static final int TOTAL_CARDS_PER_COLOR =  22;
-    public static final int TOTAL_CARDS           = 132;
+    public static final int TOTAL_TILES_PER_COLOR =  22;
+    public static final int TOTAL_TILES = 132;
 
     /**
      * number of common objectives per game
      */
-    public static final int TOTAL_CO_PER_GAME     =   2;
+    public static final int TOTAL_CG_PER_GAME =   2;
     /**
      * TODO understand what happens when maven builds the project in .jar
      * paths to the game board configuration files

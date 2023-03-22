@@ -84,6 +84,11 @@ public final class GameBoard {
         }
     }
 
+    /**
+     * This constructor copies a gameboard from its parameters (note that it has to create a new list of common goals since json does not save them)
+     * @param gameBoard gameboard to be copied
+     * @param cg which common goals have to be created
+     */
     public GameBoard(GameBoard gameBoard, List<Integer> cg){
         this.myGameBoard=gameBoard.myGameBoard;
         this.commonGoals = new ArrayList<>(BoardConstants.TOTAL_CG_PER_GAME);

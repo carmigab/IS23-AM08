@@ -1,70 +1,53 @@
 package it.polimi.ingsw.computer;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 public class SimplifiedNeuralNetwork {
 
+    @Expose
+    private final int INPUT_SIZE;
+    @Expose
+    private final int OUTPUT_SIZE;
+    @Expose
+    private final Double LEARNING_RATE;
+    @Expose
     private final ArrayList<Double> input;
+    @Expose
     private final ArrayList<Double> output;
-    private final ArrayList<ArrayList<ArrayList<Double>>> intermediateWeights;
+    @Expose
+    private final ArrayList<ArrayList<Double>> intermediateWeights;
     private final Random r;
 
-    private final int INPUT_SIZE;
-    private final int OUTPUT_SIZE;
-    private final int NUM_HIDDEN_LAYERS;
-    private final int SIZE_HIDDEN_LAYERS;
-
-    public SimplifiedNeuralNetwork (int inputSize, int outputSize, int numHiddenLayers, int sizeHiddenLayers){
-        numHiddenLayers++;
+    public SimplifiedNeuralNetwork (int inputSize, int outputSize, Double learningRate){
+        this.INPUT_SIZE=inputSize;
+        this.OUTPUT_SIZE=outputSize;
+        this.LEARNING_RATE=learningRate;
         this.input=new ArrayList<>(inputSize);
         for(int i=0; i<inputSize; i++){
-            this.input.add(Double.valueOf(0));
+            this.input.add((double) 0);
         }
         this.output=new ArrayList<>(outputSize);
         for(int i=0; i<outputSize; i++){
-            this.output.add(Double.valueOf(0));
+            this.output.add((double) 0);
         }
-        this.intermediateWeights=new ArrayList<>(numHiddenLayers);
-        this.intermediateWeights.add(0, new ArrayList<>(inputSize));
-        for(int i=0;i<inputSize;i++){
-            this.intermediateWeights.get(0).add(new ArrayList<>(sizeHiddenLayers));
-            for(int j=0; j<sizeHiddenLayers; j++){
-                this.intermediateWeights.get(0).get(i).add(Double.valueOf(0));
+        this.intermediateWeights=new ArrayList<>(this.OUTPUT_SIZE);
+        for(int i=0;i<this.OUTPUT_SIZE;i++){
+            this.intermediateWeights.add(new ArrayList<>(this.INPUT_SIZE));
+            for(int j=0; j<this.INPUT_SIZE; j++){
+                this.intermediateWeights.get(i).add((double) 0);
             }
         }
-        if(numHiddenLayers>2){
-            for(int i=1;i<numHiddenLayers-1;i++){
-                this.intermediateWeights.add(new ArrayList<>(sizeHiddenLayers));
-                for(int j=0; j<sizeHiddenLayers; j++){
-                    this.intermediateWeights.get(i).add(new ArrayList<>(sizeHiddenLayers));
-                    for(int k=0; k<sizeHiddenLayers; k++){
-                        this.intermediateWeights.get(i).get(j).add(Double.valueOf(0));
-                    }
-                }
-            }
-        }
-        this.intermediateWeights.add(this.intermediateWeights.size(), new ArrayList<>(outputSize));
-        for(int i=0;i<outputSize;i++){
-            this.intermediateWeights.get(this.intermediateWeights.size()-1).add(new ArrayList<>(sizeHiddenLayers));
-            for(int j=0; j<sizeHiddenLayers; j++){
-                this.intermediateWeights.get(this.intermediateWeights.size()-1).get(i).add(Double.valueOf(0));
-            }
-        }
-        this.INPUT_SIZE=inputSize;
-        this.OUTPUT_SIZE=outputSize;
-        this.NUM_HIDDEN_LAYERS=numHiddenLayers;
-        this.SIZE_HIDDEN_LAYERS=sizeHiddenLayers;
         r=new Random();
-        this.randomizeHiddenLayers();
+        this.randomizeHiddenLayer();
     }
 
-    public void randomizeHiddenLayers(){
-        for(ArrayList<ArrayList<Double>> num : this.intermediateWeights){
-            for(ArrayList<Double> mun: num) {
-                mun.clear();
-                for (int i = 0; i < SIZE_HIDDEN_LAYERS; i++) mun.add(Double.valueOf(r.nextDouble() * 2 - 1));
-            }
+    public void randomizeHiddenLayer(){
+        for(ArrayList<Double> num : this.intermediateWeights){
+            num.clear();
+            for (int i = 0; i < this.INPUT_SIZE; i++) num.add(r.nextDouble() * 2 - 1);
         }
     }
 
@@ -75,37 +58,23 @@ public class SimplifiedNeuralNetwork {
 
 
     public void feedForward(){
-        ArrayList<Double> partialResult=new ArrayList<>(SIZE_HIDDEN_LAYERS);
-        ArrayList<Double> nextPartialResult=new ArrayList<>(SIZE_HIDDEN_LAYERS);
-
-        ArrayList<Double> weightsForOneNode=new ArrayList<>(INPUT_SIZE);
-        for(int i=0; i<SIZE_HIDDEN_LAYERS; i++){
-            for(int j=0;j<INPUT_SIZE;j++) weightsForOneNode.add(this.intermediateWeights.get(0).get(j).get(i));
-            partialResult.add(dotProduct(this.input, weightsForOneNode));
-            weightsForOneNode.clear();
-        }
-        if(NUM_HIDDEN_LAYERS>2) {
-
-            for (int i = 1; i < NUM_HIDDEN_LAYERS-1; i++) {
-                for (int j = 0; j < SIZE_HIDDEN_LAYERS; j++) {
-                    for (int k = 0; k < SIZE_HIDDEN_LAYERS; k++)
-                        weightsForOneNode.add(this.intermediateWeights.get(i).get(k).get(j));
-                    nextPartialResult.add(dotProduct(partialResult, weightsForOneNode));
-                    weightsForOneNode.clear();
-                }
-
-                partialResult.clear();
-                partialResult.addAll(nextPartialResult);
-                nextPartialResult.clear();
-            }
-
-        }
         this.output.clear();
-        for(int i=0; i<OUTPUT_SIZE; i++){
-            for(int j=0;j<SIZE_HIDDEN_LAYERS;j++)
-                weightsForOneNode.add(this.intermediateWeights.get(this.intermediateWeights.size()-1).get(i).get(j));
-            this.output.add(dotProduct(partialResult, weightsForOneNode));
-            weightsForOneNode.clear();
+        for(int i=0; i<this.OUTPUT_SIZE;i++){
+            this.output.add(i, this.evaluateFunctionSigmoid(this.dotProduct(this.input, this.intermediateWeights.get(i))));
+        }
+    }
+
+    public void backPropagate(ArrayList<Double> expected){
+        ArrayList<Double> errors=new ArrayList<>(this.OUTPUT_SIZE);
+        for(int i=0;i<this.OUTPUT_SIZE;i++) errors.add(i, this.output.get(i)-expected.get(i)); //calculate all errors
+        for(int i=0;i<this.OUTPUT_SIZE;i++) { //for every output weight
+            for(int j=0;j<this.INPUT_SIZE;j++){
+                if(this.input.get(j)!=0){ //modify the weight only if the node was activated
+                    //we have to modify the current weight based on how much it impacted the bad/good guess
+                    //so we add to the current weight the error multiplied by the derivative of the function (we get an error delta) and we weigh it by this weight's weight
+                    this.intermediateWeights.get(i).set(j, this.intermediateWeights.get(i).get(j)+this.evaluateFunctionSigmoidDerivative(errors.get(i))*this.intermediateWeights.get(i).get(j)*this.LEARNING_RATE);
+                }
+            }
         }
     }
 
@@ -115,7 +84,15 @@ public class SimplifiedNeuralNetwork {
 
         for(int i=0; i<a.size();i++) sum+=a.get(i)*b.get(i);
 
-        return Double.valueOf(sum);
+        return sum;
+    }
+
+    private Double evaluateFunctionSigmoid(Double d){
+        return 1/(1+Math.exp(-d));
+    }
+
+    private Double evaluateFunctionSigmoidDerivative(Double d){
+        return d*(1-d);
     }
 
 
@@ -131,12 +108,9 @@ public class SimplifiedNeuralNetwork {
 
         ret+="Hidden:\n";
 
-        for(ArrayList<ArrayList<Double>> num : this.intermediateWeights){
-            for(ArrayList<Double> mun: num) {
-                for (Double d : mun) ret+=d.toString()+"|";
-                ret+="\n";
-            }
-            ret+="Next\n";
+        for(ArrayList<Double> arr: this.intermediateWeights) {
+            for (Double d : arr) ret+=d.toString()+"|";
+            ret+="\n";
         }
 
         ret+="\n";

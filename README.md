@@ -72,6 +72,17 @@ or any hidden information that we have to compute.
 
 We just want a function that correlates to a position and a set of moves the best possible one.
 
+## Update on NN
+
+I completely forgot at first that i have to choose the column too,  
+but i think i found a neat solution.
+
+Instead of just a NN, i will have... two of them!!
+
+The first one will be with 30 inputs (one for cell) and 5 outputs (one for column)  and it will help the NN learn where is more likely to insert a piece based on its current column.
+
+The second one will be the 288*258 (or also 258*258, have to do some training and testing).
+
 ## Some boring (and possibly wrong) MATHS
 
 Computationally speaking, we could argue that there still have to be many operations to do.
@@ -151,6 +162,8 @@ preferably we also want to save every k generations a json with the current conf
 Some possible ideas in the future may be: 
 
 - add a bias so that some neurons when activated weigh more
+
+- add the recognition of personal objectives and common objectives (bit complicated)
 
 
 

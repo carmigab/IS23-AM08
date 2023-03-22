@@ -4,14 +4,21 @@ import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.model.commonGoals.*;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.constants.BoardConstants;
+import it.polimi.ingsw.model.observers.ModelObserver;
 import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.model.utilities.RandomSingleton;
 import it.polimi.ingsw.model.utilities.UtilityFunctions;
+import it.polimi.ingsw.model.observers.Observer;
 
 import java.io.*;
 import java.util.*;
 
-public class GameModel {
+public class GameModel extends Observable {
+    /**
+     * this attribute is a list of observers
+     */
+    private ArrayList<Observer> observers = new ArrayList<>();
+
     /**
      * this attribute is the number of the player of a specific match
      */
@@ -82,6 +89,9 @@ public class GameModel {
         this.endGame = false;
         initializePlayers(nicknames);
         initializePersistencyFile(nicknames);
+
+        // Ads an observer
+        this.addObserver(new ModelObserver());
     }
 
     /**
@@ -311,6 +321,27 @@ public class GameModel {
 
             }
         }
+
+        // Notifies all observers at hte end of the turn
+        this.notifyObservers();
     }
 
+
+    /**
+     * this method adds observers
+     * @param o the observer
+     */
+    private void addObserver(Observer o){
+        observers.add(o);
+    }
+
+
+    /**
+     * this method update listening observers
+     */
+    public void notifyObservers(){
+        for (Observer obs: observers)
+            obs.update(this);
+    }
 }
+

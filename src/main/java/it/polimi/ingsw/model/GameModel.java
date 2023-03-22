@@ -1,73 +1,108 @@
 package it.polimi.ingsw.model;
 import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.model.commonGoals.*;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.constants.BoardConstants;
-import it.polimi.ingsw.model.utilities.JsonSingleton;
+import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.model.utilities.RandomSingleton;
+import it.polimi.ingsw.model.utilities.UtilityFunctions;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.Reader;
+import java.io.*;
 import java.util.*;
 
 public class GameModel {
     /**
      * this attribute is the number of the player of a specific match
      */
+    @Expose
     private final int numPlayers;
     /**
      * this attribute is a list of the states of the players; one state for each player;
      */
+    @Expose
     private final List<PlayerState> playerList;
 
     /**
      * this attribute represents the game board of the match; it will update after every turn
      */
+    @Expose
     private final GameBoard gameBoard;
     /**
      * this attribute is the list of common goals created in the specified game;
      */
+    @Expose
     private final List<Integer> commonGoalsCreated;
     /**
      * this attribute is the list of all possible personal shelfs of the game;
      */
+    @Expose
     private final List<PersonalGoal> personalGoals;
 
     /**
      * this attribute is used to indicate the player who must do the turn
      */
+    @Expose
     private int currentPlayer;
     /**
      * this attribute is used to indicate that the current turn is the last turn of the match;
      */
-    private Boolean isLastTurn;
+    @Expose
+    private boolean isLastTurn;
     /**
      * this attribute is used to indicate the end of the game;
      */
+    @Expose
     private boolean endGame;
 
     /**
      * this attribute represents the final leaderboard of the game
      */
+    @Expose
     private List<PlayerState> leaderBoard;
+    /**
+     * This attribute stores the information of the file name in the class, so that it does not have to be constructed each time
+     */
+    @Expose
+    private String fileName;
 
     /**
-     * TODO: initialize gameboard
      * @param numPlayers
      * @param nicknames
      */
 
     public GameModel(int numPlayers, List<String> nicknames){
         this.numPlayers = numPlayers;
-        playerList = new ArrayList<>(this.numPlayers);
-        commonGoalsCreated = new ArrayList<>(AppConstants.TOTAL_CG_PER_GAME);
-        gameBoard = GameBoard.createGameBoard(numPlayers, getRandomCommonGoals());
-        personalGoals = new ArrayList<>(AppConstants.TOTAL_GOALS);
+        this.playerList = new ArrayList<>(this.numPlayers);
+        this.commonGoalsCreated = new ArrayList<>(AppConstants.TOTAL_CG_PER_GAME);
+        this.gameBoard = GameBoard.createGameBoard(numPlayers, getRandomCommonGoals());
+        this.personalGoals = new ArrayList<>(AppConstants.TOTAL_GOALS);
         this.currentPlayer = 0;
         this.isLastTurn = false;
         this.endGame = false;
         initializePlayers(nicknames);
+        initializePersistencyFile(nicknames);
+    }
+
+    /**
+     * TODO: ask professor if could be done better
+     * This constructor copies the gamemodel when loaded from file.
+     * Note that it copies the reference, but it is fine because when the object is loaded from file
+     * GSON creates a new instance of the object, so even if we copy by reference it is fine
+     * We could also avoid implementing it
+     * @param gameModel copy of the gamemodel we want
+     */
+    public GameModel(GameModel gameModel){
+        this.numPlayers = gameModel.numPlayers;
+        this.playerList = gameModel.playerList;
+        this.commonGoalsCreated = gameModel.commonGoalsCreated;
+        this.gameBoard = new GameBoard(gameModel.gameBoard, this.commonGoalsCreated);
+        this.personalGoals = gameModel.personalGoals;
+        this.currentPlayer = gameModel.currentPlayer;
+        this.isLastTurn = gameModel.isLastTurn;
+        this.endGame = gameModel.isLastTurn;
+        this.leaderBoard = gameModel.leaderBoard;
+        this.fileName = gameModel.fileName;
     }
 
     /**
@@ -76,7 +111,7 @@ public class GameModel {
      */
     private void initializePlayers(List<String> nicknames){
 
-        Gson jsonLoader= JsonSingleton.getJsonSingleton();
+        Gson jsonLoader= JsonWithExposeSingleton.getJsonWithExposeSingleton();
         Reader fileReader= null;
         try {
             fileReader = new FileReader(AppConstants.FILE_CONFIG_PERSONALGOAL);
@@ -98,11 +133,39 @@ public class GameModel {
     }
 
     /**
+     * This method is called only by the constructor and what it does is simply create the file where the current state of the game is saved
+     * The object also keeps track of the file name once it is created, so that it can be easily accessed (not by constructing it every time)
+     * @param nicks list of the names of the players
+     */
+    private void initializePersistencyFile(List<String> nicks){
+        this.fileName=AppConstants.PATH_SAVED_FILES + UtilityFunctions.getJSONFileName(nicks);
+        saveCurrentState();
+    }
+
+    /**
+     * This method is called at the end of each turn, and it overwrites the file with the new state of the game
+     */
+    private void saveCurrentState(){
+        Writer fileWriter =null;
+        try {
+            fileWriter=new FileWriter(this.fileName);
+        } catch (IOException e) {
+            System.out.println("Error in opening to the file "+this.fileName+" plz restart application");
+        }
+        try {
+            fileWriter.write(JsonWithExposeSingleton.getJsonWithExposeSingleton().toJson(this));
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("Error in writing to the file "+this.fileName+" plz restart application");
+        }
+    }
+
+    /**
      * This method selects two random numbers between 0 and 12 (total shelfs, 12 excluded) and assigns a common shelf to it.
      * It is important to note that it checks that which common shelfs are created
      * @return the list of 2 random common shelfs created
      */
-    private List<CommonGoal> getRandomCommonGoals(){
+    private List<Integer> getRandomCommonGoals(){
         Random r= RandomSingleton.getRandomSingleton();
         List<Integer> pool=new ArrayList<>(AppConstants.TOTAL_GOALS);
         List<CommonGoal> toReturn=new ArrayList<>(AppConstants.TOTAL_CG_PER_GAME);
@@ -114,26 +177,7 @@ public class GameModel {
                 i++;
             }
         }
-        for(int i = 0; i<AppConstants.TOTAL_CG_PER_GAME; i++){
-            CommonGoal co;
-            Integer selected=this.commonGoalsCreated.get(i);
-            co = switch (selected) {
-                case 0 -> new CommonGoal1();
-                case 1 -> new CommonGoal2();
-                case 2 -> new CommonGoal3();
-                case 3 -> new CommonGoal4();
-                case 4 -> new CommonGoal5();
-                case 5 -> new CommonGoal6();
-                case 6 -> new CommonGoal7();
-                case 7 -> new CommonGoal8();
-                case 8 -> new CommonGoal9();
-                case 9 -> new CommonGoal10();
-                case 10 -> new CommonGoal11();
-                default -> new CommonGoal12();
-            };
-            toReturn.add(co);
-        }
-        return toReturn;
+        return this.commonGoalsCreated;
     }
 
     /**

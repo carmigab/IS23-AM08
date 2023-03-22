@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.model.constants.AppConstants;
 
 import java.util.ArrayList;
@@ -13,11 +14,13 @@ public class PersonalGoal {
     /**
      * This attribute stores a list of 6 objects of class SingleGoal
      */
+    @Expose
     private List<SingleGoal> personalGoal;
 
     /**
      * This attribute stores points assigned for the completion of the shelf(in order from lowest to highest)
      */
+    @Expose
     private List<Integer> pointsForCompletion;
 
     /**
@@ -40,7 +43,7 @@ public class PersonalGoal {
      */
     public void setPointsForCompletion(int[] points){
         this.pointsForCompletion=new ArrayList<>();
-        for(int i=0;i<points.length;i++) this.pointsForCompletion.add(points[i]);
+        for (int point : points) this.pointsForCompletion.add(point);
     }
 
     /**

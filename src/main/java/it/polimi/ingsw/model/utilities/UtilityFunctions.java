@@ -221,4 +221,21 @@ public class UtilityFunctions {
 
         return shortestIndex;
     }
+
+    /**
+     * This method takes an array of strings in input and it outputs a file name which consists of all the strings in the array
+     * concatenated with "_"
+     * @param in
+     * @return
+     */
+    public static String getJSONFileName(List<String> in){
+        String ret="";
+
+        for(String s: in){
+           ret=ret.concat(s+"_");
+        }
+
+        //remove last '_'
+        return ret.substring(0,ret.length()-1).concat(".json");
+    }
 }

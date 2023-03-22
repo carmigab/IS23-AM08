@@ -1,45 +1,55 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.annotations.Expose;
+
 public class PlayerState {
     /**
      * This attribute is the nickname of the player
      */
+    @Expose
     private String nickname;
 
     /**
      * This attribute is the Shelf of the player
      */
+    @Expose
     private Shelf myShelf;
 
     /**
      * This attribute is the PGPoints counter of the player
      */
+    @Expose
     private int PGPoints;
 
     /**
      * This attribute is the CGPoints counter of the player
      */
+    @Expose
     private int CGPoints;
 
     /**
      * This attribute is the groupPoints counter of the player
      */
+    @Expose
     private int groupPoints;
 
     /**
      * This attribute is the firstPoints counter of the player
      */
+    @Expose
     private int firstPoint;
 
     /**
      * This attribute is the Personal shelf of the player
      */
+    @Expose
     private PersonalGoal personalGoal;
 
     /**
      * This attribute rappresents the state of the common
      *  shelfs for the player
      */
+    @Expose
     private boolean comGoalDone[];
 
 

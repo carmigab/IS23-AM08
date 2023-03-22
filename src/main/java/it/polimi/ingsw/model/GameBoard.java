@@ -1,11 +1,13 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.commonGoals.CommonGoal;
+import com.google.gson.annotations.Expose;
+import it.polimi.ingsw.model.commonGoals.*;
+import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.constants.BoardConstants;
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesAtStartFillBoardException;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesToFillBoardException;
-import it.polimi.ingsw.model.utilities.JsonSingleton;
+import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.model.utilities.RandomSingleton;
 
 import java.io.FileNotFoundException;
@@ -23,6 +25,7 @@ public final class GameBoard {
     /**
      * Matrix used for the storage of the physical gameboard
      */
+    @Expose
     private final Tile[][] myGameBoard;
     /**
      * List of the two common shelfs chosen for the current game
@@ -31,6 +34,7 @@ public final class GameBoard {
     /**
      * List of all the 132 tiles that can be found in the game "bucket"
      */
+    @Expose
     private final List<Tile> allTiles;
 
     /**
@@ -39,24 +43,23 @@ public final class GameBoard {
      * @param co
      * @return game board configurated and filled
      */
-    public static GameBoard createGameBoard(int numPlayers, List<CommonGoal> co){
+    public static GameBoard createGameBoard(int numPlayers, List<Integer> co){
         if(numPlayers==2) return new GameBoard(BoardConstants.FILE_CONFIG_GAMEBOARD2, co);
         if(numPlayers==3) return new GameBoard(BoardConstants.FILE_CONFIG_GAMEBOARD3, co);
         return new GameBoard(BoardConstants.FILE_CONFIG_GAMEBOARD4, co);
     }
     /**
-     * TODO: decide which common shelfs should be passed, maybe through the constructor
      * The constructor creates all the data structures and the utility attributes.
      * Note that the exception should never be thrown since the file will obviously be always present in the directory (unless someone makes a typo)
      * Note also that it creates a temporary object GameBoardConfiguration used to store all the loaded data
      * @param typeOfBoard string chosen in the GameBoardFactory containing the path of the config file
      */
-    private GameBoard(String typeOfBoard, List<CommonGoal> co){
+    private GameBoard(String typeOfBoard, List<Integer> cg){
         myGameBoard=new Tile[BoardConstants.BOARD_DIMENSION][BoardConstants.BOARD_DIMENSION];
         commonGoals =new ArrayList<>(BoardConstants.TOTAL_CG_PER_GAME);
-        commonGoals.addAll(co);
+        addAllCommonGoals(cg);
         allTiles =new ArrayList<>(BoardConstants.TOTAL_TILES);
-        Gson jsonParser= JsonSingleton.getJsonSingleton();
+        Gson jsonParser= JsonWithExposeSingleton.getJsonWithExposeSingleton();
         Reader fileReader = null;
         try {
             fileReader = new FileReader(typeOfBoard);
@@ -69,6 +72,39 @@ public final class GameBoard {
         fillAllTilesList();
         initialGameBoardFill(g.getValidPositions());
         fillPointStack(g.getPointStack());
+    }
+
+    public GameBoard(GameBoard gameBoard, List<Integer> cg){
+        this.myGameBoard=gameBoard.myGameBoard;
+        this.commonGoals = new ArrayList<>(BoardConstants.TOTAL_CG_PER_GAME);
+        addAllCommonGoals(cg);
+        this.allTiles=gameBoard.allTiles;
+    }
+
+    /**
+     * This method gets a list of integers and it creates the common goals based on a mapping done by integer -> objective
+     * @param list list of integers
+     */
+    private void addAllCommonGoals(List<Integer> list){
+        for(int i = 0; i< AppConstants.TOTAL_CG_PER_GAME; i++){
+            CommonGoal co;
+            Integer selected=list.get(i);
+            co = switch (selected) {
+                case 0 -> new CommonGoal1();
+                case 1 -> new CommonGoal2();
+                case 2 -> new CommonGoal3();
+                case 3 -> new CommonGoal4();
+                case 4 -> new CommonGoal5();
+                case 5 -> new CommonGoal6();
+                case 6 -> new CommonGoal7();
+                case 7 -> new CommonGoal8();
+                case 8 -> new CommonGoal9();
+                case 9 -> new CommonGoal10();
+                case 10 -> new CommonGoal11();
+                default -> new CommonGoal12();
+            };
+            this.commonGoals.add(co);
+        }
     }
 
     /**

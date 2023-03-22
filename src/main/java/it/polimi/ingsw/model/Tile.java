@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * this class represent the single tile of the game
  */
@@ -8,10 +10,12 @@ public class Tile {
     /**
      * this attribute is the color of the tile;
      */
+    @Expose
     private TileColor color;
     /**
      * this attribute is used to show the correct image of the tile
      */
+    @Expose
     private final int sprite;
 
     /**

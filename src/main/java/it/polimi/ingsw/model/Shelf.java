@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.utilities.UtilityFunctions;
 
@@ -13,6 +14,7 @@ public class Shelf {
     /**
      * This attribute store all the tile in the player's shelf
      */
+    @Expose
     private final Tile myShelf[][];
 
 

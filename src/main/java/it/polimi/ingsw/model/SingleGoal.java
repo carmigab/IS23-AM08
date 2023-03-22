@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * this class represents the specific single objective. Six of them composed one of the personal objective assigned to
  * a player
@@ -8,10 +10,12 @@ public class SingleGoal {
     /**
      * this attribute is the position in the personal shelf that allows the player to complete the objective
      */
+    @Expose
     private final Position position;
     /**
      * this attribute is the color of the objective
      */
+    @Expose
     private final TileColor color;
 
     /**
@@ -21,7 +25,7 @@ public class SingleGoal {
      * @param color the color of the objective
      */
 
-    //Doubts on the class construct: i don't know if, using a json file, i had to change the class construct
+    //Doubts on the class construct: i don't know if, using a json file, i had to change the class construct //NO
     public SingleGoal(Position position, TileColor color) {
         this.position = new Position(position);
         this.color = color;

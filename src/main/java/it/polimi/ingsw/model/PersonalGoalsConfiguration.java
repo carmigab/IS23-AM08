@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * This class is just a utility used for storing the loaded data from the config file
  */
@@ -7,10 +9,12 @@ public class PersonalGoalsConfiguration {
     /**
      * This attribute stores all the personal shelfs read from the config file
      */
+    @Expose
     private PersonalGoal[] personalGoals;
     /**
      * This attribute stores the array of points for each completed personal shelf read from the config file
      */
+    @Expose
     private int[] pointsForCompletion;
 
     /**

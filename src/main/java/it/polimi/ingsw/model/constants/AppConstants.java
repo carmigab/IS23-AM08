@@ -51,4 +51,6 @@ public class AppConstants {
      */
     public static String FILE_CONFIG_PERSONALGOAL = "src/main/config/model/singleObjectives.json";
 
+    public static String PATH_SAVED_FILES = "src/main/resources/savedMatches/";
+
 }

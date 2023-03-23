@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.commonGoals;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.List;
 
 /**
@@ -9,6 +11,7 @@ public class SingleOccurrenceOfGivenShapeConfiguration {
     /**
      * This attribute stores all the SingleOccurrenceOfGivenShape read from the config file
      */
+    @Expose
     private List<SingleOccurrenceOfGivenShape> goalList;
 
     /**

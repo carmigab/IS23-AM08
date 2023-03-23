@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.commonGoals;
 
+import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Tile;
@@ -13,8 +14,11 @@ import java.util.Set;
  * This class implements the fifth, eighth, ninth and tenth common goal: N lines of tiles of at most M different colors
  */
 public class NLinesOfAtMostMDifferentColors extends CommonGoal{
+    @Expose
     private final int n;
+    @Expose
     private final int m;
+    @Expose
     private final boolean isColumn;
 
     /**

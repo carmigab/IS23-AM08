@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.commonGoals;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.List;
 
 /**
@@ -9,6 +11,7 @@ public class NLinesOfAtMostMDifferentColorsConfiguration {
     /**
      * This attribute stores all the NLinesOfAtMostMDifferentColors read from the config file
      */
+    @Expose
     private List<NLinesOfAtMostMDifferentColors> goalList;
 
     /**

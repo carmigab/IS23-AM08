@@ -26,56 +26,6 @@ public class UtilityFunctions {
      */
     public static Integer findGroupSize(Shelf shelf, Position position) {
         return findGroupContainingGivenPosition(shelf, position).size();
-
-//        group size
-//        Integer groupSize = 0;
-//
-//        // frontier to store the position to be examined
-//        ArrayDeque<Position> frontier = new ArrayDeque<>();
-//
-//        // color of the current group
-//        TileColor color = shelf.getCard(position).getColor();
-//
-//        // add the given position to the frontier to start the algorithm
-//        frontier.add(position);
-//
-//        // while the frontier is not empty extract the first element, if the card in that
-//        // position has the same color of the group add one to group size,
-//        // set the corresponding card to empty and add the right, bottom, top and left position
-//        // to the queue if not already presents
-//        while (!frontier.isEmpty()) {
-//            Position extraxtedPosition = frontier.removeFirst();
-//            Tile card = shelf.getCard(extraxtedPosition);
-//
-//            // if the card in the position extracted from the frontier has the same color of the group
-//            if (card.getColor().equals(color) && !card.isEmpty()) {
-//                groupSize++;
-//                // set the card in the extracted position to empty to avoid double-checking
-//                card.setEmpty();
-//
-//                // if the extracted position is in the last column do not execute this part
-//                if (extraxtedPosition.x() < AppConstants.COLS_NUMBER - 1) {
-//                    frontier.add(new Position(extraxtedPosition.x() + 1, extraxtedPosition.y()));
-//                }
-//
-//                // if the extracted position is in the last row do not execute this part
-//                if (extraxtedPosition.y() < AppConstants.ROWS_NUMBER - 1) {
-//                    frontier.add(new Position(extraxtedPosition.x(), extraxtedPosition.y() + 1));
-//                }
-//
-//                // if the extracted position is in the first column do not execute this part
-//                if (extraxtedPosition.x() > 0) {
-//                    frontier.add(new Position(extraxtedPosition.x() - 1, extraxtedPosition.y()));
-//                }
-//
-//                // if the extracted position is in the first row do not execute this part
-//                if (extraxtedPosition.y() >0) {
-//                    frontier.add(new Position(extraxtedPosition.x(), extraxtedPosition.y() - 1));
-//                }
-//            }
-//        }
-//
-//        return groupSize;
     }
 
     /**
@@ -113,26 +63,6 @@ public class UtilityFunctions {
                 card.setEmpty();
 
                 frontier.addAll(getAdjacentPositions(extractedPosition));
-
-//                // if the extracted position is in the last column do not execute this part
-//                if (extraxtedPosition.x() < AppConstants.COLS_NUMBER - 1) {
-//                    frontier.add(new Position(extraxtedPosition.x() + 1, extraxtedPosition.y()));
-//                }
-//
-//                // if the extracted position is in the last row do not execute this part
-//                if (extraxtedPosition.y() < AppConstants.ROWS_NUMBER - 1) {
-//                    frontier.add(new Position(extraxtedPosition.x(), extraxtedPosition.y() + 1));
-//                }
-//
-//                // if the extracted position is in the first column do not execute this part
-//                if (extraxtedPosition.x() > 0) {
-//                    frontier.add(new Position(extraxtedPosition.x() - 1, extraxtedPosition.y()));
-//                }
-//
-//                // if the extracted position is in the first row do not execute this part
-//                if (extraxtedPosition.y() >0) {
-//                    frontier.add(new Position(extraxtedPosition.x(), extraxtedPosition.y() - 1));
-//                }
             }
         }
 

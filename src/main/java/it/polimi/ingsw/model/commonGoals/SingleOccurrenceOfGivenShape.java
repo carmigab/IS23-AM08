@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.commonGoals;
 
+import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.TileColor;
@@ -12,9 +13,13 @@ import java.util.List;
  * This class implements the third, seventh and eleventh common goal: check if a given shape is present in the board (four corners, diagonal, cross)
  */
 public class SingleOccurrenceOfGivenShape extends CommonGoal{
+    @Expose
     private final List<Position> shape;
+    @Expose
     private final int shapeXSize;
+    @Expose
     private final int shapeYSize;
+    @Expose
     private final boolean isSymmetric;
 
     /**

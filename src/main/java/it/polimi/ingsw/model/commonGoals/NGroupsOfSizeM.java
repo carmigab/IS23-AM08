@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.commonGoals;
 
+import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Tile;
@@ -10,7 +11,9 @@ import it.polimi.ingsw.model.utilities.UtilityFunctions;
  * This class implements the first and second common goal: N group of M tiles of the same color (different groups can have different colors)
  */
 public class NGroupsOfSizeM extends CommonGoal{
+    @Expose
     private final int n;
+    @Expose
     private final int m;
 
     /**

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.commonGoals;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.List;
 
 /**
@@ -9,6 +11,7 @@ public class NGroupsOfSizeMConfiguration {
     /**
      * This attribute stores all the NGroupsOfSizeM read from the config file
      */
+    @Expose
     private List<NGroupsOfSizeM> goalList;
 
     /**

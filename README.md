@@ -81,7 +81,34 @@ Instead of just a NN, i will have... two of them!!
 
 The first one will be with 30 inputs (one for cell) and 5 outputs (one for column)  and it will help the NN learn where is more likely to insert a piece based on its current column.
 
-The second one will be the 288*258 (or also 258*258, have to do some training and testing).
+The second one will be the 288 * 258 (or also 258 * 258, have to do some training and testing).
+
+
+To also learn the common and personal goals, we have 12 of each.  
+So we could do two mappings and insert them into the NN input.
+
+But for understanding in which NN they should go we need to think a bit.  
+
+If we have them in the first one, it means that the computer will learn to prefer  
+a column based on the current state of the library and the objectives.
+
+On the other hand, in the second one it will learn which move is best based on  
+the same properties.
+
+So if we put them in the first only, it will lose the fact that each position is  
+evaluated by the common and personal goals too.  
+
+But if we have it in the second only, it will lose the ability to evaluate the best column.  
+
+And if we have them in both, we have a lot of redundancy (apart from more hidden nodes).
+
+Soo... why not combine them both at this point?
+
+We could have a NN with 312 (=258+30+12+12) inputs and 263 (=258+5) outputs.  
+Where of course every output has two numbers which have to be chosen from.
+
+This would only increase the number of hidden nodes to 82056.  
+Which is not bad given the maths below.
 
 ## Some boring (and possibly wrong) MATHS
 
@@ -126,11 +153,18 @@ could be tested at once, with an activation rate of:
 
 - single tile: 99.5% (sometimes its also good to leave some moves not possible)
 - double tile: 92.5%
-- triple tile: 50-60%
+- triple tile: 30-40% (from 50-60%)
 
 So for every operation we have to calculate at worst 70% of the total moves (approx 180).
 
 So every connection active for the feed forward would be 180 * 258 = 46440.
+
+Why did i lower the ones with triple tiles?  
+Well, because in a normal game most of the tiles you can choose from are  
+either single or double tiles.
+
+And even if the triples carry the bigger number of permutations,  
+they are more likely to repeat.
 
 ## Little bit of Backpropagation
 
@@ -156,6 +190,9 @@ we prepare the expected output based on the 1. method, so we have an automatic e
 we feed forward and backpropagate a loooooot of times and we bing chilling.
 
 preferably we also want to save every k generations a json with the current configuration too.
+
+Note that to generate the moves we have to pick a random move and then  
+compute also all its different permutations (to make it more realistic)
 
 ## Ideas for Future
 

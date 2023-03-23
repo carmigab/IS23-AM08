@@ -55,7 +55,7 @@ public class TrainingModel {
                 TileColor.BLUE,
                 TileColor.GREEN,
                 TileColor.WHITE,
-                TileColor.CYAN,
+                TileColor.LIGHT_BLUE,
                 TileColor.YELLOW,
                 TileColor.VIOLET
         };
@@ -68,7 +68,7 @@ public class TrainingModel {
         this.colorsMapper.put(TileColor.WHITE,2);
         this.colorsMapper.put(TileColor.BLUE,3);
         this.colorsMapper.put(TileColor.YELLOW,4);
-        this.colorsMapper.put(TileColor.CYAN,5);
+        this.colorsMapper.put(TileColor.LIGHT_BLUE,5);
         this.colorsMapper.put(TileColor.VIOLET,6);
 
         List<TileColor> currentMove=new ArrayList<>(3);

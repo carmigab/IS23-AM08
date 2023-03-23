@@ -14,7 +14,7 @@ class TwoSquaresTest {
     TwoSquares cg4 = new TwoSquares();
 
     /**
-     * This method test the evaluate method of CommonGoal1
+     * This method test the evaluate method of CommonGoal3
      */
     @Test
     void evaluate() {

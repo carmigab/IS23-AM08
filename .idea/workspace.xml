@@ -4,28 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="created class to unify common goal 3, 7, 11 and related test">
-      <change afterPath="$PROJECT_DIR$/src/main/config/model/commonGoals1and2.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/config/model/commonGoals3and7and11.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/config/model/commonGoals5and8and9and10.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeMConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColorsConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShapeConfiguration.java" afterDir="false" />
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="created and tested json configuration files for the three common goal classes that need parameters to be initialized, modified GameModel method getRandomCommonGoals to create the goal from json">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/config/model/singleObjectives.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/config/model/singleObjectives.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal12.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/Ladder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal4.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/TwoSquares.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal6.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/EightTilesOfTheSameColor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/constants/AppConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/constants/AppConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal1.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal10.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal11.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal2.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal3.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal5.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal7.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal8.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal9.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameBoardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameBoardTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal12Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/LadderTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal4Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/TwoSquaresTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal6Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/EightTilesOfTheSameColorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal7Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal7Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeMTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeMTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColorsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColorsTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShapeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShapeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal10Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal11Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal1Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal2Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal3Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal5Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal7Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal8Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal9Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/TwoSquaresTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/TwoSquaresTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,7 +115,7 @@
       <recent name="it.polimi.ingsw.model.commonGoals" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.SingleOccurrenceOfGivenShapeTest">
+  <component name="RunManager">
     <configuration name="All tests" type="JUnit" factoryName="JUnit">
       <module name="AM08" />
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
@@ -456,7 +456,8 @@
       <workItem from="1679472976794" duration="4370000" />
       <workItem from="1679480011124" duration="845000" />
       <workItem from="1679567300934" duration="750000" />
-      <workItem from="1679570451440" duration="906000" />
+      <workItem from="1679570451440" duration="1107000" />
+      <workItem from="1679571637439" duration="307000" />
     </task>
     <task id="LOCAL-00001" summary="minor fixes &amp; player state tests">
       <created>1678896857551</created>
@@ -570,14 +571,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679432601547</updated>
     </task>
-    <task id="LOCAL-00017" summary="created class to unify common goal 3, 7, 11 and related test">
-      <created>1679559476602</created>
+    <task id="LOCAL-00017" summary="created and tested json configuration files for the three common goal classes that need parameters to be initialized, modified GameModel method getRandomCommonGoals to create the goal from json">
+      <created>1679571548397</created>
       <option name="number" value="00017" />
       <option name="presentableId" value="LOCAL-00017" />
       <option name="project" value="LOCAL" />
-      <updated>1679559476602</updated>
+      <updated>1679571548397</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -633,8 +634,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="minor fixes &amp; player state tests" />
-    <MESSAGE value="minor fixes" />
     <MESSAGE value="fixed a bug for which an object was passed as a value and not reference" />
     <MESSAGE value="created and tested CommonObjective5, little fixes in javadoc and naming in other classes, added a new utility functio" />
     <MESSAGE value="created and tested CommonObjective6, little fixes naming in CommonObjective abstract class" />
@@ -671,7 +670,8 @@
     <MESSAGE value="modified CommonObjective4 and created CommonObjective4Test, overrided equals in Position classe" />
     <MESSAGE value="name refactoring:&#10;objective -&gt; goal&#10;library -&gt; shelf&#10;card -&gt; tile" />
     <MESSAGE value="created classes to unify common goal 1 and 2 and common goal 5, 8, 9 and 10 with related tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="created classes to unify common goal 1 and 2 and common goal 5, 8, 9 and 10 with related tests" />
+    <MESSAGE value="created and tested json configuration files for the three common goal classes that need parameters to be initialized, modified GameModel method getRandomCommonGoals to create the goal from json" />
+    <option name="LAST_COMMIT_MESSAGE" value="created and tested json configuration files for the three common goal classes that need parameters to be initialized, modified GameModel method getRandomCommonGoals to create the goal from json" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

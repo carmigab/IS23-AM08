@@ -14,7 +14,7 @@ public class GameBoardTest {
     @Test
     public void testCorrectGameBoard2Creation(){
         List<CommonGoal> co=new ArrayList<>(2);
-        co.add(new CommonGoal11());
+        co.add(new TwoSquares());
         co.add(new Ladder());
         GameBoard gb= GameBoard.createGameBoard(2, co);
         assertTrue(gb.positionOccupied(new Position(4,5)));
@@ -28,7 +28,7 @@ public class GameBoardTest {
     @Test
     public void testCorrectGameBoard3Creation(){
         List<CommonGoal> co=new ArrayList<>(2);
-        co.add(new CommonGoal11());
+        co.add(new TwoSquares());
         co.add(new Ladder());
         GameBoard gb= GameBoard.createGameBoard(3, co);
         assertTrue(gb.positionOccupied(new Position(4,5)));
@@ -44,7 +44,7 @@ public class GameBoardTest {
     @Test
     public void testCorrectGameBoard4Creation(){
         List<CommonGoal> co=new ArrayList<>(2);
-        co.add(new CommonGoal11());
+        co.add(new TwoSquares());
         co.add(new Ladder());
         GameBoard gb= GameBoard.createGameBoard(4, co);
         assertTrue(gb.positionOccupied(new Position(4,5)));

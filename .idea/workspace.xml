@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="name refactoring:&#10;objective -&gt; goal&#10;library -&gt; shelf&#10;card -&gt; tile">
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeM.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColors.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeMTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColorsTest.java" afterDir="false" />
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="created classes to unify common goal 1 and 2 and common goal 5, 8, 9 and 10 with related tests">
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShape.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShapeTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal5Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal5Test.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +94,7 @@
       <recent name="it.polimi.ingsw" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.NLinesOfAtMostMDifferentColorsTest">
+  <component name="RunManager" selected="JUnit.SingleOccurrenceOfGivenShapeTest">
     <configuration name="All tests" type="JUnit" factoryName="JUnit">
       <module name="AM08" />
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
@@ -302,6 +299,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="SingleOccurrenceOfGivenShapeTest" type="JUnit" factoryName="JUnit">
+      <module name="AM08" />
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonGoals" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonGoals.SingleOccurrenceOfGivenShapeTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="UtilityFunctionsTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
@@ -328,6 +335,7 @@
       <item itemvalue="JUnit.PlayerStateTest" />
       <item itemvalue="JUnit.NGroupsOfSizeMTest" />
       <item itemvalue="JUnit.NLinesOfAtMostMDifferentColorsTest" />
+      <item itemvalue="JUnit.SingleOccurrenceOfGivenShapeTest" />
       <item itemvalue="JUnit.All tests" />
       <item itemvalue="JUnit.GameModelTest.testPersistency" />
       <item itemvalue="JUnit.GameBoardTest" />
@@ -361,6 +369,8 @@
       <workItem from="1679126727781" duration="10002000" />
       <workItem from="1679237840334" duration="2717000" />
       <workItem from="1679297110530" duration="2746000" />
+      <workItem from="1679472976794" duration="4370000" />
+      <workItem from="1679480011124" duration="845000" />
     </task>
     <task id="LOCAL-00001" summary="minor fixes &amp; player state tests">
       <created>1678896857551</created>
@@ -467,7 +477,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679408210535</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="created classes to unify common goal 1 and 2 and common goal 5, 8, 9 and 10 with related tests">
+      <created>1679432601547</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1679432601547</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -517,7 +534,8 @@
     <MESSAGE value="created and tested CommonObjective8, created CommonObjective4 but need changes and test" />
     <MESSAGE value="modified CommonObjective4 and created CommonObjective4Test, overrided equals in Position classe" />
     <MESSAGE value="name refactoring:&#10;objective -&gt; goal&#10;library -&gt; shelf&#10;card -&gt; tile" />
-    <option name="LAST_COMMIT_MESSAGE" value="name refactoring:&#10;objective -&gt; goal&#10;library -&gt; shelf&#10;card -&gt; tile" />
+    <MESSAGE value="created classes to unify common goal 1 and 2 and common goal 5, 8, 9 and 10 with related tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="created classes to unify common goal 1 and 2 and common goal 5, 8, 9 and 10 with related tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -536,6 +554,11 @@
           <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColorsTest.java</url>
           <line>70</line>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShapeTest.java</url>
+          <line>57</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

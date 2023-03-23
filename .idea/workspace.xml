@@ -4,17 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="imports update in common goals test to fix missing JsonSingleton">
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="fixed CommonGoal.push() and modified the new common goals classes to use JsonWithExposeSingleton instead of JsonSingleton">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeMConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeMConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColors.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColorsConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColorsConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShape.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShapeConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShapeConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/UtilityFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/UtilityFunctions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -528,7 +521,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679578887177</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="fixed CommonGoal.push() and modified the new common goals classes to use JsonWithExposeSingleton instead of JsonSingleton">
+      <created>1679581195023</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1679581195023</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -584,8 +584,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Common Objective 9 and Test" />
-    <MESSAGE value="Common Objective 9, 10 and Test minor fixes" />
     <MESSAGE value="added common objective creation and fixed minor issue in singleobjective test" />
     <MESSAGE value="fixed gameboard test, now works fine" />
     <MESSAGE value="created and tested CommonObjective7" />
@@ -619,7 +617,8 @@
     <MESSAGE value="created and tested json configuration files for the three common goal classes that need parameters to be initialized, modified GameModel method getRandomCommonGoals to create the goal from json" />
     <MESSAGE value="modified GameBoard addAllCommonGoals method to load the common goals from json config files when needed and to instantiate the correct goal elsewhere" />
     <MESSAGE value="imports update in common goals test to fix missing JsonSingleton" />
-    <option name="LAST_COMMIT_MESSAGE" value="imports update in common goals test to fix missing JsonSingleton" />
+    <MESSAGE value="fixed CommonGoal.push() and modified the new common goals classes to use JsonWithExposeSingleton instead of JsonSingleton" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed CommonGoal.push() and modified the new common goals classes to use JsonWithExposeSingleton instead of JsonSingleton" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -643,6 +642,11 @@
           <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShapeTest.java</url>
           <line>58</line>
           <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameModelTest.java</url>
+          <line>31</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

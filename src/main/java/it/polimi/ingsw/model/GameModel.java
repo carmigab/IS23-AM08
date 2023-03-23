@@ -13,7 +13,7 @@ import it.polimi.ingsw.model.observers.Observer;
 import java.io.*;
 import java.util.*;
 
-public class GameModel extends Observable {
+public class GameModel {
     /**
      * this attribute is a list of observers
      */

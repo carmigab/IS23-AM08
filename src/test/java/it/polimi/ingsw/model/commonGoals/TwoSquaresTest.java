@@ -8,13 +8,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit test for CommonGoal4
+ * Unit test for TwoSquares
  */
-class CommonGoal4Test {
-    CommonGoal4 cg4 = new CommonGoal4();
+class TwoSquaresTest {
+    TwoSquares cg4 = new TwoSquares();
 
     /**
-     * This method test the evaluate method of CommonGoal1
+     * This method test the evaluate method of CommonGoal3
      */
     @Test
     void evaluate() {

@@ -1,0 +1,81 @@
+{
+  "goalList" : [
+    {
+      "shape" : [
+        {
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "x" : 0,
+          "y" : 5
+        },
+        {
+          "x" : 4,
+          "y" : 0
+        },
+        {
+          "x" : 4,
+          "y" : 5
+        }
+      ],
+      "shapeXSize" : 5,
+      "shapeYSize" : 6,
+      "isSymmetric" : true
+    },
+    {
+      "shape" : [
+        {
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "x" : 1,
+          "y" : 1
+        },
+        {
+          "x" : 2,
+          "y" : 2
+        },
+        {
+          "x" : 3,
+          "y" : 3
+        },
+        {
+          "x" : 4,
+          "y" : 4
+        }
+      ],
+      "shapeXSize" : 5,
+      "shapeYSize" : 5,
+      "isSymmetric" : false
+    },
+    {
+      "shape" : [
+        {
+          "x" : 0,
+          "y" : 0
+        },
+        {
+          "x" : 0,
+          "y" : 2
+        },
+        {
+          "x" : 1,
+          "y" : 1
+        },
+        {
+          "x" : 2,
+          "y" : 0
+        },
+        {
+          "x" : 2,
+          "y" : 2
+        }
+      ],
+      "shapeXSize" : 3,
+      "shapeYSize" : 3,
+      "isSymmetric" : true
+    }
+  ]
+}

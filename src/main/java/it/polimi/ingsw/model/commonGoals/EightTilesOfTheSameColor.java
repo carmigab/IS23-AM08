@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.constants.AppConstants;
 /**
  * This class implements the sixth common goal: 8 cards of the same color anywhere in the library
  */
-public class CommonGoal6 extends CommonGoal {
+public class EightTilesOfTheSameColor extends CommonGoal {
     /**
      * This method evaluate if the current player's library satisfies the commoon goal
      *

@@ -5,20 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="added persistency&#10;added new utility function&#10;added new constant in appconstants&#10;added possibility of loading game from file (todo better)&#10;added @Expose tag to identify which things have to be saved in json and which not">
-      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/App.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/GameBoard.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/GameBoardConfiguration.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/GameModel.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/PlayerState.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/Position.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/constants/AppConstants.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/constants/BoardConstants.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/utilities/UtilityFunctions.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/AppTest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/GameBoardTest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/PlayerStateTest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/PositionTest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/utilities/UtilityFunctionsTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,8 +15,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -63,6 +50,7 @@
   <component name="ProjectId" id="2N0OzAjZIrxoEcZAcFMj1atr5JU" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="false" id="Update" />
+    <ConfirmationsSetting value="1" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />

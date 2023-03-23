@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit test for CommonGoal7
  */
 class CommonGoal7Test {
-    CommonGoal6 cg7 = new CommonGoal6();
+    EightTilesOfTheSameColor cg7 = new EightTilesOfTheSameColor();
 
     /**
      * This method test the evaluate method of CommonGoal7

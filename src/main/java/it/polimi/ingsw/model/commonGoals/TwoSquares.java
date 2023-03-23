@@ -12,7 +12,7 @@ import static it.polimi.ingsw.model.utilities.UtilityFunctions.findGroupContaini
 /**
  * This class implements the fourth common goal: two squares 2x2 of the same color
  */
-public class CommonGoal4 extends CommonGoal {
+public class TwoSquares extends CommonGoal {
     /**
      * This method evaluate if the current player's shelf satisfies the common goal
      *

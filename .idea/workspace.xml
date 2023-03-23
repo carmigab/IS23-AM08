@@ -4,10 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="created classes to unify common goal 1 and 2 and common goal 5, 8, 9 and 10 with related tests">
-      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShape.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShapeTest.java" afterDir="false" />
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="created class to unify common goal 3, 7, 11 and related test">
+      <change afterPath="$PROJECT_DIR$/src/main/config/model/commonGoals1and2.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/config/model/commonGoals3and7and11.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/config/model/commonGoals5and8and9and10.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeMConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColorsConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShapeConfiguration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/config/model/singleObjectives.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/config/model/singleObjectives.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal12.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/Ladder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal4.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/TwoSquares.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal6.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/EightTilesOfTheSameColor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/constants/AppConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/constants/AppConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameBoardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameBoardTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal12Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/LadderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal4Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/TwoSquaresTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal6Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/EightTilesOfTheSameColorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal7Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/CommonGoal7Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeMTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeMTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColorsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColorsTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShapeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShapeTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +35,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="JUnit5 Test Class" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -50,7 +68,7 @@
     <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2N0OzAjZIrxoEcZAcFMj1atr5JU" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="false" id="Update" />
   </component>
   <component name="ProjectViewState">
@@ -92,6 +110,9 @@
       <recent name="it.polimi.ingsw.model.commonObjectives" />
       <recent name="it.polimi.ingsw.model.utilities" />
       <recent name="it.polimi.ingsw" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="it.polimi.ingsw.model.commonGoals" />
     </key>
   </component>
   <component name="RunManager" selected="JUnit.SingleOccurrenceOfGivenShapeTest">
@@ -150,8 +171,8 @@
     </configuration>
     <configuration name="CommonObjective6Test" type="JUnit" factoryName="JUnit">
       <module name="AM08" />
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonObjectives" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonGoals.CommonGoal6Test" />
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonGoals" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonGoals.EightTilesOfTheSameColorTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
@@ -183,6 +204,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="GameBoardTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="AM08" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameBoardTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="GameBoardTest.testCorrectGameBoard2Creation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
@@ -194,6 +230,38 @@
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameBoardTest" />
       <option name="METHOD_NAME" value="testCorrectGameBoard2Creation" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameBoardTest.testCorrectGameBoard2Creation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="AM08" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameBoardTest" />
+      <option name="METHOD_NAME" value="testCorrectGameBoard2Creation" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameBoardTest.testCorrectGameBoard3Creation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="AM08" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameBoardTest" />
+      <option name="METHOD_NAME" value="testCorrectGameBoard3Creation" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -231,11 +299,46 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="GameBoardTest.testCorrectGameBoard4Creation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="AM08" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.model.commonGoals.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameBoardTest" />
+      <option name="METHOD_NAME" value="testCorrectGameBoard4Creation" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.PlayerStateTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="GameModelTest.testPersistency" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="it.polimi.ingsw.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameModelTest" />
+      <option name="METHOD_NAME" value="testPersistency" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameModelTest.testPersistency" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="AM08" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.model.commonGoals.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -268,32 +371,6 @@
       </method>
     </configuration>
     <configuration name="PlayerStateTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
-      <module name="AM08" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.commonGoals.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.PlayerStateTest" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ShelfTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
-      <module name="AM08" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.commonGoals.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.ShelfTest" />
-      <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -327,7 +404,6 @@
     <list>
       <item itemvalue="JUnit.CommonGoal1Test" />
       <item itemvalue="JUnit.CommonGoal2Test" />
-      <item itemvalue="JUnit.ShelfTest" />
       <item itemvalue="JUnit.CommonObjective5Test" />
       <item itemvalue="JUnit.CommonObjective6Test" />
       <item itemvalue="JUnit.CommonObjective7Test" />
@@ -345,11 +421,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.GameModelTest.testPersistency" />
-        <item itemvalue="JUnit.GameBoardTest" />
         <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard4Creation" />
         <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard3Creation" />
         <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard2Creation" />
+        <item itemvalue="JUnit.GameBoardTest" />
+        <item itemvalue="JUnit.GameModelTest.testPersistency" />
       </list>
     </recent_temporary>
   </component>
@@ -371,6 +447,16 @@
       <workItem from="1679297110530" duration="2746000" />
       <workItem from="1679472976794" duration="4370000" />
       <workItem from="1679480011124" duration="845000" />
+      <workItem from="1679559182143" duration="501000" />
+      <workItem from="1678910011469" duration="1440000" />
+      <workItem from="1678954028114" duration="1414000" />
+      <workItem from="1679126727781" duration="10002000" />
+      <workItem from="1679237840334" duration="2717000" />
+      <workItem from="1679297110530" duration="2746000" />
+      <workItem from="1679472976794" duration="4370000" />
+      <workItem from="1679480011124" duration="845000" />
+      <workItem from="1679567300934" duration="750000" />
+      <workItem from="1679570451440" duration="906000" />
     </task>
     <task id="LOCAL-00001" summary="minor fixes &amp; player state tests">
       <created>1678896857551</created>
@@ -484,6 +570,13 @@
       <option name="project" value="LOCAL" />
       <updated>1679432601547</updated>
     </task>
+    <task id="LOCAL-00017" summary="created class to unify common goal 3, 7, 11 and related test">
+      <created>1679559476602</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1679559476602</updated>
+    </task>
     <option name="localTasksCounter" value="17" />
     <servers />
   </component>
@@ -506,7 +599,34 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="master" />
+                </option>
+              </RecentGroup>
+            </list>
           </value>
         </entry>
       </map>
@@ -514,6 +634,22 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="minor fixes &amp; player state tests" />
+    <MESSAGE value="minor fixes" />
+    <MESSAGE value="fixed a bug for which an object was passed as a value and not reference" />
+    <MESSAGE value="created and tested CommonObjective5, little fixes in javadoc and naming in other classes, added a new utility functio" />
+    <MESSAGE value="created and tested CommonObjective6, little fixes naming in CommonObjective abstract class" />
+    <MESSAGE value="Common Objective 10 and Test" />
+    <MESSAGE value="Common Objective 9 and Test" />
+    <MESSAGE value="Common Objective 9, 10 and Test minor fixes" />
+    <MESSAGE value="added common objective creation and fixed minor issue in singleobjective test" />
+    <MESSAGE value="fixed gameboard test, now works fine" />
+    <MESSAGE value="created and tested CommonObjective7" />
+    <MESSAGE value="readme todo table updated" />
+    <MESSAGE value="created and tested CommonObjective8, created CommonObjective4 but need changes and test" />
+    <MESSAGE value="modified CommonObjective4 and created CommonObjective4Test, overrided equals in Position classe" />
+    <MESSAGE value="name refactoring:&#10;objective -&gt; goal&#10;library -&gt; shelf&#10;card -&gt; tile" />
+    <MESSAGE value="created classes to unify common goal 1 and 2 and common goal 5, 8, 9 and 10 with related tests" />
+    <MESSAGE value="created class to unify common goal 3, 7, 11 and related test" />
     <MESSAGE value="added getCommonObjective to GameBoard&#10;removed evaluateCommonObjective from GameBoard &#10;added evaluatePoints to GameModel" />
     <MESSAGE value="added check for First Point to evaluatePoints in Game Model" />
     <MESSAGE value="index for commonObjective" />
@@ -541,24 +677,14 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java</url>
-          <line>220</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java</url>
-          <line>229</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColorsTest.java</url>
-          <line>70</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShapeTest.java</url>
-          <line>57</line>
+          <line>67</line>
           <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeMTest.java</url>
+          <line>51</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

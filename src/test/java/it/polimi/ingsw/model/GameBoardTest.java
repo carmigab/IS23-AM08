@@ -15,7 +15,7 @@ public class GameBoardTest {
     public void testCorrectGameBoard2Creation(){
         List<CommonGoal> co=new ArrayList<>(2);
         co.add(new CommonGoal11());
-        co.add(new CommonGoal12());
+        co.add(new Ladder());
         GameBoard gb= GameBoard.createGameBoard(2, co);
         assertTrue(gb.positionOccupied(new Position(4,5)));
         //check 4 extremes of the board, should be invalid
@@ -29,7 +29,7 @@ public class GameBoardTest {
     public void testCorrectGameBoard3Creation(){
         List<CommonGoal> co=new ArrayList<>(2);
         co.add(new CommonGoal11());
-        co.add(new CommonGoal12());
+        co.add(new Ladder());
         GameBoard gb= GameBoard.createGameBoard(3, co);
         assertTrue(gb.positionOccupied(new Position(4,5)));
         assertTrue(gb.positionOccupied(new Position(5,BoardConstants.BOARD_DIMENSION-1)));
@@ -45,7 +45,7 @@ public class GameBoardTest {
     public void testCorrectGameBoard4Creation(){
         List<CommonGoal> co=new ArrayList<>(2);
         co.add(new CommonGoal11());
-        co.add(new CommonGoal12());
+        co.add(new Ladder());
         GameBoard gb= GameBoard.createGameBoard(4, co);
         assertTrue(gb.positionOccupied(new Position(4,5)));
         assertTrue(gb.positionOccupied(new Position(5,BoardConstants.BOARD_DIMENSION-1)));

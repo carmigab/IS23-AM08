@@ -8,13 +8,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit test for CommonGoal6
+ * Unit test for EightTilesOfTheSameColor
  */
-class CommonGoal6Test {
-    CommonGoal6 cg6 = new CommonGoal6();
+class EightTilesOfTheSameColorTest {
+    EightTilesOfTheSameColor cg6 = new EightTilesOfTheSameColor();
 
     /**
-     * This method test the evaluate method of CommonGoal6
+     * This method test the evaluate method of EightTilesOfTheSameColor
      */
     @Test
     void evaluate() {

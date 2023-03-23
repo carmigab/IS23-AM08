@@ -1,10 +1,16 @@
 package it.polimi.ingsw.model.commonGoals;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.constants.AppConstants;
+import it.polimi.ingsw.model.utilities.JsonSingleton;
 import org.junit.jupiter.api.Test;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.Reader;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,7 +26,18 @@ class NLinesOfAtMostMDifferentColorsTest {
     @Test
     void evaluate() {
         Shelf shelf = new Shelf();
-        nLinesOfAtMostMDifferentColors = new NLinesOfAtMostMDifferentColors(3, 3, true);
+        Gson jsonLoader= JsonSingleton.getJsonSingleton();
+        Reader fileReader= null;
+        try {
+            fileReader = new FileReader(AppConstants.FILE_CONFIG_NLINESOFATMOSTMDIFFERENTCOLORS);
+        }
+        catch(FileNotFoundException e){
+            System.out.println(e);
+        }
+        NLinesOfAtMostMDifferentColorsConfiguration nLinesOfAtMostMDifferentColorsConfiguration = jsonLoader.fromJson(fileReader, NLinesOfAtMostMDifferentColorsConfiguration.class);
+
+
+        nLinesOfAtMostMDifferentColors = nLinesOfAtMostMDifferentColorsConfiguration.getGoalAt(0);
 
         // cards use to fill the shelf
         Tile cardBlue = new Tile(TileColor.BLUE, 0);
@@ -72,7 +89,7 @@ class NLinesOfAtMostMDifferentColorsTest {
 
 
         shelf = new Shelf();
-        nLinesOfAtMostMDifferentColors = new NLinesOfAtMostMDifferentColors(4, 3, false);
+        nLinesOfAtMostMDifferentColors = nLinesOfAtMostMDifferentColorsConfiguration.getGoalAt(1);
 
         // check if the method does not count empty column as valid columns
         assertFalse(nLinesOfAtMostMDifferentColors.evaluate(shelf));
@@ -121,7 +138,7 @@ class NLinesOfAtMostMDifferentColorsTest {
 
 
         shelf = new Shelf();
-        nLinesOfAtMostMDifferentColors = new NLinesOfAtMostMDifferentColors(2, 6, true);
+        nLinesOfAtMostMDifferentColors = nLinesOfAtMostMDifferentColorsConfiguration.getGoalAt(2);
 
         // G: 4
         shelf.add(new Tile(TileColor.GREEN, 0), 0);
@@ -153,7 +170,7 @@ class NLinesOfAtMostMDifferentColorsTest {
 
 
         shelf = new Shelf();
-        nLinesOfAtMostMDifferentColors = new NLinesOfAtMostMDifferentColors(2, 5, false);
+        nLinesOfAtMostMDifferentColors = nLinesOfAtMostMDifferentColorsConfiguration.getGoalAt(3);
 
         // G: 4
         shelf.add(new Tile(TileColor.GREEN, 0), 0);

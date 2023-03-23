@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CommonGoal12Test {
+class LadderTest {
 
     @Test
     void evaluate() {
-        CommonGoal12 cg12 = new CommonGoal12();
+        Ladder cg12 = new Ladder();
 
         Shelf lib = new Shelf();
 

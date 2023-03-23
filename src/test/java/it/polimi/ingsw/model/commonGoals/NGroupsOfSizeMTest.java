@@ -1,9 +1,16 @@
 package it.polimi.ingsw.model.commonGoals;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
+import it.polimi.ingsw.model.constants.AppConstants;
+import it.polimi.ingsw.model.utilities.JsonSingleton;
 import org.junit.jupiter.api.Test;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.Reader;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +26,19 @@ class NGroupsOfSizeMTest {
     @Test
     void evaluate() {
         Shelf shelf = new Shelf();
-        nGroupsOfSizeM = new NGroupsOfSizeM(6, 2);
+
+        Gson jsonLoader= JsonSingleton.getJsonSingleton();
+        Reader fileReader= null;
+        try {
+            fileReader = new FileReader(AppConstants.FILE_CONFIG_NGROUPOFSIZEM);
+        }
+        catch(FileNotFoundException e){
+            System.out.println(e);
+        }
+        NGroupsOfSizeMConfiguration nGroupsOfSizeMConfiguration = jsonLoader.fromJson(fileReader, NGroupsOfSizeMConfiguration.class);
+
+
+        nGroupsOfSizeM = nGroupsOfSizeMConfiguration.getGoalAt(0);
 
         // creating one card per color to fill the board
         Tile cBlue = new Tile(TileColor.BLUE, 0);
@@ -85,7 +104,7 @@ class NGroupsOfSizeMTest {
         
         // four groups of four tiles
         shelf = new Shelf();
-        nGroupsOfSizeM = new NGroupsOfSizeM(4, 4);
+        nGroupsOfSizeM = nGroupsOfSizeMConfiguration.getGoalAt(1);
 
         // check if evaluate works with an empty library
         assertFalse(nGroupsOfSizeM.evaluate(shelf));

@@ -1,12 +1,17 @@
 package it.polimi.ingsw.model.commonGoals;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.constants.AppConstants;
+import it.polimi.ingsw.model.utilities.JsonSingleton;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,13 +29,18 @@ class SingleOccurrenceOfGivenShapeTest {
     @Test
     void evaluate() {
         Shelf shelf = new Shelf();
-        List<Position> shape = new ArrayList<>();
-        shape.add(new Position(0, 0));
-        shape.add(new Position(0, AppConstants.ROWS_NUMBER - 1));
-        shape.add(new Position(AppConstants.COLS_NUMBER - 1, 0));
-        shape.add(new Position(AppConstants.COLS_NUMBER - 1, AppConstants.ROWS_NUMBER - 1));
-        
-        singleOccurrenceOfGivenShape = new SingleOccurrenceOfGivenShape(shape, 5, 6, true);
+        Gson jsonLoader= JsonSingleton.getJsonSingleton();
+        Reader fileReader= null;
+        try {
+            fileReader = new FileReader(AppConstants.FILE_CONFIG_SINGLEOCCURRENCEOFGIVENSHAPE);
+        }
+        catch(FileNotFoundException e){
+            System.out.println(e);
+        }
+        SingleOccurrenceOfGivenShapeConfiguration singleOccurrenceOfGivenShapeConfiguration = jsonLoader.fromJson(fileReader, SingleOccurrenceOfGivenShapeConfiguration.class);
+
+
+        singleOccurrenceOfGivenShape = singleOccurrenceOfGivenShapeConfiguration.getGoalAt(0);
 
         // card used to fill the board
         Tile cardBlue = new Tile(TileColor.BLUE, 0);
@@ -60,12 +70,8 @@ class SingleOccurrenceOfGivenShapeTest {
 
 
         shelf = new Shelf();
-        shape = new ArrayList<>();
-        for (int i = 0; i < AppConstants.COLS_NUMBER; i++) {
-            shape.add(new Position(i, i));
-        }
 
-        singleOccurrenceOfGivenShape = new SingleOccurrenceOfGivenShape(shape, 5, 5, false);
+        singleOccurrenceOfGivenShape = singleOccurrenceOfGivenShapeConfiguration.getGoalAt(1);
 
         // check with empty library
         assertFalse(singleOccurrenceOfGivenShape.evaluate(shelf));
@@ -116,14 +122,8 @@ class SingleOccurrenceOfGivenShapeTest {
 
 
         shelf = new Shelf();
-        shape = new ArrayList<>();
-        shape.add(new Position(0, 0));
-        shape.add(new Position(0, 2));
-        shape.add(new Position(1, 1));
-        shape.add(new Position(2, 0));
-        shape.add(new Position(2, 2));
 
-        singleOccurrenceOfGivenShape = new SingleOccurrenceOfGivenShape(shape, 3, 3, true);
+        singleOccurrenceOfGivenShape = singleOccurrenceOfGivenShapeConfiguration.getGoalAt(2);
 
         // creating one card per color to fill the board
         Tile cBlue = new Tile(TileColor.BLUE, 0);

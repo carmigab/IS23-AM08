@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.constants.AppConstants;
-import it.polimi.ingsw.model.utilities.JsonSingleton;
+import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -26,7 +26,7 @@ class NLinesOfAtMostMDifferentColorsTest {
     @Test
     void evaluate() {
         Shelf shelf = new Shelf();
-        Gson jsonLoader= JsonSingleton.getJsonSingleton();
+        Gson jsonLoader= JsonWithExposeSingleton.getJsonWithExposeSingleton();
         Reader fileReader= null;
         try {
             fileReader = new FileReader(AppConstants.FILE_CONFIG_NLINESOFATMOSTMDIFFERENTCOLORS);

@@ -95,7 +95,7 @@
       <recent name="it.polimi.ingsw.model.commonGoals" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.CommonGoal1Test">
+  <component name="RunManager" selected="JUnit.All tests">
     <configuration name="All tests" type="JUnit" factoryName="JUnit">
       <module name="AM08" />
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />

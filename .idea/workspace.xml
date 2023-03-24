@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="fixed CommonGoal.push() and modified the new common goals classes to use JsonWithExposeSingleton instead of JsonSingleton">
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="fixed GameModel to pass GameModelTest testPersistency, removed &quot;extends Observable&quot; from GameModel signature to make it loadable from json">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/UtilityFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/UtilityFunctions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
     </list>
@@ -57,25 +59,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "OverrideImplement.generate.javadoc": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.includeInheritedMembers": "true",
-    "deletionFromPopupRequiresConfirmation": "false",
-    "last_opened_file_path": "C:/Users/cenza/Desktop/UNIVERSITA/TERZO ANNO/SECONDO SEMESTRE/PROVA FINALE IDS/IS23-AM08",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;OverrideImplement.generate.javadoc&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.includeInheritedMembers&quot;: &quot;true&quot;,
+    &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/cenza/Desktop/UNIVERSITA/TERZO ANNO/SECONDO SEMESTRE/PROVA FINALE IDS/IS23-AM08&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -387,6 +389,8 @@
       <workItem from="1679567300934" duration="750000" />
       <workItem from="1679570451440" duration="1107000" />
       <workItem from="1679571637439" duration="307000" />
+      <workItem from="1679604313382" duration="274000" />
+      <workItem from="1679645101789" duration="489000" />
     </task>
     <task id="LOCAL-00001" summary="minor fixes &amp; player state tests">
       <created>1678896857551</created>
@@ -528,7 +532,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679581195023</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="fixed GameModel to pass GameModelTest testPersistency, removed &quot;extends Observable&quot; from GameModel signature to make it loadable from json">
+      <created>1679583352877</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1679583352877</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -584,8 +595,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added common objective creation and fixed minor issue in singleobjective test" />
-    <MESSAGE value="fixed gameboard test, now works fine" />
     <MESSAGE value="created and tested CommonObjective7" />
     <MESSAGE value="readme todo table updated" />
     <MESSAGE value="created and tested CommonObjective8, created CommonObjective4 but need changes and test" />
@@ -618,7 +627,8 @@
     <MESSAGE value="modified GameBoard addAllCommonGoals method to load the common goals from json config files when needed and to instantiate the correct goal elsewhere" />
     <MESSAGE value="imports update in common goals test to fix missing JsonSingleton" />
     <MESSAGE value="fixed CommonGoal.push() and modified the new common goals classes to use JsonWithExposeSingleton instead of JsonSingleton" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed CommonGoal.push() and modified the new common goals classes to use JsonWithExposeSingleton instead of JsonSingleton" />
+    <MESSAGE value="fixed GameModel to pass GameModelTest testPersistency, removed &quot;extends Observable&quot; from GameModel signature to make it loadable from json" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed GameModel to pass GameModelTest testPersistency, removed &quot;extends Observable&quot; from GameModel signature to make it loadable from json" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

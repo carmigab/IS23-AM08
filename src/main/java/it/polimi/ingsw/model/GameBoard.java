@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.exceptions.NoMoreTilesAtStartFillBoardException;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesToFillBoardException;
 import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.model.utilities.RandomSingleton;
+import it.polimi.ingsw.model.utilities.UtilityFunctions;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -86,54 +87,11 @@ public final class GameBoard {
      * @param list list of integers
      */
     private void addAllCommonGoals(List<Integer> list){
-        Gson jsonLoader = JsonWithExposeSingleton.getJsonWithExposeSingleton();
-        Reader fileReader = null;
-        // creating configuration from json file for common goal 1 and 2
-        try {
-            fileReader = new FileReader(AppConstants.FILE_CONFIG_NGROUPOFSIZEM);
-        }
-        catch(FileNotFoundException e){
-            System.out.println(e);
-        }
-        NGroupsOfSizeMConfiguration nGroupsOfSizeMConfiguration = jsonLoader.fromJson(fileReader, NGroupsOfSizeMConfiguration.class);
-
-        // creating configuration from json file for common goal 5, 8, 9 and 10
-        try {
-            fileReader = new FileReader(AppConstants.FILE_CONFIG_NLINESOFATMOSTMDIFFERENTCOLORS);
-        }
-        catch(FileNotFoundException e){
-            System.out.println(e);
-        }
-        NLinesOfAtMostMDifferentColorsConfiguration nLinesOfAtMostMDifferentColorsConfiguration = jsonLoader.fromJson(fileReader, NLinesOfAtMostMDifferentColorsConfiguration.class);
-
-        // creating configuration from json file for common goal 3, 7 and 11
-        try {
-            fileReader = new FileReader(AppConstants.FILE_CONFIG_SINGLEOCCURRENCEOFGIVENSHAPE);
-        }
-        catch(FileNotFoundException e){
-            System.out.println(e);
-        }
-        SingleOccurrenceOfGivenShapeConfiguration singleOccurrenceOfGivenShapeConfiguration = jsonLoader.fromJson(fileReader, SingleOccurrenceOfGivenShapeConfiguration.class);
-
         // map integer to specific common goal
-        for(int i = 0; i< AppConstants.TOTAL_CG_PER_GAME; i++){
-            CommonGoal co;
-            Integer selected=list.get(i);
-            co = switch (selected) {
-                case 0 -> nGroupsOfSizeMConfiguration.getGoalAt(0);
-                case 1 -> nGroupsOfSizeMConfiguration.getGoalAt(1);
-                case 2 -> singleOccurrenceOfGivenShapeConfiguration.getGoalAt(0);
-                case 3 -> new TwoSquares();
-                case 4 -> nLinesOfAtMostMDifferentColorsConfiguration.getGoalAt(0);
-                case 5 -> new EightTilesOfTheSameColor();
-                case 6 -> singleOccurrenceOfGivenShapeConfiguration.getGoalAt(1);
-                case 7 -> nLinesOfAtMostMDifferentColorsConfiguration.getGoalAt(1);
-                case 8 -> nLinesOfAtMostMDifferentColorsConfiguration.getGoalAt(2);
-                case 9 -> nLinesOfAtMostMDifferentColorsConfiguration.getGoalAt(3);
-                case 10 -> singleOccurrenceOfGivenShapeConfiguration.getGoalAt(2);
-                default -> new Ladder();
-            };
-            this.commonGoals.add(co);
+        for(Integer i : list){
+            CommonGoal commonGoal = UtilityFunctions.createCommonGoal(i);
+
+            this.commonGoals.add(commonGoal);
         }
     }
 

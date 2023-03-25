@@ -1,10 +1,14 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * this class represent the position of a specific tile in the game board
  */
 public class Position {
+    @Expose
     private int x;
+    @Expose
     private int y;
 
     /**

@@ -1,11 +1,16 @@
 package it.polimi.ingsw.model.utilities;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Position;
+import it.polimi.ingsw.model.commonGoals.*;
 import it.polimi.ingsw.model.constants.AppConstants;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.Reader;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,56 +31,6 @@ public class UtilityFunctions {
      */
     public static Integer findGroupSize(Shelf shelf, Position position) {
         return findGroupContainingGivenPosition(shelf, position).size();
-
-//        group size
-//        Integer groupSize = 0;
-//
-//        // frontier to store the position to be examined
-//        ArrayDeque<Position> frontier = new ArrayDeque<>();
-//
-//        // color of the current group
-//        TileColor color = shelf.getCard(position).getColor();
-//
-//        // add the given position to the frontier to start the algorithm
-//        frontier.add(position);
-//
-//        // while the frontier is not empty extract the first element, if the card in that
-//        // position has the same color of the group add one to group size,
-//        // set the corresponding card to empty and add the right, bottom, top and left position
-//        // to the queue if not already presents
-//        while (!frontier.isEmpty()) {
-//            Position extraxtedPosition = frontier.removeFirst();
-//            Tile card = shelf.getCard(extraxtedPosition);
-//
-//            // if the card in the position extracted from the frontier has the same color of the group
-//            if (card.getColor().equals(color) && !card.isEmpty()) {
-//                groupSize++;
-//                // set the card in the extracted position to empty to avoid double-checking
-//                card.setEmpty();
-//
-//                // if the extracted position is in the last column do not execute this part
-//                if (extraxtedPosition.x() < AppConstants.COLS_NUMBER - 1) {
-//                    frontier.add(new Position(extraxtedPosition.x() + 1, extraxtedPosition.y()));
-//                }
-//
-//                // if the extracted position is in the last row do not execute this part
-//                if (extraxtedPosition.y() < AppConstants.ROWS_NUMBER - 1) {
-//                    frontier.add(new Position(extraxtedPosition.x(), extraxtedPosition.y() + 1));
-//                }
-//
-//                // if the extracted position is in the first column do not execute this part
-//                if (extraxtedPosition.x() > 0) {
-//                    frontier.add(new Position(extraxtedPosition.x() - 1, extraxtedPosition.y()));
-//                }
-//
-//                // if the extracted position is in the first row do not execute this part
-//                if (extraxtedPosition.y() >0) {
-//                    frontier.add(new Position(extraxtedPosition.x(), extraxtedPosition.y() - 1));
-//                }
-//            }
-//        }
-//
-//        return groupSize;
     }
 
     /**
@@ -113,26 +68,6 @@ public class UtilityFunctions {
                 card.setEmpty();
 
                 frontier.addAll(getAdjacentPositions(extractedPosition));
-
-//                // if the extracted position is in the last column do not execute this part
-//                if (extraxtedPosition.x() < AppConstants.COLS_NUMBER - 1) {
-//                    frontier.add(new Position(extraxtedPosition.x() + 1, extraxtedPosition.y()));
-//                }
-//
-//                // if the extracted position is in the last row do not execute this part
-//                if (extraxtedPosition.y() < AppConstants.ROWS_NUMBER - 1) {
-//                    frontier.add(new Position(extraxtedPosition.x(), extraxtedPosition.y() + 1));
-//                }
-//
-//                // if the extracted position is in the first column do not execute this part
-//                if (extraxtedPosition.x() > 0) {
-//                    frontier.add(new Position(extraxtedPosition.x() - 1, extraxtedPosition.y()));
-//                }
-//
-//                // if the extracted position is in the first row do not execute this part
-//                if (extraxtedPosition.y() >0) {
-//                    frontier.add(new Position(extraxtedPosition.x(), extraxtedPosition.y() - 1));
-//                }
             }
         }
 
@@ -237,5 +172,60 @@ public class UtilityFunctions {
 
         //remove last '_'
         return ret.substring(0,ret.length()-1).concat(".json");
+    }
+
+    /**
+     * This method receive and integer and initialize and return the corresponding common goal
+     * @param goalIndex index of the goal to be instantiated
+     * @return the goal corresponding to index
+     */
+    public static CommonGoal createCommonGoal(int goalIndex) {
+        Gson jsonLoader = JsonWithExposeSingleton.getJsonWithExposeSingleton();
+        Reader fileReader = null;
+        // creating configuration from json file for common goal 1 and 2
+        try {
+            fileReader = new FileReader(AppConstants.FILE_CONFIG_NGROUPOFSIZEM);
+        }
+        catch(FileNotFoundException e){
+            System.out.println(e);
+        }
+        NGroupsOfSizeMConfiguration nGroupsOfSizeMConfiguration = jsonLoader.fromJson(fileReader, NGroupsOfSizeMConfiguration.class);
+
+        // creating configuration from json file for common goal 5, 8, 9 and 10
+        try {
+            fileReader = new FileReader(AppConstants.FILE_CONFIG_NLINESOFATMOSTMDIFFERENTCOLORS);
+        }
+        catch(FileNotFoundException e){
+            System.out.println(e);
+        }
+        NLinesOfAtMostMDifferentColorsConfiguration nLinesOfAtMostMDifferentColorsConfiguration = jsonLoader.fromJson(fileReader, NLinesOfAtMostMDifferentColorsConfiguration.class);
+
+        // creating configuration from json file for common goal 3, 7 and 11
+        try {
+            fileReader = new FileReader(AppConstants.FILE_CONFIG_SINGLEOCCURRENCEOFGIVENSHAPE);
+        }
+        catch(FileNotFoundException e){
+            System.out.println(e);
+        }
+        SingleOccurrenceOfGivenShapeConfiguration singleOccurrenceOfGivenShapeConfiguration = jsonLoader.fromJson(fileReader, SingleOccurrenceOfGivenShapeConfiguration.class);
+
+        CommonGoal commonGoal;
+
+        commonGoal = switch (goalIndex) {
+            case 0 -> nGroupsOfSizeMConfiguration.getGoalAt(0);
+            case 1 -> nGroupsOfSizeMConfiguration.getGoalAt(1);
+            case 2 -> singleOccurrenceOfGivenShapeConfiguration.getGoalAt(0);
+            case 3 -> new TwoSquares();
+            case 4 -> nLinesOfAtMostMDifferentColorsConfiguration.getGoalAt(0);
+            case 5 -> new EightTilesOfTheSameColor();
+            case 6 -> singleOccurrenceOfGivenShapeConfiguration.getGoalAt(1);
+            case 7 -> nLinesOfAtMostMDifferentColorsConfiguration.getGoalAt(1);
+            case 8 -> nLinesOfAtMostMDifferentColorsConfiguration.getGoalAt(2);
+            case 9 -> nLinesOfAtMostMDifferentColorsConfiguration.getGoalAt(3);
+            case 10 -> singleOccurrenceOfGivenShapeConfiguration.getGoalAt(2);
+            default -> new Ladder();
+        };
+
+        return commonGoal;
     }
 }

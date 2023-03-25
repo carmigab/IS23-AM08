@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.exceptions.NoMoreTilesAtStartFillBoardException;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesToFillBoardException;
 import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.model.utilities.RandomSingleton;
+import it.polimi.ingsw.model.utilities.UtilityFunctions;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -86,24 +87,11 @@ public final class GameBoard {
      * @param list list of integers
      */
     private void addAllCommonGoals(List<Integer> list){
-        for(int i = 0; i< AppConstants.TOTAL_CG_PER_GAME; i++){
-            CommonGoal co;
-            Integer selected=list.get(i);
-            co = switch (selected) {
-                case 0 -> new CommonGoal1();
-                case 1 -> new CommonGoal2();
-                case 2 -> new CommonGoal3();
-                case 3 -> new CommonGoal4();
-                case 4 -> new CommonGoal5();
-                case 5 -> new CommonGoal6();
-                case 6 -> new CommonGoal7();
-                case 7 -> new CommonGoal8();
-                case 8 -> new CommonGoal9();
-                case 9 -> new CommonGoal10();
-                case 10 -> new CommonGoal11();
-                default -> new CommonGoal12();
-            };
-            this.commonGoals.add(co);
+        // map integer to specific common goal
+        for(Integer i : list){
+            CommonGoal commonGoal = UtilityFunctions.createCommonGoal(i);
+
+            this.commonGoals.add(commonGoal);
         }
     }
 

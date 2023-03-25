@@ -13,7 +13,7 @@ import it.polimi.ingsw.model.observers.Observer;
 import java.io.*;
 import java.util.*;
 
-public class GameModel extends Observable {
+public class GameModel {
     /**
      * this attribute is a list of observers
      */
@@ -326,6 +326,13 @@ public class GameModel extends Observable {
         this.notifyObservers();
     }
 
+    /**
+     * this method return the current player
+     * @return an int, the current player
+     */
+    public int getCurrentPlayer() {
+        return currentPlayer;
+    }
 
     /**
      * this method adds observers
@@ -344,4 +351,3 @@ public class GameModel extends Observable {
             obs.update(this);
     }
 }
-

@@ -1,0 +1,24 @@
+{
+  "goalList" : [
+    {
+      "n" : 3,
+      "m" : 3,
+      "isColumn" : true
+    },
+    {
+      "n" : 4,
+      "m" : 3,
+      "isColumn" : false
+    },
+    {
+      "n" : 2,
+      "m" : 6,
+      "isColumn" : true
+    },
+    {
+      "n" : 2,
+      "m" : 5,
+      "isColumn" : false
+    }
+  ]
+}

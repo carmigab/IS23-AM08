@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.constants.AppConstants;
 /**
  * This class implements the twelve common goal: ladder in the tile
  */
-public class CommonGoal12 extends CommonGoal {
+public class Ladder extends CommonGoal {
     /**
      * This method needs to find the ladder in the shelf.
      * It starts with the search of the starting point, which has to be in the first two rows, because if not the ladder will not be full

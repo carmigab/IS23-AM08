@@ -18,7 +18,7 @@ public abstract class CommonGoal {
     /**
      * This Stack is the data structure of the points available for grabbing in the common goal
      */
-    private final Stack<Integer> pointStack;
+    private Stack<Integer> pointStack;
 
     /**
      * The constructor just initializes the stack, since the addition of the numbers will be done in the GameBoard class
@@ -32,6 +32,7 @@ public abstract class CommonGoal {
      * @param i integer to push in the stack
      */
     public void push(Integer i){
+        if (this.pointStack == null) this.pointStack = new Stack<>();
         this.pointStack.push(i);
     }
 

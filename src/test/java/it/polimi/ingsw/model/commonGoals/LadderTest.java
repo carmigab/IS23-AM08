@@ -17,10 +17,6 @@ class LadderTest {
 
         // creating one card per color to fill the board
         Tile cBlue = new Tile(TileColor.BLUE, 0);
-        Tile cWhite = new Tile(TileColor.WHITE, 0);
-        Tile cYellow = new Tile(TileColor.YELLOW, 0);
-        Tile cLightBlue = new Tile(TileColor.LIGHT_BLUE, 0);
-        Tile cGreen = new Tile(TileColor.GREEN, 0);
         Tile cViolet = new Tile(TileColor.VIOLET, 0);
 
         // check if evaluate works with an empty library
@@ -54,7 +50,7 @@ class LadderTest {
 
         assertFalse(cg12.evaluate(lib));
 
-        //we complete the layer and it shouhld be true again
+        //we complete the layer and it should be true again
         lib.add(cBlue,3);
         lib.add(cBlue,2);
         lib.add(cBlue,1);
@@ -62,7 +58,7 @@ class LadderTest {
 
         assertTrue(cg12.evaluate(lib));
 
-        //we add a bit in the middle and it should be false again
+        //we add a bit in the middle, and it should be false again
         lib.add(cBlue,2);
 
         assertFalse(cg12.evaluate(lib));

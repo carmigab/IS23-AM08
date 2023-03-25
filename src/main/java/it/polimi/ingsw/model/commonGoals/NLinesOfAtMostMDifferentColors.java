@@ -26,7 +26,7 @@ public class NLinesOfAtMostMDifferentColors extends CommonGoal{
      *
      * @param n        lines
      * @param m        max different colors
-     * @param isColumn
+     * @param isColumn if true indicate that the line is column, if false is a row
      */
     public NLinesOfAtMostMDifferentColors(int n, int m, boolean isColumn) {
         this.n = n;

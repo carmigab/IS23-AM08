@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Position;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,11 +33,11 @@ public class PositionTest {
     @Test
     void equals(){
         Position p= new Position(5,5);
-        String s = new String();
-        assertFalse(p.equals(s));
+        String s = "";
+        assertNotEquals(p, s);
         Position p1 = new Position(5,5);
-        assertTrue(p.equals(p1));
+        assertEquals(p, p1);
         Position p2 = new Position(4,5);
-        assertFalse(p.equals(p2));
+        assertNotEquals(p, p2);
     }
 }

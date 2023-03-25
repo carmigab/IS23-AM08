@@ -33,7 +33,7 @@ class NGroupsOfSizeMTest {
             fileReader = new FileReader(AppConstants.FILE_CONFIG_NGROUPOFSIZEM);
         }
         catch(FileNotFoundException e){
-            System.out.println(e);
+            System.out.println("error");
         }
         NGroupsOfSizeMConfiguration nGroupsOfSizeMConfiguration = jsonLoader.fromJson(fileReader, NGroupsOfSizeMConfiguration.class);
 

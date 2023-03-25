@@ -78,13 +78,12 @@ public class Tile {
     /**
      * this method overrides the method equals. it assumes that two tiles are equals if they have the same color;
      * if the parameter isn't a tile, the method return false
-     * @param obj
+     * @param obj object to be compared with this
      * @return a boolean
      */
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof Tile)) return false;
-        Tile c = (Tile) obj;
+        if(!(obj instanceof Tile c)) return false;
         return this.color == c.color;
     }
 }

@@ -2,7 +2,6 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.model.commonGoals.*;
-import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.constants.BoardConstants;
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesAtStartFillBoardException;
@@ -24,12 +23,12 @@ import java.util.Random;
  */
 public final class GameBoard {
     /**
-     * Matrix used for the storage of the physical gameboard
+     * Matrix used for the storage of the physical gameBoard
      */
     @Expose
     private final Tile[][] myGameBoard;
     /**
-     * List of the two common shelfs chosen for the current game
+     * List of the two common goals chosen for the current game
      */
     private final List<CommonGoal> commonGoals;
     /**
@@ -41,13 +40,13 @@ public final class GameBoard {
     /**
      * This method is the utility used by the GameModel to get the gameBoard based on the number of players
      * @param numPlayers number of players of the current game (between 2 and 4)
-     * @param co
-     * @return game board configurated and filled
+     * @param cg list of integers representing the common goals for the current game
+     * @return game board configured and filled
      */
-    public static GameBoard createGameBoard(int numPlayers, List<Integer> co){
-        if(numPlayers==2) return new GameBoard(BoardConstants.FILE_CONFIG_GAMEBOARD2, co);
-        if(numPlayers==3) return new GameBoard(BoardConstants.FILE_CONFIG_GAMEBOARD3, co);
-        return new GameBoard(BoardConstants.FILE_CONFIG_GAMEBOARD4, co);
+    public static GameBoard createGameBoard(int numPlayers, List<Integer> cg){
+        if(numPlayers==2) return new GameBoard(BoardConstants.FILE_CONFIG_GAMEBOARD2, cg);
+        if(numPlayers==3) return new GameBoard(BoardConstants.FILE_CONFIG_GAMEBOARD3, cg);
+        return new GameBoard(BoardConstants.FILE_CONFIG_GAMEBOARD4, cg);
     }
     /**
      * The constructor creates all the data structures and the utility attributes.
@@ -61,18 +60,18 @@ public final class GameBoard {
         addAllCommonGoals(cg);
         allTiles =new ArrayList<>(BoardConstants.TOTAL_TILES);
         Gson jsonParser= JsonWithExposeSingleton.getJsonWithExposeSingleton();
-        Reader fileReader = null;
+        Reader fileReader;
         try {
             fileReader = new FileReader(typeOfBoard);
+            GameBoardConfiguration g=jsonParser.fromJson(fileReader, GameBoardConfiguration.class);
+
+            fillAllTilesList();
+            initialGameBoardFill(g.getValidPositions());
+            fillPointStack(g.getPointStack());
         }
         catch(FileNotFoundException e){
-            System.out.println(e);
+            System.out.println("error");
         }
-        GameBoardConfiguration g=jsonParser.fromJson(fileReader, GameBoardConfiguration.class);
-
-        fillAllTilesList();
-        initialGameBoardFill(g.getValidPositions());
-        fillPointStack(g.getPointStack());
     }
 
     public GameBoard(GameBoard gameBoard, List<Integer> cg){
@@ -83,7 +82,7 @@ public final class GameBoard {
     }
 
     /**
-     * This method gets a list of integers and it creates the common goals based on a mapping done by integer -> objective
+     * This method gets a list of integers, and it creates the common goals based on a mapping done by integer -> objective
      * @param list list of integers
      */
     private void addAllCommonGoals(List<Integer> list){
@@ -137,8 +136,8 @@ public final class GameBoard {
      * If at the start of the method the bag is empty, then it throws an exception that needs to be checked
      * If at some moment after it started filling it finds out that the bag is empty, then also needs to throw an exception (different)
      * that can be checked maybe to avoid calling the function again
-     * @throws NoMoreTilesAtStartFillBoardException self-explainatory
-     * @throws NoMoreTilesToFillBoardException self-explainatory
+     * @throws NoMoreTilesAtStartFillBoardException self-explanatory
+     * @throws NoMoreTilesToFillBoardException self-explanatory
      */
     public void fillBoard() throws NoMoreTilesAtStartFillBoardException, NoMoreTilesToFillBoardException {
         if(allTiles.size()==0) throw new NoMoreTilesAtStartFillBoardException();
@@ -152,11 +151,10 @@ public final class GameBoard {
                 }
             }
         }
-
     }
 
     /**
-     * This method is only called in the constructor and it is used for the creation of the stack for each common shelf
+     * This method is only called in the constructor, and it is used for the creation of the stack for each common shelf
      * @param pointStack integer array loaded from the json config file containing the stack of points(from lowest to highest)
      */
     private void fillPointStack(Integer[] pointStack){
@@ -168,15 +166,15 @@ public final class GameBoard {
     }
     /**
      * This method checks if the board has to be filled.
-     * In detail for each tile in the board(not invaild and not empty) you look if it has any neighbors not empty.
-     * If no tile satisfies the condition then it means there are only lonely "islands" on the board and it should be filled again by calling fillBoard()
+     * In detail for each tile in the board(not invalid and not empty) you look if it has any neighbors not empty.
+     * If no tile satisfies the condition then it means there are only lonely "islands" on the board, and it should be filled again by calling fillBoard()
      * @return true if the board has to be filled
      */
     public boolean hasToBeFilled() {
         for(int y=0;y<BoardConstants.BOARD_DIMENSION;y++){
             for(int x=0;x<BoardConstants.BOARD_DIMENSION;x++){
                 if (!myGameBoard[y][x].isInvalid() && !myGameBoard[y][x].isEmpty()) {
-                    if (!this.everyAdjactentEmpty(y,x)) return false;
+                    if (!this.everyAdjacentEmpty(y,x)) return false;
                 }
             }
         }
@@ -184,21 +182,20 @@ public final class GameBoard {
     }
 
     /**
-     * This method is useful to the GameModel to check if the user did input a correct move (not empty or invaild)tile
+     * This method is useful to the GameModel to check if the user did input a correct move (not empty or invalid)tile
      * @param p coordinates of the tile
      * @return true if the position is effectively occupied by some valid tile
      */
     public boolean positionOccupied(Position p){
 
-        if(!myGameBoard[p.y()][p.x()].isInvalid() && !myGameBoard[p.y()][p.x()].isEmpty()) return true;
-        return false;
+        return !myGameBoard[p.y()][p.x()].isInvalid() && !myGameBoard[p.y()][p.x()].isEmpty();
 
     }
 
     /**
      * This method checks if a tile has at least one free adjacent space, useful to the GameModel to check also that it is a valid move
      * @param p coordinates of the tile
-     * @return true if the tile in position p has at least one empty space in one of the inal directions
+     * @return true if the tile in position p has at least one empty space in one of the final directions
      */
     public boolean hasFreeAdjacent(Position p){
 
@@ -239,7 +236,7 @@ public final class GameBoard {
      * @param x x coordinate of the tile
      * @return true if every adjacent position to the tile is free
      */
-    private boolean everyAdjactentEmpty(int y, int x){
+    private boolean everyAdjacentEmpty(int y, int x){
         Tile c;
         if(x>0){
             c=myGameBoard[y][x-1];
@@ -262,7 +259,7 @@ public final class GameBoard {
         if(y<BoardConstants.BOARD_DIMENSION-1){
             c=myGameBoard[y][x];
             if(!c.isInvalid()) {
-                if (!c.isEmpty()) return false;
+                return c.isEmpty();
             }
         }
         return true;

@@ -12,7 +12,7 @@ public class Ladder extends CommonGoal {
      * This method needs to find the ladder in the shelf.
      * It starts with the search of the starting point, which has to be in the first two rows, because if not the ladder will not be full
      * Then it goes in one direction or the other (depending on the starting column) and it checks if there is effectively a ladder
-     * The ladder is when i have one tile and the other (left/right depending on the moving direction) is empty
+     * The ladder is when I have one tile and the other (left/right depending on the moving direction) is empty
      * @param x shelf of the player
      * @return true if the ladder is found
      */

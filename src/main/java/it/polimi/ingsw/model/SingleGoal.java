@@ -25,7 +25,7 @@ public class SingleGoal {
      * @param color the color of the objective
      */
 
-    //Doubts on the class construct: i don't know if, using a json file, i had to change the class construct //NO
+    //Doubts on the class construct: I don't know if, using a json file, I had to change the class construct //NO
     public SingleGoal(Position position, TileColor color) {
         this.position = new Position(position);
         this.color = color;

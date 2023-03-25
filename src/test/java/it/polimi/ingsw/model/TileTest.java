@@ -62,12 +62,12 @@ public class TileTest {
     @Test
     void equals(){
         Tile c = new Tile(TileColor.INVALID, 2);
-        String s = new String();
-        assertFalse(c.equals(s));
+        String s = "";
+        assertNotEquals(c, s);
         Tile c1 = new Tile(TileColor.INVALID, 2);
-        assertTrue(c.equals(c1));
+        assertEquals(c, c1);
         c1.setEmpty();
-        assertFalse(c.equals(c1));
+        assertNotEquals(c, c1);
     }
 
 

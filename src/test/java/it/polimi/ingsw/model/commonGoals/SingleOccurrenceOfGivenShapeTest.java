@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.commonGoals;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
@@ -12,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,7 +32,7 @@ class SingleOccurrenceOfGivenShapeTest {
             fileReader = new FileReader(AppConstants.FILE_CONFIG_SINGLEOCCURRENCEOFGIVENSHAPE);
         }
         catch(FileNotFoundException e){
-            System.out.println(e);
+            System.out.println("error");
         }
         SingleOccurrenceOfGivenShapeConfiguration singleOccurrenceOfGivenShapeConfiguration = jsonLoader.fromJson(fileReader, SingleOccurrenceOfGivenShapeConfiguration.class);
 
@@ -127,9 +124,7 @@ class SingleOccurrenceOfGivenShapeTest {
 
         // creating one card per color to fill the board
         Tile cBlue = new Tile(TileColor.BLUE, 0);
-        Tile cWhite = new Tile(TileColor.WHITE, 0);
         Tile cYellow = new Tile(TileColor.YELLOW, 0);
-        Tile cLightBlue = new Tile(TileColor.LIGHT_BLUE, 0);
         Tile cGreen = new Tile(TileColor.GREEN, 0);
         Tile cViolet = new Tile(TileColor.VIOLET, 0);
 

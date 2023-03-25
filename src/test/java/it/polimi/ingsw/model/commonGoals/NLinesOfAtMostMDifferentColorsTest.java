@@ -32,7 +32,7 @@ class NLinesOfAtMostMDifferentColorsTest {
             fileReader = new FileReader(AppConstants.FILE_CONFIG_NLINESOFATMOSTMDIFFERENTCOLORS);
         }
         catch(FileNotFoundException e){
-            System.out.println(e);
+            System.out.println("error");
         }
         NLinesOfAtMostMDifferentColorsConfiguration nLinesOfAtMostMDifferentColorsConfiguration = jsonLoader.fromJson(fileReader, NLinesOfAtMostMDifferentColorsConfiguration.class);
 
@@ -161,11 +161,11 @@ class NLinesOfAtMostMDifferentColorsTest {
         shelf.add(new Tile(TileColor.LIGHT_BLUE, 0), 0);
 
 
-        assertEquals(nLinesOfAtMostMDifferentColors.evaluate(shelf), false);
+        assertFalse(nLinesOfAtMostMDifferentColors.evaluate(shelf));
 
 
         shelf.add(new Tile(TileColor.LIGHT_BLUE, 0), 1);
-        assertEquals(nLinesOfAtMostMDifferentColors.evaluate(shelf), true);
+        assertTrue(nLinesOfAtMostMDifferentColors.evaluate(shelf));
 
 
 
@@ -190,10 +190,10 @@ class NLinesOfAtMostMDifferentColorsTest {
         shelf.add(new Tile(TileColor.YELLOW, 0), 4);
 
 
-        assertEquals(nLinesOfAtMostMDifferentColors.evaluate(shelf), false);
+        assertFalse(nLinesOfAtMostMDifferentColors.evaluate(shelf));
 
 
         shelf.add(new Tile(TileColor.YELLOW, 0), 4);
-        assertEquals(nLinesOfAtMostMDifferentColors.evaluate(shelf), true);
+        assertTrue(nLinesOfAtMostMDifferentColors.evaluate(shelf));
     }
 }

@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SingleGoalTest {
 
     /**
-     * this method tests the method getPosition; we created a new position and a new singleObjective and we verified if
+     * this method tests the method getPosition; we created a new position and a new singleObjective, and we verified if
      * getPosition return the same reference of p
      */
     @Test

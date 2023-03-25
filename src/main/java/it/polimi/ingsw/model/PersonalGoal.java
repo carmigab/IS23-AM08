@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is the class containing all of the information for the storage of a single personal shelf
+ * This is the class containing all the information for the storage of a single personal shelf
  */
 public class PersonalGoal {
 
@@ -25,7 +25,7 @@ public class PersonalGoal {
 
     /**
      * This is the constructor, it should never be called since the information is created when the file is loaded
-     * @param s array of single shelfs used to construct the object
+     * @param s array of single goals used to construct the object
      */
     public PersonalGoal(SingleGoal[] s){
         this.personalGoal =new ArrayList<>(AppConstants.TOTAL_POINTS_FOR_PG);
@@ -38,7 +38,7 @@ public class PersonalGoal {
     }
 
     /**
-     * This method inserts manually the points assigned for the completion of the shelfs
+     * This method inserts manually the points assigned for the completion of the goals
      * @param points array of integers
      */
     public void setPointsForCompletion(int[] points){

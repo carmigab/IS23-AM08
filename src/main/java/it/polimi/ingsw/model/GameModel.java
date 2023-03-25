@@ -17,7 +17,7 @@ public class GameModel {
     /**
      * this attribute is a list of observers
      */
-    private ArrayList<Observer> observers = new ArrayList<>();
+    private final List<Observer> observers = new ArrayList<>();
 
     /**
      * this attribute is the number of the player of a specific match
@@ -41,7 +41,7 @@ public class GameModel {
     @Expose
     private final List<Integer> commonGoalsCreated;
     /**
-     * this attribute is the list of all possible personal shelfs of the game;
+     * this attribute is the list of all possible personal goals of the game;
      */
     @Expose
     private final List<PersonalGoal> personalGoals;
@@ -56,11 +56,7 @@ public class GameModel {
      */
     @Expose
     private boolean isLastTurn;
-    /**
-     * this attribute is used to indicate the end of the game;
-     */
-    @Expose
-    private boolean endGame;
+
 
     /**
      * this attribute represents the final leaderboard of the game
@@ -74,10 +70,10 @@ public class GameModel {
     private String fileName;
 
     /**
-     * @param numPlayers
-     * @param nicknames
+     * Constructor
+     * @param numPlayers number of players for the game
+     * @param nicknames players' nicknames
      */
-
     public GameModel(int numPlayers, List<String> nicknames){
         this.numPlayers = numPlayers;
         this.playerList = new ArrayList<>(this.numPlayers);
@@ -86,7 +82,6 @@ public class GameModel {
         this.personalGoals = new ArrayList<>(AppConstants.TOTAL_GOALS);
         this.currentPlayer = 0;
         this.isLastTurn = false;
-        this.endGame = false;
         initializePlayers(nicknames);
         initializePersistencyFile(nicknames);
 
@@ -96,11 +91,11 @@ public class GameModel {
 
     /**
      * TODO: ask professor if could be done better
-     * This constructor copies the gamemodel when loaded from file.
+     * This constructor copies the gameModel when loaded from file.
      * Note that it copies the reference, but it is fine because when the object is loaded from file
      * GSON creates a new instance of the object, so even if we copy by reference it is fine
      * We could also avoid implementing it
-     * @param gameModel copy of the gamemodel we want
+     * @param gameModel copy of the gameModel we want
      */
     public GameModel(GameModel gameModel){
         this.numPlayers = gameModel.numPlayers;
@@ -110,35 +105,34 @@ public class GameModel {
         this.personalGoals = gameModel.personalGoals;
         this.currentPlayer = gameModel.currentPlayer;
         this.isLastTurn = gameModel.isLastTurn;
-        this.endGame = gameModel.isLastTurn;
         this.leaderBoard = gameModel.leaderBoard;
         this.fileName = gameModel.fileName;
     }
 
     /**
-     * This method reads all the single shelfs from the file singleshelfs.json and gives a random one to every player
+     * This method reads all the single goals from the file singleGoals.json and gives a random one to every player
      * @param nicknames list of nicknames of all the players
      */
     private void initializePlayers(List<String> nicknames){
 
         Gson jsonLoader= JsonWithExposeSingleton.getJsonWithExposeSingleton();
-        Reader fileReader= null;
+        Reader fileReader;
         try {
             fileReader = new FileReader(AppConstants.FILE_CONFIG_PERSONALGOAL);
+
+            PersonalGoalsConfiguration poc=jsonLoader.fromJson(fileReader, PersonalGoalsConfiguration.class);
+            for(int i = 0; i< AppConstants.TOTAL_GOALS; i++){
+                this.personalGoals.add(poc.getPersonalGoalAtIndex(i));
+                this.personalGoals.get(this.personalGoals.size()-1).setPointsForCompletion(poc.getPointsForCompletion());
+            }
+
+            Random r= RandomSingleton.getRandomSingleton();
+            for(String s: nicknames){
+                playerList.add(new PlayerState(s, this.personalGoals.remove(r.nextInt(this.personalGoals.size()))));
+            }
         }
         catch(FileNotFoundException e){
-            System.out.println(e);
-        }
-
-        PersonalGoalsConfiguration poc=jsonLoader.fromJson(fileReader, PersonalGoalsConfiguration.class);
-        for(int i = 0; i< AppConstants.TOTAL_GOALS; i++){
-            this.personalGoals.add(poc.getPersonalGoalAtIndex(i));
-            this.personalGoals.get(this.personalGoals.size()-1).setPointsForCompletion(poc.getPointsForCompletion());
-        }
-
-        Random r= RandomSingleton.getRandomSingleton();
-        for(String s: nicknames){
-            playerList.add(new PlayerState(s, this.personalGoals.remove(r.nextInt(this.personalGoals.size()))));
+            System.out.println("error");
         }
     }
 
@@ -156,29 +150,29 @@ public class GameModel {
      * This method is called at the end of each turn, and it overwrites the file with the new state of the game
      */
     private void saveCurrentState(){
-        Writer fileWriter =null;
+        Writer fileWriter;
         try {
             fileWriter=new FileWriter(this.fileName);
+            try {
+                fileWriter.write(JsonWithExposeSingleton.getJsonWithExposeSingleton().toJson(this));
+                fileWriter.close();
+            } catch (IOException e) {
+                System.out.println("Error in writing to the file "+this.fileName+" plz restart application");
+            }
         } catch (IOException e) {
             System.out.println("Error in opening to the file "+this.fileName+" plz restart application");
         }
-        try {
-            fileWriter.write(JsonWithExposeSingleton.getJsonWithExposeSingleton().toJson(this));
-            fileWriter.close();
-        } catch (IOException e) {
-            System.out.println("Error in writing to the file "+this.fileName+" plz restart application");
-        }
+
     }
 
     /**
-     * This method selects two random numbers between 0 and 12 (total shelfs, 12 excluded) and assigns a common shelf to it.
-     * It is important to note that it checks that which common shelfs are created
-     * @return the list of 2 random common shelfs created
+     * This method selects two random numbers between 0 and 12 (total goals, 12 excluded) and assigns a common shelf to it.
+     * It is important to note that it checks that which common goals are created
+     * @return the list of 2 random common goals created
      */
     private List<Integer> getRandomCommonGoals(){
         Random r= RandomSingleton.getRandomSingleton();
         List<Integer> pool=new ArrayList<>(AppConstants.TOTAL_GOALS);
-        List<CommonGoal> toReturn=new ArrayList<>(AppConstants.TOTAL_CG_PER_GAME);
         for(int i = 0; i<AppConstants.TOTAL_GOALS; i++) pool.add(i);
         for(int i=0;i<AppConstants.TOTAL_CG_PER_GAME;){
             Integer candidate=r.nextInt(pool.size());
@@ -247,14 +241,14 @@ public class GameModel {
      * This method updates the score of the current player
      * and sets lastTurn to true if he filled the shelf
      */
-    public void evaluatePoints(){
+    private void evaluatePoints(){
         PlayerState currP = playerList.get(currentPlayer);
         CommonGoal obj;
 
         currP.evaluatePGPoints();
         currP.evaluateGroupPoints();
 
-        // Evaluate common shelfs
+        // Evaluate common goals
         for(int i=0; i<2; i++) {
             if (!currP.isCGDone(i)) {
                 obj = gameBoard.getCommonGoal(i);
@@ -281,20 +275,12 @@ public class GameModel {
     private void createLeaderBoard(){
         List<PlayerState> temp = new ArrayList<>(playerList);
         leaderBoard = new ArrayList<>(numPlayers);
-        Collections.sort(temp, (p1, p2) -> {                        // sort() preserves the order
+        temp.sort((p1, p2) -> {                        // sort() preserves the order
             return Integer.compare(p1.getPoints(), p2.getPoints());
         });
         for(int i=temp.size()-1; i>=0;i--){
             leaderBoard.add(temp.get(i));
         }
-    }
-
-    /**
-     * ths method return the final leaderboard of the match
-     * @return the final leaderboard of the match;
-     */
-    public List<PlayerState> getLeaderBoard() {
-        return leaderBoard;
     }
 
     /**

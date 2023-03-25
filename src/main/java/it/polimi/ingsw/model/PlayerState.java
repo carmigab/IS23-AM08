@@ -46,11 +46,11 @@ public class PlayerState {
     private PersonalGoal personalGoal;
 
     /**
-     * This attribute rappresents the state of the common
-     *  shelfs for the player
+     * This attribute represents the state of the common
+     *  goal for the player
      */
     @Expose
-    private boolean comGoalDone[];
+    private boolean[] comGoalDone;
 
 
 
@@ -104,7 +104,7 @@ public class PlayerState {
     /**
      * This method returns if a commonGoal is done or not
      * @param index: position in array comGoalDone
-     * @return array that tells if a commonGoal is done or not
+     * @return true if common goal at index is already been done by the player, false elsewhere
      */
     public boolean isCGDone(int index){
         return comGoalDone[index];

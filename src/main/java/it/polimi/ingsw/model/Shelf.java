@@ -15,7 +15,7 @@ public class Shelf {
      * This attribute store all the tile in the player's shelf
      */
     @Expose
-    private final Tile myShelf[][];
+    private final Tile[][] myShelf;
 
 
     /**
@@ -49,10 +49,10 @@ public class Shelf {
     /**
      * This method return a copy of the array of tile of the shelf
      *
-     * @return a copy of myshelf
+     * @return a copy of myShelf
      */
     public Tile[][] getCopy() {
-        Tile myShelfCopy[][] = new Tile[AppConstants.ROWS_NUMBER][AppConstants.COLS_NUMBER];
+        Tile[][] myShelfCopy = new Tile[AppConstants.ROWS_NUMBER][AppConstants.COLS_NUMBER];
 
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {

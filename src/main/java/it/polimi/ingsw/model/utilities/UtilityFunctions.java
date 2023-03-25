@@ -108,60 +108,10 @@ public class UtilityFunctions {
 
 
     /**
-     * This method count how many groups of groupsDim there are inside a bigger group
-     *
-     * @param group     group to be analyzed
-     * @param groupsDim size of desired subgroups
-     * @return the number of subgroups of groupsDim dimension presents
-     */
-    public static int countGroupsOfGivenDim(List<Position> group, int groupsDim) {
-        int groupsCounter = 0;
-
-        // adjacency list of all position of the group
-        List<List<Position>> adjacencyList = new ArrayList<>();
-        for (Position pos : group) {
-            List<Position> adjacentPositionSameColor = new ArrayList<>();
-            for (Position pos1 : getAdjacentPositions(pos)) {
-                if (group.contains(pos1)) adjacentPositionSameColor.add(pos1);
-            }
-            adjacencyList.add(adjacentPositionSameColor);
-        }
-
-        // list of all the subgroups
-        List<List<Position>> subGroups = new ArrayList<>();
-        int shortestListIndex = findShortestListIndex(adjacencyList);
-        while (shortestListIndex >= 0) {
-            break;
-        }
-
-        return groupsCounter;
-    }
-
-    /**
-     * This method find the shortest list in a list of lists
-     *
-     * @param list list of lists
-     * @return the index of the shortest list (only if not empty)
-     */
-    private static int findShortestListIndex(List<List<Position>> list) {
-        int shortestIndex = -1;
-        int currentIndex = 0;
-
-        for (List<Position> l : list) {
-            if (l.size() > 0 && shortestIndex == -1) shortestIndex = currentIndex;
-
-            if (l.size() > list.get(shortestIndex).size()) shortestIndex = currentIndex;
-            currentIndex++;
-        }
-
-        return shortestIndex;
-    }
-
-    /**
-     * This method takes an array of strings in input and it outputs a file name which consists of all the strings in the array
+     * This method takes an array of strings in input, and it outputs a file name which consists of all the strings in the array
      * concatenated with "_"
-     * @param in
-     * @return
+     * @param in players' names
+     * @return json file name
      */
     public static String getJSONFileName(List<String> in){
         String ret="";
@@ -187,7 +137,7 @@ public class UtilityFunctions {
             fileReader = new FileReader(AppConstants.FILE_CONFIG_NGROUPOFSIZEM);
         }
         catch(FileNotFoundException e){
-            System.out.println(e);
+            System.out.println("error");
         }
         NGroupsOfSizeMConfiguration nGroupsOfSizeMConfiguration = jsonLoader.fromJson(fileReader, NGroupsOfSizeMConfiguration.class);
 
@@ -196,7 +146,7 @@ public class UtilityFunctions {
             fileReader = new FileReader(AppConstants.FILE_CONFIG_NLINESOFATMOSTMDIFFERENTCOLORS);
         }
         catch(FileNotFoundException e){
-            System.out.println(e);
+            System.out.println("error");
         }
         NLinesOfAtMostMDifferentColorsConfiguration nLinesOfAtMostMDifferentColorsConfiguration = jsonLoader.fromJson(fileReader, NLinesOfAtMostMDifferentColorsConfiguration.class);
 
@@ -205,7 +155,7 @@ public class UtilityFunctions {
             fileReader = new FileReader(AppConstants.FILE_CONFIG_SINGLEOCCURRENCEOFGIVENSHAPE);
         }
         catch(FileNotFoundException e){
-            System.out.println(e);
+            System.out.println("error");
         }
         SingleOccurrenceOfGivenShapeConfiguration singleOccurrenceOfGivenShapeConfiguration = jsonLoader.fromJson(fileReader, SingleOccurrenceOfGivenShapeConfiguration.class);
 

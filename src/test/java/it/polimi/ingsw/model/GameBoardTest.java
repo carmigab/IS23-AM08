@@ -2,7 +2,6 @@ package it.polimi.ingsw.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import it.polimi.ingsw.model.commonGoals.*;
 import it.polimi.ingsw.model.constants.BoardConstants;
 import org.junit.jupiter.api.Test;
 import java.util.List;

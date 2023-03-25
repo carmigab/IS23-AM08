@@ -3,7 +3,6 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.controller.exceptions.InvalidIdException;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.model.PlayerState;
 import it.polimi.ingsw.model.Position;
 
 import java.util.ArrayList;

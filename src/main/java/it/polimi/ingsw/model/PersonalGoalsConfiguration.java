@@ -7,7 +7,7 @@ import com.google.gson.annotations.Expose;
  */
 public class PersonalGoalsConfiguration {
     /**
-     * This attribute stores all the personal shelfs read from the config file
+     * This attribute stores all the personal goals read from the config file
      */
     @Expose
     private PersonalGoal[] personalGoals;

@@ -4,14 +4,9 @@ import it.polimi.ingsw.model.Shelf;
 
 import java.util.Stack;
 
-// Who works on what:  exemple (12: X)  (1: O)                  GabriCarr == X
-// COLUMN 1) --  1: O  2: O  3: O  4:  O  5: O   6: O           GabriCarm == O
-// COLUMN 2) --  7: O  8: O  9: X  10: X  11: Z  12: Z          MatteCenz == Z
-
-
 /**
  * This is the class that represents the common goal
- * It is abstract since every goal will be an extension of this class following the pattern Strategy, overriding the metod for the evaluation of the goal
+ * It is abstract since every goal will be an extension of this class following the pattern Strategy, overriding the method for the evaluation of the goal
  */
 public abstract class CommonGoal {
 
@@ -45,7 +40,7 @@ public abstract class CommonGoal {
     }
 
     /**
-     * This method has to be overrided in its subclasses, with each implementation being a different algorithm to calculate the goal
+     * This method has to be overridden in its subclasses, with each implementation being a different algorithm to calculate the goal
      * @param shelf Shelf of the current player
      * @return true if the goal has been satisfied
      */

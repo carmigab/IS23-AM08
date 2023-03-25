@@ -24,9 +24,7 @@ class PlayerStateTest {
      */
     @Test
     void getPoints() {
-        /**
-         * to do: integrate in the test the evaluation functions
-         */
+        // to do: integrate in the test the evaluation functions
         // player.evaluatePGPoints();
         // player.evaluateGroupPoints();
         player.addCGPoints(68);
@@ -42,7 +40,7 @@ class PlayerStateTest {
     @Test
     void isCODone() {
         player.setCGDone(0);
-        assertEquals(true, player.isCGDone(0));
-        assertEquals(false, player.isCGDone(1));
+        assertTrue(player.isCGDone(0));
+        assertFalse(player.isCGDone(1));
     }
 }

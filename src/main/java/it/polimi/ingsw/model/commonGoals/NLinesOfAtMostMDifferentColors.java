@@ -61,6 +61,7 @@ public class NLinesOfAtMostMDifferentColors extends CommonGoal{
                     differentColors.add(card.getColor());
                 }
 
+
                 if (m > 3) {
                     // if there are exactly m colors add 1 to the valid lines
                     if (differentColors.size() == m) result++;

@@ -17,7 +17,7 @@ public class GameModel {
     /**
      * this attribute is a list of observers
      */
-    private ArrayList<Observer> observers = new ArrayList<>();
+    private List<Observer> observers = new ArrayList<>();
 
     /**
      * this attribute is the number of the player of a specific match
@@ -56,11 +56,7 @@ public class GameModel {
      */
     @Expose
     private boolean isLastTurn;
-    /**
-     * this attribute is used to indicate the end of the game;
-     */
-    @Expose
-    private boolean endGame;
+
 
     /**
      * this attribute represents the final leaderboard of the game
@@ -86,7 +82,6 @@ public class GameModel {
         this.personalGoals = new ArrayList<>(AppConstants.TOTAL_GOALS);
         this.currentPlayer = 0;
         this.isLastTurn = false;
-        this.endGame = false;
         initializePlayers(nicknames);
         initializePersistencyFile(nicknames);
 
@@ -110,7 +105,6 @@ public class GameModel {
         this.personalGoals = gameModel.personalGoals;
         this.currentPlayer = gameModel.currentPlayer;
         this.isLastTurn = gameModel.isLastTurn;
-        this.endGame = gameModel.isLastTurn;
         this.leaderBoard = gameModel.leaderBoard;
         this.fileName = gameModel.fileName;
     }
@@ -247,14 +241,14 @@ public class GameModel {
      * This method updates the score of the current player
      * and sets lastTurn to true if he filled the shelf
      */
-    public void evaluatePoints(){
+    private void evaluatePoints(){
         PlayerState currP = playerList.get(currentPlayer);
         CommonGoal obj;
 
         currP.evaluatePGPoints();
         currP.evaluateGroupPoints();
 
-        // Evaluate common shelfs
+        // Evaluate common goals
         for(int i=0; i<2; i++) {
             if (!currP.isCGDone(i)) {
                 obj = gameBoard.getCommonGoal(i);
@@ -287,14 +281,6 @@ public class GameModel {
         for(int i=temp.size()-1; i>=0;i--){
             leaderBoard.add(temp.get(i));
         }
-    }
-
-    /**
-     * ths method return the final leaderboard of the match
-     * @return the final leaderboard of the match;
-     */
-    public List<PlayerState> getLeaderBoard() {
-        return leaderBoard;
     }
 
     /**

@@ -30,7 +30,8 @@ class GameModelTest {
         String file= AppConstants.PATH_SAVED_FILES+ UtilityFunctions.getJSONFileName(players);
         Gson json=new GsonBuilder().setPrettyPrinting().create();
         GameModel gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
-        System.out.println(json.toJson(gm));
+        //System.out.println(json.toJson(gm));
+        assertTrue(true);
     }
 
 }

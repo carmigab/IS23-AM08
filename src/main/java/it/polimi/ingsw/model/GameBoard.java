@@ -174,7 +174,7 @@ public final class GameBoard {
         for(int y=0;y<BoardConstants.BOARD_DIMENSION;y++){
             for(int x=0;x<BoardConstants.BOARD_DIMENSION;x++){
                 if (!myGameBoard[y][x].isInvalid() && !myGameBoard[y][x].isEmpty()) {
-                    if (!this.everyAdjacentEmpty(y,x)) return false;
+                    if (!this.everyAdjacentEmpty(new Position(x,y))) return false;
                 }
             }
         }
@@ -226,17 +226,18 @@ public final class GameBoard {
                 if (c.isEmpty()) return true;
             }
         }
-        return true;
+        return false;
     }
 
     /**
      * This method is similar to hasFreeAdjacent, but it checks that every adjacent is empty.
      * Only called in hasToBeFilled()
-     * @param y y coordinate of the tile
-     * @param x x coordinate of the tile
+     * @param p position of the tile
      * @return true if every adjacent position to the tile is free
      */
-    private boolean everyAdjacentEmpty(int y, int x){
+    private boolean everyAdjacentEmpty(Position p){
+        int x=p.x();
+        int y=p.y();
         Tile c;
         if(x>0){
             c=myGameBoard[y][x-1];
@@ -245,19 +246,19 @@ public final class GameBoard {
             }
         }
         if(x<BoardConstants.BOARD_DIMENSION-1){
-            c=myGameBoard[y][x];
+            c=myGameBoard[y][x+1];
             if(!c.isInvalid()) {
                 if (!c.isEmpty()) return false;
             }
         }
         if(y>0){
-            c=myGameBoard[y][x];
+            c=myGameBoard[y-1][x];
             if(!c.isInvalid()) {
                 if (!c.isEmpty()) return false;
             }
         }
         if(y<BoardConstants.BOARD_DIMENSION-1){
-            c=myGameBoard[y][x];
+            c=myGameBoard[y+1][x];
             if(!c.isInvalid()) {
                 return c.isEmpty();
             }

@@ -4,12 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="no saving of the models of the nn in github for now">
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="removed warnings and typos from all classes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/TileColor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/TileColor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameBoardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameBoardTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameModelTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/ShelfTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/ShelfTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeMTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeMTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColorsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColorsTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +103,7 @@
       <recent name="it.polimi.ingsw.model.commonGoals" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.GameBoardTest.testHasToBeFilled">
+  <component name="RunManager" selected="JUnit.All tests">
     <configuration name="All tests" type="JUnit" factoryName="JUnit">
       <module name="AM08" />
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
@@ -338,6 +341,7 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="JUnit.GameModelTest.testPersistency" />
       <item itemvalue="JUnit.CommonObjective6Test" />
       <item itemvalue="JUnit.UtilityFunctionsTest" />
       <item itemvalue="JUnit.PlayerStateTest" />
@@ -345,6 +349,7 @@
       <item itemvalue="JUnit.NLinesOfAtMostMDifferentColorsTest" />
       <item itemvalue="JUnit.SingleOccurrenceOfGivenShapeTest" />
       <item itemvalue="JUnit.All tests" />
+      <item itemvalue="JUnit.GameBoardTest" />
       <item itemvalue="JUnit.GameBoardTest.testHasFreeAdjacent" />
       <item itemvalue="JUnit.GameBoardTest.testHasToBeFilled" />
       <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard2Creation" />
@@ -394,7 +399,8 @@
       <workItem from="1679645101789" duration="783000" />
       <workItem from="1679650000429" duration="1113000" />
       <workItem from="1679652055725" duration="117000" />
-      <workItem from="1679731499386" duration="9296000" />
+      <workItem from="1679731499386" duration="9384000" />
+      <workItem from="1679922861633" duration="322000" />
     </task>
     <task id="LOCAL-00001" summary="minor fixes &amp; player state tests">
       <created>1678896857551</created>
@@ -557,7 +563,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679741675060</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="removed warnings and typos from all classes">
+      <created>1679744600550</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1679744600550</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -613,8 +626,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="created class to unify common goal 3, 7, 11 and related test" />
-    <MESSAGE value="added getCommonObjective to GameBoard&#10;removed evaluateCommonObjective from GameBoard &#10;added evaluatePoints to GameModel" />
     <MESSAGE value="added check for First Point to evaluatePoints in Game Model" />
     <MESSAGE value="index for commonObjective" />
     <MESSAGE value="I added the class SingleObjective" />
@@ -642,7 +653,8 @@
     <MESSAGE value="fixed GameModel to pass GameModelTest testPersistency, removed &quot;extends Observable&quot; from GameModel signature to make it loadable from json" />
     <MESSAGE value="moved the code to initialize a specific common goal given its corresponding int from GameBoard to UtilityFunctions.createCommonGoal for better readability of GameBoard" />
     <MESSAGE value="little changes due to uml revision" />
-    <option name="LAST_COMMIT_MESSAGE" value="little changes due to uml revision" />
+    <MESSAGE value="removed warnings and typos from all classes" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed warnings and typos from all classes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

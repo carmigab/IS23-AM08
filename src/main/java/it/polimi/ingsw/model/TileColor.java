@@ -9,7 +9,7 @@ public enum TileColor {
     WHITE,
     BLUE,
     YELLOW,
-    LIGHT_BLUE,
+    CYAN,
     VIOLET,
     EMPTY,
     INVALID

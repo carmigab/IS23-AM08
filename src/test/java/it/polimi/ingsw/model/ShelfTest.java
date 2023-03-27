@@ -24,7 +24,7 @@ public class ShelfTest {
      */
     @org.junit.jupiter.api.Test
     void addAndGetCard() {
-        Tile c = new Tile(TileColor.LIGHT_BLUE, 0);
+        Tile c = new Tile(TileColor.CYAN, 0);
         lib.add(c, 4);
         //assertEquals(lib.getCard(new Position(AppConstants.ROWS_NUMBER - 1, 4)), c);
     }
@@ -35,7 +35,7 @@ public class ShelfTest {
      */
     @org.junit.jupiter.api.Test
     void isFull() {
-        Tile c = new Tile(TileColor.LIGHT_BLUE, 0);
+        Tile c = new Tile(TileColor.CYAN, 0);
         for (int i = 0; i < AppConstants.COLS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.ROWS_NUMBER; j++) {
                 lib.add(c, i);
@@ -49,7 +49,7 @@ public class ShelfTest {
      */
     @org.junit.jupiter.api.Test
     void getFreeSpaces() {
-        Tile c = new Tile(TileColor.LIGHT_BLUE, 0);
+        Tile c = new Tile(TileColor.CYAN, 0);
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             assertEquals(lib.getFreeSpaces(0), AppConstants.ROWS_NUMBER - i);
             lib.add(c, 0);

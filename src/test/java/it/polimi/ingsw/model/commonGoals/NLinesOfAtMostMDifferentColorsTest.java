@@ -158,13 +158,13 @@ class NLinesOfAtMostMDifferentColorsTest {
         shelf.add(new Tile(TileColor.YELLOW, 0), 0);
         shelf.add(new Tile(TileColor.YELLOW, 0), 1);
 
-        shelf.add(new Tile(TileColor.LIGHT_BLUE, 0), 0);
+        shelf.add(new Tile(TileColor.CYAN, 0), 0);
 
 
         assertFalse(nLinesOfAtMostMDifferentColors.evaluate(shelf));
 
 
-        shelf.add(new Tile(TileColor.LIGHT_BLUE, 0), 1);
+        shelf.add(new Tile(TileColor.CYAN, 0), 1);
         assertTrue(nLinesOfAtMostMDifferentColors.evaluate(shelf));
 
 

@@ -103,7 +103,7 @@ public final class GameBoard {
                 TileColor.BLUE,
                 TileColor.GREEN,
                 TileColor.WHITE,
-                TileColor.LIGHT_BLUE,
+                TileColor.CYAN,
                 TileColor.YELLOW,
                 TileColor.VIOLET
         };

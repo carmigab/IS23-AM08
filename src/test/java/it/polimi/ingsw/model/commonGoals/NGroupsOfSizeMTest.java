@@ -44,7 +44,7 @@ class NGroupsOfSizeMTest {
         Tile cBlue = new Tile(TileColor.BLUE, 0);
         Tile cWhite = new Tile(TileColor.WHITE, 0);
         Tile cYellow = new Tile(TileColor.YELLOW, 0);
-        Tile cLightBlue = new Tile(TileColor.LIGHT_BLUE, 0);
+        Tile cLightBlue = new Tile(TileColor.CYAN, 0);
         Tile cGreen = new Tile(TileColor.GREEN, 0);
         Tile cViolet = new Tile(TileColor.VIOLET, 0);
 

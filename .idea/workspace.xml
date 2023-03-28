@@ -4,14 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="removed warnings and typos from all classes">
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="fixed GameModel to pass GameModelTest testPersistency, removed &quot;extends Observable&quot; from GameModel signature to make it loadable from json">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/controller/GameController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/TileColor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/TileColor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/constants/AppConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/constants/AppConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/UtilityFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/UtilityFunctions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/ShelfTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/ShelfTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeMTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeMTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColorsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColorsTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameModelTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -241,7 +242,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GameBoardTest.testHasFreeAdjacent" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="GameModelTest.checkValidMove" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
         <pattern>
@@ -250,14 +251,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameBoardTest" />
-      <option name="METHOD_NAME" value="testHasFreeAdjacent" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameModelTest" />
+      <option name="METHOD_NAME" value="checkValidMove" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GameBoardTest.testHasToBeFilled" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="GameModelTest.makeMove" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
         <pattern>
@@ -266,8 +267,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameBoardTest" />
-      <option name="METHOD_NAME" value="testHasToBeFilled" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameModelTest" />
+      <option name="METHOD_NAME" value="makeMove" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -350,16 +351,16 @@
       <item itemvalue="JUnit.SingleOccurrenceOfGivenShapeTest" />
       <item itemvalue="JUnit.All tests" />
       <item itemvalue="JUnit.GameBoardTest" />
-      <item itemvalue="JUnit.GameBoardTest.testHasFreeAdjacent" />
-      <item itemvalue="JUnit.GameBoardTest.testHasToBeFilled" />
+      <item itemvalue="JUnit.GameModelTest.checkValidMove" />
+      <item itemvalue="JUnit.GameModelTest.makeMove" />
       <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard2Creation" />
       <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard3Creation" />
       <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard4Creation" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.GameBoardTest.testHasToBeFilled" />
-        <item itemvalue="JUnit.GameBoardTest.testHasFreeAdjacent" />
+        <item itemvalue="JUnit.GameModelTest.checkValidMove" />
+        <item itemvalue="JUnit.GameModelTest.makeMove" />
         <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard4Creation" />
         <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard3Creation" />
         <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard2Creation" />
@@ -396,11 +397,11 @@
       <workItem from="1679570451440" duration="1107000" />
       <workItem from="1679571637439" duration="307000" />
       <workItem from="1679604313382" duration="274000" />
-      <workItem from="1679645101789" duration="783000" />
-      <workItem from="1679650000429" duration="1113000" />
-      <workItem from="1679652055725" duration="117000" />
-      <workItem from="1679731499386" duration="9384000" />
-      <workItem from="1679922861633" duration="322000" />
+      <workItem from="1679645101789" duration="489000" />
+      <workItem from="1680001860890" duration="1261000" />
+      <workItem from="1680003457194" duration="10000" />
+      <workItem from="1680005712747" duration="9673000" />
+      <workItem from="1680032146593" duration="5837000" />
     </task>
     <task id="LOCAL-00001" summary="minor fixes &amp; player state tests">
       <created>1678896857551</created>
@@ -549,28 +550,7 @@
       <option name="project" value="LOCAL" />
       <updated>1679583352877</updated>
     </task>
-    <task id="LOCAL-00022" summary="moved the code to initialize a specific common goal given its corresponding int from GameBoard to UtilityFunctions.createCommonGoal for better readability of GameBoard">
-      <created>1679645859288</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1679645859288</updated>
-    </task>
-    <task id="LOCAL-00023" summary="little changes due to uml revision">
-      <created>1679741675060</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1679741675060</updated>
-    </task>
-    <task id="LOCAL-00024" summary="removed warnings and typos from all classes">
-      <created>1679744600550</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1679744600550</updated>
-    </task>
-    <option name="localTasksCounter" value="25" />
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -626,6 +606,14 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <MESSAGE value="created and tested CommonObjective7" />
+    <MESSAGE value="readme todo table updated" />
+    <MESSAGE value="created and tested CommonObjective8, created CommonObjective4 but need changes and test" />
+    <MESSAGE value="modified CommonObjective4 and created CommonObjective4Test, overrided equals in Position classe" />
+    <MESSAGE value="name refactoring:&#10;objective -&gt; goal&#10;library -&gt; shelf&#10;card -&gt; tile" />
+    <MESSAGE value="created classes to unify common goal 1 and 2 and common goal 5, 8, 9 and 10 with related tests" />
+    <MESSAGE value="created class to unify common goal 3, 7, 11 and related test" />
+    <MESSAGE value="added getCommonObjective to GameBoard&#10;removed evaluateCommonObjective from GameBoard &#10;added evaluatePoints to GameModel" />
     <MESSAGE value="added check for First Point to evaluatePoints in Game Model" />
     <MESSAGE value="index for commonObjective" />
     <MESSAGE value="I added the class SingleObjective" />
@@ -651,17 +639,14 @@
     <MESSAGE value="imports update in common goals test to fix missing JsonSingleton" />
     <MESSAGE value="fixed CommonGoal.push() and modified the new common goals classes to use JsonWithExposeSingleton instead of JsonSingleton" />
     <MESSAGE value="fixed GameModel to pass GameModelTest testPersistency, removed &quot;extends Observable&quot; from GameModel signature to make it loadable from json" />
-    <MESSAGE value="moved the code to initialize a specific common goal given its corresponding int from GameBoard to UtilityFunctions.createCommonGoal for better readability of GameBoard" />
-    <MESSAGE value="little changes due to uml revision" />
-    <MESSAGE value="removed warnings and typos from all classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed warnings and typos from all classes" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed GameModel to pass GameModelTest testPersistency, removed &quot;extends Observable&quot; from GameModel signature to make it loadable from json" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShapeTest.java</url>
-          <line>64</line>
+          <line>67</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -676,23 +661,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShapeTest.java</url>
-          <line>55</line>
+          <line>58</line>
           <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameModelTest.java</url>
-          <line>31</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/commonGoals/TwoSquaresTest.java</url>
-          <line>51</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameBoardTest.java</url>
-          <line>155</line>
-          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -708,13 +678,13 @@
         <watch expression="((java.util.ArrayList)((GameModel)this).playerList).get(3)" custom="it.polimi.ingsw.model.GameModel,java.util.ArrayList" />
         <watch expression="((java.util.ArrayList)((GameModel)this).playerList).get(3)" custom="it.polimi.ingsw.model.GameModel,java.util.ArrayList" />
         <watch expression="((java.util.ArrayList)((GameModel)this).playerList).get(3)" custom="it.polimi.ingsw.model.GameModel,java.util.ArrayList" />
-        <watch expression="group.get(3)" />
-        <watch expression="group.get(7)" />
-        <watch expression="gb.myGameBoard[0][4]" language="JAVA" />
-        <watch expression="gb.myGameBoard[6][3]" />
-        <watch expression="gb.myGameBoard[5]" />
-        <watch expression="gb.myGameBoard[5][6]" />
       </configuration>
     </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/IS23_AM08$GameModelTest_checkValidMove.ic" NAME="GameModelTest.checkValidMove Coverage Results" MODIFIED="1680032704319" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>it.polimi.ingsw.model.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/IS23_AM08$All_tests.ic" NAME="All tests Coverage Results" MODIFIED="1680010772115" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

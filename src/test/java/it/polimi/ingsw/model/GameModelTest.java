@@ -34,4 +34,79 @@ class GameModelTest {
         assertTrue(true);
     }
 
+    @Test
+    public void makeMove() throws FileNotFoundException {
+        List<String> players=new ArrayList<>(4);
+        players.add("MatteCenz"); players.add("GabriCarr"); players.add("GabriCarm"); players.add("AleCappe");
+        String file= AppConstants.PATH_SAVED_FILES+"MatchTestMakeMove.json";
+        Gson json=new GsonBuilder().setPrettyPrinting().create();
+        GameModel gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
+
+        Position p = new Position(0, 4);
+        List<Position> pos = new ArrayList<>();
+        pos.add(p);
+        gm.makeMove(pos, 0);
+        assertFalse(gm.getGameBoard().positionOccupied(p));
+
+        Position p1 = new Position(0, AppConstants.ROWS_NUMBER - 1);
+        assertEquals(TileColor.VIOLET, gm.getPlayer().getShelf().getTile(p1).getColor());
+        assertEquals(2, gm.getPlayer().getShelf().getTile(p1).getSprite());
+
+        // i test the method with 2 cards taken by the board
+        gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
+        Position p2 = new Position(0, 4);
+        Position p3 = new Position(1, 4);
+        Position p4 = new Position(2, 4);
+        List<Position> pos1 = new ArrayList<>();
+        pos1.add(p2);
+        pos1.add(p3);
+        pos1.add(p4);
+        gm.makeMove(pos1, 0);
+        assertFalse(gm.getGameBoard().positionOccupied(p2));
+        assertFalse(gm.getGameBoard().positionOccupied(p3));
+        assertFalse(gm.getGameBoard().positionOccupied(p4));
+        Position p5 = new Position(0, AppConstants.ROWS_NUMBER - 1);
+        assertEquals(TileColor.VIOLET, gm.getPlayer().getShelf().getTile(p5).getColor());
+        assertEquals(2, gm.getPlayer().getShelf().getTile(p5).getSprite());
+        Position p6 = new Position(0, AppConstants.ROWS_NUMBER - 2);
+        assertEquals(TileColor.CYAN, gm.getPlayer().getShelf().getTile(p6).getColor());
+        assertEquals(1, gm.getPlayer().getShelf().getTile(p6).getSprite());
+        Position p7 = new Position(0, AppConstants.ROWS_NUMBER - 3);
+        assertEquals(TileColor.CYAN, gm.getPlayer().getShelf().getTile(p7).getColor());
+        assertEquals(1, gm.getPlayer().getShelf().getTile(p7).getSprite());
+    }
+
+    @Test
+    public void checkValidMove() throws FileNotFoundException {
+        List<String> players=new ArrayList<>(4);
+        players.add("MatteCenz"); players.add("GabriCarr"); players.add("GabriCarm"); players.add("AleCappe");
+        String file= AppConstants.PATH_SAVED_FILES+"TestCheckValidMoveAndCheckValidColumn.json";
+        Gson json=new GsonBuilder().setPrettyPrinting().create();
+        GameModel gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
+
+        List<Position> pos = new ArrayList<>();
+        assertFalse(gm.checkValidMove(pos));
+        pos.add(new Position(3,0));
+        pos.add(new Position(4,0));
+        assertTrue(gm.checkValidMove(pos));
+        pos.add(new Position(3,1));
+        assertFalse(gm.checkValidMove(pos));
+        pos.add(new Position(3,2));
+        assertFalse(gm.checkValidMove(pos));
+        List<Position> pos1 = new ArrayList<>();
+        pos1.add(new Position(2,2));
+        pos1.add(new Position(2,3));
+        pos1.add(new Position(2,4));
+        assertFalse(gm.checkValidMove(pos1));
+        List<Position> pos2 = new ArrayList<>();
+        pos2.add(new Position(4,0));
+        pos2.add(new Position(3,0));
+        pos2.add(new Position ( 3,1));
+        assertFalse(gm.checkValidMove(pos2));
+        List<Position> pos3 = new ArrayList<>();
+        //problems on this test (maybe on the hasFreeAdjacent)
+        pos3.add(new Position(3,1));
+        pos3.add(new Position(5, 1));
+        assertFalse(gm.checkValidMove(pos3));
+    }
 }

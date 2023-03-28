@@ -43,6 +43,11 @@ public class AppConstants {
     public static int MAX_PLAYERS           =   4;
 
     /**
+     * max number of moves which a player can do
+     */
+    public static int MAX_NUM_OF_MOVES      =   3;
+
+    /**
      *
      */
     public static int TOTAL_POINTS_FOR_PG  =   6;

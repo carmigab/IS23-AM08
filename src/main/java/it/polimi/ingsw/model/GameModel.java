@@ -200,20 +200,35 @@ public class GameModel {
     }
 
     /**
-     * this method is used to verify if the move done by the current player is correct
+     * this method is used to check if the move done by the current player is correct
      * @param pos list of the position of the tiles taken by the player from the game board
      * @return true if the move is valid, false if the move isn't valid
      */
     public boolean checkValidMove(List<Position> pos){
-        for(int i=0; i<pos.size()-1; i++){
-            if(pos.get(i).x() != pos.get(i+1).x()) return false;
-        }
-        for(int i=0; i<pos.size()-1; i++){
-            if(pos.get(i).y() != pos.get(i+1).y()) return false;
-        }
-        for (Position p : pos){
+        if(pos.size() > AppConstants.MAX_NUM_OF_MOVES || pos.isEmpty()) return false;
+        for(Position p : pos){
+            if(!this.gameBoard.positionOccupied(p)) return false;
             if(p.x()>= BoardConstants.BOARD_DIMENSION || p.y() >= BoardConstants.BOARD_DIMENSION) return false;
             if(!this.gameBoard.hasFreeAdjacent(p)) return false;
+        }
+        /*for(int i=0;i<pos.size()-1;i++) {
+            if((pos.get(i).x() - pos.get(i+1).x() > 1 || pos.get(i).x() - pos.get(i+1).x() < -1 ) ||
+                    ((pos.get(i).y() - pos.get(i+1).y() > 1 || pos.get(i).y() - pos.get(i+1).y() < -1 ))){
+                return false;
+            }
+        }
+
+         */
+        for(int i=0; i< pos.size(); i++){
+            if(i!=0 && pos.get(i).x() != pos.get(0).x() && pos.get(i).y() != pos.get(0).y()){
+                return false;
+            }
+        }
+        for(int i=0; i<pos.size()-1; i++){
+            if(!((pos.get(i).x() != pos.get(i+1).x() && pos.get(i).y() == pos.get(i+1).y()) ||
+                    (pos.get(i).x() == pos.get(i+1).x() && pos.get(i).y() != pos.get(i+1).y()))){
+                return false;
+            }
         }
         return true;
     }
@@ -336,4 +351,14 @@ public class GameModel {
         for (Observer obs: observers)
             obs.update(this);
     }
+
+    public PlayerState getPlayer() {
+        return this.playerList.get(currentPlayer);
+    }
+
+    public GameBoard getGameBoard() {
+        return gameBoard;
+    }
 }
+
+

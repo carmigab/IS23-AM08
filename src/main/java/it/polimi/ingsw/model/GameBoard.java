@@ -208,24 +208,28 @@ public final class GameBoard {
                 if (c.isEmpty()) return true;
             }
         }
+        else return true;
         if(x<BoardConstants.BOARD_DIMENSION-1){
             c=myGameBoard[p.y()][p.x()+1];
             if(!c.isInvalid()) {
                 if (c.isEmpty()) return true;
             }
         }
+        else return true;
         if(y>0){
             c=myGameBoard[p.y()-1][p.x()];
             if(!c.isInvalid()) {
                 if (c.isEmpty()) return true;
             }
         }
+        else return true;
         if(y<BoardConstants.BOARD_DIMENSION-1){
             c=myGameBoard[p.y()+1][p.x()];
             if(!c.isInvalid()) {
                 if (c.isEmpty()) return true;
             }
         }
+        else return true;
         return false;
     }
 

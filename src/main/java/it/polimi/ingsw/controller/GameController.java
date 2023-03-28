@@ -14,7 +14,7 @@ public class GameController {
     private final int numPlayers;
 
     public GameController(List<String> nicknames, int numPlayers){
-        this.playersList = new ArrayList<>(nicknames);
+        playersList = new ArrayList<>(nicknames);
         this.numPlayers = numPlayers;
         this.model = new GameModel(numPlayers, nicknames);
     }

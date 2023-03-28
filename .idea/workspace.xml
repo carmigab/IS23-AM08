@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="fixed gameboard test, now works fine">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/Points_test.json" afterDir="false" />
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="added Points_test.json">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PlayerState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PlayerState.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/Points_test.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/Points_test.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/PlayerStateTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/PlayerStateTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,8 +90,8 @@
       <recent name="it.polimi.ingsw.model" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
-      <recent name="it.polimi.ingsw.model.commonGoals" />
       <recent name="it.polimi.ingsw.model" />
+      <recent name="it.polimi.ingsw.model.commonGoals" />
       <recent name="it.polimi.ingsw.model.commonObjectives" />
       <recent name="it.polimi.ingsw.model.utilities" />
       <recent name="it.polimi.ingsw" />
@@ -98,7 +100,7 @@
       <recent name="it.polimi.ingsw.model.commonGoals" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All tests">
+  <component name="RunManager">
     <configuration name="All tests" type="JUnit" factoryName="JUnit">
       <module name="AM08" />
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
@@ -118,37 +120,6 @@
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonGoals.EightTilesOfTheSameColorTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GameBoardTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="AM08" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameBoardTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GameBoardTest.testCorrectGameBoard2Creation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="AM08" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameBoardTest" />
-      <option name="METHOD_NAME" value="testCorrectGameBoard2Creation" />
-      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -304,12 +275,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PlayerStateTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="SingleOccurrenceOfGivenShapeTest" type="JUnit" factoryName="JUnit">
       <module name="AM08" />
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonGoals" />
@@ -339,15 +304,12 @@
       <item itemvalue="JUnit.GameModelTest.testPersistency" />
       <item itemvalue="JUnit.CommonObjective6Test" />
       <item itemvalue="JUnit.UtilityFunctionsTest" />
-      <item itemvalue="JUnit.PlayerStateTest" />
       <item itemvalue="JUnit.NGroupsOfSizeMTest" />
       <item itemvalue="JUnit.NLinesOfAtMostMDifferentColorsTest" />
       <item itemvalue="JUnit.SingleOccurrenceOfGivenShapeTest" />
       <item itemvalue="JUnit.All tests" />
-      <item itemvalue="JUnit.GameBoardTest" />
       <item itemvalue="JUnit.GameBoardTest.testHasFreeAdjacent" />
       <item itemvalue="JUnit.GameBoardTest.testHasToBeFilled" />
-      <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard2Creation" />
       <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard3Creation" />
       <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard4Creation" />
     </list>
@@ -357,7 +319,6 @@
         <item itemvalue="JUnit.GameBoardTest.testHasFreeAdjacent" />
         <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard4Creation" />
         <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard3Creation" />
-        <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard2Creation" />
       </list>
     </recent_temporary>
   </component>
@@ -565,7 +526,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679744600550</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="added Points_test.json">
+      <created>1680005869405</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1680005869405</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -621,7 +589,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added check for First Point to evaluatePoints in Game Model" />
     <MESSAGE value="index for commonObjective" />
     <MESSAGE value="I added the class SingleObjective" />
     <MESSAGE value="Created CommonObjective1 class with its own evaluate function, added two method in Library class useful for the evaluate method of CommonObjective1.&#10;The two methods are a new constructor which receives an array of Card, and the method getMyLibrary to get a copy of the Card array of the class Library" />
@@ -649,7 +616,8 @@
     <MESSAGE value="moved the code to initialize a specific common goal given its corresponding int from GameBoard to UtilityFunctions.createCommonGoal for better readability of GameBoard" />
     <MESSAGE value="little changes due to uml revision" />
     <MESSAGE value="removed warnings and typos from all classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="removed warnings and typos from all classes" />
+    <MESSAGE value="added Points_test.json" />
+    <option name="LAST_COMMIT_MESSAGE" value="added Points_test.json" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

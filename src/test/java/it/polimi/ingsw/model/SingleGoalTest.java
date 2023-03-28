@@ -17,9 +17,7 @@ class SingleGoalTest {
     void getPosition() {
         Position p = new Position(5,5);
         SingleGoal s= new SingleGoal(p, TileColor.EMPTY);
-        // you cannot say assertEquals(p,s.getPosition()); since the position p is copied in s by creating a new object
-        assertEquals(p.x(),s.getPosition().x());
-        assertEquals(p.y(),s.getPosition().y());
+        assertEquals(p,s.getPosition());
     }
 
     @Test

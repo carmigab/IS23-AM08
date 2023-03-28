@@ -41,11 +41,6 @@ public class Shelf {
     }
 
 
-    // Delete this method
-    public Shelf(Tile[][] myShelf) {
-        this.myShelf = myShelf;
-    }
-
     /**
      * This method return a copy of the array of tile of the shelf
      *
@@ -82,7 +77,6 @@ public class Shelf {
         while(!myShelf[rowToInsertInIdx][column].isEmpty()) rowToInsertInIdx--;
 
         // add the given tile in the empty cell
-        // myShelf[rowToInsertInIdx][column] = tile;
         myShelf[rowToInsertInIdx][column] = new Tile(tile);
     }
 

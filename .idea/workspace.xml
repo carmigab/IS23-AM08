@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="added Points_test.json">
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="Github actions first try">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PlayerState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PlayerState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/Points_test.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/Points_test.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/PlayerStateTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/PlayerStateTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -534,7 +532,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680005869405</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Github actions first try">
+      <created>1680025686337</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1680025686337</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -590,8 +595,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="index for commonObjective" />
-    <MESSAGE value="I added the class SingleObjective" />
     <MESSAGE value="Created CommonObjective1 class with its own evaluate function, added two method in Library class useful for the evaluate method of CommonObjective1.&#10;The two methods are a new constructor which receives an array of Card, and the method getMyLibrary to get a copy of the Card array of the class Library" />
     <MESSAGE value="created CommonObjective2 class and findGroupSize method to find the size of the group containing the position of the card passed via parameter (this method must be generalized to be used in different classes)" />
     <MESSAGE value="minor fixes" />
@@ -618,7 +621,8 @@
     <MESSAGE value="little changes due to uml revision" />
     <MESSAGE value="removed warnings and typos from all classes" />
     <MESSAGE value="added Points_test.json" />
-    <option name="LAST_COMMIT_MESSAGE" value="added Points_test.json" />
+    <MESSAGE value="Github actions first try" />
+    <option name="LAST_COMMIT_MESSAGE" value="Github actions first try" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

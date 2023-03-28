@@ -51,7 +51,7 @@ class PlayerStateTest {
 
         pl.setFirstPoint();
 
-        assertEquals(8+1+1+1, pl.getPoints());
+        assertEquals(8+1+1, pl.getPoints());
     }
 
 

@@ -1,5 +1,15 @@
 package it.polimi.ingsw.model;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.model.constants.AppConstants;
+import it.polimi.ingsw.model.utilities.UtilityFunctions;
 import org.junit.jupiter.api.Test;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -24,13 +34,25 @@ class PlayerStateTest {
      */
     @Test
     void getPoints() {
-        // to do: integrate in the test the evaluation functions
-        // player.evaluatePGPoints();
-        // player.evaluateGroupPoints();
-        player.addCGPoints(68);
-        player.setFirstPoint();
+        // Loading json playerstate
+        String file = "src/main/resources/savedMatches/Points_test.json";
+        Gson json = new GsonBuilder().setPrettyPrinting().create();
+        PlayerState pl;
+        try {
+            pl = new PlayerState(json.fromJson(new FileReader(file), PlayerState.class));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
 
-        assertEquals(69, player.getPoints());
+
+        // Points evaluations
+        pl.evaluatePGPoints();
+        pl.evaluateGroupPoints();
+
+        pl.setFirstPoint();
+
+        // assert
+        assertEquals(8+1+1, pl.getPoints());
     }
 
 
@@ -43,4 +65,5 @@ class PlayerStateTest {
         assertTrue(player.isCGDone(0));
         assertFalse(player.isCGDone(1));
     }
+
 }

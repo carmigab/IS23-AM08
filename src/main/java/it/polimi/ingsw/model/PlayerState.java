@@ -73,6 +73,16 @@ public class PlayerState {
         this.comGoalDone = new boolean[2];      // Initialized to false
     }
 
+    public PlayerState(PlayerState playerState) {
+        this.nickname = playerState.nickname;
+        this.myShelf = playerState.myShelf;
+        this.PGPoints = playerState.PGPoints;
+        this.CGPoints = playerState.CGPoints;
+        this.groupPoints = playerState.groupPoints;
+        this.firstPoint = playerState.firstPoint;
+        this.personalGoal = playerState.personalGoal;
+        this.comGoalDone = playerState.comGoalDone;
+    }
 
     /**
      * This method returns the nickname

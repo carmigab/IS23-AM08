@@ -7,33 +7,34 @@
 * Alessandro Capellino
 
 
-| Functionality | State           |
-|---------------|-----------------|
-| GameModel     | :yellow_circle: | 
-| GameBoard     | :green_circle:  |  
-| PlayerState   | :green_circle:  |
-| Shelf         | :green_circle:  |
-| PersonalGoal  | :green_circle:  |
-| CommonGoal    | :green_circle:  |
-| Tile          | :green_circle:  |
+| Functionality | State           | Test Coverage (Methods) |
+|---------------|-----------------|-------------------------|
+| GameModel     | :yellow_circle: | 63%                     |
+| GameBoard     | :green_circle:  | 85%                     |  
+| PlayerState   | :green_circle:  | 92%                     |
+| Shelf         | :green_circle:  | 100%                    |
+| CommonGoal    | :green_circle:  | 77%                     |
+| PersonalGoal  | :green_circle:  | 66%                     | 
+| SingleGoal    | :green_circle:  | 100%                    | 
+| Tile          | :green_circle:  | 100%                    |
+| Position      | :green_circle:  | 100%                    |
 
 
 
 
-| Functionality | State           | Current   | Comment |
-|---------------|-----------------|-----------| ---- |
-| CG1           | :yellow_circle: | gabricarm | |
-| CG2           | :yellow_circle: | gabricarm | |
-| CG3           | :green_circle:  | gabricarm | |
-| CG4           | :yellow_circle: | gabricarm | |
-| CG5           | :green_circle:  | gabricarm | |
-| CG6           | :green_circle:  | gabricarm | |
-| CG7           | :green_circle:  | gabricarm | |
-| CG8           | :green_circle:  | gabricarm | |
-| CG9           | :green_circle:  | gabricarr | |
-| CG10          | :green_circle:  | gabricarr | |
-| CG11          | :green_circle:  | mattecenz | |
-| CG12          | :green_circle:  | mattecenz | |
+| Functionality | State           | Current   | Test Coverage (Methods) |
+|---------------|-----------------|-----------|-------------------------|
+| CG1           | :yellow_circle: | gabricarm |                  
+| CG2           | :yellow_circle: | gabricarm |                   
+| CG4           | :yellow_circle: | gabricarm |                  
+| CG5           | :green_circle:  | gabricarm |                   
+| CG6           | :green_circle:  | gabricarm |                  
+| CG7           | :green_circle:  | gabricarm |                   
+| CG8           | :green_circle:  | gabricarm |                  
+| CG9           | :green_circle:  | gabricarr |                   
+| CG10          | :green_circle:  | gabricarr |                  
+| CG11          | :green_circle:  | mattecenz |                   
+| CG12          | :green_circle:  | mattecenz |                   
 
 
 

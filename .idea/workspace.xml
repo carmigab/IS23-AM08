@@ -5,9 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="refactor method checkValidMove in gameModel, added test of methods makeMove and checkValidMove in gameModelTest, added two utility getter methods in gameModel">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/UtilityFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/UtilityFunctions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/TestCheckValidMoveAndCheckValidColumn.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/TestCheckValidMoveAndCheckValidColumn.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameModelTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/savedMatches/TestCheckValidMoveAndCheckValidColumn.json" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/savedMatches/TestCheckValidMoveAndCheckValidColumn.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,37 +126,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GameBoardTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="AM08" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameBoardTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GameBoardTest.testCorrectGameBoard2Creation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="AM08" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameBoardTest" />
-      <option name="METHOD_NAME" value="testCorrectGameBoard2Creation" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="GameBoardTest.testCorrectGameBoard2Creation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
@@ -232,6 +205,22 @@
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.PlayerStateTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameModelTest.checkValidColumn" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="AM08" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameModelTest" />
+      <option name="METHOD_NAME" value="checkValidColumn" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -344,20 +333,19 @@
       <item itemvalue="JUnit.NLinesOfAtMostMDifferentColorsTest" />
       <item itemvalue="JUnit.SingleOccurrenceOfGivenShapeTest" />
       <item itemvalue="JUnit.All tests" />
-      <item itemvalue="JUnit.GameBoardTest" />
+      <item itemvalue="JUnit.GameModelTest.checkValidColumn" />
       <item itemvalue="JUnit.GameModelTest.checkValidMove" />
       <item itemvalue="JUnit.GameModelTest.makeMove" />
-      <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard2Creation" />
       <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard3Creation" />
       <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard4Creation" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.GameModelTest.checkValidMove" />
+        <item itemvalue="JUnit.GameModelTest.checkValidColumn" />
         <item itemvalue="JUnit.GameModelTest.makeMove" />
         <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard4Creation" />
         <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard3Creation" />
-        <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard2Creation" />
       </list>
     </recent_temporary>
   </component>
@@ -396,6 +384,8 @@
       <workItem from="1680003457194" duration="10000" />
       <workItem from="1680005712747" duration="9673000" />
       <workItem from="1680032146593" duration="6134000" />
+      <workItem from="1680038341205" duration="311000" />
+      <workItem from="1680077598960" duration="4896000" />
     </task>
     <task id="LOCAL-00001" summary="minor fixes &amp; player state tests">
       <created>1678896857551</created>
@@ -551,7 +541,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680038174980</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="refactor method checkValidMove in gameModel, added test of methods makeMove and checkValidMove in gameModelTest, added two utility getter methods in gameModel">
+      <created>1680038441903</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1680038441903</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -607,7 +604,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="created and tested CommonObjective8, created CommonObjective4 but need changes and test" />
     <MESSAGE value="modified CommonObjective4 and created CommonObjective4Test, overrided equals in Position classe" />
     <MESSAGE value="name refactoring:&#10;objective -&gt; goal&#10;library -&gt; shelf&#10;card -&gt; tile" />
     <MESSAGE value="created classes to unify common goal 1 and 2 and common goal 5, 8, 9 and 10 with related tests" />

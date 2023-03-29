@@ -34,6 +34,10 @@ class GameModelTest {
         assertTrue(true);
     }
 
+    /**
+     * this method tests the method makeMove of the class GameModel
+     * @throws FileNotFoundException if the file didn't found
+     */
     @Test
     public void makeMove() throws FileNotFoundException {
         List<String> players=new ArrayList<>(4);
@@ -76,6 +80,10 @@ class GameModelTest {
         assertEquals(1, gm.getPlayer().getShelf().getTile(p7).getSprite());
     }
 
+    /**
+     * this method tests the method checkValidMove of the class GameModel
+     * @throws FileNotFoundException if the file which simulate the match didn't find
+     */
     @Test
     public void checkValidMove() throws FileNotFoundException {
         List<String> players=new ArrayList<>(4);
@@ -108,5 +116,27 @@ class GameModelTest {
         pos3.add(new Position(3,1));
         pos3.add(new Position(5, 1));
         assertFalse(gm.checkValidMove(pos3));
+
     }
+
+    /**
+     * this method tests the method checkValidColumn of the class GameModel
+     * @throws FileNotFoundException if the file which simulate the match didn't find
+     */
+    @Test
+    public void checkValidColumn() throws FileNotFoundException {
+        List<String> players=new ArrayList<>(4);
+        players.add("MatteCenz"); players.add("GabriCarr"); players.add("GabriCarm"); players.add("AleCappe");
+        String file= AppConstants.PATH_SAVED_FILES+"TestCheckValidMoveAndCheckValidColumn.json";
+        Gson json=new GsonBuilder().setPrettyPrinting().create();
+        GameModel gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
+        assertFalse(gm.checkValidColumn(6,1));
+        assertTrue(gm.checkValidColumn(0,3));
+        assertFalse(gm.checkValidColumn(1, 1));
+        assertFalse(gm.checkValidColumn(2,3));
+        assertTrue(gm.checkValidColumn(2,2));
+        assertFalse(gm.checkValidColumn(3,2));
+        assertTrue(gm.checkValidColumn(3,1));
+    }
+
 }

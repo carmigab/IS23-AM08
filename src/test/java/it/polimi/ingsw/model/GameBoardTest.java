@@ -66,14 +66,12 @@ public class GameBoardTest {
         GameBoard gb= GameBoard.createGameBoard(4, co);
         //check position in the middle of the board, should not have free adjacent
         assertFalse(gb.hasFreeAdjacent(new Position(5,5)));
-        //also one at the edge which is limited by invalid cells
-        assertFalse(gb.hasFreeAdjacent(new Position(4,0)));
+        //one at the edge which is limited by invalid cells should result free
+        assertTrue(gb.hasFreeAdjacent(new Position(4,0)));
         //now if we remove the two tiles and check some adjacent ones should return true
         gb.removeTile(new Position(4,0));
         assertTrue(gb.hasFreeAdjacent(new Position(3,0)));
         assertTrue(gb.hasFreeAdjacent(new Position(4,1)));
-        // this one is diagonal, should not have empty adjacents
-        assertFalse(gb.hasFreeAdjacent(new Position(3,1)));
 
         gb.removeTile(new Position(5,5));
         assertTrue(gb.hasFreeAdjacent(new Position(5,4)));

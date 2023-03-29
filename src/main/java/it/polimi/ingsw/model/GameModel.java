@@ -211,14 +211,15 @@ public class GameModel {
             if(p.x()>= BoardConstants.BOARD_DIMENSION || p.y() >= BoardConstants.BOARD_DIMENSION) return false;
             if(!this.gameBoard.hasFreeAdjacent(p)) return false;
         }
-        /*for(int i=0;i<pos.size()-1;i++) {
+
+        for(int i=0;i<pos.size()-1;i++) {
             if((pos.get(i).x() - pos.get(i+1).x() > 1 || pos.get(i).x() - pos.get(i+1).x() < -1 ) ||
                     ((pos.get(i).y() - pos.get(i+1).y() > 1 || pos.get(i).y() - pos.get(i+1).y() < -1 ))){
                 return false;
             }
         }
 
-         */
+
         for(int i=0; i< pos.size(); i++){
             if(i!=0 && pos.get(i).x() != pos.get(0).x() && pos.get(i).y() != pos.get(0).y()){
                 return false;

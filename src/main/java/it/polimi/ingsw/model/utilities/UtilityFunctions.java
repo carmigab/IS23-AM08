@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.utilities;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.App;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.Shelf;
@@ -67,7 +68,7 @@ public class UtilityFunctions {
                 // set the card in the extracted position to empty to avoid double-checking
                 card.setEmpty();
 
-                frontier.addAll(getAdjacentPositions(extractedPosition));
+                frontier.addAll(getAdjacentPositions(extractedPosition, false));
             }
         }
 
@@ -78,18 +79,20 @@ public class UtilityFunctions {
      * This method return the adjacent position in the shelf to a given position
      *
      * @param position starting position, the method finds the adjacent to this one
+     * @param selectBoardOrShelf this boolean select the current constant for the if conditions, if true it takes the BoardDimension constant and if false it
+     * takes the Shelf dimensions constants
      * @return a list of 2 to 4 positions
      */
-    public static List<Position> getAdjacentPositions(Position position) {
+    public static List<Position> getAdjacentPositions(Position position, boolean selectBoardOrShelf) {
         List<Position> adjacentPositions = new ArrayList<>();
 
         // if the extracted position is in the last column do not execute this part
-        if (position.x() < AppConstants.COLS_NUMBER - 1) {
+        if (position.x() < (selectBoardOrShelf ? (AppConstants.BOARD_DIMENSION - 1) : (AppConstants.COLS_NUMBER - 1))) {
             adjacentPositions.add(new Position(position.x() + 1, position.y()));
         }
 
         // if the extracted position is in the last row do not execute this part
-        if (position.y() < AppConstants.ROWS_NUMBER - 1) {
+        if (position.y() < (selectBoardOrShelf ? (AppConstants.BOARD_DIMENSION - 1) : (AppConstants.ROWS_NUMBER - 1))) {
             adjacentPositions.add(new Position(position.x(), position.y() + 1));
         }
 

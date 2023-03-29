@@ -198,38 +198,17 @@ public final class GameBoard {
      * @return true if the tile in position p has at least one empty space in one of the final directions
      */
     public boolean hasFreeAdjacent(Position p){
+        // get all the adjacent position containing a tile
+        List<Position> adjacents = UtilityFunctions.getAdjacentPositions(p, true);
 
-        int x=p.x();
-        int y=p.y();
-        Tile c;
-        if(x>0){
-            c=myGameBoard[p.y()][p.x()-1];
-            if(!c.isInvalid()) {
-                if (c.isEmpty()) return true;
-            }
+        // adjacents.size() < 4 means that the tile is on the edge of the board (the missing(s) position in this list are the ones out of the board
+        if (adjacents.size() < 4) return true;
+
+        // for each adjacent it is considered free if the corresponding tile is empty or invalid
+        for (Position position : adjacents) {
+            if (myGameBoard[position.y()][position.x()].isEmpty() || myGameBoard[position.y()][position.x()].isInvalid()) return true;
         }
-        else return true;
-        if(x<BoardConstants.BOARD_DIMENSION-1){
-            c=myGameBoard[p.y()][p.x()+1];
-            if(!c.isInvalid()) {
-                if (c.isEmpty()) return true;
-            }
-        }
-        else return true;
-        if(y>0){
-            c=myGameBoard[p.y()-1][p.x()];
-            if(!c.isInvalid()) {
-                if (c.isEmpty()) return true;
-            }
-        }
-        else return true;
-        if(y<BoardConstants.BOARD_DIMENSION-1){
-            c=myGameBoard[p.y()+1][p.x()];
-            if(!c.isInvalid()) {
-                if (c.isEmpty()) return true;
-            }
-        }
-        else return true;
+
         return false;
     }
 

@@ -181,4 +181,15 @@ public class UtilityFunctions {
 
         return commonGoal;
     }
+
+    /**
+     * This method is used for calculating the mathematical distance (Pythagora's theorem) between two Positions,
+     * useful for checking the adjacent cells
+     * @param p1 first position
+     * @param p2 second position
+     * @return distance squared of the two cells (it is an integer since every cell is a whole number)
+     */
+    public static Integer distanceSquared(Position p1, Position p2){
+        return (p1.x()-p2.x())*(p1.x()-p2.x()) + (p1.y()-p2.y())*(p1.y()-p2.y());
+    }
 }

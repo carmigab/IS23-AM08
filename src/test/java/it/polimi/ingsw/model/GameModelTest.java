@@ -95,6 +95,9 @@ class GameModelTest {
         List<Position> pos = new ArrayList<>();
         assertFalse(gm.checkValidMove(pos));
         pos.add(new Position(3,0));
+        pos.add(new Position(3,0));
+        assertFalse(gm.checkValidMove(pos));
+        pos.remove(1);
         pos.add(new Position(4,0));
         assertTrue(gm.checkValidMove(pos));
         pos.add(new Position(3,1));

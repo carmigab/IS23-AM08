@@ -153,12 +153,8 @@ public class GameModel {
         Writer fileWriter;
         try {
             fileWriter=new FileWriter(this.fileName);
-            try {
-                fileWriter.write(JsonWithExposeSingleton.getJsonWithExposeSingleton().toJson(this));
-                fileWriter.close();
-            } catch (IOException e) {
-                System.out.println("Error in writing to the file "+this.fileName+" plz restart application");
-            }
+            fileWriter.write(JsonWithExposeSingleton.getJsonWithExposeSingleton().toJson(this));
+            fileWriter.close();
         } catch (IOException e) {
             System.out.println("Error in opening to the file "+this.fileName+" plz restart application");
         }
@@ -206,20 +202,43 @@ public class GameModel {
      */
     public boolean checkValidMove(List<Position> pos){
         if(pos.size() > AppConstants.MAX_NUM_OF_MOVES || pos.isEmpty()) return false;
-        for(Position p : pos) {
-            if (!this.gameBoard.positionOccupied(p)) return false;
-            if (p.x() >= BoardConstants.BOARD_DIMENSION || p.y() >= BoardConstants.BOARD_DIMENSION) return false;
-            if (!this.gameBoard.hasFreeAdjacent(p)) return false;
+        for(Position p : pos){
+            if(!this.gameBoard.positionOccupied(p)) return false;
+            if(p.x()>= BoardConstants.BOARD_DIMENSION || p.y() >= BoardConstants.BOARD_DIMENSION) return false;
+            if(!this.gameBoard.hasFreeAdjacent(p)) return false;
         }
 
-        for (int i = 0; i < pos.size() - 1; i++) {
-            if ((pos.get(i).x() - pos.get(i + 1).x() > 1 || pos.get(i).x() - pos.get(i + 1).x() < -1) ||
-                    ((pos.get(i).y() - pos.get(i + 1).y() > 1 || pos.get(i).y() - pos.get(i + 1).y() < -1))) {
+        if(pos.stream().distinct().count()!=pos.size()) return false;
+
+        //we have to check that they are in the same line
+        //so we take a copy of the list, we sort it in the x and y direction (if in a line it is obvious that one of them will not be sorted)
+
+        List<Position> copyPos=new ArrayList<>();
+        copyPos.addAll(pos);
+
+        copyPos.sort((p1, p2) -> p1.x() < p2.x() ? 1 : -1);
+        copyPos.sort((p1, p2) -> p1.y() < p2.y() ? 1 : -1);
+
+        //and we have to check the distance between the current and the next. if it is 1 it is ok, if not then it means they are not adjacent
+        for(int i=0;i<pos.size()-1;i++){
+            if(UtilityFunctions.distanceSquared(copyPos.get(i), copyPos.get(i+1))!=1) return false;
+        }
+        //also at the end we have to check that the first and the last are in a line (have a distance of exactly 4)
+        //now 4 is the constant which depends on the lenght of the total array, for now i will leave it hard coded
+
+        if(pos.size()> AppConstants.MAX_NUM_OF_MOVES-1) if(UtilityFunctions.distanceSquared(copyPos.get(0),copyPos.get(copyPos.size()-1)) != 4) return false;
+
+        /*
+        for(int i=0;i<pos.size()-1;i++) {
+            if((pos.get(i).x() - pos.get(i+1).x() > 1 || pos.get(i).x() - pos.get(i+1).x() < -1 ) ||
+                    ((pos.get(i).y() - pos.get(i+1).y() > 1 || pos.get(i).y() - pos.get(i+1).y() < -1 ))){
                 return false;
             }
         }
-        for (int i = 0; i < pos.size(); i++) {
-            if (i != 0 && pos.get(i).x() != pos.get(0).x() && pos.get(i).y() != pos.get(0).y()) {
+
+
+        for(int i=0; i< pos.size(); i++){
+            if(i!=0 && pos.get(i).x() != pos.get(0).x() && pos.get(i).y() != pos.get(0).y()){
                 return false;
             }
         }
@@ -229,6 +248,7 @@ public class GameModel {
                 return false;
             }
         }
+         */
         return true;
     }
 

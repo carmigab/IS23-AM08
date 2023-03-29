@@ -206,22 +206,20 @@ public class GameModel {
      */
     public boolean checkValidMove(List<Position> pos){
         if(pos.size() > AppConstants.MAX_NUM_OF_MOVES || pos.isEmpty()) return false;
-        for(Position p : pos){
-            if(!this.gameBoard.positionOccupied(p)) return false;
-            if(p.x()>= BoardConstants.BOARD_DIMENSION || p.y() >= BoardConstants.BOARD_DIMENSION) return false;
-            if(!this.gameBoard.hasFreeAdjacent(p)) return false;
+        for(Position p : pos) {
+            if (!this.gameBoard.positionOccupied(p)) return false;
+            if (p.x() >= BoardConstants.BOARD_DIMENSION || p.y() >= BoardConstants.BOARD_DIMENSION) return false;
+            if (!this.gameBoard.hasFreeAdjacent(p)) return false;
         }
 
-        for(int i=0;i<pos.size()-1;i++) {
-            if((pos.get(i).x() - pos.get(i+1).x() > 1 || pos.get(i).x() - pos.get(i+1).x() < -1 ) ||
-                    ((pos.get(i).y() - pos.get(i+1).y() > 1 || pos.get(i).y() - pos.get(i+1).y() < -1 ))){
+        for (int i = 0; i < pos.size() - 1; i++) {
+            if ((pos.get(i).x() - pos.get(i + 1).x() > 1 || pos.get(i).x() - pos.get(i + 1).x() < -1) ||
+                    ((pos.get(i).y() - pos.get(i + 1).y() > 1 || pos.get(i).y() - pos.get(i + 1).y() < -1))) {
                 return false;
             }
         }
-
-
-        for(int i=0; i< pos.size(); i++){
-            if(i!=0 && pos.get(i).x() != pos.get(0).x() && pos.get(i).y() != pos.get(0).y()){
+        for (int i = 0; i < pos.size(); i++) {
+            if (i != 0 && pos.get(i).x() != pos.get(0).x() && pos.get(i).y() != pos.get(0).y()) {
                 return false;
             }
         }
@@ -241,6 +239,7 @@ public class GameModel {
      * @return true if there is space in the column, false if there isn't space in the column
      */
     public boolean checkValidColumn(int col, int numTiles){
+        if(col >= AppConstants.COLS_NUMBER) return false;
         return this.playerList.get(this.currentPlayer).getShelf().getFreeSpaces(col) >= numTiles;
     }
 

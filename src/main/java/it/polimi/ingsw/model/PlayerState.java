@@ -73,6 +73,10 @@ public class PlayerState {
         this.comGoalDone = new boolean[2];      // Initialized to false
     }
 
+    /**
+     * This is a second constructor
+     * @param playerState: the player
+     */
     public PlayerState(PlayerState playerState) {
         this.nickname = playerState.nickname;
         this.myShelf = playerState.myShelf;

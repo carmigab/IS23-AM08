@@ -10,7 +10,7 @@
 | Functionality | State           | Test Coverage (Methods) |
 |---------------|-----------------|-------------------------|
 | GameModel     | :yellow_circle: | 63%                     |
-| GameBoard     | :green_circle:  | 85%                     |  
+| GameBoard     | :green_circle:  | 92%                     |  
 | PlayerState   | :green_circle:  | 92%                     |
 | Shelf         | :green_circle:  | 100%                    |
 | CommonGoal    | :green_circle:  | 77%                     |

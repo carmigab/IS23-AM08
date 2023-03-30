@@ -169,11 +169,11 @@ public class GameModel {
      * @return the list of 2 random common goals created
      */
     private List<Integer> getRandomCommonGoals(){
-        Random r= RandomSingleton.getRandomSingleton();
-        List<Integer> pool=new ArrayList<>(AppConstants.TOTAL_GOALS);
+        Random r = RandomSingleton.getRandomSingleton();
+        List<Integer> pool = new ArrayList<>(AppConstants.TOTAL_GOALS);
         for(int i = 0; i<AppConstants.TOTAL_GOALS; i++) pool.add(i);
-        for(int i=0;i<AppConstants.TOTAL_CG_PER_GAME;){
-            Integer candidate=r.nextInt(pool.size());
+        for(int i=0; i<AppConstants.TOTAL_CG_PER_GAME;){
+            Integer candidate = r.nextInt(pool.size());
             if(!this.commonGoalsCreated.contains(candidate)) {
                 this.commonGoalsCreated.add(candidate);
                 i++;

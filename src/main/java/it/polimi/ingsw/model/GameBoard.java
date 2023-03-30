@@ -110,7 +110,7 @@ public final class GameBoard {
         Random r= RandomSingleton.getRandomSingleton();
         for(int j=0; j<BoardConstants.TOTAL_COLORS;j++){
             for(int i = 0; i<BoardConstants.TOTAL_TILES_PER_COLOR; i++){
-                allTiles.add(new Tile(allColors[j],r.nextInt(2)+1));
+                allTiles.add(new Tile(allColors[j],r.nextInt(3)+1));
             }
         }
     }

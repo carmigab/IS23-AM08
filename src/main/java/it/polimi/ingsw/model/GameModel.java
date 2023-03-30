@@ -4,6 +4,8 @@ import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.model.commonGoals.*;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.constants.BoardConstants;
+import it.polimi.ingsw.model.exceptions.NoMoreTilesAtStartFillBoardException;
+import it.polimi.ingsw.model.exceptions.NoMoreTilesToFillBoardException;
 import it.polimi.ingsw.model.observers.ModelObserver;
 import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.model.utilities.RandomSingleton;
@@ -327,17 +329,31 @@ public class GameModel {
         if(!this.isLastTurn){
             this.currentPlayer = (this.currentPlayer + 1) % this.numPlayers;
             if(this.boardToBeFilled()){
-                //this.gameBoard.fillBoard();    bisogna gestire le eccezioni
+                try{
+                    this.gameBoard.fillBoard();
+                }
+                catch (NoMoreTilesAtStartFillBoardException e) {
+                    //endGame method not implemented yet
+                } catch (NoMoreTilesToFillBoardException e) {
+                    //endGame method not implemented yet
+                }
             }
         }
         else{
             if(this.currentPlayer == this.numPlayers - 1){
-                //endgame
+                //endgame method not implemented yet
             }
             else{
                 this.currentPlayer++;
                 if(this.boardToBeFilled()){
-                    //this.gameBoard.fillBoard();    bisogna gestire le eccezioni
+                    try{
+                        this.gameBoard.fillBoard();
+                    } catch (NoMoreTilesAtStartFillBoardException e) {
+                        //endGame method not implemented yet
+                    } catch (NoMoreTilesToFillBoardException e) {
+                        //endGame method not implemented yet
+                    }
+
                 }
 
             }
@@ -377,7 +393,7 @@ public class GameModel {
     }
 
     public GameBoard getGameBoard() {
-        return gameBoard;
+        return this.gameBoard;
     }
 }
 

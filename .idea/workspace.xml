@@ -5,30 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="committing unversioned files that prevent me to update the project">
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/CompleteGameTestConfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/CompleteGameTestConfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/Model1.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/Model10.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model10.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/Model11.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model11.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/Model12.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model12.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/Model13.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model13.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/Model2.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model2.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/Model3.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model3.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/Model4.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model4.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/Model5.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model5.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/Model6.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model6.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/Model7.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model7.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/Model8.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model8.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/Model9.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model9.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/classpath.index" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/classpath.index" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameModelTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/classpath.index" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/GameModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/GameModel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/savedMatches/MatteCenz_GabriCarr.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/savedMatches/Points_test.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/classpath.index" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/classpath.index" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/classpath.index" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/GameModelTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/GameModelTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -689,11 +674,6 @@
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameModelTest.java</url>
-          <line>121</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameBoardTest.java</url>
           <line>75</line>
           <option name="timeStamp" value="18" />
@@ -716,9 +696,9 @@
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/IS23_AM08$GameModelTest_checkValidMove.ic" NAME="GameModelTest.checkValidMove Coverage Results" MODIFIED="1680032704319" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/IS23_AM08$GameModelTest_checkValidMove.ic" NAME="GameModelTest.checkValidMove Coverage Results" MODIFIED="1680097388871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>it.polimi.ingsw.model.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/IS23_AM08$All_tests.ic" NAME="All tests Coverage Results" MODIFIED="1680010772115" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/IS23_AM08$All_tests.ic" NAME="All tests Coverage Results" MODIFIED="1680265080520" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

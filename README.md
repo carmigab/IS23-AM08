@@ -9,12 +9,12 @@
 
 | Functionality | State           | Test Coverage (Methods) |
 |---------------|-----------------|-------------------------|
-| GameModel     | :yellow_circle: | 63%                     |
-| GameBoard     | :green_circle:  | 92%                     |  
+| GameModel     | :yellow_circle: | 70%                     |
+| GameBoard     | :green_circle:  | 100%                    |  
 | PlayerState   | :green_circle:  | 92%                     |
 | Shelf         | :green_circle:  | 100%                    |
-| CommonGoal    | :green_circle:  | 77%                     |
-| PersonalGoal  | :green_circle:  | 66%                     | 
+| CommonGoal    | :green_circle:  | 62%                     |
+| PersonalGoal  | :green_circle:  | 50%                     | 
 | SingleGoal    | :green_circle:  | 100%                    | 
 | Tile          | :green_circle:  | 100%                    |
 | Position      | :green_circle:  | 100%                    |

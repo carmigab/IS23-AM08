@@ -48,4 +48,16 @@ public class SingleGoal {
     public TileColor getColor() {
         return color;
     }
+
+    /**
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof SingleGoal singleGoal)) return false;
+        return this.color.equals(singleGoal.color) &&
+                this.position.equals(singleGoal.position);
+    }
 }

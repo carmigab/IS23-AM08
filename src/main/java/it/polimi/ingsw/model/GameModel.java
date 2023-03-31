@@ -358,6 +358,8 @@ public class GameModel {
 
             }
         }
+        // save the state of the game to be reloaded in case of server crash
+        saveCurrentState();
 
         // Notifies all observers at hte end of the turn
         this.notifyObservers();
@@ -394,6 +396,38 @@ public class GameModel {
 
     public GameBoard getGameBoard() {
         return this.gameBoard;
+    }
+
+
+    /**
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof GameModel gameModel)) return false;
+
+        if (this.isLastTurn != gameModel.isLastTurn) return false;
+
+        if (this.currentPlayer != gameModel.currentPlayer) return false;
+
+        if (this.numPlayers != gameModel.numPlayers) return false;
+
+        if (!this.commonGoalsCreated.equals(gameModel.commonGoalsCreated)) return false;
+
+        if (!this.gameBoard.equals(gameModel.gameBoard)) return false;
+
+        if (!this.playerList.equals(gameModel.playerList)) return false;
+
+        return true;
+
+//        return this.isLastTurn == gameModel.isLastTurn &&
+//                this.currentPlayer == gameModel.currentPlayer &&
+//                this.numPlayers == gameModel.numPlayers &&
+//                this.commonGoalsCreated.equals(gameModel.commonGoalsCreated) &&
+//                this.gameBoard.equals(gameModel.gameBoard) &&
+//                this.playerList.equals(gameModel.playerList);
     }
 }
 

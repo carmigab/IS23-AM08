@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.annotations.Expose;
+import it.polimi.ingsw.App;
 import it.polimi.ingsw.model.commonGoals.*;
+import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.constants.BoardConstants;
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesAtStartFillBoardException;
@@ -264,5 +266,24 @@ public final class GameBoard {
         Tile copy=new Tile(myGameBoard[p.y()][p.x()]);
         myGameBoard[p.y()][p.x()].setEmpty();
         return copy;
+    }
+
+    /**
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof GameBoard gameBoard)) return false;
+
+        for (int i = 0; i < AppConstants.BOARD_DIMENSION; i++) {
+            for (int j = 0; j < AppConstants.BOARD_DIMENSION; j++) {
+                if (!this.myGameBoard[i][j].equals(gameBoard.myGameBoard[i][j])) return false;
+            }
+        }
+
+        return this.allTiles.equals(gameBoard.allTiles) &&
+                this.commonGoals.equals(gameBoard.commonGoals);
     }
 }

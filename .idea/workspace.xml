@@ -4,22 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="tested a complete game with two players using the controller and simulating clients input">
-      <change afterPath="$PROJECT_DIR$/src/test/resources/CompleteGameTestModelToCheck.json" afterDir="false" />
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="committing unversioned files that prevent me to update the project">
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PersonalGoal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PersonalGoal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PlayerState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PlayerState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Shelf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Shelf.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/SingleGoal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/SingleGoal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/EightTilesOfTheSameColor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/EightTilesOfTheSameColor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/Ladder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/Ladder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColors.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShape.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/TwoSquares.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/TwoSquares.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CompleteGameTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CompleteGameTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/CompleteGameTestConfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/CompleteGameTestConfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/Model1.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/Model10.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model10.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/Model11.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model11.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/Model12.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model12.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/Model13.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model13.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/Model2.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/Model3.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model3.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/Model4.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model4.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/Model5.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model5.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/Model6.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model6.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/Model7.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model7.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/Model8.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model8.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/Model9.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/Model9.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/classpath.index" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/classpath.index" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/GameModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/GameModel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/savedMatches/MatteCenz_GabriCarr.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/savedMatches/Points_test.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/classpath.index" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/classpath.index" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -572,7 +581,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680178920034</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="committing unversioned files that prevent me to update the project">
+      <created>1680261556718</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1680261556718</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -594,19 +610,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="master" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -628,9 +632,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="created classes to unify common goal 1 and 2 and common goal 5, 8, 9 and 10 with related tests" />
-    <MESSAGE value="created class to unify common goal 3, 7, 11 and related test" />
-    <MESSAGE value="added getCommonObjective to GameBoard&#10;removed evaluateCommonObjective from GameBoard &#10;added evaluatePoints to GameModel" />
     <MESSAGE value="added check for First Point to evaluatePoints in Game Model" />
     <MESSAGE value="index for commonObjective" />
     <MESSAGE value="I added the class SingleObjective" />
@@ -659,7 +660,10 @@
     <MESSAGE value="refactor method checkValidMove in gameModel, added test of methods makeMove and checkValidMove in gameModelTest, added two utility getter methods in gameModel" />
     <MESSAGE value="added one parameter to UtilityFunctions.getAdjacentPositions to use it also in GameBoard.hasFreeAdjacent (the parameter select the correct constants to use it in the board or in the shelf), modified GameBoard.hasFreeAdjacent to use the mentioned method, changes to GameBoardTest to include the edge cases that lead to modify GameBoard.hasFreeAdjacent" />
     <MESSAGE value="tested a complete game with two players using the controller and simulating clients input" />
-    <option name="LAST_COMMIT_MESSAGE" value="tested a complete game with two players using the controller and simulating clients input" />
+    <MESSAGE value="created a test to test an entire game between two player interacting with the model using the controller, created json files for each expected model situation to ensure the model has evolved correctly.&#10;added equals override in almost all classes to check if the saved game model was as expected" />
+    <MESSAGE value="committing unversioned files that prevent me to update the project" />
+    <option name="LAST_COMMIT_MESSAGE" value="committing unversioned files that prevent me to update the project" />
+    <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

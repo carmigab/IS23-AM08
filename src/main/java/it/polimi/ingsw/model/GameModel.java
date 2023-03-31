@@ -17,10 +17,7 @@ import java.util.*;
 
 public class GameModel {
     /**
-     * this attribute is a list of observersfgdgffgddfdsssù
-     * dflklk
-     *
-     * df
+     * this attribute is a list of observers
      */
     private final List<Observer> observers = new ArrayList<>();
 

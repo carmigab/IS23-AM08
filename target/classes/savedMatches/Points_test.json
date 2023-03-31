@@ -1,0 +1,200 @@
+{
+  "nickname": "MatteCenz",
+  "myShelf": {
+    "myShelf": [
+      [
+        {
+          "color": "GREEN",
+          "sprite": 0
+        },
+        {
+          "color": "GREEN",
+          "sprite": 0
+        },
+        {
+          "color": "GREEN",
+          "sprite": 0
+        },
+        {
+          "color": "GREEN",
+          "sprite": 0
+        },
+        {
+          "color": "GREEN",
+          "sprite": 0
+        }
+      ],
+      [
+        {
+          "color": "GREEN",
+          "sprite": 0
+        },
+        {
+          "color": "GREEN",
+          "sprite": 0
+        },
+        {
+          "color": "GREEN",
+          "sprite": 0
+        },
+        {
+          "color": "GREEN",
+          "sprite": 0
+        },
+        {
+          "color": "GREEN",
+          "sprite": 0
+        }
+      ],
+      [
+        {
+          "color": "EMPTY",
+          "sprite": 0
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 0
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 0
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 0
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 0
+        }
+      ],
+      [
+        {
+          "color": "EMPTY",
+          "sprite": 0
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 0
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 0
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 0
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 0
+        }
+      ],
+      [
+        {
+          "color": "EMPTY",
+          "sprite": 0
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 0
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 0
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 0
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 0
+        }
+      ],
+      [
+        {
+          "color": "EMPTY",
+          "sprite": 0
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 0
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 0
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 0
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 0
+        }
+      ]
+    ]
+  },
+  "PGPoints": 0,
+  "CGPoints": 0,
+  "groupPoints": 0,
+  "firstPoint": 0,
+  "personalGoal": {
+    "personalGoal": [
+      {
+        "position": {
+          "x": 0,
+          "y": 2
+        }
+      },
+      {
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "color": "GREEN"
+      },
+      {
+        "position": {
+          "x": 2,
+          "y": 2
+        },
+        "color": "BLUE"
+      },
+      {
+        "position": {
+          "x": 2,
+          "y": 4
+        },
+        "color": "BLUE"
+      },
+      {
+        "position": {
+          "x": 3,
+          "y": 3
+        },
+        "color": "VIOLET"
+      },
+      {
+        "position": {
+          "x": 4,
+          "y": 0
+        },
+        "color": "YELLOW"
+      }
+    ],
+    "pointsForCompletion": [
+      1,
+      2,
+      4,
+      6,
+      9,
+      12
+    ]
+  },
+  "comGoalDone": [
+    false,
+    false
+  ]
+}

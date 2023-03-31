@@ -169,11 +169,11 @@ public class GameModel {
      * @return the list of 2 random common goals created
      */
     private List<Integer> getRandomCommonGoals(){
-        Random r= RandomSingleton.getRandomSingleton();
-        List<Integer> pool=new ArrayList<>(AppConstants.TOTAL_GOALS);
+        Random r = RandomSingleton.getRandomSingleton();
+        List<Integer> pool = new ArrayList<>(AppConstants.TOTAL_GOALS);
         for(int i = 0; i<AppConstants.TOTAL_GOALS; i++) pool.add(i);
-        for(int i=0;i<AppConstants.TOTAL_CG_PER_GAME;){
-            Integer candidate=r.nextInt(pool.size());
+        for(int i=0; i<AppConstants.TOTAL_CG_PER_GAME;){
+            Integer candidate = r.nextInt(pool.size());
             if(!this.commonGoalsCreated.contains(candidate)) {
                 this.commonGoalsCreated.add(candidate);
                 i++;
@@ -358,6 +358,8 @@ public class GameModel {
 
             }
         }
+        // save the state of the game to be reloaded in case of server crash
+        saveCurrentState();
 
         // Notifies all observers at hte end of the turn
         this.notifyObservers();
@@ -394,6 +396,38 @@ public class GameModel {
 
     public GameBoard getGameBoard() {
         return this.gameBoard;
+    }
+
+
+    /**
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof GameModel gameModel)) return false;
+
+        if (this.isLastTurn != gameModel.isLastTurn) return false;
+
+        if (this.currentPlayer != gameModel.currentPlayer) return false;
+
+        if (this.numPlayers != gameModel.numPlayers) return false;
+
+        if (!this.commonGoalsCreated.equals(gameModel.commonGoalsCreated)) return false;
+
+        if (!this.gameBoard.equals(gameModel.gameBoard)) return false;
+
+        if (!this.playerList.equals(gameModel.playerList)) return false;
+
+        return true;
+
+//        return this.isLastTurn == gameModel.isLastTurn &&
+//                this.currentPlayer == gameModel.currentPlayer &&
+//                this.numPlayers == gameModel.numPlayers &&
+//                this.commonGoalsCreated.equals(gameModel.commonGoalsCreated) &&
+//                this.gameBoard.equals(gameModel.gameBoard) &&
+//                this.playerList.equals(gameModel.playerList);
     }
 }
 

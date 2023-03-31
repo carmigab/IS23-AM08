@@ -92,4 +92,17 @@ public class NLinesOfAtMostMDifferentColors extends CommonGoal{
 
         return true;
     }
+
+    /**
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof NLinesOfAtMostMDifferentColors nLinesOfAtMostMDifferentColors)) return false;
+        return this.n == nLinesOfAtMostMDifferentColors.n &&
+                this.m == nLinesOfAtMostMDifferentColors.m &&
+                this.isColumn == nLinesOfAtMostMDifferentColors.isColumn;
+    }
 }

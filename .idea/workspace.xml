@@ -4,13 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="removed warnings and typos from all classes">
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="tested a complete game with two players using the controller and simulating clients input">
+      <change afterPath="$PROJECT_DIR$/src/test/resources/CompleteGameTestModelToCheck.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/UtilityFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/UtilityFunctions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameModelTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PersonalGoal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PersonalGoal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PlayerState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PlayerState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Shelf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Shelf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/SingleGoal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/SingleGoal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/EightTilesOfTheSameColor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/EightTilesOfTheSameColor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/Ladder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/Ladder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeM.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShape.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/TwoSquares.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/TwoSquares.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CompleteGameTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CompleteGameTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +81,7 @@
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.includeInheritedMembers&quot;: &quot;true&quot;,
     &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/cenza/Desktop/UNIVERSITA/TERZO ANNO/SECONDO SEMESTRE/PROVA FINALE IDS/IS23-AM08&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/crmgr/Desktop/IS23-AM08/src/main/resources/savedMatches&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
@@ -81,10 +90,14 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\crmgr\Desktop\IS23-AM08\src\main\resources\savedMatches" />
+    </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\crmgr\Desktop\IS23-AM08\src\test\resources" />
       <recent name="C:\Users\cenza\Desktop\UNIVERSITA\TERZO ANNO\SECONDO SEMESTRE\PROVA FINALE IDS\IS23-AM08\src\main\resources\model\config" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
@@ -99,6 +112,7 @@
       <recent name="it.polimi.ingsw" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="it.polimi.ingsw.model" />
       <recent name="it.polimi.ingsw.model.commonGoals" />
     </key>
   </component>
@@ -387,6 +401,8 @@
       <workItem from="1680032146593" duration="6134000" />
       <workItem from="1680038341205" duration="311000" />
       <workItem from="1680077598960" duration="4896000" />
+      <workItem from="1680178387740" duration="549000" />
+      <workItem from="1680193654306" duration="12227000" />
     </task>
     <task id="LOCAL-00001" summary="minor fixes &amp; player state tests">
       <created>1678896857551</created>
@@ -549,7 +565,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680038441903</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="tested a complete game with two players using the controller and simulating clients input">
+      <created>1680178920034</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1680178920034</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -605,8 +628,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="modified CommonObjective4 and created CommonObjective4Test, overrided equals in Position classe" />
-    <MESSAGE value="name refactoring:&#10;objective -&gt; goal&#10;library -&gt; shelf&#10;card -&gt; tile" />
     <MESSAGE value="created classes to unify common goal 1 and 2 and common goal 5, 8, 9 and 10 with related tests" />
     <MESSAGE value="created class to unify common goal 3, 7, 11 and related test" />
     <MESSAGE value="added getCommonObjective to GameBoard&#10;removed evaluateCommonObjective from GameBoard &#10;added evaluatePoints to GameModel" />
@@ -636,7 +657,9 @@
     <MESSAGE value="fixed CommonGoal.push() and modified the new common goals classes to use JsonWithExposeSingleton instead of JsonSingleton" />
     <MESSAGE value="fixed GameModel to pass GameModelTest testPersistency, removed &quot;extends Observable&quot; from GameModel signature to make it loadable from json" />
     <MESSAGE value="refactor method checkValidMove in gameModel, added test of methods makeMove and checkValidMove in gameModelTest, added two utility getter methods in gameModel" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor method checkValidMove in gameModel, added test of methods makeMove and checkValidMove in gameModelTest, added two utility getter methods in gameModel" />
+    <MESSAGE value="added one parameter to UtilityFunctions.getAdjacentPositions to use it also in GameBoard.hasFreeAdjacent (the parameter select the correct constants to use it in the board or in the shelf), modified GameBoard.hasFreeAdjacent to use the mentioned method, changes to GameBoardTest to include the edge cases that lead to modify GameBoard.hasFreeAdjacent" />
+    <MESSAGE value="tested a complete game with two players using the controller and simulating clients input" />
+    <option name="LAST_COMMIT_MESSAGE" value="tested a complete game with two players using the controller and simulating clients input" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -661,6 +684,16 @@
           <line>58</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameModelTest.java</url>
+          <line>121</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameBoardTest.java</url>
+          <line>75</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
@@ -679,9 +712,9 @@
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/IS23_AM08$GameModelTest_checkValidMove.ic" NAME="GameModelTest.checkValidMove Coverage Results" MODIFIED="1680097388871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/IS23_AM08$GameModelTest_checkValidMove.ic" NAME="GameModelTest.checkValidMove Coverage Results" MODIFIED="1680032704319" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>it.polimi.ingsw.model.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/IS23_AM08$All_tests.ic" NAME="All tests Coverage Results" MODIFIED="1680097397316" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/IS23_AM08$All_tests.ic" NAME="All tests Coverage Results" MODIFIED="1680010772115" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

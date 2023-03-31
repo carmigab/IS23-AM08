@@ -38,4 +38,15 @@ public class EightTilesOfTheSameColor extends CommonGoal {
 
         return false;
     }
+
+    /**
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof EightTilesOfTheSameColor eightTilesOfTheSameColor)) return false;
+        return true;
+    }
 }

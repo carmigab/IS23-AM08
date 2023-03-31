@@ -183,9 +183,27 @@ public class PlayerState {
         setPGPoints(personalGoal.evaluate(this.myShelf));
     }
 
+    /**
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj){
+        if(!(obj instanceof PlayerState playerState)) return false;
 
+        for (int i = 0; i < comGoalDone.length; i++) {
+            if (this.comGoalDone[i] != playerState.comGoalDone[i]) return false;
+        }
 
-
+        return this.myShelf.equals(playerState.myShelf) &&
+                this.CGPoints == playerState.CGPoints &&
+                this.firstPoint == playerState.firstPoint &&
+                this.groupPoints == playerState.groupPoints &&
+                this.nickname.equals(playerState.nickname) &&
+                this.personalGoal.equals(playerState.personalGoal) &&
+                this.PGPoints == playerState.PGPoints;
+    }
 
 
 

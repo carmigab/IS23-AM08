@@ -86,4 +86,18 @@ public class SingleOccurrenceOfGivenShape extends CommonGoal{
 
         return true;
     }
+
+    /**
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof SingleOccurrenceOfGivenShape singleOccurrenceOfGivenShape)) return false;
+        return this.shape.equals(singleOccurrenceOfGivenShape.shape) &&
+                this.shapeXSize == singleOccurrenceOfGivenShape.shapeXSize &&
+                this.shapeYSize == singleOccurrenceOfGivenShape.shapeYSize &&
+                this.isSymmetric == singleOccurrenceOfGivenShape.isSymmetric;
+    }
 }

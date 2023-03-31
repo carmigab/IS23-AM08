@@ -49,6 +49,8 @@ class PlayerStateTest {
         pl.evaluatePGPoints();
         pl.evaluateGroupPoints();
 
+        pl.addCGPoints(0);
+
         pl.setFirstPoint();
 
         // assert

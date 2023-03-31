@@ -66,4 +66,22 @@ class PlayerStateTest {
         assertFalse(player.isCGDone(1));
     }
 
+    /**
+     * This method tests the getShelf method
+     */
+    @Test
+    void getShelf() {
+        String file = "src/main/resources/savedMatches/Points_test.json";
+        Gson json = new GsonBuilder().setPrettyPrinting().create();
+        PlayerState pl;
+        try {
+            pl = new PlayerState(json.fromJson(new FileReader(file), PlayerState.class));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        PlayerState pl2 = new PlayerState(pl);
+
+        assertEquals(pl, pl2);
+    }
 }

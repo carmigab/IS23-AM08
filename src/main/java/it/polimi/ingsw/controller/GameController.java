@@ -19,6 +19,12 @@ public class GameController {
         this.model = new GameModel(numPlayers, nicknames);
     }
 
+    public GameController(GameController controller){
+        this.playersList = controller.playersList;
+        this.numPlayers = controller.numPlayers;
+        this.model = new GameModel(controller.model);
+    }
+
     private boolean verifyPlayerId(int playerId){
         return playerId == this.model.getCurrentPlayer();
     }

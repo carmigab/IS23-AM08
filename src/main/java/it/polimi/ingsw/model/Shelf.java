@@ -181,4 +181,22 @@ public class Shelf {
 
         return components;
     }
+
+    /**
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Shelf shelf)) return false;
+
+        for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
+            for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
+                if (!this.myShelf[i][j].equals(shelf.myShelf[i][j])) return false;
+            }
+        }
+
+        return true;
+    }
 }

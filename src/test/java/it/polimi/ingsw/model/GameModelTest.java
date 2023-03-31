@@ -17,7 +17,7 @@ import java.util.List;
 class GameModelTest {
 
     @Test
-    public void testPersistency(){
+    public void testPersistence(){
         List<String> players=new ArrayList<>(4);
         players.add("MatteCenz"); players.add("GabriCarr"); players.add("GabriCarm"); players.add("AleCappe");
         GameModel gm=new GameModel(4, players);
@@ -37,7 +37,7 @@ class GameModelTest {
 
     /**
      * this method tests the method makeMove of the class GameModel
-     * @throws FileNotFoundException if the file didn't found
+     * @throws FileNotFoundException if the file didn't find
      */
     @Test
     public void makeMove() throws FileNotFoundException {
@@ -57,7 +57,7 @@ class GameModelTest {
         assertEquals(TileColor.VIOLET, gm.getPlayer().getShelf().getTile(p1).getColor());
         assertEquals(2, gm.getPlayer().getShelf().getTile(p1).getSprite());
 
-        // i test the method with 2 cards taken by the board
+        // I test the method with 2 cards taken by the board
         gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
         Position p2 = new Position(0, 4);
         Position p3 = new Position(1, 4);
@@ -142,5 +142,39 @@ class GameModelTest {
         assertFalse(gm.checkValidColumn(3,2));
         assertTrue(gm.checkValidColumn(3,1));
     }
+
+    /**
+     * this method tests the method getCurrentPlayer of the class GameModel
+     * @throws FileNotFoundException if the file which simulate the match didn't find
+     */
+    @Test
+    public void getCurrentPlayer() throws FileNotFoundException {
+        List<String> players=new ArrayList<>(4);
+        players.add("MatteCenz"); players.add("GabriCarr"); players.add("GabriCarm"); players.add("AleCappe");
+        String file= AppConstants.PATH_SAVED_FILES+ UtilityFunctions.getJSONFileName(players);
+        Gson json=new GsonBuilder().setPrettyPrinting().create();
+        GameModel gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
+
+        assertEquals(0, gm.getCurrentPlayer());
+    }
+
+    /**
+     * this method tests the method getPlayer of the class GameModel
+     * @throws FileNotFoundException if the file which simulate the match didn't find
+     */
+    @Test
+    public void getPlayer() throws FileNotFoundException {
+        List<String> players=new ArrayList<>(4);
+        players.add("MatteCenz"); players.add("GabriCarr"); players.add("GabriCarm"); players.add("AleCappe");
+        String file= AppConstants.PATH_SAVED_FILES+ UtilityFunctions.getJSONFileName(players);
+        Gson json=new GsonBuilder().setPrettyPrinting().create();
+        GameModel gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
+        PlayerState p = gm.getPlayer();
+        assertEquals("MatteCenz", p.getNickname());
+        assertEquals(0,p.getPoints());
+        assertFalse(p.isCGDone(0));
+        assertFalse(p.isCGDone(1));
+    }
+
 
 }

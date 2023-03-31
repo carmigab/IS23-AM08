@@ -61,4 +61,15 @@ public class Ladder extends CommonGoal {
         return !x.getTile(new Position(0, j)).isEmpty();
 
     }
+
+    /**
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Ladder ladder)) return false;
+        return true;
+    }
 }

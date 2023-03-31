@@ -4,6 +4,8 @@ import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.model.commonGoals.*;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.constants.BoardConstants;
+import it.polimi.ingsw.model.exceptions.NoMoreTilesAtStartFillBoardException;
+import it.polimi.ingsw.model.exceptions.NoMoreTilesToFillBoardException;
 import it.polimi.ingsw.model.observers.ModelObserver;
 import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.model.utilities.RandomSingleton;
@@ -40,11 +42,6 @@ public class GameModel {
      */
     @Expose
     private final List<Integer> commonGoalsCreated;
-    /**
-     * this attribute is the list of all possible personal goals of the game;
-     */
-    @Expose
-    private final List<PersonalGoal> personalGoals;
 
     /**
      * this attribute is used to indicate the player who must do the turn
@@ -79,7 +76,6 @@ public class GameModel {
         this.playerList = new ArrayList<>(this.numPlayers);
         this.commonGoalsCreated = new ArrayList<>(AppConstants.TOTAL_CG_PER_GAME);
         this.gameBoard = GameBoard.createGameBoard(numPlayers, getRandomCommonGoals());
-        this.personalGoals = new ArrayList<>(AppConstants.TOTAL_GOALS);
         this.currentPlayer = 0;
         this.isLastTurn = false;
         initializePlayers(nicknames);
@@ -102,7 +98,6 @@ public class GameModel {
         this.playerList = gameModel.playerList;
         this.commonGoalsCreated = gameModel.commonGoalsCreated;
         this.gameBoard = new GameBoard(gameModel.gameBoard, this.commonGoalsCreated);
-        this.personalGoals = gameModel.personalGoals;
         this.currentPlayer = gameModel.currentPlayer;
         this.isLastTurn = gameModel.isLastTurn;
         this.leaderBoard = gameModel.leaderBoard;
@@ -120,15 +115,17 @@ public class GameModel {
         try {
             fileReader = new FileReader(AppConstants.FILE_CONFIG_PERSONALGOAL);
 
-            PersonalGoalsConfiguration poc=jsonLoader.fromJson(fileReader, PersonalGoalsConfiguration.class);
-            for(int i = 0; i< AppConstants.TOTAL_GOALS; i++){
-                this.personalGoals.add(poc.getPersonalGoalAtIndex(i));
-                this.personalGoals.get(this.personalGoals.size()-1).setPointsForCompletion(poc.getPointsForCompletion());
-            }
+            PersonalGoalsConfiguration poc = jsonLoader.fromJson(fileReader, PersonalGoalsConfiguration.class);
 
-            Random r= RandomSingleton.getRandomSingleton();
+            Set<Integer> extractegPersonalGoals = new HashSet<>();
+            Random r = RandomSingleton.getRandomSingleton();
+            int random = r.nextInt(AppConstants.TOTAL_GOALS);;
             for(String s: nicknames){
-                playerList.add(new PlayerState(s, this.personalGoals.remove(r.nextInt(this.personalGoals.size()))));
+                while (extractegPersonalGoals.contains(random)) {
+                    random = r.nextInt(AppConstants.TOTAL_GOALS);
+                }
+                playerList.add(new PlayerState(s, poc.getPersonalGoalAtIndex(random)));
+                extractegPersonalGoals.add(random);
             }
         }
         catch(FileNotFoundException e){
@@ -167,11 +164,11 @@ public class GameModel {
      * @return the list of 2 random common goals created
      */
     private List<Integer> getRandomCommonGoals(){
-        Random r= RandomSingleton.getRandomSingleton();
-        List<Integer> pool=new ArrayList<>(AppConstants.TOTAL_GOALS);
+        Random r = RandomSingleton.getRandomSingleton();
+        List<Integer> pool = new ArrayList<>(AppConstants.TOTAL_GOALS);
         for(int i = 0; i<AppConstants.TOTAL_GOALS; i++) pool.add(i);
-        for(int i=0;i<AppConstants.TOTAL_CG_PER_GAME;){
-            Integer candidate=r.nextInt(pool.size());
+        for(int i=0; i<AppConstants.TOTAL_CG_PER_GAME;){
+            Integer candidate = r.nextInt(pool.size());
             if(!this.commonGoalsCreated.contains(candidate)) {
                 this.commonGoalsCreated.add(candidate);
                 i++;
@@ -327,21 +324,37 @@ public class GameModel {
         if(!this.isLastTurn){
             this.currentPlayer = (this.currentPlayer + 1) % this.numPlayers;
             if(this.boardToBeFilled()){
-                //this.gameBoard.fillBoard();    bisogna gestire le eccezioni
+                try{
+                    this.gameBoard.fillBoard();
+                }
+                catch (NoMoreTilesAtStartFillBoardException e) {
+                    //endGame method not implemented yet
+                } catch (NoMoreTilesToFillBoardException e) {
+                    //endGame method not implemented yet
+                }
             }
         }
         else{
             if(this.currentPlayer == this.numPlayers - 1){
-                //endgame
+                //endgame method not implemented yet
             }
             else{
                 this.currentPlayer++;
                 if(this.boardToBeFilled()){
-                    //this.gameBoard.fillBoard();    bisogna gestire le eccezioni
+                    try{
+                        this.gameBoard.fillBoard();
+                    } catch (NoMoreTilesAtStartFillBoardException e) {
+                        //endGame method not implemented yet
+                    } catch (NoMoreTilesToFillBoardException e) {
+                        //endGame method not implemented yet
+                    }
+
                 }
 
             }
         }
+        // save the state of the game to be reloaded in case of server crash
+        saveCurrentState();
 
         // Notifies all observers at hte end of the turn
         this.notifyObservers();
@@ -377,7 +390,39 @@ public class GameModel {
     }
 
     public GameBoard getGameBoard() {
-        return gameBoard;
+        return this.gameBoard;
+    }
+
+
+    /**
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof GameModel gameModel)) return false;
+
+        if (this.isLastTurn != gameModel.isLastTurn) return false;
+
+        if (this.currentPlayer != gameModel.currentPlayer) return false;
+
+        if (this.numPlayers != gameModel.numPlayers) return false;
+
+        if (!this.commonGoalsCreated.equals(gameModel.commonGoalsCreated)) return false;
+
+        if (!this.gameBoard.equals(gameModel.gameBoard)) return false;
+
+        if (!this.playerList.equals(gameModel.playerList)) return false;
+
+        return true;
+
+//        return this.isLastTurn == gameModel.isLastTurn &&
+//                this.currentPlayer == gameModel.currentPlayer &&
+//                this.numPlayers == gameModel.numPlayers &&
+//                this.commonGoalsCreated.equals(gameModel.commonGoalsCreated) &&
+//                this.gameBoard.equals(gameModel.gameBoard) &&
+//                this.playerList.equals(gameModel.playerList);
     }
 }
 

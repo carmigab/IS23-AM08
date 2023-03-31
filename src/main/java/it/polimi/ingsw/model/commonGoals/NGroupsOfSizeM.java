@@ -56,4 +56,16 @@ public class NGroupsOfSizeM extends CommonGoal{
 
         return groupNum >= n;
     }
+
+    /**
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof NGroupsOfSizeM nGroupsOfSizeM)) return false;
+        return this.n == nGroupsOfSizeM.n &&
+                this.m == nGroupsOfSizeM.m;
+    }
 }

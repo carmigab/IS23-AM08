@@ -28,7 +28,7 @@
             "x": 2,
             "y": 5
           },
-          "color": "LIGHT_BLUE"
+          "color": "CYAN"
         },
         {
           "position": {
@@ -74,7 +74,7 @@
             "x": 3,
             "y": 4
           },
-          "color": "LIGHT_BLUE"
+          "color": "CYAN"
         },
         {
           "position": {
@@ -134,7 +134,7 @@
             "x": 4,
             "y": 3
           },
-          "color": "LIGHT_BLUE"
+          "color": "CYAN"
         }
       ]
     },
@@ -145,7 +145,7 @@
             "x": 0,
             "y": 2
           },
-          "color": "LIGHT_BLUE"
+          "color": "CYAN"
         },
         {
           "position": {
@@ -198,7 +198,7 @@
             "x": 1,
             "y": 1
           },
-          "color": "LIGHT_BLUE"
+          "color": "CYAN"
         },
         {
           "position": {
@@ -251,7 +251,7 @@
             "x": 2,
             "y": 0
           },
-          "color": "LIGHT_BLUE"
+          "color": "CYAN"
         },
         {
           "position": {
@@ -290,7 +290,7 @@
             "x": 0,
             "y": 3
           },
-          "color": "LIGHT_BLUE"
+          "color": "CYAN"
         },
         {
           "position": {
@@ -343,7 +343,7 @@
             "x": 2,
             "y": 2
           },
-          "color": "LIGHT_BLUE"
+          "color": "CYAN"
         },
         {
           "position": {
@@ -382,7 +382,7 @@
             "x": 1,
             "y": 4
           },
-          "color": "LIGHT_BLUE"
+          "color": "CYAN"
         },
         {
           "position": {
@@ -456,7 +456,7 @@
             "x": 4,
             "y": 0
           },
-          "color": "LIGHT_BLUE"
+          "color": "CYAN"
         }
       ]
     },
@@ -495,7 +495,7 @@
             "x": 3,
             "y": 5
           },
-          "color": "LIGHT_BLUE"
+          "color": "CYAN"
         },
         {
           "position": {
@@ -541,7 +541,7 @@
             "x": 3,
             "y": 3
           },
-          "color": "LIGHT_BLUE"
+          "color": "CYAN"
         },
         {
           "position": {

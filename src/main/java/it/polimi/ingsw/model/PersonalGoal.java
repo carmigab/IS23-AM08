@@ -59,6 +59,18 @@ public class PersonalGoal {
         if(objCompleted<0) return 0;
         return this.pointsForCompletion.get(objCompleted);
     }
+
+    /**
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof PersonalGoal personalGoal)) return false;
+        return this.pointsForCompletion.equals(personalGoal.pointsForCompletion) &&
+                this.personalGoal.equals(personalGoal.personalGoal);
+    }
 }
 
 

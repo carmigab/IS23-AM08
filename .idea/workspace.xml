@@ -6,11 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="removed warnings and typos from all classes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/UtilityFunctions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/UtilityFunctions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameModelTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +68,7 @@
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.includeInheritedMembers&quot;: &quot;true&quot;,
     &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/cenza/Desktop/UNIVERSITA/TERZO ANNO/SECONDO SEMESTRE/PROVA FINALE IDS/IS23-AM08&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Gabriele/Documents/Progetti IntelliJ/RMI Server Prova&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
@@ -679,9 +675,9 @@
     </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/IS23_AM08$GameModelTest_checkValidMove.ic" NAME="GameModelTest.checkValidMove Coverage Results" MODIFIED="1680097388871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/IS23_AM08$GameModelTest_checkValidMove.ic" NAME="GameModelTest.checkValidMove Coverage Results" MODIFIED="1680032704319" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>it.polimi.ingsw.model.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/IS23_AM08$All_tests.ic" NAME="All tests Coverage Results" MODIFIED="1680097397316" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/IS23_AM08$All_tests.ic" NAME="All tests Coverage Results" MODIFIED="1680096711874" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.constants.BoardConstants;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesAtStartFillBoardException;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesToFillBoardException;
-import it.polimi.ingsw.model.observers.ModelObserver;
+import it.polimi.ingsw.model.observers.GameStateObserver;
 import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.model.utilities.RandomSingleton;
 import it.polimi.ingsw.model.utilities.UtilityFunctions;
@@ -82,7 +82,7 @@ public class GameModel {
         initializePersistencyFile(nicknames);
 
         // Ads an observer
-        this.addObserver(new ModelObserver());
+        this.addObserver(new GameStateObserver());
     }
 
     /**

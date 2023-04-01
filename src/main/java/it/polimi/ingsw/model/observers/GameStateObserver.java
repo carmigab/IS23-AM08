@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.GameModel;
 /**
  * This is an observer of the game model
  */
-public class ModelObserver implements Observer{
+public class GameStateObserver implements Observer{
 
     @Override
     public void update(GameModel model) {

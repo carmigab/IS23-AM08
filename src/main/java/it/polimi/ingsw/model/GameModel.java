@@ -19,7 +19,7 @@ public class GameModel {
     /**
      * this attribute is a list of observers
      */
-    private final List<Observer> observers = new ArrayList<>();
+    private List<Observer> observers = new ArrayList<>();
 
     /**
      * this attribute is the number of the player of a specific match
@@ -81,8 +81,6 @@ public class GameModel {
         initializePlayers(nicknames);
         initializePersistencyFile(nicknames);
 
-        // Ads an observer
-        this.addObserver(new GameStateObserver());
     }
 
     /**
@@ -102,6 +100,8 @@ public class GameModel {
         this.isLastTurn = gameModel.isLastTurn;
         this.leaderBoard = gameModel.leaderBoard;
         this.fileName = gameModel.fileName;
+
+        // oss: the observers are added from outside
     }
 
     /**
@@ -372,8 +372,9 @@ public class GameModel {
      * this method adds observers
      * @param o the observer
      */
-    private void addObserver(Observer o){
+    public void addObserver(Observer o){
         observers.add(o);
+        this.notifyObservers();
     }
 
 

@@ -386,6 +386,14 @@ public class GameModel {
             obs.update(this);
     }
 
+
+    /**
+     * this method removes all listening observers
+     */
+    public void removeObservers(){
+        observers.clear();
+    }
+
     public PlayerState getPlayer() {
         return this.playerList.get(currentPlayer);
     }

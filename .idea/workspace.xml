@@ -6,10 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="added GameStateObserver.java">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/observers/GameStateObserver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/observers/GameStateObserver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/controller/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/controller/GameController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/classpath.index" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/classpath.index" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CompleteGameTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CompleteGameTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/CompleteGameTestActions.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/CompleteGameTestActions.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/GameModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/GameModel.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/observers/ModelObserver.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/GameModelTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/GameModelTest.class" afterDir="false" />
@@ -589,6 +589,15 @@
     </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="RECENT_FILTERS">
       <map>
         <entry key="Branch">
@@ -600,15 +609,6 @@
                 </option>
               </RecentGroup>
             </list>
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
           </value>
         </entry>
       </map>
@@ -698,9 +698,9 @@
     <SUITE FILE_PATH="coverage/IS23_AM08$PlayerStateTest__1_.ic" NAME="PlayerStateTest (1) Coverage Results" MODIFIED="1680272746024" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>it.polimi.ingsw.model.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/IS23_AM08$All_tests.ic" NAME="All tests Coverage Results" MODIFIED="1680272872736" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/IS23_AM08$GameModelTest_checkValidMove.ic" NAME="GameModelTest.checkValidMove Coverage Results" MODIFIED="1680097388871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/IS23_AM08$GameModelTest_checkValidMove.ic" NAME="GameModelTest.checkValidMove Coverage Results" MODIFIED="1680032704319" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>it.polimi.ingsw.model.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/IS23_AM08$All_tests.ic" NAME="All tests Coverage Results" MODIFIED="1680010772115" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

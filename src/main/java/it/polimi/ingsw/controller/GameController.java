@@ -30,9 +30,8 @@ public class GameController {
         //this.gameStateObserver = new GameStateObserver(controller.gameStateObserver);
     }
 
-    private boolean verifyPlayerNickname(int playerId){   //string nick
-        return playerId == this.model.getCurrentPlayer();
-        //return nick.equals(this.model.getPlayer().getNickname());
+    private boolean verifyPlayerNickname(String nick){
+        return nick.equals(this.model.getPlayer().getNickname());
     }
 
     private boolean evaluationMove(List<Position> pos, int col){
@@ -40,8 +39,8 @@ public class GameController {
         return model.checkValidMove(pos) && model.checkValidColumn(col, pos.size());
     }
 
-    public void makeMove(List<Position> pos, int col, int playerId) throws InvalidIdException, InvalidMoveException {
-        if(!verifyPlayerNickname(playerId)){   //parameter has to be a string
+    public void makeMove(List<Position> pos, int col, String nick) throws InvalidIdException, InvalidMoveException {
+        if(!verifyPlayerNickname(nick)){
             throw new InvalidIdException();
         }
         if(!evaluationMove(pos, col)){

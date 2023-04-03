@@ -48,19 +48,20 @@ class CompleteGameTest {
 
         int index = 1;
         for (String action: actions) {
-            int playerId = mapChars(action.charAt(0));
-            int tilesNum = mapChars(action.charAt(1));
+            int playerNicknameLength = mapChars(action.charAt(0));
+            String playerNickname = action.substring(1, 1 + playerNicknameLength);
+            int tilesNum = mapChars(action.charAt(1 + playerNicknameLength));
 
             List<Position> positions = new ArrayList<>();
 
             for (int i = 0; i < tilesNum; i++) {
-                positions.add(new Position(mapChars(action.charAt(2 + i * 2)), mapChars(action.charAt(3 + i * 2))));
+                positions.add(new Position(mapChars(action.charAt(2 + playerNicknameLength + i * 2)), mapChars(action.charAt(3 + playerNicknameLength + i * 2))));
             }
 
-            int col = mapChars(action.charAt(2 + tilesNum * 2));
+            int col = mapChars(action.charAt(2 + playerNicknameLength + tilesNum * 2));
 
             try {
-                gameController.makeMove(positions, col, playerId);
+                gameController.makeMove(positions, col, playerNickname);
                 savedModel = new GameModel(json.fromJson(new FileReader(file), GameModel.class));
                 if (index < 14) {
                     modelsFileCount = new String(intToString(index));

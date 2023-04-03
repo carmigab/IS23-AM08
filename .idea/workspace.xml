@@ -4,22 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="tested a complete game with two players using the controller and simulating clients input">
-      <change afterPath="$PROJECT_DIR$/src/test/resources/CompleteGameTestModelToCheck.json" afterDir="false" />
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="added GameStateObserver.java">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PersonalGoal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PersonalGoal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PlayerState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/PlayerState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Shelf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/Shelf.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/SingleGoal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/SingleGoal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/EightTilesOfTheSameColor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/EightTilesOfTheSameColor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/Ladder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/Ladder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeM.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NGroupsOfSizeM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/NLinesOfAtMostMDifferentColors.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/SingleOccurrenceOfGivenShape.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/TwoSquares.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/TwoSquares.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CompleteGameTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CompleteGameTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/observers/GameStateObserver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/observers/GameStateObserver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/classpath.index" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/classpath.index" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/GameModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/GameModel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/it/polimi/ingsw/model/observers/ModelObserver.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/GameModelTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/GameModelTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/PlayerStateTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/it/polimi/ingsw/model/PlayerStateTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +49,19 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="cf23f0c2-3586-4b33-a40a-dbe26794b760" />
+        <option name="url" value="https://github.com/gabricarm/IS23-AM08.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -81,11 +88,12 @@
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.includeInheritedMembers&quot;: &quot;true&quot;,
     &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/crmgr/Desktop/IS23-AM08/src/main/resources/savedMatches&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Gabriele/Documents/Progetti IntelliJ/RMI Server Prova&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.tools&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -105,8 +113,8 @@
       <recent name="it.polimi.ingsw.model" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
-      <recent name="it.polimi.ingsw.model.commonGoals" />
       <recent name="it.polimi.ingsw.model" />
+      <recent name="it.polimi.ingsw.model.commonGoals" />
       <recent name="it.polimi.ingsw.model.commonObjectives" />
       <recent name="it.polimi.ingsw.model.utilities" />
       <recent name="it.polimi.ingsw" />
@@ -140,70 +148,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GameBoardTest.testCorrectGameBoard2Creation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="AM08" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameBoardTest" />
-      <option name="METHOD_NAME" value="testCorrectGameBoard2Creation" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GameBoardTest.testCorrectGameBoard3Creation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="AM08" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameBoardTest" />
-      <option name="METHOD_NAME" value="testCorrectGameBoard3Creation" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GameBoardTest.testCorrectGameBoard3Creation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="AM08" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameBoardTest" />
-      <option name="METHOD_NAME" value="testCorrectGameBoard3Creation" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="GameBoardTest.testCorrectGameBoard4Creation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="AM08" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameBoardTest" />
-      <option name="METHOD_NAME" value="testCorrectGameBoard4Creation" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="GameBoardTest.testCorrectGameBoard4Creation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
@@ -213,9 +157,6 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameBoardTest" />
-      <option name="METHOD_NAME" value="testCorrectGameBoard4Creation" />
-      <option name="TEST_OBJECT" value="method" />
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.PlayerStateTest" />
       <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
@@ -307,6 +248,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="PlayerStateTest (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="AM08" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.PlayerStateTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="PlayerStateTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
@@ -318,6 +274,21 @@
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model.commonGoals" />
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.commonGoals.SingleOccurrenceOfGivenShapeTest" />
       <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TileTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="AM08" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.TileTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -347,20 +318,20 @@
       <item itemvalue="JUnit.NLinesOfAtMostMDifferentColorsTest" />
       <item itemvalue="JUnit.SingleOccurrenceOfGivenShapeTest" />
       <item itemvalue="JUnit.All tests" />
-      <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard2Creation" />
+      <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard4Creation" />
+      <item itemvalue="JUnit.TileTest" />
+      <item itemvalue="JUnit.PlayerStateTest (1)" />
       <item itemvalue="JUnit.GameModelTest.checkValidColumn" />
       <item itemvalue="JUnit.GameModelTest.checkValidMove" />
       <item itemvalue="JUnit.GameModelTest.makeMove" />
-      <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard3Creation" />
-      <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard4Creation" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.TileTest" />
+        <item itemvalue="JUnit.PlayerStateTest (1)" />
         <item itemvalue="JUnit.GameModelTest.checkValidMove" />
         <item itemvalue="JUnit.GameModelTest.checkValidColumn" />
         <item itemvalue="JUnit.GameModelTest.makeMove" />
-        <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard4Creation" />
-        <item itemvalue="JUnit.GameBoardTest.testCorrectGameBoard3Creation" />
       </list>
     </recent_temporary>
   </component>
@@ -572,7 +543,35 @@
       <option name="project" value="LOCAL" />
       <updated>1680178920034</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="committing unversioned files that prevent me to update the project">
+      <created>1680261556718</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1680261556718</updated>
+    </task>
+    <task id="LOCAL-00026" summary="added getShelf test to PlayerStateTest">
+      <created>1680272739614</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1680272739614</updated>
+    </task>
+    <task id="LOCAL-00027" summary="tested addCGPoints in PlayerStateTest">
+      <created>1680272990259</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1680272990259</updated>
+    </task>
+    <task id="LOCAL-00028" summary="added GameStateObserver.java">
+      <created>1680341074907</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1680341074907</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -590,27 +589,6 @@
     </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="master" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
-          </value>
-        </entry>
-      </map>
-    </option>
     <option name="RECENT_FILTERS">
       <map>
         <entry key="Branch">
@@ -626,17 +604,17 @@
         </entry>
       </map>
     </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="created classes to unify common goal 1 and 2 and common goal 5, 8, 9 and 10 with related tests" />
-    <MESSAGE value="created class to unify common goal 3, 7, 11 and related test" />
-    <MESSAGE value="added getCommonObjective to GameBoard&#10;removed evaluateCommonObjective from GameBoard &#10;added evaluatePoints to GameModel" />
-    <MESSAGE value="added check for First Point to evaluatePoints in Game Model" />
-    <MESSAGE value="index for commonObjective" />
-    <MESSAGE value="I added the class SingleObjective" />
-    <MESSAGE value="Created CommonObjective1 class with its own evaluate function, added two method in Library class useful for the evaluate method of CommonObjective1.&#10;The two methods are a new constructor which receives an array of Card, and the method getMyLibrary to get a copy of the Card array of the class Library" />
-    <MESSAGE value="created CommonObjective2 class and findGroupSize method to find the size of the group containing the position of the card passed via parameter (this method must be generalized to be used in different classes)" />
-    <MESSAGE value="minor fixes" />
     <MESSAGE value="fixed a bug for which an object was passed as a value and not reference" />
     <MESSAGE value="created and tested CommonObjective5, little fixes in javadoc and naming in other classes, added a new utility functio" />
     <MESSAGE value="created and tested CommonObjective6, little fixes naming in CommonObjective abstract class" />
@@ -659,7 +637,13 @@
     <MESSAGE value="refactor method checkValidMove in gameModel, added test of methods makeMove and checkValidMove in gameModelTest, added two utility getter methods in gameModel" />
     <MESSAGE value="added one parameter to UtilityFunctions.getAdjacentPositions to use it also in GameBoard.hasFreeAdjacent (the parameter select the correct constants to use it in the board or in the shelf), modified GameBoard.hasFreeAdjacent to use the mentioned method, changes to GameBoardTest to include the edge cases that lead to modify GameBoard.hasFreeAdjacent" />
     <MESSAGE value="tested a complete game with two players using the controller and simulating clients input" />
-    <option name="LAST_COMMIT_MESSAGE" value="tested a complete game with two players using the controller and simulating clients input" />
+    <MESSAGE value="created a test to test an entire game between two player interacting with the model using the controller, created json files for each expected model situation to ensure the model has evolved correctly.&#10;added equals override in almost all classes to check if the saved game model was as expected" />
+    <MESSAGE value="committing unversioned files that prevent me to update the project" />
+    <MESSAGE value="added getShelf test to PlayerStateTest" />
+    <MESSAGE value="tested addCGPoints in PlayerStateTest" />
+    <MESSAGE value="added GameStateObserver.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="added GameStateObserver.java" />
+    <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -685,11 +669,6 @@
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameModelTest.java</url>
-          <line>121</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/GameBoardTest.java</url>
           <line>75</line>
           <option name="timeStamp" value="18" />
@@ -711,10 +690,17 @@
       </configuration>
     </watches-manager>
   </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/IS23_AM08$GameModelTest_checkValidMove.ic" NAME="GameModelTest.checkValidMove Coverage Results" MODIFIED="1680032704319" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/IS23_AM08$PlayerStateTest__1_.ic" NAME="PlayerStateTest (1) Coverage Results" MODIFIED="1680272746024" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>it.polimi.ingsw.model.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/IS23_AM08$All_tests.ic" NAME="All tests Coverage Results" MODIFIED="1680010772115" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/IS23_AM08$All_tests.ic" NAME="All tests Coverage Results" MODIFIED="1680272872736" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/IS23_AM08$GameModelTest_checkValidMove.ic" NAME="GameModelTest.checkValidMove Coverage Results" MODIFIED="1680097388871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>it.polimi.ingsw.model.*</FILTER>
+    </SUITE>
   </component>
 </project>

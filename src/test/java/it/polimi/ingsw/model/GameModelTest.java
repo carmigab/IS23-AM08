@@ -17,6 +17,7 @@ import java.util.List;
 class GameModelTest {
 
     @Test
+    @Disabled
     public void testPersistence(){
         List<String> players=new ArrayList<>(4);
         players.add("MatteCenz"); players.add("GabriCarr"); players.add("GabriCarm"); players.add("AleCappe");

@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.constants.BoardConstants;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesAtStartFillBoardException;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesToFillBoardException;
-import it.polimi.ingsw.model.observers.ModelObserver;
+import it.polimi.ingsw.model.observers.GameStateObserver;
 import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.model.utilities.RandomSingleton;
 import it.polimi.ingsw.model.utilities.UtilityFunctions;
@@ -19,7 +19,7 @@ public class GameModel {
     /**
      * this attribute is a list of observers
      */
-    private final List<Observer> observers = new ArrayList<>();
+    private List<Observer> observers = new ArrayList<>();
 
     /**
      * this attribute is the number of the player of a specific match
@@ -42,11 +42,6 @@ public class GameModel {
      */
     @Expose
     private final List<Integer> commonGoalsCreated;
-    /**
-     * this attribute is the list of all possible personal goals of the game;
-     */
-    @Expose
-    private final List<PersonalGoal> personalGoals;
 
     /**
      * this attribute is used to indicate the player who must do the turn
@@ -81,14 +76,11 @@ public class GameModel {
         this.playerList = new ArrayList<>(this.numPlayers);
         this.commonGoalsCreated = new ArrayList<>(AppConstants.TOTAL_CG_PER_GAME);
         this.gameBoard = GameBoard.createGameBoard(numPlayers, getRandomCommonGoals());
-        this.personalGoals = new ArrayList<>(AppConstants.TOTAL_GOALS);
         this.currentPlayer = 0;
         this.isLastTurn = false;
         initializePlayers(nicknames);
         initializePersistencyFile(nicknames);
 
-        // Ads an observer
-        this.addObserver(new ModelObserver());
     }
 
     /**
@@ -104,11 +96,12 @@ public class GameModel {
         this.playerList = gameModel.playerList;
         this.commonGoalsCreated = gameModel.commonGoalsCreated;
         this.gameBoard = new GameBoard(gameModel.gameBoard, this.commonGoalsCreated);
-        this.personalGoals = gameModel.personalGoals;
         this.currentPlayer = gameModel.currentPlayer;
         this.isLastTurn = gameModel.isLastTurn;
         this.leaderBoard = gameModel.leaderBoard;
         this.fileName = gameModel.fileName;
+
+        // oss: the observers are added from outside
     }
 
     /**
@@ -122,15 +115,17 @@ public class GameModel {
         try {
             fileReader = new FileReader(AppConstants.FILE_CONFIG_PERSONALGOAL);
 
-            PersonalGoalsConfiguration poc=jsonLoader.fromJson(fileReader, PersonalGoalsConfiguration.class);
-            for(int i = 0; i< AppConstants.TOTAL_GOALS; i++){
-                this.personalGoals.add(poc.getPersonalGoalAtIndex(i));
-                this.personalGoals.get(this.personalGoals.size()-1).setPointsForCompletion(poc.getPointsForCompletion());
-            }
+            PersonalGoalsConfiguration poc = jsonLoader.fromJson(fileReader, PersonalGoalsConfiguration.class);
 
-            Random r= RandomSingleton.getRandomSingleton();
+            Set<Integer> extractegPersonalGoals = new HashSet<>();
+            Random r = RandomSingleton.getRandomSingleton();
+            int random = r.nextInt(AppConstants.TOTAL_GOALS);;
             for(String s: nicknames){
-                playerList.add(new PlayerState(s, this.personalGoals.remove(r.nextInt(this.personalGoals.size()))));
+                while (extractegPersonalGoals.contains(random)) {
+                    random = r.nextInt(AppConstants.TOTAL_GOALS);
+                }
+                playerList.add(new PlayerState(s, poc.getPersonalGoalAtIndex(random)));
+                extractegPersonalGoals.add(random);
             }
         }
         catch(FileNotFoundException e){
@@ -377,8 +372,9 @@ public class GameModel {
      * this method adds observers
      * @param o the observer
      */
-    private void addObserver(Observer o){
+    public void addObserver(Observer o){
         observers.add(o);
+        this.notifyObservers();
     }
 
 
@@ -388,6 +384,14 @@ public class GameModel {
     public void notifyObservers(){
         for (Observer obs: observers)
             obs.update(this);
+    }
+
+
+    /**
+     * this method removes all listening observers
+     */
+    public void removeObservers(){
+        observers.clear();
     }
 
     public PlayerState getPlayer() {

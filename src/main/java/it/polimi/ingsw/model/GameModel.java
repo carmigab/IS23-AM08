@@ -67,6 +67,11 @@ public class GameModel {
     private String fileName;
 
     /**
+     *
+     */
+    private boolean gameOver;
+
+    /**
      * Constructor
      * @param numPlayers number of players for the game
      * @param nicknames players' nicknames
@@ -78,6 +83,7 @@ public class GameModel {
         this.gameBoard = GameBoard.createGameBoard(numPlayers, getRandomCommonGoals());
         this.currentPlayer = 0;
         this.isLastTurn = false;
+        this.gameOver = false;
         initializePlayers(nicknames);
         initializePersistencyFile(nicknames);
 
@@ -400,6 +406,10 @@ public class GameModel {
 
     public GameBoard getGameBoard() {
         return this.gameBoard;
+    }
+
+    public boolean isGameOver(){
+        return this.gameOver;
     }
 
 

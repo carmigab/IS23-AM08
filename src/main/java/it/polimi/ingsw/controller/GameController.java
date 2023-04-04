@@ -14,20 +14,23 @@ public class GameController {
     private final List<String> playersList;
     private final int numPlayers;
 
-    //private final GameStateObserver gameStateObserver;
+    private final GameStateObserver gameStateObserver;
 
     public GameController(List<String> nicknames, int numPlayers){
         playersList = new ArrayList<>(nicknames);
         this.numPlayers = numPlayers;
         this.model = new GameModel(numPlayers, nicknames);
-        //add constructor of class gameStateObserver
+        this.gameStateObserver = new GameStateObserver();
+        this.model.addObserver(gameStateObserver);
+
     }
 
     public GameController(GameController controller){
         this.playersList = controller.playersList;
         this.numPlayers = controller.numPlayers;
         this.model = new GameModel(controller.model);
-        //this.gameStateObserver = new GameStateObserver(controller.gameStateObserver);
+        this.gameStateObserver = new GameStateObserver();
+        this.model.addObserver(gameStateObserver);
     }
 
     private boolean verifyPlayerNickname(String nick){

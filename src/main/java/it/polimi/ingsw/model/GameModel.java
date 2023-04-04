@@ -333,26 +333,22 @@ public class GameModel {
                 try{
                     this.gameBoard.fillBoard();
                 }
-                catch (NoMoreTilesAtStartFillBoardException e) {
-                    //endGame method not implemented yet
-                } catch (NoMoreTilesToFillBoardException e) {
-                    //endGame method not implemented yet
+                catch (NoMoreTilesAtStartFillBoardException | NoMoreTilesToFillBoardException e) {
+                    endGame();
                 }
             }
         }
         else{
             if(this.currentPlayer == this.numPlayers - 1){
-                //endgame method not implemented yet
+                endGame();
             }
             else{
                 this.currentPlayer++;
                 if(this.boardToBeFilled()){
                     try{
                         this.gameBoard.fillBoard();
-                    } catch (NoMoreTilesAtStartFillBoardException e) {
-                        //endGame method not implemented yet
-                    } catch (NoMoreTilesToFillBoardException e) {
-                        //endGame method not implemented yet
+                    } catch (NoMoreTilesAtStartFillBoardException | NoMoreTilesToFillBoardException e) {
+                        endGame();
                     }
 
                 }
@@ -410,6 +406,12 @@ public class GameModel {
 
     public boolean isGameOver(){
         return this.gameOver;
+    }
+
+    public void endGame(){
+        this.gameOver = true;
+        createLeaderBoard();
+        this.notifyObservers();
     }
 
 

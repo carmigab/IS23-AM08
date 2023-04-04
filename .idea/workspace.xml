@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="modified CompleteGameTest to match the changes to GameController, modified actions file to match the new parameter of GameController.makeMove">
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="created packege server, client and view">
+      <change afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/view/CLI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -377,7 +378,7 @@
       <workItem from="1680601602854" duration="392000" />
       <workItem from="1680606622534" duration="171000" />
       <workItem from="1680606919604" duration="104000" />
-      <workItem from="1680607036801" duration="638000" />
+      <workItem from="1680607036801" duration="1577000" />
     </task>
     <task id="LOCAL-00001" summary="minor fixes &amp; player state tests">
       <created>1678896857551</created>
@@ -582,7 +583,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680510248627</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="created packege server, client and view">
+      <created>1680607744530</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1680607744530</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -626,7 +634,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="created and tested CommonObjective6, little fixes naming in CommonObjective abstract class" />
     <MESSAGE value="Common Objective 10 and Test" />
     <MESSAGE value="Common Objective 9 and Test" />
     <MESSAGE value="Common Objective 9, 10 and Test minor fixes" />
@@ -652,7 +659,8 @@
     <MESSAGE value="tested addCGPoints in PlayerStateTest" />
     <MESSAGE value="added GameStateObserver.java" />
     <MESSAGE value="modified CompleteGameTest to match the changes to GameController, modified actions file to match the new parameter of GameController.makeMove" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified CompleteGameTest to match the changes to GameController, modified actions file to match the new parameter of GameController.makeMove" />
+    <MESSAGE value="created packege server, client and view" />
+    <option name="LAST_COMMIT_MESSAGE" value="created packege server, client and view" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">

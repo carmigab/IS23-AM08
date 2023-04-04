@@ -49,7 +49,8 @@ public class Position {
     }
 
     /**
-     * this method overrides the method equals. it assumes that two positions are equals if they have the same x and y values;
+     * this method overrides the method equals. it assumes that two positions are equals if they have the
+     * same x and y values;
      * if the parameter isn't a position, the method return false
      * @param obj object to be compared with this
      * @return a boolean

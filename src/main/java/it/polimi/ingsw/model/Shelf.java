@@ -183,9 +183,11 @@ public class Shelf {
     }
 
     /**
-     *
-     * @param obj
-     * @return
+     * this method overrides the method equals. It assumes that two Shelf are equals if, taking a
+     * position of the shelf, they have the same tile in this position. If the parameter isn't a shelf,
+     * return false.
+     * * @param obj object to be compared with "this"
+     * @return a boolean
      */
     @Override
     public boolean equals(Object obj) {

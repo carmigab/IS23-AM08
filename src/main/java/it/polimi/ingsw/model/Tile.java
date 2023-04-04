@@ -30,7 +30,8 @@ public class Tile {
     }
 
     /**
-     * this method is an alternative class constructor that returns a new tile, copy of the tile passed as parameter
+     * this method is an alternative class constructor that returns a new tile, copy of the tile passed
+     * as parameter
      */
     public Tile(Tile copy){
         this.color = copy.color;
@@ -78,7 +79,7 @@ public class Tile {
     /**
      * this method overrides the method equals. it assumes that two tiles are equals if they have the same color;
      * if the parameter isn't a tile, the method return false
-     * @param obj object to be compared with this
+     * @param obj object to be compared with "this"
      * @return a boolean
      */
     @Override

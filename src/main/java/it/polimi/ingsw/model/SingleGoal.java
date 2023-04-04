@@ -3,8 +3,8 @@ package it.polimi.ingsw.model;
 import com.google.gson.annotations.Expose;
 
 /**
- * this class represents the specific single objective. Six of them composed one of the personal objective assigned to
- * a player
+ * this class represents the specific single objective. Six of them composed one of the personal objective
+ * assigned to a player
  */
 public class SingleGoal {
     /**
@@ -25,7 +25,6 @@ public class SingleGoal {
      * @param color the color of the objective
      */
 
-    //Doubts on the class construct: I don't know if, using a json file, I had to change the class construct //NO
     public SingleGoal(Position position, TileColor color) {
         this.position = new Position(position);
         this.color = color;
@@ -50,9 +49,10 @@ public class SingleGoal {
     }
 
     /**
-     *
-     * @param obj
-     * @return
+     * this method overrides the method equals. it assumes that two SingleGoal are equals if they have the
+     * same position and the same color; if the parameter isn't a SingleGoal, return false
+     * @param obj object to be compared with "this"
+     * @return a boolean
      */
     @Override
     public boolean equals(Object obj) {

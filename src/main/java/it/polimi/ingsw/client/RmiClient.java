@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.Client;
 
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
@@ -14,6 +14,12 @@ public class RmiClient implements RmiClientInterface{
 
     // Here we will use an observer or the true view
     private FakeView fakeView;
+
+
+    public RmiClient(String nickname, FakeView fV){
+        this.fakeView = fV;
+        this.nickname = nickname;
+    }
 
 
     @Override

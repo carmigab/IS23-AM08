@@ -2,10 +2,11 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.controller.exceptions.InvalidIdException;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
+import it.polimi.ingsw.controller.observers.VirtualView;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.model.observers.GameStateObserver;
 
+import javax.management.remote.rmi.RMIServer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,13 +15,13 @@ public class GameController {
     private final List<String> playersList;
     private final int numPlayers;
 
-    private final GameStateObserver gameStateObserver;
+    private final VirtualView gameStateObserver;
 
-    public GameController(List<String> nicknames, int numPlayers){
+    public GameController(List<String> nicknames, int numPlayers, RMIServer server){
         playersList = new ArrayList<>(nicknames);
         this.numPlayers = numPlayers;
         this.model = new GameModel(numPlayers, nicknames);
-        this.gameStateObserver = new GameStateObserver();
+        this.gameStateObserver = new VirtualView(server);
         this.model.addObserver(gameStateObserver);
 
     }
@@ -29,7 +30,7 @@ public class GameController {
         this.playersList = controller.playersList;
         this.numPlayers = controller.numPlayers;
         this.model = new GameModel(controller.model);
-        this.gameStateObserver = new GameStateObserver();
+        this.gameStateObserver = new VirtualView(null); //TODO
         this.model.addObserver(gameStateObserver);
     }
 

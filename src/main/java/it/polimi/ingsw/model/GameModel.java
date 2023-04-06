@@ -6,11 +6,10 @@ import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.constants.BoardConstants;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesAtStartFillBoardException;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesToFillBoardException;
-import it.polimi.ingsw.model.observers.GameStateObserver;
 import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.model.utilities.RandomSingleton;
 import it.polimi.ingsw.model.utilities.UtilityFunctions;
-import it.polimi.ingsw.model.observers.Observer;
+import it.polimi.ingsw.controller.observers.Observer;
 
 import java.io.*;
 import java.util.*;
@@ -376,7 +375,6 @@ public class GameModel {
      */
     public void addObserver(Observer o){
         observers.add(o);
-        this.notifyObservers();
     }
 
 
@@ -444,6 +442,50 @@ public class GameModel {
 //                this.commonGoalsCreated.equals(gameModel.commonGoalsCreated) &&
 //                this.gameBoard.equals(gameModel.gameBoard) &&
 //                this.playerList.equals(gameModel.playerList);
+    }
+
+    /**
+     * This method calls the method GameBoard.getGameBoardCopy() to return a copy of the current game board
+     * @return a copy of the current game board
+     */
+    public Tile[][] getGameBoardCopy(){
+        return this.gameBoard.getGameBoardCopy();
+    }
+
+    /**
+     * This method returns a full copy of the list of common goals created
+     * @return a copy of the common goals created
+     */
+    public List<Integer> getCommonGoalsCreatedCopy(){
+        List<Integer> toReturn = new ArrayList<>(AppConstants.TOTAL_CG_PER_GAME);
+        for(Integer cg: this.commonGoalsCreated){
+            toReturn.add(Integer.valueOf(cg));
+        }
+        return toReturn;
+    }
+
+    /**
+     * This method returns a full copy of all the stacks of the common goals created
+     * @return a list of the copied stacks from the game model
+     */
+    public List<Stack<Integer>> getCommonGoalsStackCopy(){
+        List<Stack<Integer>> toReturn=new ArrayList<>(AppConstants.TOTAL_CG_PER_GAME);
+        for(int i=0;i<AppConstants.TOTAL_CG_PER_GAME;i++){
+            toReturn.add(this.gameBoard.getCommonGoal(i).getPointStackCopy());
+        }
+        return toReturn;
+    }
+
+    /**
+     * This method creates a list of copies of all the players' states
+     * @return a list of copied player states
+     */
+    public List<PlayerState> getPlayerListCopy(){
+        List<PlayerState> toReturn=new ArrayList<>(this.numPlayers);
+        for(PlayerState player: this.playerList){
+            toReturn.add(player.getPlayerStateCopy());
+        }
+        return toReturn;
     }
 }
 

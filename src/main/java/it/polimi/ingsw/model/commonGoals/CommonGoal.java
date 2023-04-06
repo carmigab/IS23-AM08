@@ -40,6 +40,14 @@ public abstract class CommonGoal {
     }
 
     /**
+     * This method returns a copy of the stack of the common goal
+     * @return a copy of the stack
+     */
+    public Stack<Integer> getPointStackCopy(){
+        return (Stack<Integer>)this.pointStack.clone();
+    }
+
+    /**
      * This method has to be overridden in its subclasses, with each implementation being a different algorithm to calculate the goal
      * @param shelf Shelf of the current player
      * @return true if the goal has been satisfied

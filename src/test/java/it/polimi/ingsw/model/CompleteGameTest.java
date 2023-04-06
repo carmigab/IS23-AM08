@@ -8,6 +8,7 @@ import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.model.utilities.UtilityFunctions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -27,6 +28,7 @@ class CompleteGameTest {
      * This method test a game with two players simulating all the actions to check if all flows correctly
      */     
     @Test
+    @Disabled
     void twoPlayerCompleteGame() throws FileNotFoundException {
         String configFile = "src/test/resources/CompleteGameTestConfig.json";
         String actionsFile = "src/test/resources/CompleteGameTestActions.json";

@@ -286,4 +286,18 @@ public final class GameBoard {
         return this.allTiles.equals(gameBoard.allTiles) &&
                 this.commonGoals.equals(gameBoard.commonGoals);
     }
+
+    /**
+     * This method returns a copy of the current game board, useful for passing information to the client
+     * @return a copy of the game board
+     */
+    public Tile[][] getGameBoardCopy(){
+        Tile[][] toReturn= new Tile[BoardConstants.BOARD_DIMENSION][BoardConstants.BOARD_DIMENSION];
+        for(int i=0;i<BoardConstants.BOARD_DIMENSION; i++){
+            for(int j=0;j<BoardConstants.BOARD_DIMENSION;j++){
+                toReturn[i][j]=new Tile(this.myGameBoard[i][j]);
+            }
+        }
+        return toReturn;
+    }
 }

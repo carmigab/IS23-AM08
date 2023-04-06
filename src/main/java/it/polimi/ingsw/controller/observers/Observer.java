@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.observers;
+package it.polimi.ingsw.controller.observers;
 
 import it.polimi.ingsw.model.GameModel;
 

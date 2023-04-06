@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.annotations.Expose;
+import it.polimi.ingsw.App;
 import it.polimi.ingsw.model.constants.AppConstants;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class PersonalGoal {
     public PersonalGoal(SingleGoal[] s){
         this.personalGoal =new ArrayList<>(AppConstants.TOTAL_POINTS_FOR_PG);
 
-        for(int i=0;i<6;i++){
+        for(int i=0;i<AppConstants.TOTAL_POINTS_FOR_PG;i++){
             this.personalGoal.add(new SingleGoal(s[i].getPosition(),s[i].getColor()));
         }
 
@@ -70,6 +71,24 @@ public class PersonalGoal {
         if(!(obj instanceof PersonalGoal personalGoal)) return false;
         return this.pointsForCompletion.equals(personalGoal.pointsForCompletion) &&
                 this.personalGoal.equals(personalGoal.personalGoal);
+    }
+
+    /**
+     * This method returns a full copy of the personal goal, with copies also of the single goals
+     * @return a copy of the personal goal
+     */
+    public PersonalGoal getPersonalGoalCopy(){
+        SingleGoal[] sgCopy=new SingleGoal[this.personalGoal.size()];
+        for(int i=0;i<AppConstants.TOTAL_POINTS_FOR_PG;i++){
+            sgCopy[i]=this.personalGoal.get(i);
+        }
+        int[] pointsCopy=new int[this.personalGoal.size()];
+        for(int i=0;i<AppConstants.TOTAL_POINTS_FOR_PG;i++){
+            pointsCopy[i]=this.pointsForCompletion.get(i);
+        }
+        PersonalGoal toReturn = new PersonalGoal(sgCopy);
+        toReturn.setPointsForCompletion(pointsCopy);
+        return toReturn;
     }
 }
 

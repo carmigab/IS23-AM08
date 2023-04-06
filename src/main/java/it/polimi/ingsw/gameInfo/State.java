@@ -1,11 +1,11 @@
 package it.polimi.ingsw.gameInfo;
 
 public enum State {
-    WaitingForPlayers,
-    Turn0,
-    turn1,
-    turn2,
-    turn3,
-    EndGame,
-    ClientCrashed
+    WAITINGFORPLAYERS,
+    TURN0,
+    TURN1,
+    TURN2,
+    TURN3,
+    ENDGAME,
+    CLIENTCRASHED
 }

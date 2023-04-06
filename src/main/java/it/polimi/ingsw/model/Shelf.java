@@ -57,6 +57,22 @@ public class Shelf {
 
         return myShelfCopy;
     }
+    /**
+     * This method return a copy of the array of tile of the shelf
+     *
+     * @return a copy of myShelf
+     */
+    public Shelf getShelfCopy() {
+        Shelf myShelfCopy = new Shelf();
+
+        for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
+            for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
+                myShelfCopy.myShelf[i][j] = new Tile(this.myShelf[i][j]);
+            }
+        }
+
+        return myShelfCopy;
+    }
 
 
     /**

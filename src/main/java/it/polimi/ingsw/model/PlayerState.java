@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.annotations.Expose;
+import it.polimi.ingsw.model.constants.AppConstants;
 
 /**
  * this class represents a generic player of the match
@@ -209,11 +210,22 @@ public class PlayerState {
                 this.PGPoints == playerState.PGPoints;
     }
 
+    /**
+     * This method returns a full copy of the player's state
+     * @return a copied object of the player state
+     */
+    public PlayerState getPlayerStateCopy(){
+        PlayerState toReturn=new PlayerState(this.nickname, this.personalGoal.getPersonalGoalCopy());
 
+        toReturn.CGPoints=this.CGPoints;
+        toReturn.PGPoints=this.PGPoints;
+        toReturn.firstPoint=this.firstPoint;
+        toReturn.myShelf=this.myShelf.getShelfCopy();
+        toReturn.comGoalDone=new boolean[AppConstants.TOTAL_CG_PER_GAME];
+        System.arraycopy(this.comGoalDone, 0, toReturn.comGoalDone, 0, AppConstants.TOTAL_CG_PER_GAME);
 
-
-
-
+        return toReturn;
+    }
 
 }
 

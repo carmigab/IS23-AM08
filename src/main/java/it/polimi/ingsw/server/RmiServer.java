@@ -1,6 +1,6 @@
-package it.polimi.ingsw.Server;
+package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.Client.RmiClient;
+import it.polimi.ingsw.client.RmiClient;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Position;

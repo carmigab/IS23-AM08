@@ -1,10 +1,8 @@
-package it.polimi.ingsw.Server;
+package it.polimi.ingsw.server;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.*;
 
 public class MainServer {
     public static void main(String[] args) throws RemoteException {

@@ -1,9 +1,8 @@
-package it.polimi.ingsw.Client;
+package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.Server.RmiServer;
+import it.polimi.ingsw.server.RmiServer;
 
 import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 

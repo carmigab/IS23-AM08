@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Client;
+package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;

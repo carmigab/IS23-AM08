@@ -7,6 +7,13 @@ import it.polimi.ingsw.server.constants.ServerConstants;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
+import java.io.Serializable;
+import java.rmi.AlreadyBoundException;
+import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -15,7 +22,7 @@ import java.util.Set;
 /**
  * This class sets up the main server which will make the player set his name and choose a game to join
  */
-public class LobbyServer implements RMILobbyServerInterface{
+public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerInterface {
 
     /**
      * Set that contains all the nicknames of every client connected
@@ -36,10 +43,13 @@ public class LobbyServer implements RMILobbyServerInterface{
      */
     private final List<String> banList;
 
+    private Registry registry;
+
     /**
      * Constructor that loads the initial configuration of the server from file
      */
-    public LobbyServer(){
+    public LobbyServer() throws RemoteException{
+        super();
         this.config=loadInitialConfig();
         this.nicknamesPool=new HashSet<>();
         this.serverList=new ArrayList<>();
@@ -50,11 +60,12 @@ public class LobbyServer implements RMILobbyServerInterface{
      * Constructor that loads the initial configuration from the object in input
      * @param config configuration of the server
      */
-    public LobbyServer(LobbyServerConfig config){
-        this.config=config;
-        this.nicknamesPool=new HashSet<>();
-        this.serverList=new ArrayList<>();
-        this.banList=new ArrayList<>();
+    public LobbyServer(LobbyServerConfig config) throws RemoteException{
+        super();
+        this.config = config;
+        this.nicknamesPool = new HashSet<>();
+        this.serverList = new ArrayList<>();
+        this.banList = new ArrayList<>();
         this.banList.addAll(loadBanList());
     }
     /**
@@ -63,7 +74,7 @@ public class LobbyServer implements RMILobbyServerInterface{
      * @param serverName string containing the information of the server name
      * @param startingPort integer containing the information of the starting port
      */
-    public LobbyServer(int serverPort, String serverName, int startingPort){
+    public LobbyServer(int serverPort, String serverName, int startingPort) throws RemoteException{
         this(new LobbyServerConfig(serverPort, serverName, startingPort));
     }
 
@@ -71,7 +82,7 @@ public class LobbyServer implements RMILobbyServerInterface{
      * Method used for the loading of the initial configuration from the file saved in "config/server"
      * @return a LobbyServerConfig object
      */
-    private LobbyServerConfig loadInitialConfig(){
+    private LobbyServerConfig loadInitialConfig() {
         Reader r=null;
         try {
             r= new FileReader(ServerConstants.SERVER_INITIAL_CONFIG);
@@ -79,6 +90,21 @@ public class LobbyServer implements RMILobbyServerInterface{
             throw new RuntimeException(e);
         }
         return JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(r, LobbyServerConfig.class);
+    }
+
+    public void start(){
+        try {
+            System.out.println("Initializing server...");
+            this.registry = LocateRegistry.createRegistry(this.config.getServerPort());
+            System.out.println("Registry acquired...");
+            this.registry.bind(this.config.getServerName(), this);
+            System.out.println("RMI Server online...");
+            System.out.println("Name: "+this.config.getServerName()+" Port: "+this.config.getServerPort());
+        }catch (RemoteException e){
+            e.printStackTrace();
+        } catch (AlreadyBoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -100,7 +126,8 @@ public class LobbyServer implements RMILobbyServerInterface{
      * @return false if the nickname is either banned or already present
      */
     @Override
-    public boolean chooseNickname(String nickname){
+    public boolean chooseNickname(String nickname) throws RemoteException{
+        System.out.println("Someone is trying to insert a name...");
         if(this.banList.contains(nickname)) return false;
         return this.nicknamesPool.add(nickname);
     }
@@ -112,7 +139,7 @@ public class LobbyServer implements RMILobbyServerInterface{
      * @return
      */
     @Override
-    public ConnectionInformationRMI createGame(Integer numPlayers, String nickname, RmiClient client) {
+    public ConnectionInformationRMI createGame(Integer numPlayers, String nickname, RmiClient client) throws RemoteException{
         RmiServer rs=new RmiServer(numPlayers);
         this.serverList.add(rs);
         return new ConnectionInformationRMI("Prova", 2345);
@@ -125,7 +152,7 @@ public class LobbyServer implements RMILobbyServerInterface{
      * @return
      */
     @Override
-    public ConnectionInformationRMI joinGame(String nickname, RmiClient client) {
+    public ConnectionInformationRMI joinGame(String nickname, RmiClient client) throws RemoteException{
         return null;
     }
 }

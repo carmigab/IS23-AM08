@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.common.RmiServerInterface;
 import it.polimi.ingsw.client.RmiClient;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.gameInfo.State;
@@ -9,7 +10,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RmiServer implements RmiServerInterface{
+public class RmiServer implements RmiServerInterface {
 
     // This list represents also the playing order
     private List<String> nicknamesList = new ArrayList<>();

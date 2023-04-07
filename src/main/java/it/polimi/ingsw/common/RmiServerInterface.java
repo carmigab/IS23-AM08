@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.common;
 
 import it.polimi.ingsw.client.RmiClient;
 import it.polimi.ingsw.model.Position;

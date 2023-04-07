@@ -2,12 +2,14 @@ package it.polimi.ingsw.server;
 
 import org.junit.jupiter.api.Test;
 
+import java.rmi.RemoteException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class LobbyServerTest {
 
     @Test
-    public void testChooseNickNameAndConstructors(){
+    public void testChooseNickNameAndConstructors() throws RemoteException {
         LobbyServer ls1= new LobbyServer();
 
         //create a player with a correct nickname

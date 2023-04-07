@@ -23,7 +23,6 @@ import java.util.Set;
  * This class sets up the main server which will make the player set his name and choose a game to join
  */
 public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerInterface {
-
     /**
      * Set that contains all the nicknames of every client connected
      */
@@ -45,17 +44,20 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
 
     private Registry registry;
 
+
     /**
      * Constructor that loads the initial configuration of the server from file
      */
     public LobbyServer() throws RemoteException{
         super();
-        this.config=loadInitialConfig();
-        this.nicknamesPool=new HashSet<>();
-        this.serverList=new ArrayList<>();
-        this.banList=new ArrayList<>();
+        this.config = loadInitialConfig();
+        this.nicknamesPool = new HashSet<>();
+        this.serverList = new ArrayList<>();
+        this.banList = new ArrayList<>();
         this.banList.addAll(loadBanList());
     }
+
+
     /**
      * Constructor that loads the initial configuration from the object in input
      * @param config configuration of the server
@@ -68,6 +70,8 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         this.banList = new ArrayList<>();
         this.banList.addAll(loadBanList());
     }
+
+
     /**
      * Constructor that receives in input the parameters and creates a configuration manually
      * @param serverPort integer containing the information of the server port
@@ -77,6 +81,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     public LobbyServer(int serverPort, String serverName, int startingPort) throws RemoteException{
         this(new LobbyServerConfig(serverPort, serverName, startingPort));
     }
+
 
     /**
      * Method used for the loading of the initial configuration from the file saved in "config/server"
@@ -92,12 +97,15 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         return JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(r, LobbyServerConfig.class);
     }
 
+
     public void start(){
         try {
             System.out.println("Initializing server...");
             this.registry = LocateRegistry.createRegistry(this.config.getServerPort());
+
             System.out.println("Registry acquired...");
             this.registry.bind(this.config.getServerName(), this);
+
             System.out.println("RMI Server online...");
             System.out.println("Name: "+this.config.getServerName()+" Port: "+this.config.getServerPort());
         }catch (RemoteException e){
@@ -106,6 +114,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             e.printStackTrace();
         }
     }
+
 
     /**
      * Method used for the loading of the ban list from the file contained in "config/server"
@@ -120,6 +129,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         return JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(r, ArrayList.class);
     }
 
+
     /**
      * Method that the client can call to get a nickname assigned on the server
      * @param nickname string containing the nickname of the client
@@ -132,6 +142,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         return this.nicknamesPool.add(nickname);
     }
 
+
     /**
      * TODO
      * @param nickname
@@ -140,10 +151,11 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      */
     @Override
     public ConnectionInformationRMI createGame(Integer numPlayers, String nickname, RmiClient client) throws RemoteException{
-        RmiServer rs=new RmiServer(numPlayers);
+        RmiServer rs = new RmiServer(numPlayers);
         this.serverList.add(rs);
         return new ConnectionInformationRMI("Prova", 2345);
     }
+
 
     /**
      * TODO

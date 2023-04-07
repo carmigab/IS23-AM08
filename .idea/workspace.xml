@@ -4,17 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="updated README and disabled one test (not useful anymore)">
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="refactored the stack of points as a class &#10;and fixed all the tests">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/gameInfo/GameInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/gameInfo/GameInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/JsonWithExposeSingleton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/JsonWithExposeSingleton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CompleteGameTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CompleteGameTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/CompleteGameTestConfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/CompleteGameTestConfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,8 +15,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -122,11 +113,11 @@
       <recent name="it.polimi.ingsw.model" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="it.polimi.ingsw.server" />
       <recent name="it.polimi.ingsw.model" />
       <recent name="it.polimi.ingsw.model.commonGoals" />
       <recent name="it.polimi.ingsw.model.commonObjectives" />
       <recent name="it.polimi.ingsw.model.utilities" />
-      <recent name="it.polimi.ingsw" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="it.polimi.ingsw.model" />
@@ -134,7 +125,7 @@
     </key>
   </component>
   <component name="RunManager" selected="JUnit.All tests">
-    <configuration name="All tests" type="JUnit" factoryName="JUnit">
+    <configuration name="All tests Model" type="JUnit" factoryName="JUnit">
       <module name="AM08" />
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
       <option name="MAIN_CLASS_NAME" value="" />
@@ -143,6 +134,26 @@
       <option name="TEST_SEARCH_SCOPE">
         <value defaultName="wholeProject" />
       </option>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All tests Server" type="JUnit" factoryName="JUnit">
+      <module name="AM08" />
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.server" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="All tests" type="JUnit" factoryName="JUnit">
+      <module name="AM08" />
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -168,6 +179,22 @@
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.CompleteGameTest" />
       <option name="METHOD_NAME" value="twoPlayerCompleteGame" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ConnectionInformationRMITest.testConnectionInformationRMI" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="AM08" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="it.polimi.ingsw.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="it.polimi.ingsw.server" />
+      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.server.ConnectionInformationRMITest" />
+      <option name="METHOD_NAME" value="testConnectionInformationRMI" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -241,21 +268,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PlayerStateTest (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="AM08" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="it.polimi.ingsw.model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
-      <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.PlayerStateTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="PlayerStateTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
@@ -303,6 +315,9 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="JUnit.All tests Model" />
+      <item itemvalue="JUnit.All tests Server" />
+      <item itemvalue="JUnit.All tests" />
       <item itemvalue="JUnit.GameModelTest.testPersistency" />
       <item itemvalue="JUnit.CommonObjective6Test" />
       <item itemvalue="JUnit.UtilityFunctionsTest" />
@@ -310,20 +325,19 @@
       <item itemvalue="JUnit.NGroupsOfSizeMTest" />
       <item itemvalue="JUnit.NLinesOfAtMostMDifferentColorsTest" />
       <item itemvalue="JUnit.SingleOccurrenceOfGivenShapeTest" />
-      <item itemvalue="JUnit.All tests" />
+      <item itemvalue="JUnit.ConnectionInformationRMITest.testConnectionInformationRMI" />
       <item itemvalue="JUnit.GameModelTest.testLoadFromFile" />
       <item itemvalue="JUnit.GameModelTest.testPersistence" />
       <item itemvalue="JUnit.CompleteGameTest.twoPlayerCompleteGame" />
       <item itemvalue="JUnit.TileTest" />
-      <item itemvalue="JUnit.PlayerStateTest (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.ConnectionInformationRMITest.testConnectionInformationRMI" />
         <item itemvalue="JUnit.CompleteGameTest.twoPlayerCompleteGame" />
         <item itemvalue="JUnit.GameModelTest.testLoadFromFile" />
         <item itemvalue="JUnit.GameModelTest.testPersistence" />
         <item itemvalue="JUnit.TileTest" />
-        <item itemvalue="JUnit.PlayerStateTest (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -595,7 +609,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680802241752</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="refactored the stack of points as a class &#10;and fixed all the tests">
+      <created>1680861271008</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1680861271008</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -639,7 +660,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added common objective creation and fixed minor issue in singleobjective test" />
     <MESSAGE value="fixed gameboard test, now works fine" />
     <MESSAGE value="created and tested CommonObjective7" />
     <MESSAGE value="readme todo table updated" />
@@ -664,7 +684,8 @@
     <MESSAGE value="created packege server, client and view" />
     <MESSAGE value="push of single file GameInfo" />
     <MESSAGE value="added .idea to gitignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="added .idea to gitignore" />
+    <MESSAGE value="refactored the stack of points as a class &#10;and fixed all the tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactored the stack of points as a class &#10;and fixed all the tests" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">

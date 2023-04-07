@@ -21,7 +21,7 @@ public class JsonWithExposeSingleton {
      *
      */
     public static Gson getJsonWithExposeSingleton(){
-        if(json==null) json=new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        if(json==null) json=new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 
         return json;
     }

@@ -290,7 +290,7 @@ public class GameModel {
             if (!currP.isCGDone(i)) {
                 obj = gameBoard.getCommonGoal(i);
                 if (obj.evaluate(currP.getShelf())) {
-                    currP.addCGPoints(obj.pop());
+                    currP.addCGPoints(gameBoard.pop(i));
                     currP.setCGDone(i);
                 }
             }
@@ -468,12 +468,8 @@ public class GameModel {
      * This method returns a full copy of all the stacks of the common goals created
      * @return a list of the copied stacks from the game model
      */
-    public List<Stack<Integer>> getCommonGoalsStackCopy(){
-        List<Stack<Integer>> toReturn=new ArrayList<>(AppConstants.TOTAL_CG_PER_GAME);
-        for(int i=0;i<AppConstants.TOTAL_CG_PER_GAME;i++){
-            toReturn.add(this.gameBoard.getCommonGoal(i).getPointStackCopy());
-        }
-        return toReturn;
+    public List<List<Integer>> getCommonGoalsStackCopy(){
+        return this.gameBoard.getPointStacksCopy();
     }
 
     /**

@@ -4,15 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="added .idea to gitignore">
+    <list default="true" id="29e059fd-536b-419a-9ef5-ad47f04c2d40" name="Changes" comment="updated README and disabled one test (not useful anymore)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/FakeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/FakeView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/MainClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/MainClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/RmiClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/RmiClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/RmiClientInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/client/RmiClientInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/server/MainServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/server/MainServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/server/RmiServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/server/RmiServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/server/RmiServerInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/server/RmiServerInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/gameInfo/GameInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/gameInfo/GameInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/GameModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/commonGoals/CommonGoal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/JsonWithExposeSingleton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/model/utilities/JsonWithExposeSingleton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/savedMatches/MatteCenz_GabriCarr_GabriCarm_AleCappe.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CompleteGameTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/it/polimi/ingsw/model/CompleteGameTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/CompleteGameTestConfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/CompleteGameTestConfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,7 +173,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GameModelTest.checkValidColumn" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="GameModelTest.testLoadFromFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
         <pattern>
@@ -181,13 +183,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameModelTest" />
-      <option name="METHOD_NAME" value="checkValidColumn" />
+      <option name="METHOD_NAME" value="testLoadFromFile" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GameModelTest.checkValidMove" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="GameModelTest.testPersistence" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="AM08" />
       <extension name="coverage">
         <pattern>
@@ -197,7 +199,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="it.polimi.ingsw.model" />
       <option name="MAIN_CLASS_NAME" value="it.polimi.ingsw.model.GameModelTest" />
-      <option name="METHOD_NAME" value="checkValidMove" />
+      <option name="METHOD_NAME" value="testPersistence" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -309,19 +311,19 @@
       <item itemvalue="JUnit.NLinesOfAtMostMDifferentColorsTest" />
       <item itemvalue="JUnit.SingleOccurrenceOfGivenShapeTest" />
       <item itemvalue="JUnit.All tests" />
+      <item itemvalue="JUnit.GameModelTest.testLoadFromFile" />
+      <item itemvalue="JUnit.GameModelTest.testPersistence" />
       <item itemvalue="JUnit.CompleteGameTest.twoPlayerCompleteGame" />
       <item itemvalue="JUnit.TileTest" />
       <item itemvalue="JUnit.PlayerStateTest (1)" />
-      <item itemvalue="JUnit.GameModelTest.checkValidColumn" />
-      <item itemvalue="JUnit.GameModelTest.checkValidMove" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.CompleteGameTest.twoPlayerCompleteGame" />
+        <item itemvalue="JUnit.GameModelTest.testLoadFromFile" />
+        <item itemvalue="JUnit.GameModelTest.testPersistence" />
         <item itemvalue="JUnit.TileTest" />
         <item itemvalue="JUnit.PlayerStateTest (1)" />
-        <item itemvalue="JUnit.GameModelTest.checkValidMove" />
-        <item itemvalue="JUnit.GameModelTest.checkValidColumn" />
       </list>
     </recent_temporary>
   </component>
@@ -611,6 +613,15 @@
     </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="RECENT_FILTERS">
       <map>
         <entry key="Branch">
@@ -622,15 +633,6 @@
                 </option>
               </RecentGroup>
             </list>
-          </value>
-        </entry>
-      </map>
-    </option>
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
           </value>
         </entry>
       </map>
@@ -723,9 +725,9 @@
     <SUITE FILE_PATH="coverage/IS23_AM08$PlayerStateTest__1_.ic" NAME="PlayerStateTest (1) Coverage Results" MODIFIED="1680272746024" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>it.polimi.ingsw.model.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/IS23_AM08$All_tests.ic" NAME="All tests Coverage Results" MODIFIED="1680272872736" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/IS23_AM08$GameModelTest_checkValidMove.ic" NAME="GameModelTest.checkValidMove Coverage Results" MODIFIED="1680097388871" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>it.polimi.ingsw.model.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/IS23_AM08$All_tests.ic" NAME="All tests Coverage Results" MODIFIED="1680861173931" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

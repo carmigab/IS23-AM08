@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.exceptions.NoMoreTilesToFillBoardException;
 import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.model.utilities.RandomSingleton;
 import it.polimi.ingsw.model.utilities.UtilityFunctions;
+import jdk.jfr.Enabled;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -18,6 +19,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 
 /**
  * This is the class used for the simulation of the physical game board.
@@ -34,10 +36,17 @@ public final class GameBoard {
      */
     private final List<CommonGoal> commonGoals;
     /**
+     * List of all the stacks of the common goals
+     */
+    @Expose
+    private final List<MyStack> commonGoalsStacks;
+    /**
      * List of all the 132 tiles that can be found in the game "bucket"
      */
     @Expose
     private final List<Tile> allTiles;
+
+
 
     /**
      * This method is the utility used by the GameModel to get the gameBoard based on the number of players
@@ -57,10 +66,12 @@ public final class GameBoard {
      * @param typeOfBoard string chosen in the GameBoardFactory containing the path of the config file
      */
     private GameBoard(String typeOfBoard, List<Integer> cg){
-        myGameBoard=new Tile[BoardConstants.BOARD_DIMENSION][BoardConstants.BOARD_DIMENSION];
-        commonGoals =new ArrayList<>(BoardConstants.TOTAL_CG_PER_GAME);
+        this.myGameBoard=new Tile[BoardConstants.BOARD_DIMENSION][BoardConstants.BOARD_DIMENSION];
+        this.commonGoals =new ArrayList<>(BoardConstants.TOTAL_CG_PER_GAME);
         addAllCommonGoals(cg);
-        allTiles =new ArrayList<>(BoardConstants.TOTAL_TILES);
+        this.commonGoalsStacks=new ArrayList<>(BoardConstants.TOTAL_CG_PER_GAME);
+        for(int i=0; i<BoardConstants.TOTAL_CG_PER_GAME; i++) this.commonGoalsStacks.add(new MyStack());
+        this.allTiles =new ArrayList<>(BoardConstants.TOTAL_TILES);
         Gson jsonParser= JsonWithExposeSingleton.getJsonWithExposeSingleton();
         Reader fileReader;
         try {
@@ -69,7 +80,7 @@ public final class GameBoard {
 
             fillAllTilesList();
             initialGameBoardFill(g.getValidPositions());
-            fillPointStack(g.getPointStack());
+            fillAllPointStack(g.getPointStack());
         }
         catch(FileNotFoundException e){
             System.out.println("error");
@@ -80,6 +91,7 @@ public final class GameBoard {
         this.myGameBoard=gameBoard.myGameBoard;
         this.commonGoals = new ArrayList<>(BoardConstants.TOTAL_CG_PER_GAME);
         addAllCommonGoals(cg);
+        this.commonGoalsStacks= gameBoard.commonGoalsStacks;
         this.allTiles=gameBoard.allTiles;
     }
 
@@ -159,13 +171,23 @@ public final class GameBoard {
      * This method is only called in the constructor, and it is used for the creation of the stack for each common shelf
      * @param pointStack integer array loaded from the json config file containing the stack of points(from lowest to highest)
      */
-    private void fillPointStack(Integer[] pointStack){
+    private void fillAllPointStack(Integer[] pointStack){
         for(int i = 0; i<BoardConstants.TOTAL_CG_PER_GAME; i++){
-            for(int j=0;j<pointStack.length;j++) {
-                this.commonGoals.get(i).push(pointStack[i]);
-            }
+            this.fillSinglePointStack(i, pointStack);
         }
     }
+
+    /**
+     * This method fills the stack of a single common objective, used in the creation of the game board
+     * @param pos common goal to be filled
+     * @param pointStack integer array loaded from the json config file containing the stack of points(from lowest to highest)
+     */
+    private void fillSinglePointStack(Integer pos, Integer[] pointStack){
+        for (Integer integer : pointStack) {
+            this.commonGoalsStacks.get(pos).push(integer);
+        }
+    }
+
     /**
      * This method checks if the board has to be filled.
      * In detail for each tile in the board(not invalid and not empty) you look if it has any neighbors not empty.
@@ -299,5 +321,26 @@ public final class GameBoard {
             }
         }
         return toReturn;
+    }
+
+    /**
+     * This method creates a copy of all the point stacks present in the current game
+     * @return a list of all the stacks (represented also by lists)
+     */
+    public List<List<Integer>> getPointStacksCopy(){
+        List<List<Integer>> toReturn= new ArrayList<>();
+        for(MyStack s: this.commonGoalsStacks){
+            toReturn.add(s.getStackCopy());
+        }
+        return toReturn;
+    }
+
+    /**
+     * This method pops the value from the stack at the index in input
+     * @param idx index of which stack to be popped
+     * @return popped value
+     */
+    public Integer pop(Integer idx){
+        return this.commonGoalsStacks.get(idx).pop();
     }
 }

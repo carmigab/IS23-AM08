@@ -351,6 +351,24 @@
           }
         ]
       ],
+      "commonGoalsStacks": [
+        {
+          "stack": [
+            2,
+            4,
+            6,
+            8
+          ]
+        },
+        {
+          "stack": [
+            2,
+            4,
+            6,
+            8
+          ]
+        }
+      ],
       "allTiles": [
         {
           "color": "BLUE",

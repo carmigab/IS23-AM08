@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.server.RmiServer;
+
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.RemoteException;
@@ -15,6 +17,10 @@ public class MainServer {
         registry.rebind("rmiServer", rmiServer);
 
         System.out.println("rmiServer bound in registry");
+
+//        while (true){
+//            rmiServer.update(null, null);
+//        }
 
 
     }

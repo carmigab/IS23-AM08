@@ -1,6 +1,8 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.dummies;
 
+import it.polimi.ingsw.client.RmiClient;
 import it.polimi.ingsw.server.RmiServer;
+import it.polimi.ingsw.server.RmiServerInterface;
 
 import java.rmi.NotBoundException;
 import java.rmi.registry.LocateRegistry;
@@ -16,12 +18,18 @@ public class MainClient {
             System.out.println("Starting client");
             RmiClient rmiClient = new RmiClient("nickname", fakeView);
 
-            System.out.println("Bounding registry");
+            System.out.println("Looking up the registry");
             Registry registry = LocateRegistry.getRegistry(port);
-            RmiServer rmiServer = (RmiServer) registry.lookup("rmiServer");
+            RmiServerInterface rmiServer = (RmiServerInterface) registry.lookup("rmiServer");
 
             System.out.println("registering player: " + nickname);
-            rmiServer.registerPlayer(nickname, rmiClient);
+            //rmiServer.registerPlayer(nickname, rmiClient);
+            rmiClient.setMatchServer(rmiServer);
+            rmiClient.chooseNickname(nickname);
+
+
+
+
 
         } catch (NotBoundException e) {
             throw new RuntimeException(e);

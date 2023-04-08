@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Tile;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -27,6 +28,21 @@ public class GameInfo implements Serializable {
      * This attribute stores all the states of all the players in the game
      */
     private final List<PlayerState> playerStatesList;
+
+    /**
+     * This attribute is true if the game has ended
+     */
+    private boolean gameEnded;
+
+    /**
+     * This attribute store the leader board of the game
+     */
+    private Map<String, Integer> leaderBoard;
+
+    /**
+     * This attribute stores the nickname of the current player
+     */
+    private String currentPlayerNickname;
 
     /**
      * The constructor stores the references to copies of the GameModel attributes
@@ -69,5 +85,21 @@ public class GameInfo implements Serializable {
      */
     public List<PlayerState> getPlayerStatesList() {
         return playerStatesList;
+    }
+
+    /**
+     * Getter
+     * @return true if the game has ended
+     */
+    public boolean isGameEnded() {
+        return gameEnded;
+    }
+
+    /**
+     * Getter
+     * @return the current player nickname
+     */
+    public String getCurrentPlayerNickname() {
+        return currentPlayerNickname;
     }
 }

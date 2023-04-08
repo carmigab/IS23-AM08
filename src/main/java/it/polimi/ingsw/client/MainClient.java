@@ -23,11 +23,6 @@ public class MainClient {
             System.out.println("registering player: " + nickname);
             rmiServer.registerPlayer(nickname, rmiClient);
 
-
-
-
-
-
         } catch (NotBoundException e) {
             throw new RuntimeException(e);
         }

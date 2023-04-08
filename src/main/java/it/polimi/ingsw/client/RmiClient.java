@@ -6,7 +6,7 @@ import it.polimi.ingsw.gameInfo.State;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 
-public class RmiClient implements RmiClientInterface{
+public class RmiClient extends Client implements RmiClientInterface{
     private String nickname;
 
     private Registry matchServerRegistry;

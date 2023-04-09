@@ -18,14 +18,14 @@ public class MainClient {
             System.out.println("Starting client");
             RmiClient rmiClient = new RmiClient("nickname", fakeView);
 
-            System.out.println("Looking up the registry");
-            Registry registry = LocateRegistry.getRegistry(port);
-            RmiServerInterface rmiServer = (RmiServerInterface) registry.lookup("rmiServer");
+//            System.out.println("Looking up the registry");
+//            Registry registry = LocateRegistry.getRegistry(port);
+//            RmiServerInterface rmiServer = (RmiServerInterface) registry.lookup("rmiServer");
 
             System.out.println("registering player: " + nickname);
             //rmiServer.registerPlayer(nickname, rmiClient);
-            rmiClient.setMatchServer(rmiServer);
-            rmiClient.chooseNickname(nickname);
+            //rmiClient.setMatchServer(rmiServer);
+            //rmiClient.chooseNickname(nickname);
 
 
 

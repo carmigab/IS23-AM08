@@ -3,6 +3,8 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.client.RmiClient;
 import it.polimi.ingsw.client.RmiClientInterface;
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.controller.exceptions.InvalidIdException;
+import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Position;
@@ -20,9 +22,15 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
     private List<RmiClientInterface> rmiClients = new ArrayList<>();
     private int numPlayers;
     private State state;
+
     private GameController gameController;
 
 
+    /**
+     * Constructor of the RmiServer class
+     * @param numPlayers
+     * @throws RemoteException
+     */
     public RmiServer(int numPlayers) throws RemoteException {
         super();
         this.numPlayers = numPlayers;
@@ -38,39 +46,86 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         this.updateClients(State.WAITINGFORPLAYERS, null);
     }
 
-    // To do
-    public boolean makeMove(List<Position> pos, int col, String nickname) throws RemoteException{
+    /**
+     * This method let the current player make a move
+     * @param pos
+     * @param col
+     * @param nickname
+     * @return true if all went well
+     * @throws RemoteException
+     * @throws InvalidIdException
+     * @throws InvalidMoveException
+     */
+    public boolean makeMove(List<Position> pos, int col, String nickname) throws RemoteException, InvalidIdException, InvalidMoveException {
+        if(!isMyTurn(nickname)) return false;
+        gameController.makeMove(pos, col, nickname);
         return true;
     }
 
-    // To do
+    /**
+     * This method checks if a player is the currentPlayer
+     * @param nickname
+     * @return true if the player with nickname 'nickname' is the current player
+     */
     private boolean isMyTurn(String nickname){
-        return true;
+        int currPlayer;
+        switch (state){
+            case TURN0 -> currPlayer = 0;
+            case TURN1 -> currPlayer = 1;
+            case TURN2 -> currPlayer = 2;
+            case TURN3 -> currPlayer = 3;
+            default -> {return false;}
+        }
+        return currPlayer == nicknamesList.indexOf(nickname);
     }
 
-    // To do
+
+    /**
+     * This method lets the lobbyServer add a player and his client
+     * and starts the game is no player slots are left
+     * @param nickname
+     * @param rmiClient
+     */
     public void addPlayer(String nickname, RmiClientInterface rmiClient){
         nicknamesList.add(nickname);
         rmiClients.add(rmiClient);
 
         this.updateClients(State.WAITINGFORPLAYERS, null);
+        if (this.getFreeSpaces() == 0) this.startGame();
     }
 
-    // To do
+    /**
+     * This method returns the number of free spaces in the server
+     * @return the number of free player slots in the server
+     */
     public int getFreeSpaces(){
-        return 0;
+        return numPlayers - nicknamesList.size();
     }
 
-    // To do
-    private void startGame(){}
 
-    // To do
+    /**
+     * This method creates a new controller
+     * oss: note that the first update to the server is called when the model is created
+     */
+    private void startGame(){
+        this.gameController = new GameController(nicknamesList, numPlayers, this);
+    }
+
+    /**
+     * This method updates the server with the new information from the model
+     * @param newState
+     * @param newInfo
+     */
     public void update(State newState, GameInfo newInfo){
-
+        this.state = newState;
         this.updateClients(newState, newInfo);
     }
 
-    // To be made private
+    /**
+     * This method updates the clients
+      * @param newState
+     * @param newInfo
+     */
     private void updateClients(State newState, GameInfo newInfo){
         Iterator<RmiClientInterface> iter = rmiClients.iterator();
         while (iter.hasNext()) {
@@ -85,7 +140,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
 
     }
 
-
+    // To do
     public void gracefulDisconnection(){}
 
     // To do

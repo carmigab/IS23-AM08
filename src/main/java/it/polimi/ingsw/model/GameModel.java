@@ -375,6 +375,7 @@ public class GameModel {
      */
     public void addObserver(Observer o){
         observers.add(o);
+        this.notifyObservers();
     }
 
 

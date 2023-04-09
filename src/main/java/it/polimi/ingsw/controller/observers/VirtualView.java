@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller.observers;
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.GameModel;
+import it.polimi.ingsw.server.RmiServer;
 
 import javax.management.remote.rmi.RMIServer;
 
@@ -23,10 +24,10 @@ public class VirtualView implements Observer{
      */
     private GameInfo gameInfo;
 
-    private final RMIServer server;
+    private final RmiServer server;
 
 
-    public VirtualView(RMIServer server){
+    public VirtualView(RmiServer server){
         this.server=server;
         this.currentState=State.TURN0;
         this.gameInfo=null;

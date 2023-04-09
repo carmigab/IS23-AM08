@@ -38,10 +38,12 @@ public class VirtualView implements Observer{
      * This method is the override of the observer pattern
      * It updates the gameInfo which has to be sent to the client with copies of what is present in the model
      * TODO: And also tells the server to update
+     * TODO (this does not work)
      * @param model
      */
     @Override
     public void update(GameModel model) {
+        // Something bad happens when we create a new gameInfo
         this.gameInfo=new GameInfo(model.getGameBoardCopy(),model.getCommonGoalsCreatedCopy(), model.getCommonGoalsStackCopy(), model.getPlayerListCopy());
         if(model.isGameOver()) this.currentState=State.ENDGAME;
         else {

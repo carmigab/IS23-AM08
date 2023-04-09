@@ -109,11 +109,6 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
      * oss: note that the first update to the server is called when the model is created
      */
     public void startGame(){
-//        List<String> prova = new ArrayList<>();
-//        prova.add("LL");
-//        prova.add("BB");
-//        this.gameController = new GameController(prova, 2, null);//nicknamesList, numPlayers, this);
-
         this.gameController = new GameController(nicknamesList, numPlayers, this);
 
         Thread t = new Thread(() -> {

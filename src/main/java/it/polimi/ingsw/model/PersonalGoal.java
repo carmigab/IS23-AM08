@@ -74,10 +74,11 @@ public class PersonalGoal {
     }
 
     /**
+     * TODO (this does not work)
      * This method returns a full copy of the personal goal, with copies also of the single goals
      * @return a copy of the personal goal
      */
-    public PersonalGoal getPersonalGoalCopy(){
+    public PersonalGoal getPersonalGoalCopy(){  // TODO (this does not work)
         SingleGoal[] sgCopy=new SingleGoal[this.personalGoal.size()];
         for(int i=0;i<AppConstants.TOTAL_POINTS_FOR_PG;i++){
             sgCopy[i]=this.personalGoal.get(i);

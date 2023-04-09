@@ -30,7 +30,7 @@ public class GameController {
         this.playersList = controller.playersList;
         this.numPlayers = controller.numPlayers;
         this.model = new GameModel(controller.model);
-        this.gameStateObserver = new VirtualView(null); //TODO
+        this.gameStateObserver = new VirtualView(null); //TODO (pass the rmiServer by parameter)
         this.model.addObserver(gameStateObserver);
     }
 

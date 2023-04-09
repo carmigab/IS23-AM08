@@ -9,6 +9,7 @@ import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Position;
 
+import javax.print.DocFlavor;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -104,11 +105,34 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
 
 
     /**
-     * This method creates a new controller
+     * This method creates a new controller and launches a new thread that pings the clients
      * oss: note that the first update to the server is called when the model is created
      */
-    private void startGame(){
+    public void startGame(){
+//        List<String> prova = new ArrayList<>();
+//        prova.add("LL");
+//        prova.add("BB");
+//        this.gameController = new GameController(prova, 2, null);//nicknamesList, numPlayers, this);
+
         this.gameController = new GameController(nicknamesList, numPlayers, this);
+
+        Thread t = new Thread(() -> {
+            synchronized (nicknamesList) {
+                System.out.println("New Ping Thread starting");
+                while (true) {
+                    try {
+                        this.pingClients();
+                        nicknamesList.wait(1000);
+
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
+        t.start();
     }
 
     /**
@@ -140,11 +164,30 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
 
     }
 
-    // To do
-    public void gracefulDisconnection(){}
+    /**
+     * This method signal the clients that someone has crashed
+     */
+    public void gracefulDisconnection(){
+        System.out.println("A client has crashed");
+        this.updateClients(State.CLIENTCRASHED, null);
+    }
 
-    // To do
-    private void pingClients(){}
+    /**
+     * This method check if the clients are alive
+     */
+    private void pingClients() throws RemoteException {
+        System.out.println("checking if RmiClient clients are alive");
+        Iterator<RmiClientInterface> iter = rmiClients.iterator();
+        while (iter.hasNext()) {
+            RmiClientInterface client = iter.next();
+            try {
+                client.isAlive();
+            } catch (RemoteException e) {
+                this.gracefulDisconnection();
+                throw new RemoteException();
+            }
+        }
+    }
 
 
 }

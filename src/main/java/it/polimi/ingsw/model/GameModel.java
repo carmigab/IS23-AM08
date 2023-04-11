@@ -478,7 +478,7 @@ public class GameModel {
      * @return a list of copied player states
      */
     public List<PlayerState> getPlayerListCopy(){
-        List<PlayerState> toReturn=new ArrayList<>(this.numPlayers);
+        List<PlayerState> toReturn = new ArrayList<>(this.numPlayers);
         for(PlayerState player: this.playerList){
             toReturn.add(player.getPlayerStateCopy());
         }

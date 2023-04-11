@@ -10,4 +10,9 @@ public interface RmiClientInterface extends Remote {
     public void update(State newState, GameInfo newInfo) throws RemoteException;
 
     public boolean isAlive() throws RemoteException;
-}
+
+    public String name() throws RemoteException;
+
+    public void receiveMessage(String message) throws RemoteException;
+
+   }

@@ -43,7 +43,7 @@ public class VirtualView implements Observer{
     @Override
     public void update(GameModel model) {
         // Something bad happens when we create a new gameInfo
-        this.gameInfo=new GameInfo(model.getGameBoardCopy(),model.getCommonGoalsCreatedCopy(), model.getCommonGoalsStackCopy(), model.getPlayerListCopy());
+        this.gameInfo=new GameInfo(model.getGameBoardCopy(), model.getCommonGoalsCreatedCopy(), model.getCommonGoalsStackCopy(), model.getPlayerListCopy());
         if(model.isGameOver()) this.currentState=State.ENDGAME;
         else {
             switch (model.getCurrentPlayer()) {

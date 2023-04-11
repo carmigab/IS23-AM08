@@ -36,6 +36,8 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         super();
         this.numPlayers = numPlayers;
         this.state = State.WAITINGFORPLAYERS;
+
+        System.out.println("New server for "+numPlayers+" players has been created");
     }
 
 
@@ -90,6 +92,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
     public void addPlayer(String nickname, RmiClientInterface rmiClient){
         nicknamesList.add(nickname);
         rmiClients.add(rmiClient);
+        System.out.println("Added player: "+nickname);
 
         this.updateClients(State.WAITINGFORPLAYERS, null);
         if (this.getFreeSpaces() == 0) this.startGame();
@@ -109,6 +112,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
      * oss: note that the first update to the server is called when the model is created
      */
     public void startGame(){
+        System.out.println("Starting new game");
         this.gameController = new GameController(nicknamesList, numPlayers, this);
 
         Thread t = new Thread(() -> {
@@ -146,6 +150,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
      * @param newInfo
      */
     private void updateClients(State newState, GameInfo newInfo){
+        System.out.println("Updating clients with newGameInfo and newState");
         Iterator<RmiClientInterface> iter = rmiClients.iterator();
         while (iter.hasNext()) {
             RmiClientInterface client = iter.next();
@@ -163,7 +168,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
      * This method signal the clients that someone has crashed
      */
     public void gracefulDisconnection(){
-        System.out.println("A client has crashed");
+        System.out.println("A client lost connection");
         this.updateClients(State.CLIENTCRASHED, null);
     }
 
@@ -171,12 +176,49 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
      * This method check if the clients are alive
      */
     private void pingClients() throws RemoteException {
-        System.out.println("checking if RmiClient clients are alive");
+        System.out.println("checking if RmiClient clients are alive...");
         Iterator<RmiClientInterface> iter = rmiClients.iterator();
         while (iter.hasNext()) {
             RmiClientInterface client = iter.next();
             try {
                 client.isAlive();
+            } catch (RemoteException e) {
+                this.gracefulDisconnection();
+                throw new RemoteException();
+            }
+        }
+    }
+
+
+    public void messageSomeone(String message, String speaker, String receiver) throws RemoteException{
+        String messageToSend = speaker + "[Privately]: " + message;
+        System.out.println(Thread.currentThread() + ": received '" + messageToSend + "'");
+
+        System.out.println("Sending message only to: '"+receiver+"'");
+        Iterator<RmiClientInterface> iter = rmiClients.iterator();
+        while (iter.hasNext()) {
+            RmiClientInterface client = iter.next();
+            try {
+                if (client.name().equals(receiver)) client.receiveMessage(messageToSend);
+                else if(client.name().equals(speaker)) client.receiveMessage(messageToSend);
+
+            } catch (RemoteException e) {
+                this.gracefulDisconnection();
+                throw new RemoteException();
+            }
+        }
+    }
+
+    public void messageAll(String message, String speaker) throws RemoteException {
+        String messageToSend = speaker + ": " + message;
+        System.out.println(Thread.currentThread() + ": received '" + messageToSend + "'");
+
+        System.out.println("Sending message to all clients");
+        Iterator<RmiClientInterface> iter = rmiClients.iterator();
+        while (iter.hasNext()) {
+            RmiClientInterface client = iter.next();
+            try {
+                client.receiveMessage(messageToSend);
             } catch (RemoteException e) {
                 this.gracefulDisconnection();
                 throw new RemoteException();

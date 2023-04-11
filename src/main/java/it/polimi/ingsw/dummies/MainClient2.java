@@ -2,22 +2,22 @@ package it.polimi.ingsw.dummies;
 
 import it.polimi.ingsw.client.RmiClient;
 import it.polimi.ingsw.server.ConnectionInformationRMI;
-import it.polimi.ingsw.server.RmiServer;
 import it.polimi.ingsw.server.RmiServerInterface;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.rmi.NotBoundException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.io.*;
 
-public class MainClient {
+public class MainClient2 {
     public static void main(String[] args) throws Exception {
         try(
                 BufferedReader input = new BufferedReader(new InputStreamReader(System.in))
         )
         {
             int port = 1888;
-            String nickname = "Bill1";
+            String nickname = "Bill2";
             FakeView fakeView = new FakeView();
 
             System.out.println("Starting client");
@@ -36,7 +36,7 @@ public class MainClient {
 
             System.out.println("You can now chat in the room");
             while(true){
-                rmiClient.messageAll(input.readLine());
+                rmiClient.messageSomeone(input.readLine(), "Bill1");
             }
 
 

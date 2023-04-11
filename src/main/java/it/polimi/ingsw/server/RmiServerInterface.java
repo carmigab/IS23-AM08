@@ -15,4 +15,9 @@ public interface RmiServerInterface extends Remote {
 
     // This exists only for debugging purposes
     public void registerPlayer(String nickname, RmiClientInterface client) throws RemoteException;
+
+    public void messageSomeone(String message, String speaker, String receiver) throws RemoteException;
+
+    public void messageAll(String message, String speaker) throws RemoteException;
+
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.controller.GameController;
+import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.server.RmiServer;
 
 import java.rmi.registry.LocateRegistry;
@@ -21,17 +22,7 @@ public class MainServer {
 
         System.out.println("rmiServer bound in registry");
 
-        while (true){
-            rmiServer.update(null, null);
 
-        }
-        //rmiServer.startGame();
-
-//         Prova di game controller
-//        List<String> p = new ArrayList<>();
-//        p.add
-//
-//        GameController g = new GameController()
 
     }
 }

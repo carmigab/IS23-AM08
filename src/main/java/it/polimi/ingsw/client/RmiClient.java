@@ -8,14 +8,12 @@ import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.server.ConnectionInformationRMI;
 import it.polimi.ingsw.server.RMILobbyServerInterface;
-import it.polimi.ingsw.server.RmiServer;
 import it.polimi.ingsw.server.RmiServerInterface;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 public class RmiClient extends Client implements RmiClientInterface{
@@ -43,6 +41,8 @@ public class RmiClient extends Client implements RmiClientInterface{
         super();
         this.view = fV;
         this.nickname = nickname;
+
+        // to comment in case of test without LobbyServer
         this.connectToLobbyServer();
     }
 
@@ -113,13 +113,14 @@ public class RmiClient extends Client implements RmiClientInterface{
         this.connectToMatchServer(c);
     }
 
+    // to be made private
     /**
      * This method connects to the MatchServer using information available in the parameter
      * @param c : a ConnectionInformationRMI object
      * @throws RemoteException
      * @throws NotBoundException
      */
-    private void connectToMatchServer(ConnectionInformationRMI c) throws RemoteException, NotBoundException {
+    public void connectToMatchServer(ConnectionInformationRMI c) throws RemoteException, NotBoundException {
         System.out.println("Looking up the registry for MatchServer");
         Registry registry = LocateRegistry.getRegistry(c.getRegistryPort());
         this.matchServer = (RmiServerInterface) registry.lookup(c.getRegistryName());
@@ -132,5 +133,22 @@ public class RmiClient extends Client implements RmiClientInterface{
      */
     public boolean isAlive() throws RemoteException {return true;}
 
+
+    public void messageSomeone(String message, String receiver) throws RemoteException{
+        this.matchServer.messageSomeone(message, this.nickname, receiver);
+    }
+
+    public void messageAll(String message) throws RemoteException{
+        this.matchServer.messageAll(message, this.nickname);
+
+    }
+
+    public String name() throws RemoteException{
+        return this.nickname;
+    }
+
+    public void receiveMessage(String message) throws RemoteException{
+        this.view.displayChatMessage(message);
+    }
 
 }

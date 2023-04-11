@@ -8,6 +8,10 @@ public class FakeView {
     State currentState;
 
     public void update(State newState, GameInfo newInfo){
-        System.out.println("Tutto funge!!");
+        System.out.println("Received view update");
+    }
+
+    public void displayChatMessage(String message){
+        System.out.println(message);
     }
 }

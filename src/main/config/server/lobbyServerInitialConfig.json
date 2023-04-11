@@ -1,5 +1,6 @@
 {
   "serverPort": 12345,
   "serverName": "LobbyServer",
-  "startingPort": 40000
+  "startingPort": 40000,
+  "startingName": "Game"
 }

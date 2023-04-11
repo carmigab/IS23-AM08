@@ -9,6 +9,9 @@ import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.server.ConnectionInformationRMI;
 import it.polimi.ingsw.server.RMILobbyServerInterface;
 import it.polimi.ingsw.server.RmiServerInterface;
+import it.polimi.ingsw.server.exceptions.ExistentNicknameExcepiton;
+import it.polimi.ingsw.server.exceptions.IllegalNicknameException;
+import it.polimi.ingsw.server.exceptions.NoGamesAvailableException;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -76,8 +79,15 @@ public class RmiClient extends Client implements RmiClientInterface{
      */
     // To do
     public boolean chooseNickname(String nick) throws RemoteException {
-       boolean flag = lobbyServer.chooseNickname(nick);
-       if (flag) this.nickname = nick;
+        boolean flag = false;
+        try {
+            flag = lobbyServer.chooseNickname(nick);
+        } catch (ExistentNicknameExcepiton e) {
+            flag=false;
+        } catch (IllegalNicknameException e) {
+            flag=false;
+        }
+        if (flag) this.nickname = nick;
        return flag;
     }
 
@@ -109,7 +119,12 @@ public class RmiClient extends Client implements RmiClientInterface{
      * @throws NotBoundException
      */
     public void joinGame() throws RemoteException, NotBoundException {
-        ConnectionInformationRMI c = this.lobbyServer.joinGame(nickname, this);
+        ConnectionInformationRMI c = null;
+        try {
+            c = this.lobbyServer.joinGame(nickname, this);
+        } catch (NoGamesAvailableException e) {
+            throw new RuntimeException(e);
+        }
         this.connectToMatchServer(c);
     }
 

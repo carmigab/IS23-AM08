@@ -84,6 +84,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
     /**
      * This method lets the lobbyServer add a player and his client
      * and starts the game is no player slots are left
+     * TODO: uncomment these two lines, for now since we have no clients it just generates problems
      * @param nickname
      * @param rmiClient
      */
@@ -91,8 +92,8 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         nicknamesList.add(nickname);
         rmiClients.add(rmiClient);
 
-        this.updateClients(State.WAITINGFORPLAYERS, null);
-        if (this.getFreeSpaces() == 0) this.startGame();
+        //this.updateClients(State.WAITINGFORPLAYERS, null);
+        //if (this.getFreeSpaces() == 0) this.startGame();
     }
 
     /**

@@ -1,6 +1,11 @@
 package it.polimi.ingsw.dummies;
 
+import it.polimi.ingsw.server.ConnectionInformationRMI;
 import it.polimi.ingsw.server.RMILobbyServerInterface;
+import it.polimi.ingsw.server.RmiServerInterface;
+import it.polimi.ingsw.server.exceptions.ExistentNicknameExcepiton;
+import it.polimi.ingsw.server.exceptions.IllegalNicknameException;
+import it.polimi.ingsw.server.exceptions.NoGamesAvailableException;
 
 import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
@@ -33,16 +38,40 @@ public class FakeLobbyServerView {
             boolean end =false;
             while(!end){
                 String command=scanner.nextLine();
-                switch (command){
-                    case "name":
+                switch (command) {
+                    case "name" -> {
                         System.out.println("Inserisci nome");
-                        String nome=scanner.nextLine();
-                        System.out.println(remoteServer.chooseNickname(nome));
-                        break;
-                    case "adios":
-                        end=true;
-                        break;
-
+                        String nome = scanner.nextLine();
+                        try {
+                            System.out.println(remoteServer.chooseNickname(nome));
+                        } catch (IllegalNicknameException e) {
+                            System.out.println("Illegal nickname, retry please...");
+                        } catch (ExistentNicknameExcepiton e) {
+                            System.out.println("Already existent nickname, retry please...");
+                        }
+                    }
+                    case "game" -> {
+                        System.out.println("Insert number of players: ");
+                        Integer num = scanner.nextInt();
+                        ConnectionInformationRMI conn = remoteServer.createGame(num, "Pollo", null);
+                        System.out.println("Game created on server, now connecting client side...");
+                        Registry gameRegistry = LocateRegistry.getRegistry(conn.getRegistryPort());
+                        //RmiServerInterface rsi = (RmiServerInterface) gameRegistry.lookup(conn.getRegistryName());
+                        System.out.println("Connected client side...");
+                    }
+                    case "join" -> {
+                        System.out.println("Joining random game...");
+                        try {
+                            ConnectionInformationRMI conn2 = remoteServer.joinGame("Pollo", null);
+                            System.out.println("Game joined on server, now connecting client side...");
+                            Registry gameRegistry2 = LocateRegistry.getRegistry(conn2.getRegistryPort());
+                            //RmiServerInterface rsi2 = (RmiServerInterface) gameRegistry2.lookup(conn2.getRegistryName());
+                            System.out.println("Connected client side...");
+                        } catch (NoGamesAvailableException e) {
+                            System.out.println("No games available, retry please...");
+                        }
+                    }
+                    case "adios" -> end = true;
                 }
             }
         }

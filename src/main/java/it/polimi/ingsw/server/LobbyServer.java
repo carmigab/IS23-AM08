@@ -1,15 +1,16 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.client.RmiClient;
+import it.polimi.ingsw.client.RmiClientInterface;
 import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.server.constants.ServerConstants;
+import it.polimi.ingsw.server.exceptions.ExistentNicknameExcepiton;
+import it.polimi.ingsw.server.exceptions.IllegalNicknameException;
+import it.polimi.ingsw.server.exceptions.NoGamesAvailableException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
-import java.io.Serializable;
 import java.rmi.AlreadyBoundException;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -32,6 +33,14 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      */
     private final List<RmiServer> serverList;
     /**
+     * List of all the game informations present in the application
+     */
+    private final List<ConnectionInformationRMI> serverInformation;
+    /**
+     * List of all the game registries present in the application
+     */
+    private final List<Registry> serverRegistries;
+    /**
      * Setup information of the server
      * Can be loaded from file
      */
@@ -41,6 +50,9 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * Useful for avoiding ambiguites when calling some commands (especially from cli)
      */
     private final List<String> banList;
+
+    private final Object lockChooseNickName;
+    private final Object lockCreateGame;
 
     private Registry registry;
 
@@ -53,8 +65,12 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         this.config = loadInitialConfig();
         this.nicknamesPool = new HashSet<>();
         this.serverList = new ArrayList<>();
+        this.serverInformation = new ArrayList<>();
+        this.serverRegistries = new ArrayList<>();
         this.banList = new ArrayList<>();
         this.banList.addAll(loadBanList());
+        lockChooseNickName=new Object();
+        lockCreateGame=new Object();
     }
 
 
@@ -67,8 +83,12 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         this.config = config;
         this.nicknamesPool = new HashSet<>();
         this.serverList = new ArrayList<>();
+        this.serverInformation = new ArrayList<>();
+        this.serverRegistries = new ArrayList<>();
         this.banList = new ArrayList<>();
         this.banList.addAll(loadBanList());
+        lockChooseNickName=new Object();
+        lockCreateGame=new Object();
     }
 
 
@@ -77,9 +97,10 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @param serverPort integer containing the information of the server port
      * @param serverName string containing the information of the server name
      * @param startingPort integer containing the information of the starting port
+     * @param startingName string containing the information of the starting name
      */
-    public LobbyServer(int serverPort, String serverName, int startingPort) throws RemoteException{
-        this(new LobbyServerConfig(serverPort, serverName, startingPort));
+    public LobbyServer(int serverPort, String serverName, int startingPort, String startingName) throws RemoteException{
+        this(new LobbyServerConfig(serverPort, serverName, startingPort, startingName));
     }
 
 
@@ -98,6 +119,9 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     }
 
 
+    /**
+     * This method puts the server online in the RMI registry, and it waits for someone to acquire it
+     */
     public void start(){
         try {
             System.out.println("Initializing server...");
@@ -109,9 +133,33 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             System.out.println("RMI Server online...");
             System.out.println("Name: "+this.config.getServerName()+" Port: "+this.config.getServerPort());
         }catch (RemoteException e){
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } catch (AlreadyBoundException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * This method starts the game by putting it online in the RMI registry
+     * The port and the name of the game are chosen automatically and are incremental
+     * @param rs reference to the RMI server that needs to be put online
+     * @param info reference to the information (port and name) that is useful for the setup of the game
+     */
+    private void startGame(RmiServer rs, ConnectionInformationRMI info){
+        try {
+            System.out.println("Initializing game...");
+            Registry r = LocateRegistry.createRegistry(info.getRegistryPort());
+            this.serverRegistries.add(r);
+
+            System.out.println("Registry acquired...");
+            this.registry.bind(info.getRegistryName(), rs);
+
+            System.out.println("RMI Server online...");
+            System.out.println("Name: "+info.getRegistryName()+" Port: "+info.getRegistryPort());
+        }catch (RemoteException e){
+            System.out.println(e.getMessage());
+        } catch (AlreadyBoundException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -136,35 +184,58 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @return false if the nickname is either banned or already present
      */
     @Override
-    public boolean chooseNickname(String nickname) throws RemoteException{
-        System.out.println("Someone is trying to insert a name...");
-        if(this.banList.contains(nickname)) return false;
-        return this.nicknamesPool.add(nickname);
+    public boolean chooseNickname(String nickname) throws RemoteException, ExistentNicknameExcepiton, IllegalNicknameException {
+        synchronized (lockChooseNickName) {
+            if (this.banList.contains(nickname)) throw new IllegalNicknameException();
+            if (!this.nicknamesPool.add(nickname)) throw new ExistentNicknameExcepiton();
+            return true;
+        }
     }
 
 
     /**
-     * TODO
-     * @param nickname
-     * @param client
-     * @return
+     * This method lets you create a game and it automatically puts it in the RMI registries
+     * @param numPlayers number of players that the client has chosen
+     * @param nickname nickname of the player that calls the method
+     * @param client reference to the methods of the client that can be called by the server using RMI
+     * @return the information useful for the connection to the game
      */
     @Override
-    public ConnectionInformationRMI createGame(Integer numPlayers, String nickname, RmiClient client) throws RemoteException{
-        RmiServer rs = new RmiServer(numPlayers);
-        this.serverList.add(rs);
-        return new ConnectionInformationRMI("Prova", 2345);
+    public ConnectionInformationRMI createGame(Integer numPlayers, String nickname, RmiClientInterface client) throws RemoteException {
+        synchronized (lockCreateGame) {
+            RmiServer rs = new RmiServer(numPlayers);
+            rs.addPlayer(nickname, client);
+            this.serverList.add(rs);
+            ConnectionInformationRMI info=new ConnectionInformationRMI(this.config.getStartingName()+(this.serverList.size()), this.config.getStartingPort()+this.serverList.size());
+            this.serverInformation.add(info);
+            this.startGame(rs, info);
+            return info;
+        }
     }
 
 
     /**
-     * TODO
-     * @param nickname
-     * @param client
-     * @return
+     * This method lets you join the first game available in the list of all games active
+     * If there is none or every game is full it throws a NoGamesAvailableException
+     * @param nickname nickname of the player that calls the method
+     * @param client reference to the methods of the client that can be called by the server using RMI
+     * @return the information useful for the connection to the game
      */
     @Override
-    public ConnectionInformationRMI joinGame(String nickname, RmiClient client) throws RemoteException{
-        return null;
+    public ConnectionInformationRMI joinGame(String nickname, RmiClientInterface client) throws RemoteException, NoGamesAvailableException {
+        synchronized (lockCreateGame) {
+            int gameFound=0;
+            ConnectionInformationRMI conn;
+            while(gameFound<this.serverRegistries.size()){
+                if(this.serverList.get(gameFound).getFreeSpaces()>0){
+                    this.serverList.get(gameFound).addPlayer(nickname, client);
+                    return this.serverInformation.get(gameFound);
+                }
+                gameFound++;
+            }
+            if(gameFound==this.serverRegistries.size()) throw new NoGamesAvailableException();
+            //Should never arrive here
+            return null;
+        }
     }
 }

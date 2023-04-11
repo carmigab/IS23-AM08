@@ -27,8 +27,9 @@ public class PersonalGoal {
     /**
      * This is the constructor, it should never be called since the information is created when the file is loaded
      * @param s array of single goals used to construct the object
+     * @param points array of poins assigned for the completion of the objective
      */
-    public PersonalGoal(SingleGoal[] s){
+    public PersonalGoal(SingleGoal[] s, int[] points){
         this.personalGoal =new ArrayList<>(AppConstants.TOTAL_POINTS_FOR_PG);
 
         for(int i=0;i<AppConstants.TOTAL_POINTS_FOR_PG;i++){
@@ -36,14 +37,6 @@ public class PersonalGoal {
         }
 
         this.pointsForCompletion=new ArrayList<>(AppConstants.TOTAL_POINTS_FOR_PG);
-    }
-
-    /**
-     * This method inserts manually the points assigned for the completion of the goals
-     * @param points array of integers
-     */
-    public void setPointsForCompletion(int[] points){
-        this.pointsForCompletion=new ArrayList<>();
         for (int point : points) this.pointsForCompletion.add(point);
     }
 
@@ -74,11 +67,10 @@ public class PersonalGoal {
     }
 
     /**
-     * TODO (this does not work)
      * This method returns a full copy of the personal goal, with copies also of the single goals
      * @return a copy of the personal goal
      */
-    public PersonalGoal getPersonalGoalCopy(){  // TODO (this does not work)
+    public PersonalGoal getPersonalGoalCopy(){
         SingleGoal[] sgCopy=new SingleGoal[this.personalGoal.size()];
         for(int i=0;i<AppConstants.TOTAL_POINTS_FOR_PG;i++){
             sgCopy[i]=this.personalGoal.get(i);
@@ -87,9 +79,7 @@ public class PersonalGoal {
         for(int i=0;i<AppConstants.TOTAL_POINTS_FOR_PG;i++){
             pointsCopy[i]=this.pointsForCompletion.get(i);
         }
-        PersonalGoal toReturn = new PersonalGoal(sgCopy);
-        toReturn.setPointsForCompletion(pointsCopy);
-        return toReturn;
+        return new PersonalGoal(sgCopy,pointsCopy);
     }
 }
 

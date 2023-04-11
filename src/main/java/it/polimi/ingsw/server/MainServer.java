@@ -21,12 +21,13 @@ public class MainServer {
 
         System.out.println("rmiServer bound in registry");
 
-//        while (true){
-//            rmiServer.update(null, null);
-//        }
+        while (true){
+            rmiServer.update(null, null);
+
+        }
         //rmiServer.startGame();
 
-        // Prova di game controller
+//         Prova di game controller
 //        List<String> p = new ArrayList<>();
 //        p.add
 //

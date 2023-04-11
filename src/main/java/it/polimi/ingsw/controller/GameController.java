@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.controller.exceptions.InvalidIdException;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.observers.VirtualView;
@@ -11,8 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameController {
+    @Expose
     private final GameModel model;
+    @Expose
     private final List<String> playersList;
+    @Expose
     private final int numPlayers;
 
     private final VirtualView gameStateObserver;

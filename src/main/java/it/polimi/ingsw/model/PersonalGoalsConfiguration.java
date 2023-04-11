@@ -11,19 +11,6 @@ public class PersonalGoalsConfiguration {
      */
     @Expose
     private PersonalGoal[] personalGoals;
-    /**
-     * This attribute stores the array of points for each completed personal shelf read from the config file
-     */
-    @Expose
-    private int[] pointsForCompletion;
-
-    /**
-     * Getter of the points
-     * @return array of the points
-     */
-    public int[] getPointsForCompletion() {
-        return pointsForCompletion;
-    }
 
     /**
      * Getter of a single Personal shelf

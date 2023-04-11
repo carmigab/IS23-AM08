@@ -38,7 +38,6 @@ public class VirtualView implements Observer{
      * This method is the override of the observer pattern
      * It updates the gameInfo which has to be sent to the client with copies of what is present in the model
      * TODO: And also tells the server to update
-     * TODO (this does not work)
      * @param model
      */
     @Override

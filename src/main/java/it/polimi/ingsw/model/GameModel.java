@@ -122,15 +122,15 @@ public class GameModel {
 
             PersonalGoalsConfiguration poc = jsonLoader.fromJson(fileReader, PersonalGoalsConfiguration.class);
 
-            Set<Integer> extractegPersonalGoals = new HashSet<>();
+            Set<Integer> extractedPersonalGoals = new HashSet<>();
             Random r = RandomSingleton.getRandomSingleton();
             int random = r.nextInt(AppConstants.TOTAL_GOALS);;
             for(String s: nicknames){
-                while (extractegPersonalGoals.contains(random)) {
+                while (extractedPersonalGoals.contains(random)) {
                     random = r.nextInt(AppConstants.TOTAL_GOALS);
                 }
                 playerList.add(new PlayerState(s, poc.getPersonalGoalAtIndex(random)));
-                extractegPersonalGoals.add(random);
+                extractedPersonalGoals.add(random);
             }
         }
         catch(FileNotFoundException e){

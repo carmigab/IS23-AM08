@@ -44,7 +44,8 @@
           },
           "color": "GREEN"
         }
-      ]
+      ],
+      "pointsForCompletion": [1,2,4,6,9,12]
     },
     {
       "personalGoal": [
@@ -90,7 +91,8 @@
           },
           "color": "BLUE"
         }
-      ]
+      ],
+      "pointsForCompletion": [1,2,4,6,9,12]
     },
     {
       "personalGoal": [
@@ -136,7 +138,8 @@
           },
           "color": "CYAN"
         }
-      ]
+      ],
+      "pointsForCompletion": [1,2,4,6,9,12]
     },
     {
       "personalGoal": [
@@ -182,7 +185,8 @@
           },
           "color": "YELLOW"
         }
-      ]
+      ],
+      "pointsForCompletion": [1,2,4,6,9,12]
     },
     {
       "personalGoal": [
@@ -190,282 +194,6 @@
           "position": {
             "x": 0,
             "y": 5
-          },
-          "color": "YELLOW"
-        },
-        {
-          "position": {
-            "x": 1,
-            "y": 1
-          },
-          "color": "CYAN"
-        },
-        {
-          "position": {
-            "x": 1,
-            "y": 3
-          },
-          "color": "BLUE"
-        },
-        {
-          "position": {
-            "x": 2,
-            "y": 3
-          },
-          "color": "WHITE"
-        },
-        {
-          "position": {
-            "x": 3,
-            "y": 5
-          },
-          "color": "GREEN"
-        },
-        {
-          "position": {
-            "x": 4,
-            "y": 4
-          },
-          "color": "VIOLET"
-        }
-      ]
-    },
-    {
-      "personalGoal": [
-        {
-          "position": {
-            "x": 0,
-            "y": 5
-          },
-          "color": "VIOLET"
-        },
-        {
-          "position": {
-            "x": 1,
-            "y": 4
-          },
-          "color": "YELLOW"
-        },
-        {
-          "position": {
-            "x": 2,
-            "y": 0
-          },
-          "color": "CYAN"
-        },
-        {
-          "position": {
-            "x": 3,
-            "y": 2
-          },
-          "color": "WHITE"
-        },
-        {
-          "position": {
-            "x": 3,
-            "y": 4
-          },
-          "color": "BLUE"
-        },
-        {
-          "position": {
-            "x": 4,
-            "y": 0
-          },
-          "color": "GREEN"
-        }
-      ]
-    },
-    {
-      "personalGoal": [
-        {
-          "position": {
-            "x": 0,
-            "y": 0
-          },
-          "color": "GREEN"
-        },
-        {
-          "position": {
-            "x": 0,
-            "y": 3
-          },
-          "color": "CYAN"
-        },
-        {
-          "position": {
-            "x": 1,
-            "y": 2
-          },
-          "color": "VIOLET"
-        },
-        {
-          "position": {
-            "x": 2,
-            "y": 5
-          },
-          "color": "WHITE"
-        },
-        {
-          "position": {
-            "x": 3,
-            "y": 1
-          },
-          "color": "BLUE"
-        },
-        {
-          "position": {
-            "x": 4,
-            "y": 4
-          },
-          "color": "YELLOW"
-        }
-      ]
-    },
-    {
-      "personalGoal": [
-        {
-          "position": {
-            "x": 0,
-            "y": 3
-          },
-          "color": "VIOLET"
-        },
-        {
-          "position": {
-            "x": 1,
-            "y": 1
-          },
-          "color": "GREEN"
-        },
-        {
-          "position": {
-            "x": 2,
-            "y": 2
-          },
-          "color": "CYAN"
-        },
-        {
-          "position": {
-            "x": 3,
-            "y": 4
-          },
-          "color": "WHITE"
-        },
-        {
-          "position": {
-            "x": 3,
-            "y": 5
-          },
-          "color": "YELLOW"
-        },
-        {
-          "position": {
-            "x": 4,
-            "y": 0
-          },
-          "color": "BLUE"
-        }
-      ]
-    },
-    {
-      "personalGoal": [
-        {
-          "position": {
-            "x": 0,
-            "y": 5
-          },
-          "color": "BLUE"
-        },
-        {
-          "position": {
-            "x": 1,
-            "y": 4
-          },
-          "color": "CYAN"
-        },
-        {
-          "position": {
-            "x": 2,
-            "y": 0
-          },
-          "color": "YELLOW"
-        },
-        {
-          "position": {
-            "x": 2,
-            "y": 2
-          },
-          "color": "GREEN"
-        },
-        {
-          "position": {
-            "x": 4,
-            "y": 3
-          },
-          "color": "WHITE"
-        },
-        {
-          "position": {
-            "x": 4,
-            "y": 4
-          },
-          "color": "VIOLET"
-        }
-      ]
-    },
-    {
-      "personalGoal": [
-        {
-          "position": {
-            "x": 0,
-            "y": 2
-          },
-          "color": "WHITE"
-        },
-        {
-          "position": {
-            "x": 1,
-            "y": 1
-          },
-          "color": "YELLOW"
-        },
-        {
-          "position": {
-            "x": 1,
-            "y": 4
-          },
-          "color": "BLUE"
-        },
-        {
-          "position": {
-            "x": 3,
-            "y": 3
-          },
-          "color": "GREEN"
-        },
-        {
-          "position": {
-            "x": 3,
-            "y": 5
-          },
-          "color": "VIOLET"
-        },
-        {
-          "position": {
-            "x": 4,
-            "y": 0
-          },
-          "color": "CYAN"
-        }
-      ]
-    },
-    {
-      "personalGoal": [
-        {
-          "position": {
-            "x": 0,
-            "y": 2
           },
           "color": "YELLOW"
         },
@@ -474,6 +202,288 @@
             "x": 1,
             "y": 1
           },
+          "color": "CYAN"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 3
+          },
+          "color": "BLUE"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 3
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 5
+          },
+          "color": "GREEN"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 4
+          },
+          "color": "VIOLET"
+        }
+      ],
+      "pointsForCompletion": [1,2,4,6,9,12]
+    },
+    {
+      "personalGoal": [
+        {
+          "position": {
+            "x": 0,
+            "y": 5
+          },
+          "color": "VIOLET"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 4
+          },
+          "color": "YELLOW"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 0
+          },
+          "color": "CYAN"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 2
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 4
+          },
+          "color": "BLUE"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 0
+          },
+          "color": "GREEN"
+        }
+      ],
+      "pointsForCompletion": [1,2,4,6,9,12]
+    },
+    {
+      "personalGoal": [
+        {
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "color": "GREEN"
+        },
+        {
+          "position": {
+            "x": 0,
+            "y": 3
+          },
+          "color": "CYAN"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 2
+          },
+          "color": "VIOLET"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 5
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 1
+          },
+          "color": "BLUE"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 4
+          },
+          "color": "YELLOW"
+        }
+      ],
+      "pointsForCompletion": [1,2,4,6,9,12]
+    },
+    {
+      "personalGoal": [
+        {
+          "position": {
+            "x": 0,
+            "y": 3
+          },
+          "color": "VIOLET"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 1
+          },
+          "color": "GREEN"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 2
+          },
+          "color": "CYAN"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 4
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 5
+          },
+          "color": "YELLOW"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 0
+          },
+          "color": "BLUE"
+        }
+      ],
+      "pointsForCompletion": [1,2,4,6,9,12]
+    },
+    {
+      "personalGoal": [
+        {
+          "position": {
+            "x": 0,
+            "y": 5
+          },
+          "color": "BLUE"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 4
+          },
+          "color": "CYAN"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 0
+          },
+          "color": "YELLOW"
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 2
+          },
+          "color": "GREEN"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 3
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 4
+          },
+          "color": "VIOLET"
+        }
+      ],
+      "pointsForCompletion": [1,2,4,6,9,12]
+    },
+    {
+      "personalGoal": [
+        {
+          "position": {
+            "x": 0,
+            "y": 2
+          },
+          "color": "WHITE"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 1
+          },
+          "color": "YELLOW"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 4
+          },
+          "color": "BLUE"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 3
+          },
+          "color": "GREEN"
+        },
+        {
+          "position": {
+            "x": 3,
+            "y": 5
+          },
+          "color": "VIOLET"
+        },
+        {
+          "position": {
+            "x": 4,
+            "y": 0
+          },
+          "color": "CYAN"
+        }
+      ],
+      "pointsForCompletion": [1,2,4,6,9,12]
+    },
+    {
+      "personalGoal": [
+        {
+          "position": {
+            "x": 0,
+            "y": 2
+          },
+          "color": "YELLOW"
+        },
+        {
+          "position": {
+            "x": 1,
+            "y": 1
+          },
           "color": "WHITE"
         },
         {
@@ -504,7 +514,8 @@
           },
           "color": "GREEN"
         }
-      ]
+      ],
+      "pointsForCompletion": [1,2,4,6,9,12]
     },
     {
       "personalGoal": [
@@ -550,8 +561,8 @@
           },
           "color": "YELLOW"
         }
-      ]
+      ],
+      "pointsForCompletion": [1,2,4,6,9,12]
     }
-  ],
-  "pointsForCompletion": [1,2,4,6,9,12]
+  ]
 }

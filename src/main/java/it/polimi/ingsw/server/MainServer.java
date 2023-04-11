@@ -15,12 +15,9 @@ public class MainServer {
 
         int port = 1888;
 
-        RmiServer rmiServer = new RmiServer(4);
+        LobbyServer lobbyS = new LobbyServer();
+        lobbyS.start();
 
-        Registry registry = LocateRegistry.createRegistry(port);
-        registry.rebind("rmiServer", rmiServer);
-
-        System.out.println("rmiServer bound in registry");
 
 
 

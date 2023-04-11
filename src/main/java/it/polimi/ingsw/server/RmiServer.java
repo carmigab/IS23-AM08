@@ -190,7 +190,13 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         }
     }
 
-
+    /**
+     * This method lets a client message to someone specific
+     * @param message
+     * @param speaker : the one who sends the message
+     * @param receiver : the one that is supposed to receive the message
+     * @throws RemoteException
+     */
     public void messageSomeone(String message, String speaker, String receiver) throws RemoteException{
         String messageToSend = speaker + "[Privately]: " + message;
         System.out.println(Thread.currentThread() + ": received '" + messageToSend + "'");
@@ -210,6 +216,12 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         }
     }
 
+    /**
+     * This method lets a client broadcast a message
+     * @param message
+     * @param speaker : the one who sends the message
+     * @throws RemoteException
+     */
     public void messageAll(String message, String speaker) throws RemoteException {
         String messageToSend = speaker + ": " + message;
         System.out.println(Thread.currentThread() + ": received '" + messageToSend + "'");

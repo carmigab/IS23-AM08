@@ -1,16 +1,11 @@
 package it.polimi.ingsw.dummies;
 
 import it.polimi.ingsw.client.RmiClient;
-import it.polimi.ingsw.server.ConnectionInformationRMI;
-import it.polimi.ingsw.server.RmiServer;
-import it.polimi.ingsw.server.RmiServerInterface;
 
 import java.rmi.NotBoundException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.io.*;
 
-public class MainClient {
+public class MainTestClient1 {
     public static void main(String[] args) throws Exception {
         try(
                 BufferedReader input = new BufferedReader(new InputStreamReader(System.in))
@@ -23,16 +18,8 @@ public class MainClient {
             System.out.println("Starting client");
             RmiClient rmiClient = new RmiClient(nickname, fakeView);
 
-            System.out.println("Looking up the registry");
-            Registry registry = LocateRegistry.getRegistry(port);
-            RmiServerInterface rmiServer = (RmiServerInterface) registry.lookup("rmiServer");
-
-            rmiClient.connectToMatchServer(new ConnectionInformationRMI("rmiServer", port));
-
-            System.out.println("registering player: " + nickname);
-            rmiServer.registerPlayer(nickname, rmiClient);
-
-
+            rmiClient.chooseNickname(nickname);
+            rmiClient.joinGame();
 
             System.out.println("You can now chat in the room");
             while(true){

@@ -22,8 +22,8 @@ import java.util.List;
 public class RmiClient extends Client implements RmiClientInterface{
     private String nickname;
 
-    private int port = 1888;
-    private String LobbyServerName = "rmiServer";
+    private int lobbyPort = 1999;
+    private String LobbyServerName = "LobbyServer";
 
     private RmiServerInterface matchServer;
     private RMILobbyServerInterface lobbyServer;
@@ -40,7 +40,7 @@ public class RmiClient extends Client implements RmiClientInterface{
      * @throws RemoteException
      * @throws NotBoundException
      */
-    public RmiClient(String nickname, FakeView fV) throws RemoteException, NotBoundException {
+    public RmiClient(String nickname, FakeView fV) throws RemoteException, NotBoundException, InterruptedException {
         super();
         this.view = fV;
         this.nickname = nickname;
@@ -51,13 +51,22 @@ public class RmiClient extends Client implements RmiClientInterface{
 
     /**
      * This method looks up the registry of the lobby server
+     * If it doesn't found it he waits for 5 second
      * @throws RemoteException
      * @throws NotBoundException
      */
-    private void connectToLobbyServer() throws RemoteException, NotBoundException {
-        System.out.println("Looking up the registry for LobbyServer");
-        Registry registry = LocateRegistry.getRegistry(port);
-        this.lobbyServer = (RMILobbyServerInterface) registry.lookup(LobbyServerName);
+    private void connectToLobbyServer() throws RemoteException, NotBoundException, InterruptedException {
+        while(true) {
+            try {
+                System.out.println("Looking up the registry for LobbyServer");
+                Registry registry = LocateRegistry.getRegistry(lobbyPort);
+                this.lobbyServer = (RMILobbyServerInterface) registry.lookup(LobbyServerName);
+                break;
+            } catch (Exception e) {
+                System.out.println("Registry not found");
+                Thread.sleep(5000);
+            }
+        }
     }
 
     /**
@@ -137,6 +146,7 @@ public class RmiClient extends Client implements RmiClientInterface{
      */
     public void connectToMatchServer(ConnectionInformationRMI c) throws RemoteException, NotBoundException {
         System.out.println("Looking up the registry for MatchServer");
+        System.out.println("Name: "+c.getRegistryName()+" Port: "+c.getRegistryPort());
         Registry registry = LocateRegistry.getRegistry(c.getRegistryPort());
         this.matchServer = (RmiServerInterface) registry.lookup(c.getRegistryName());
     }
@@ -149,19 +159,40 @@ public class RmiClient extends Client implements RmiClientInterface{
     public boolean isAlive() throws RemoteException {return true;}
 
 
+    /**
+     * This method lets the client send a message privately only to someone
+     * @param message
+     * @param receiver : the one that is supposed to receive the message
+     * @throws RemoteException
+     */
     public void messageSomeone(String message, String receiver) throws RemoteException{
         this.matchServer.messageSomeone(message, this.nickname, receiver);
     }
 
+    /**
+     * This method lets the client send a message to every other client connected to the game
+     * @param message
+     * @throws RemoteException
+     */
     public void messageAll(String message) throws RemoteException{
         this.matchServer.messageAll(message, this.nickname);
 
     }
 
+    /**
+     * This method lets the server ask a client for his nickname
+     * @return the nickname of the client
+     * @throws RemoteException
+     */
     public String name() throws RemoteException{
         return this.nickname;
     }
 
+    /**
+     * This method notifies the view that a message has arrived
+     * @param message
+     * @throws RemoteException
+     */
     public void receiveMessage(String message) throws RemoteException{
         this.view.displayChatMessage(message);
     }

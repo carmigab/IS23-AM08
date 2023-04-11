@@ -152,7 +152,8 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             this.serverRegistries.add(r);
 
             System.out.println("Registry acquired...");
-            this.registry.bind(info.getRegistryName(), rs);
+
+            r.bind(info.getRegistryName(), rs);
 
             System.out.println("RMI Server online...");
             System.out.println("Name: "+info.getRegistryName()+" Port: "+info.getRegistryPort());
@@ -206,7 +207,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             RmiServer rs = new RmiServer(numPlayers);
             rs.addPlayer(nickname, client);
             this.serverList.add(rs);
-            ConnectionInformationRMI info=new ConnectionInformationRMI(this.config.getStartingName()+(this.serverList.size()), this.config.getStartingPort()+this.serverList.size());
+            ConnectionInformationRMI info = new ConnectionInformationRMI(this.config.getStartingName()+(this.serverList.size()), this.config.getStartingPort()+this.serverList.size());
             this.serverInformation.add(info);
             this.startGame(rs, info);
             return info;
@@ -216,7 +217,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
 
     /**
      * This method lets you join the first game available in the list of all games active
-     * If there is none or every game is full it throws a NoGamesAvailableException
+     * If there is none or every game is full it creates a new game with 4 players
      * @param nickname nickname of the player that calls the method
      * @param client reference to the methods of the client that can be called by the server using RMI
      * @return the information useful for the connection to the game
@@ -224,16 +225,20 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     @Override
     public ConnectionInformationRMI joinGame(String nickname, RmiClientInterface client) throws RemoteException, NoGamesAvailableException {
         synchronized (lockCreateGame) {
-            int gameFound=0;
+            int gameFound = 0;
             ConnectionInformationRMI conn;
-            while(gameFound<this.serverRegistries.size()){
+
+            while(gameFound < this.serverRegistries.size()){
                 if(this.serverList.get(gameFound).getFreeSpaces()>0){
                     this.serverList.get(gameFound).addPlayer(nickname, client);
                     return this.serverInformation.get(gameFound);
                 }
                 gameFound++;
             }
-            if(gameFound==this.serverRegistries.size()) throw new NoGamesAvailableException();
+
+            if(gameFound == this.serverRegistries.size())
+                return this.createGame(4, nickname, client);
+
             //Should never arrive here
             return null;
         }

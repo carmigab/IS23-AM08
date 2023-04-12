@@ -1,5 +1,6 @@
 package it.polimi.ingsw.dummies;
 
+import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.RmiClient;
 
 import java.io.BufferedReader;
@@ -17,14 +18,18 @@ public class MainTestClient2 {
             FakeView fakeView = new FakeView();
 
             System.out.println("Starting client");
-            RmiClient rmiClient = new RmiClient(nickname, fakeView);
+            Client client = new RmiClient(nickname, fakeView);
 
-            rmiClient.chooseNickname(nickname);
-            rmiClient.joinGame();
+            client.chooseNickname(nickname);
+            try {
+                client.joinGame();
+            } catch (Exception e) {
+                client.createGame(4);
+            }
 
             System.out.println("You can now chat in the room");
             while(true){
-                rmiClient.messageSomeone(input.readLine(), "Bill1");
+                client.messageAll(input.readLine());
             }
 
 

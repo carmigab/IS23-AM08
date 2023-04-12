@@ -127,24 +127,23 @@ public class RmiClient extends Client implements RmiClientInterface{
      * @throws RemoteException
      * @throws NotBoundException
      */
-    public void joinGame() throws RemoteException, NotBoundException {
+    public void joinGame() throws RemoteException, NotBoundException, NoGamesAvailableException {
         ConnectionInformationRMI c = null;
         try {
             c = this.lobbyServer.joinGame(nickname, this);
         } catch (NoGamesAvailableException e) {
-            throw new RuntimeException(e);
+            throw new NoGamesAvailableException();
         }
         this.connectToMatchServer(c);
     }
 
-    // to be made private
     /**
      * This method connects to the MatchServer using information available in the parameter
      * @param c : a ConnectionInformationRMI object
      * @throws RemoteException
      * @throws NotBoundException
      */
-    public void connectToMatchServer(ConnectionInformationRMI c) throws RemoteException, NotBoundException {
+    private void connectToMatchServer(ConnectionInformationRMI c) throws RemoteException, NotBoundException {
         System.out.println("Looking up the registry for MatchServer");
         System.out.println("Name: "+c.getRegistryName()+" Port: "+c.getRegistryPort());
         Registry registry = LocateRegistry.getRegistry(c.getRegistryPort());

@@ -217,7 +217,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
 
     /**
      * This method lets you join the first game available in the list of all games active
-     * If there is none or every game is full it creates a new game with 4 players
+     * If there is none or every game is full it throws a NoGamesAvailableException
      * @param nickname nickname of the player that calls the method
      * @param client reference to the methods of the client that can be called by the server using RMI
      * @return the information useful for the connection to the game
@@ -237,7 +237,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             }
 
             if(gameFound == this.serverRegistries.size())
-                return this.createGame(4, nickname, client);
+                throw new NoGamesAvailableException();
 
             //Should never arrive here
             return null;

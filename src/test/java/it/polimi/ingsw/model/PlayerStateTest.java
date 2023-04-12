@@ -35,7 +35,7 @@ class PlayerStateTest {
     @Test
     void getPoints() {
         // Loading json playerstate
-        String file = "src/main/resources/savedMatches/Points_test.json";
+        String file = "src/main/resources/testMatches/Points_test.json";
         Gson json = new GsonBuilder().setPrettyPrinting().create();
         PlayerState pl;
         try {
@@ -73,7 +73,7 @@ class PlayerStateTest {
      */
     @Test
     void getShelf() {
-        String file = "src/main/resources/savedMatches/Points_test.json";
+        String file = "src/main/resources/testMatches/Points_test.json";
         Gson json = new GsonBuilder().setPrettyPrinting().create();
         PlayerState pl;
         try {

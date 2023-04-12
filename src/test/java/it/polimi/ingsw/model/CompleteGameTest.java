@@ -8,12 +8,10 @@ import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.model.utilities.UtilityFunctions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +40,7 @@ class CompleteGameTest {
 
         List<String> players=new ArrayList<>(2);
         players.add("MatteCenz"); players.add("GabriCarr");
-        String file = AppConstants.PATH_SAVED_FILES+ UtilityFunctions.getJSONFileName(players);
+        String file = AppConstants.PATH_SAVED_MATCHES + UtilityFunctions.getJSONFileName(players);
         GameModel savedModel;
 
         List<String> actions = json.fromJson(new FileReader(actionsFile), ArrayList.class);

@@ -144,7 +144,7 @@ public class GameModel {
      * @param nicks list of the names of the players
      */
     private void initializePersistencyFile(List<String> nicks){
-        this.fileName=AppConstants.PATH_SAVED_FILES + UtilityFunctions.getJSONFileName(nicks);
+        this.fileName=AppConstants.PATH_SAVED_MATCHES + UtilityFunctions.getJSONFileName(nicks);
         saveCurrentState();
     }
 

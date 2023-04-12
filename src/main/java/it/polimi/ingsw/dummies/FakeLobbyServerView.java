@@ -15,6 +15,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class FakeLobbyServerView {
@@ -35,39 +36,51 @@ public class FakeLobbyServerView {
             RMILobbyServerInterface remoteServer= (RMILobbyServerInterface) registry.lookup(remoteObjectName);
             System.out.println("Server located, you can start to send messages to it");
 
+            Optional<String> myNickname=Optional.empty();
             Scanner scanner=new Scanner(System.in);
             boolean end =false;
             while(!end){
                 String command=scanner.nextLine();
                 switch (command) {
                     case "name" -> {
-                        System.out.println("Inserisci nome");
-                        String nome = scanner.nextLine();
-                        try {
-                            System.out.println(remoteServer.chooseNickname(nome));
-                        } catch (IllegalNicknameException e) {
-                            System.out.println("Illegal nickname, retry please...");
-                        } catch (ExistentNicknameExcepiton e) {
-                            System.out.println("Already existent nickname, retry please...");
+                        if(myNickname.isEmpty()) {
+                            System.out.println("Insert name");
+                            String nome = scanner.nextLine();
+                            try {
+                                remoteServer.chooseNickname(nome);
+                                myNickname=Optional.of(nome);
+                                System.out.println("Name correctly set: "+myNickname.get());
+                            } catch (IllegalNicknameException e) {
+                                System.out.println("Illegal nickname, retry please...");
+                            } catch (ExistentNicknameExcepiton e) {
+                                System.out.println("Already existent nickname, retry please...");
+                            }
                         }
+                        else System.out.println("You already have a nickname .-. ...");
                     }
                     case "game" -> {
-                        System.out.println("Insert number of players: ");
-                        Integer num = scanner.nextInt();
-                        ConnectionInformationRMI conn = remoteServer.createGame(num, "Pollo", null);
-                        System.out.println("Game created on server, now connecting client side...");
-                        Registry gameRegistry = LocateRegistry.getRegistry(conn.getRegistryPort());
-                        RmiServerInterface rsi = (RmiServerInterface) gameRegistry.lookup(conn.getRegistryName());
-                        System.out.println("Connected client side...");
+                        if(myNickname.isPresent()) {
+                            System.out.println("Insert number of players: ");
+                            Integer num = scanner.nextInt();
+                            ConnectionInformationRMI conn = remoteServer.createGame(num, myNickname.get(), null);
+                            System.out.println("Game created on server, now connecting client side...");
+                            Registry gameRegistry = LocateRegistry.getRegistry(conn.getRegistryPort());
+                            RmiServerInterface rsi = (RmiServerInterface) gameRegistry.lookup(conn.getRegistryName());
+                            System.out.println("Connected client side...");
+                        }
+                        else System.out.println("Set a nickname first...");
                     }
                     case "join" -> {
                         System.out.println("Joining random game...");
                         try {
-                            ConnectionInformationRMI conn2 = remoteServer.joinGame("Pollo", null);
-                            System.out.println("Game joined on server, now connecting client side...");
-                            Registry gameRegistry2 = LocateRegistry.getRegistry(conn2.getRegistryPort());
-                            RmiServerInterface rsi2 = (RmiServerInterface) gameRegistry2.lookup(conn2.getRegistryName());
-                            System.out.println("Connected client side...");
+                            if(myNickname.isPresent()) {
+                                ConnectionInformationRMI conn2 = remoteServer.joinGame(myNickname.get(), null);
+                                System.out.println("Game joined on server, now connecting client side...");
+                                Registry gameRegistry2 = LocateRegistry.getRegistry(conn2.getRegistryPort());
+                                RmiServerInterface rsi2 = (RmiServerInterface) gameRegistry2.lookup(conn2.getRegistryName());
+                                System.out.println("Connected client side...");
+                            }
+                            System.out.println("Set a nickname first...");
                         } catch (NoGamesAvailableException e) {
                             System.out.println("No games available, retry please...");
                         }

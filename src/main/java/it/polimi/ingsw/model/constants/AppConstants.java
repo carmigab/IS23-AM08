@@ -59,6 +59,6 @@ public class AppConstants {
     public static String FILE_CONFIG_NLINESOFATMOSTMDIFFERENTCOLORS = "src/main/config/model/commonGoals5and8and9and10.json";
     public static String FILE_CONFIG_SINGLEOCCURRENCEOFGIVENSHAPE = "src/main/config/model/commonGoals3and7and11.json";
 
-    public static String PATH_SAVED_FILES = "src/main/resources/savedMatches/";
+    public static String PATH_SAVED_MATCHES = "src/main/resources/savedMatches/";
 
 }

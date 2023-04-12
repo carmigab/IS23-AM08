@@ -243,4 +243,9 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             return null;
         }
     }
+
+    @Override
+    public boolean isGameExistent(String nickname) throws RemoteException{
+        return false;
+    }
 }

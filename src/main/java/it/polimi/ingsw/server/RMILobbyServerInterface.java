@@ -20,4 +20,6 @@ public interface RMILobbyServerInterface extends Remote {
 
     public ConnectionInformationRMI joinGame(String nickname, RmiClientInterface client) throws RemoteException, NoGamesAvailableException;
 
+    public boolean isGameExistent(String  nickname) throws RemoteException;
+
 }

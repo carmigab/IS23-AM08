@@ -2,6 +2,7 @@ package it.polimi.ingsw.dummies;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.RmiClient;
+import it.polimi.ingsw.server.constants.ServerConstants;
 
 import java.rmi.NotBoundException;
 import java.io.*;
@@ -12,7 +13,7 @@ public class MainTestClient1 {
                 BufferedReader input = new BufferedReader(new InputStreamReader(System.in))
         )
         {
-            int port = 1888;
+            int port = ServerConstants.VERY_NICE;
             String nickname = "Bill1";
             FakeView fakeView = new FakeView();
 

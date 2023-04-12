@@ -3,6 +3,7 @@ package it.polimi.ingsw.dummies;
 import it.polimi.ingsw.server.ConnectionInformationRMI;
 import it.polimi.ingsw.server.RMILobbyServerInterface;
 import it.polimi.ingsw.server.RmiServerInterface;
+import it.polimi.ingsw.server.constants.ServerConstants;
 import it.polimi.ingsw.server.exceptions.ExistentNicknameExcepiton;
 import it.polimi.ingsw.server.exceptions.IllegalNicknameException;
 import it.polimi.ingsw.server.exceptions.NoGamesAvailableException;
@@ -20,7 +21,7 @@ public class FakeLobbyServerView {
 
     public static void main(String[] args) {
         try {
-            Integer remoteObjectPort=12345;
+            Integer remoteObjectPort= ServerConstants.VERY_NICE;
             System.out.println("Locating registry...");
             Registry registry= LocateRegistry.getRegistry(remoteObjectPort);
             System.out.println("Registry found...");
@@ -56,7 +57,7 @@ public class FakeLobbyServerView {
                         ConnectionInformationRMI conn = remoteServer.createGame(num, "Pollo", null);
                         System.out.println("Game created on server, now connecting client side...");
                         Registry gameRegistry = LocateRegistry.getRegistry(conn.getRegistryPort());
-                        //RmiServerInterface rsi = (RmiServerInterface) gameRegistry.lookup(conn.getRegistryName());
+                        RmiServerInterface rsi = (RmiServerInterface) gameRegistry.lookup(conn.getRegistryName());
                         System.out.println("Connected client side...");
                     }
                     case "join" -> {
@@ -65,7 +66,7 @@ public class FakeLobbyServerView {
                             ConnectionInformationRMI conn2 = remoteServer.joinGame("Pollo", null);
                             System.out.println("Game joined on server, now connecting client side...");
                             Registry gameRegistry2 = LocateRegistry.getRegistry(conn2.getRegistryPort());
-                            //RmiServerInterface rsi2 = (RmiServerInterface) gameRegistry2.lookup(conn2.getRegistryName());
+                            RmiServerInterface rsi2 = (RmiServerInterface) gameRegistry2.lookup(conn2.getRegistryName());
                             System.out.println("Connected client side...");
                         } catch (NoGamesAvailableException e) {
                             System.out.println("No games available, retry please...");

@@ -80,10 +80,18 @@ public class FakeLobbyServerView {
                                 RmiServerInterface rsi2 = (RmiServerInterface) gameRegistry2.lookup(conn2.getRegistryName());
                                 System.out.println("Connected client side...");
                             }
-                            System.out.println("Set a nickname first...");
+                            else System.out.println("Set a nickname first...");
                         } catch (NoGamesAvailableException e) {
                             System.out.println("No games available, retry please...");
                         }
+                    }
+                    case "recover" -> {
+                        System.out.println("Trying to see if there is an existent game with your name..");
+                        if(myNickname.isPresent()) {
+                            System.out.println(remoteServer.isGameExistent(myNickname.get()));
+                            System.out.println("Helo");
+                        }
+                        else System.out.println("Set a nickname first...");
                     }
                     case "adios" -> end = true;
                 }

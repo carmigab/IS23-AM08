@@ -1,24 +1,23 @@
 package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.RmiClientInterface;
+import it.polimi.ingsw.model.GameModel;
+import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.server.constants.ServerConstants;
 import it.polimi.ingsw.server.exceptions.ExistentNicknameExcepiton;
 import it.polimi.ingsw.server.exceptions.IllegalNicknameException;
 import it.polimi.ingsw.server.exceptions.NoGamesAvailableException;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.Reader;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class sets up the main server which will make the player set his name and choose a game to join
@@ -51,9 +50,17 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      */
     private final List<String> banList;
 
+    /**
+     * Object used as a lock for the insertion of the name in the list of chosen nicknames
+     */
     private final Object lockChooseNickName;
+    /**
+     * Object used as a lock for the creation and joining of a game
+     */
     private final Object lockCreateGame;
-
+    /**
+     * Registry containing the main part of LobbyServer
+     */
     private Registry registry;
 
 
@@ -125,6 +132,9 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     public void start(){
         try {
             System.out.println("Initializing server...");
+            System.out.println("Cleaning the directory "+ AppConstants.PATH_SAVED_MATCHES+" ...");
+            this.cleanMatchDirectory();
+            System.out.println("Cleaning done...");
             this.registry = LocateRegistry.createRegistry(this.config.getServerPort());
 
             System.out.println("Registry acquired...");
@@ -164,6 +174,47 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         }
     }
 
+    /**
+     * This method loads all games currently saved in the directory "savedMatches" and removes the ones which are ended already
+     * TODO: understand why cannot delete files (used by other process)
+     */
+    private void cleanMatchDirectory(){
+        /*
+        Arrays.stream(Objects.requireNonNull(new File(AppConstants.PATH_SAVED_MATCHES).list()))
+                .filter(match -> {
+                    try {
+                        return JsonWithExposeSingleton.getJsonWithExposeSingleton()
+                                .fromJson(new FileReader(AppConstants.PATH_SAVED_MATCHES+match), GameModel.class)
+                                .isGameOver();
+                    } catch (FileNotFoundException e) {
+                        System.out.println(e.getMessage());
+                        return false;
+                    }
+                })
+                .forEach((match) -> {
+                    try {
+                        Files.delete(Path.of(AppConstants.PATH_SAVED_MATCHES + match));
+                    } catch (IOException e) {
+                        System.out.println(e.getMessage());
+                    }
+                });
+        */
+        List<String> allMatches=Arrays.stream(Objects.requireNonNull(new File(AppConstants.PATH_SAVED_MATCHES).list())).toList();
+        for(String match: allMatches){
+            try {
+                if(JsonWithExposeSingleton.getJsonWithExposeSingleton()
+                        .fromJson(new FileReader(AppConstants.PATH_SAVED_MATCHES+match), GameModel.class)
+                        .isGameOver()){
+                    Files.delete(Path.of(AppConstants.PATH_SAVED_MATCHES + match));
+                }
+            } catch (FileNotFoundException e) {
+                System.out.println(e.getMessage());
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
 
     /**
      * Method used for the loading of the ban list from the file contained in "config/server"
@@ -187,7 +238,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     @Override
     public boolean chooseNickname(String nickname) throws RemoteException, ExistentNicknameExcepiton, IllegalNicknameException {
         synchronized (lockChooseNickName) {
-            if (this.banList.contains(nickname)) throw new IllegalNicknameException();
+            if (this.banList.stream().anyMatch(nickname::contains)) throw new IllegalNicknameException();
             if (!this.nicknamesPool.add(nickname)) throw new ExistentNicknameExcepiton();
             return true;
         }
@@ -244,8 +295,37 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         }
     }
 
+    /**
+     * This method cheks if in all the saved matches there is a saved game (currently ongoing) with the player whose nickname is inserted in input
+     * @param nickname nickname of the player to be checked
+     * @return true if in the folder "savedMatches" there is a file that contains the nickname
+     */
     @Override
     public boolean isGameExistent(String nickname) throws RemoteException{
-        return false;
+        String jsonExtension=".json";
+        String regex="_";
+        //Should never be null
+        return Arrays.stream(Objects.requireNonNull(new File(AppConstants.PATH_SAVED_MATCHES).list()))
+                .filter(fileName -> fileName.endsWith(jsonExtension))
+                .anyMatch(fileName -> fileName.contains(nickname+regex));
+        /*
+        return Arrays.stream(Objects.requireNonNull(new File(AppConstants.PATH_SAVED_MATCHES).list()))
+                .filter(fileName -> fileName.endsWith(jsonExtension))
+                .map( fileName -> fileName.substring(0, fileName.length()-jsonExtension.length()))
+                .flatMap(fileName -> Arrays.stream(fileName.split(regex)))
+                .anyMatch(savedNickname -> savedNickname.equals(nickname));
+        */
     }
+
+    /**
+     * TODO
+     * @param nickname
+     * @param client
+     * @return
+     */
+    @Override
+    public ConnectionInformationRMI recoverGame(String nickname, RmiClientInterface client) throws RemoteException {
+        return null;
+    }
+
 }

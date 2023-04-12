@@ -68,6 +68,7 @@ public class GameModel {
     /**
      *
      */
+    @Expose
     private boolean gameOver;
 
     /**

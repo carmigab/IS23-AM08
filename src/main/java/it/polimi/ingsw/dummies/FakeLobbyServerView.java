@@ -4,9 +4,7 @@ import it.polimi.ingsw.server.ConnectionInformationRMI;
 import it.polimi.ingsw.server.RMILobbyServerInterface;
 import it.polimi.ingsw.server.RmiServerInterface;
 import it.polimi.ingsw.server.constants.ServerConstants;
-import it.polimi.ingsw.server.exceptions.ExistentNicknameExcepiton;
-import it.polimi.ingsw.server.exceptions.IllegalNicknameException;
-import it.polimi.ingsw.server.exceptions.NoGamesAvailableException;
+import it.polimi.ingsw.server.exceptions.*;
 
 import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
@@ -62,11 +60,17 @@ public class FakeLobbyServerView {
                         if(myNickname.isPresent()) {
                             System.out.println("Insert number of players: ");
                             Integer num = scanner.nextInt();
-                            ConnectionInformationRMI conn = remoteServer.createGame(num, myNickname.get(), null);
-                            System.out.println("Game created on server, now connecting client side...");
-                            Registry gameRegistry = LocateRegistry.getRegistry(conn.getRegistryPort());
-                            RmiServerInterface rsi = (RmiServerInterface) gameRegistry.lookup(conn.getRegistryName());
-                            System.out.println("Connected client side...");
+                            try {
+                                ConnectionInformationRMI conn = remoteServer.createGame(num, myNickname.get(), null);
+                                System.out.println("Game created on server, now connecting client side...");
+                                Registry gameRegistry = LocateRegistry.getRegistry(conn.getRegistryPort());
+                                RmiServerInterface rsi = (RmiServerInterface) gameRegistry.lookup(conn.getRegistryName());
+                                System.out.println("Connected client side...");
+                            } catch (AlreadyInGameException e) {
+                                System.out.println("You have already a game going on...");
+                            } catch (NonExistentNicknameException e) {
+                                System.out.println("Ask to the server your name first...");
+                            }
                         }
                         else System.out.println("Set a nickname first...");
                     }
@@ -74,11 +78,17 @@ public class FakeLobbyServerView {
                         System.out.println("Joining random game...");
                         try {
                             if(myNickname.isPresent()) {
-                                ConnectionInformationRMI conn2 = remoteServer.joinGame(myNickname.get(), null);
-                                System.out.println("Game joined on server, now connecting client side...");
-                                Registry gameRegistry2 = LocateRegistry.getRegistry(conn2.getRegistryPort());
-                                RmiServerInterface rsi2 = (RmiServerInterface) gameRegistry2.lookup(conn2.getRegistryName());
-                                System.out.println("Connected client side...");
+                                try {
+                                    ConnectionInformationRMI conn2 = remoteServer.joinGame(myNickname.get(), null);
+                                    System.out.println("Game joined on server, now connecting client side...");
+                                    Registry gameRegistry2 = LocateRegistry.getRegistry(conn2.getRegistryPort());
+                                    RmiServerInterface rsi2 = (RmiServerInterface) gameRegistry2.lookup(conn2.getRegistryName());
+                                    System.out.println("Connected client side...");
+                                } catch (AlreadyInGameException e) {
+                                    System.out.println("You have already a game going on...");
+                                } catch (NonExistentNicknameException e) {
+                                    System.out.println("Ask to the server your name first...");
+                                }
                             }
                             else System.out.println("Set a nickname first...");
                         } catch (NoGamesAvailableException e) {
@@ -89,7 +99,6 @@ public class FakeLobbyServerView {
                         System.out.println("Trying to see if there is an existent game with your name..");
                         if(myNickname.isPresent()) {
                             System.out.println(remoteServer.isGameExistent(myNickname.get()));
-                            System.out.println("Helo");
                         }
                         else System.out.println("Set a nickname first...");
                     }

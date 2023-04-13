@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.constants.ServerConstants;
 import it.polimi.ingsw.server.exceptions.ExistentNicknameExcepiton;
 import it.polimi.ingsw.server.exceptions.IllegalNicknameException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -44,5 +45,7 @@ class LobbyServerTest {
         assertThrows(ExistentNicknameExcepiton.class, ()-> ls3.chooseNickname("Gabri"));
         assertThrows(IllegalNicknameException.class, ()-> ls3.chooseNickname(bannedName));
     }
+
+
 
 }

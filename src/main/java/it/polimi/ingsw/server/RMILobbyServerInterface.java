@@ -1,10 +1,7 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.client.RmiClient;
 import it.polimi.ingsw.client.RmiClientInterface;
-import it.polimi.ingsw.server.exceptions.ExistentNicknameExcepiton;
-import it.polimi.ingsw.server.exceptions.IllegalNicknameException;
-import it.polimi.ingsw.server.exceptions.NoGamesAvailableException;
+import it.polimi.ingsw.server.exceptions.*;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -16,12 +13,12 @@ public interface RMILobbyServerInterface extends Remote {
 
     public boolean chooseNickname(String nickname) throws RemoteException, ExistentNicknameExcepiton, IllegalNicknameException;
 
-    public ConnectionInformationRMI createGame(Integer numPlayers, String nickname, RmiClientInterface client) throws RemoteException;
+    public ConnectionInformationRMI createGame(Integer numPlayers, String nickname, RmiClientInterface client) throws RemoteException, AlreadyInGameException, NonExistentNicknameException;
 
-    public ConnectionInformationRMI joinGame(String nickname, RmiClientInterface client) throws RemoteException, NoGamesAvailableException;
+    public ConnectionInformationRMI joinGame(String nickname, RmiClientInterface client) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException;
 
     public boolean isGameExistent(String  nickname) throws RemoteException;
 
-    public ConnectionInformationRMI recoverGame(String nickname, RmiClientInterface client) throws RemoteException;
+    public ConnectionInformationRMI recoverGame(String nickname, RmiClientInterface client) throws RemoteException, AlreadyInGameException, NonExistentNicknameException;
 
 }

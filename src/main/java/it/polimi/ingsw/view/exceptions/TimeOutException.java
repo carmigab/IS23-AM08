@@ -1,4 +1,4 @@
-package it.polimi.ingsw.view.exeptions;
+package it.polimi.ingsw.view.exceptions;
 
 /**
  * This exception is thrown when the player doesn't answer in time

@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.server.ConnectionInformationRMI;
 import it.polimi.ingsw.server.RMILobbyServerInterface;
 import it.polimi.ingsw.server.RmiServerInterface;
+import it.polimi.ingsw.server.constants.ServerConstants;
 import it.polimi.ingsw.server.exceptions.*;
 import it.polimi.ingsw.view.View;
 
@@ -20,8 +21,8 @@ import java.util.List;
 public class RmiClient extends Client implements RmiClientInterface{
     private String nickname;
 
-    private int lobbyPort = 42069;
-    private String LobbyServerName = "LobbyServer";
+    private int lobbyPort = ServerConstants.VERY_NICE;
+    private String LobbyServerName = ServerConstants.LOBBY_SERVER;
 
     private RmiServerInterface matchServer;
     private RMILobbyServerInterface lobbyServer;
@@ -40,7 +41,7 @@ public class RmiClient extends Client implements RmiClientInterface{
      * @throws RemoteException
      * @throws NotBoundException
      */
-    public RmiClient(String nickname, View fV) throws RemoteException, NotBoundException, InterruptedException {
+    public RmiClient(String nickname, View fV) throws NotBoundException, InterruptedException, RemoteException {
         super();
         this.view = fV;
         this.nickname = nickname;
@@ -55,7 +56,7 @@ public class RmiClient extends Client implements RmiClientInterface{
      * @throws RemoteException
      * @throws NotBoundException
      */
-    private void connectToLobbyServer() throws RemoteException, NotBoundException, InterruptedException {
+    private void connectToLobbyServer() throws InterruptedException {
         while(true) {
             try {
                 System.out.println("Looking up the registry for LobbyServer");
@@ -87,20 +88,18 @@ public class RmiClient extends Client implements RmiClientInterface{
      * @throws RemoteException
      */
     @Override
-    // TODO: gestire remote exception, non ha senso che la view gestisca eccezzioni specifiche di rmi
     public boolean chooseNickname(String nick) {
         boolean flag = false;
         try {
             flag = lobbyServer.chooseNickname(nick);
-        } catch (ExistentNicknameExcepiton e) {
-            flag=false;
-        } catch (IllegalNicknameException e) {
-            flag=false;
+        } catch (ExistentNicknameExcepiton | IllegalNicknameException e) {
+            flag = false;
         } catch (RemoteException e) {
-            System.out.println("Remote exception");
+            this.gracefulDisconnection();
         }
+
         if (flag) this.nickname = nick;
-       return flag;
+        return flag;
     }
 
     /**
@@ -114,7 +113,7 @@ public class RmiClient extends Client implements RmiClientInterface{
         try {
             this.matchServer.makeMove(pos, col, nickname);
         } catch (RemoteException e) {
-            System.out.println("Remote exception");
+            this.gracefulDisconnection();
         }
     }
 
@@ -124,25 +123,12 @@ public class RmiClient extends Client implements RmiClientInterface{
      * @throws RemoteException
      * @throws NotBoundException
      */
-    public void createGame(int num) {
-        ConnectionInformationRMI c = null;
+    public void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException {
         try {
-            c = this.lobbyServer.createGame(num, nickname, this);
-        } catch (RemoteException e) {
-            System.out.println("Remote exception");
-        }
-        // TODO
-        catch (NonExistentNicknameException e) {
-            throw new RuntimeException(e);
-        } catch (AlreadyInGameException e) {
-            throw new RuntimeException(e);
-        }
-        try {
+            ConnectionInformationRMI c = this.lobbyServer.createGame(num, nickname, this);
             this.connectToMatchServer(c);
-        } catch (RemoteException e) {
-            System.out.println("Remote exception");
-        } catch (NotBoundException e) {
-            System.out.println("Not bound exception");
+        } catch (RemoteException | NotBoundException e) {
+            this.gracefulDisconnection();
         }
     }
 
@@ -151,27 +137,16 @@ public class RmiClient extends Client implements RmiClientInterface{
      * @throws RemoteException
      * @throws NotBoundException
      */
-    public void joinGame() throws NoGamesAvailableException {
+    public void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException {
         ConnectionInformationRMI c = null;
 
         try {
             c = this.lobbyServer.joinGame(nickname, this);
-        } catch (RemoteException e) {
-            System.out.println("Remote exception");
-        }
-        // TODO
-        catch (NonExistentNicknameException e) {
-            throw new RuntimeException(e);
-        } catch (AlreadyInGameException e) {
-            throw new RuntimeException(e);
-        }
-        try {
             this.connectToMatchServer(c);
-        } catch (RemoteException e) {
-            System.out.println("Remote exception");
-        } catch (NotBoundException e) {
-            System.out.println("Not bound exception");
+        } catch (RemoteException | NotBoundException e) {
+            this.gracefulDisconnection();
         }
+
     }
 
     /**
@@ -199,8 +174,7 @@ public class RmiClient extends Client implements RmiClientInterface{
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     } catch (RemoteException e) {
-                        System.out.println("The Server is offline");
-                        view.update(State.GRACEFULDISCONNECTION, null);
+                        this.gracefulDisconnection();
                         break;
                     }
                 }
@@ -216,18 +190,17 @@ public class RmiClient extends Client implements RmiClientInterface{
      */
     public boolean isAlive() throws RemoteException {return true;}
 
-
     /**
      * This method lets the client send a message privately only to someone
      * @param message
      * @param receiver : the one that is supposed to receive the message
      * @throws RemoteException
      */
-    public void messageSomeone(String message, String receiver) {
+    public void messageSomeone(String message, String receiver){
         try {
             this.matchServer.messageSomeone(message, this.nickname, receiver);
         } catch (RemoteException e) {
-            System.out.println("Remote exception");
+            this.gracefulDisconnection();
         }
     }
 
@@ -236,11 +209,11 @@ public class RmiClient extends Client implements RmiClientInterface{
      * @param message
      * @throws RemoteException
      */
-    public void messageAll(String message) {
+    public void messageAll(String message){
         try {
             this.matchServer.messageAll(message, this.nickname);
         } catch (RemoteException e) {
-            System.out.println("Remote exception");
+            this.gracefulDisconnection();
         }
 
     }
@@ -272,9 +245,9 @@ public class RmiClient extends Client implements RmiClientInterface{
     }
 
 
-    // TODO
-    // add a ping from the client that tells if the server is alive
-    // manage all the exception on client side and update view accordingly
-    // gestire eccezioni specifiche di rmi
+    private void gracefulDisconnection(){
+        System.out.println("Connection Error");
+        view.update(State.GRACEFULDISCONNECTION, null);
+    }
 
 }

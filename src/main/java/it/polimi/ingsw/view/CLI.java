@@ -4,7 +4,9 @@ import it.polimi.ingsw.client.RmiClient;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.model.Position;
+import it.polimi.ingsw.server.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.server.exceptions.NoGamesAvailableException;
+import it.polimi.ingsw.server.exceptions.NonExistentNicknameException;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -223,12 +225,24 @@ public class CLI extends View{
                     playersNumber = System.console().readLine();
                 }
 
-                client.createGame(Integer.parseInt(playersNumber));
+                try {
+                    client.createGame(Integer.parseInt(playersNumber));
+                } catch (NonExistentNicknameException e) {
+                    throw new RuntimeException(e);
+                } catch (AlreadyInGameException e) {
+                    throw new RuntimeException(e);
+                }
                 gameSelected = true;
             }
             else {
                 try {
-                    client.joinGame();
+                    try {
+                        client.joinGame();
+                    } catch (NonExistentNicknameException e) {
+                        throw new RuntimeException(e);
+                    } catch (AlreadyInGameException e) {
+                        throw new RuntimeException(e);
+                    }
                     gameSelected = true;
                 } catch (NoGamesAvailableException e) {
                     System.out.println("No games available, please create a new one");

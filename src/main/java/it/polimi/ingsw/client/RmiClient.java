@@ -199,6 +199,7 @@ public class RmiClient extends Client implements RmiClientInterface{
 
     // TODO
     // add a ping from the client that tells if the server is alive
+    // manage all the exception on client side and update view accordingly
 
 
 }

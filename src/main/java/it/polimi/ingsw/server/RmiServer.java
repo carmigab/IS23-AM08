@@ -2,7 +2,7 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.client.RmiClientInterface;
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.controller.exceptions.InvalidIdException;
+import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
@@ -54,11 +54,11 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
      * @param col
      * @param nickname
      * @throws RemoteException
-     * @throws InvalidIdException
+     * @throws InvalidNicknameException
      * @throws InvalidMoveException
      */
-    public void makeMove(List<Position> pos, int col, String nickname) throws RemoteException, InvalidIdException, InvalidMoveException {
-        if(!isMyTurn(nickname)) throw new InvalidIdException();
+    public void makeMove(List<Position> pos, int col, String nickname) throws RemoteException, InvalidNicknameException, InvalidMoveException {
+        if(!isMyTurn(nickname)) throw new InvalidNicknameException();
         gameController.makeMove(pos, col, nickname);
     }
 

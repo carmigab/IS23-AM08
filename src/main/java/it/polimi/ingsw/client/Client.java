@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.controller.exceptions.InvalidIdException;
+import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.server.exceptions.NoGamesAvailableException;
@@ -14,19 +14,19 @@ public abstract class Client extends UnicastRemoteObject {
     protected Client() throws RemoteException {
     }
 
-    public boolean chooseNickname(String nick) throws RemoteException {
+    public boolean chooseNickname(String nick) {
         return false;
     }
 
-    public void makeMove(List<Position> pos, int col) throws RemoteException, InvalidIdException, InvalidMoveException{
+    public void makeMove(List<Position> pos, int col) throws InvalidNicknameException, InvalidMoveException, InvalidNicknameException {
     }
 
     public void createGame(int num) throws RemoteException, NotBoundException{}
 
     public void joinGame() throws RemoteException, NotBoundException, NoGamesAvailableException {}
 
-    public void messageSomeone(String message, String receiver) throws RemoteException{}
+    public void messageSomeone(String message, String receiver) {}
 
-    public void messageAll(String message) throws RemoteException{}
+    public void messageAll(String message) {}
 
 }

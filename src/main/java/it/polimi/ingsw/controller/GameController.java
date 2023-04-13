@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import com.google.gson.annotations.Expose;
-import it.polimi.ingsw.controller.exceptions.InvalidIdException;
+import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.observers.VirtualView;
 import it.polimi.ingsw.model.GameModel;
@@ -47,9 +47,9 @@ public class GameController {
         return model.checkValidMove(pos) && model.checkValidColumn(col, pos.size());
     }
 
-    public void makeMove(List<Position> pos, int col, String nick) throws InvalidIdException, InvalidMoveException {
+    public void makeMove(List<Position> pos, int col, String nick) throws InvalidNicknameException, InvalidMoveException {
         if(!verifyPlayerNickname(nick)){
-            throw new InvalidIdException();
+            throw new InvalidNicknameException();
         }
         if(!evaluationMove(pos, col)){
            throw new InvalidMoveException();

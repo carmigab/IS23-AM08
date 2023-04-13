@@ -3,7 +3,7 @@ package it.polimi.ingsw.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.controller.exceptions.InvalidIdException;
+import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
@@ -67,7 +67,7 @@ class CompleteGameTest {
                     GameModel expectedGameModel = new GameModel(jsonLoader.fromJson(new FileReader(modelsFileStart + modelsFileCount + modelsFileExtension), GameModel.class));
                     assertTrue(expectedGameModel.equals(savedModel));
                 }
-            } catch (InvalidIdException e) {
+            } catch (InvalidNicknameException e) {
                 throw new RuntimeException(e);
             } catch (InvalidMoveException e) {
                 throw new RuntimeException(e);

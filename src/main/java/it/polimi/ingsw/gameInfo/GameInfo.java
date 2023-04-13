@@ -30,11 +30,6 @@ public class GameInfo implements Serializable {
     private final List<PlayerState> playerStatesList;
 
     /**
-     * This attribute is true if the game has ended
-     */
-    private boolean gameEnded;
-
-    /**
      * This attribute store the leader board of the game
      */
     private Map<String, Integer> leaderBoard;
@@ -65,6 +60,7 @@ public class GameInfo implements Serializable {
     public Tile[][] getMyGameBoard() {
         return myGameBoard;
     }
+
     /**
      * Getter
      * @return the reference to the copied list of common goals created
@@ -72,6 +68,7 @@ public class GameInfo implements Serializable {
     public List<Integer> getCommonGoalsCreated() {
         return commonGoalsCreated;
     }
+
     /**
      * Getter
      * @return the reference to the copied stack of the common goals
@@ -79,20 +76,13 @@ public class GameInfo implements Serializable {
     public List<List<Integer>> getCommonGoalsStack() {
         return commonGoalsStack;
     }
+
     /**
      * Getter
      * @return the reference to the copied list of player states
      */
     public List<PlayerState> getPlayerStatesList() {
         return playerStatesList;
-    }
-
-    /**
-     * Getter
-     * @return true if the game has ended
-     */
-    public boolean isGameEnded() {
-        return gameEnded;
     }
 
     /**

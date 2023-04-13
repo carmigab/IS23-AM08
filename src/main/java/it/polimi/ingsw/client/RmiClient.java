@@ -1,8 +1,7 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.controller.exceptions.InvalidIdException;
+import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
-import it.polimi.ingsw.dummies.FakeView;
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Position;
@@ -12,6 +11,7 @@ import it.polimi.ingsw.server.RmiServerInterface;
 import it.polimi.ingsw.server.exceptions.ExistentNicknameExcepiton;
 import it.polimi.ingsw.server.exceptions.IllegalNicknameException;
 import it.polimi.ingsw.server.exceptions.NoGamesAvailableException;
+import it.polimi.ingsw.view.View;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -29,7 +29,7 @@ public class RmiClient extends Client implements RmiClientInterface{
     private RMILobbyServerInterface lobbyServer;
 
     // Here we will use an observer or the true view
-    private FakeView view;
+    private View view;
 
 
     /**
@@ -40,7 +40,7 @@ public class RmiClient extends Client implements RmiClientInterface{
      * @throws RemoteException
      * @throws NotBoundException
      */
-    public RmiClient(String nickname, FakeView fV) throws RemoteException, NotBoundException, InterruptedException {
+    public RmiClient(String nickname, View fV) throws RemoteException, NotBoundException, InterruptedException {
         super();
         this.view = fV;
         this.nickname = nickname;
@@ -86,8 +86,9 @@ public class RmiClient extends Client implements RmiClientInterface{
      * @return true if nickname is available
      * @throws RemoteException
      */
-    // To do
-    public boolean chooseNickname(String nick) throws RemoteException {
+    @Override
+    // TODO: gestire remote exception, non ha senso che la view gestisca eccezzioni specifiche di rmi
+    public boolean chooseNickname(String nick) {
         boolean flag = false;
         try {
             flag = lobbyServer.chooseNickname(nick);
@@ -95,6 +96,8 @@ public class RmiClient extends Client implements RmiClientInterface{
             flag=false;
         } catch (IllegalNicknameException e) {
             flag=false;
+        } catch (RemoteException e) {
+            System.out.println("Remote exception");
         }
         if (flag) this.nickname = nick;
        return flag;
@@ -107,8 +110,12 @@ public class RmiClient extends Client implements RmiClientInterface{
      * @param col : the column of the shelf
      * @throws RemoteException
      */
-    public void makeMove(List<Position> pos, int col) throws RemoteException, InvalidIdException, InvalidMoveException {
-        this.matchServer.makeMove(pos, col, nickname);
+    public void makeMove(List<Position> pos, int col) throws InvalidNicknameException, InvalidMoveException {
+        try {
+            this.matchServer.makeMove(pos, col, nickname);
+        } catch (RemoteException e) {
+            System.out.println("Remote exception");
+        }
     }
 
     /**
@@ -164,8 +171,12 @@ public class RmiClient extends Client implements RmiClientInterface{
      * @param receiver : the one that is supposed to receive the message
      * @throws RemoteException
      */
-    public void messageSomeone(String message, String receiver) throws RemoteException{
-        this.matchServer.messageSomeone(message, this.nickname, receiver);
+    public void messageSomeone(String message, String receiver) {
+        try {
+            this.matchServer.messageSomeone(message, this.nickname, receiver);
+        } catch (RemoteException e) {
+            System.out.println("Remote exception");
+        }
     }
 
     /**
@@ -173,8 +184,12 @@ public class RmiClient extends Client implements RmiClientInterface{
      * @param message
      * @throws RemoteException
      */
-    public void messageAll(String message) throws RemoteException{
-        this.matchServer.messageAll(message, this.nickname);
+    public void messageAll(String message) {
+        try {
+            this.matchServer.messageAll(message, this.nickname);
+        } catch (RemoteException e) {
+            System.out.println("Remote exception");
+        }
 
     }
 
@@ -200,6 +215,6 @@ public class RmiClient extends Client implements RmiClientInterface{
     // TODO
     // add a ping from the client that tells if the server is alive
     // manage all the exception on client side and update view accordingly
-
+    // gestire eccezioni specifiche di rmi
 
 }

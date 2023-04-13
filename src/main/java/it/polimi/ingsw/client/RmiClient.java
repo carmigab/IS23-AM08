@@ -22,7 +22,7 @@ import java.util.List;
 public class RmiClient extends Client implements RmiClientInterface{
     private String nickname;
 
-    private int lobbyPort = 1999;
+    private int lobbyPort = 42069;
     private String LobbyServerName = "LobbyServer";
 
     private RmiServerInterface matchServer;
@@ -30,6 +30,8 @@ public class RmiClient extends Client implements RmiClientInterface{
 
     // Here we will use an observer or the true view
     private View view;
+
+    private Object lock = new Object();
 
 
     /**
@@ -146,6 +148,7 @@ public class RmiClient extends Client implements RmiClientInterface{
 
     /**
      * This method connects to the MatchServer using information available in the parameter
+     * it also starts a thread that pings the server every 1 second
      * @param c : a ConnectionInformationRMI object
      * @throws RemoteException
      * @throws NotBoundException
@@ -155,6 +158,27 @@ public class RmiClient extends Client implements RmiClientInterface{
         System.out.println("Name: "+c.getRegistryName()+" Port: "+c.getRegistryPort());
         Registry registry = LocateRegistry.getRegistry(c.getRegistryPort());
         this.matchServer = (RmiServerInterface) registry.lookup(c.getRegistryName());
+
+        // new thread to ping server
+        Thread t = new Thread(() -> {
+            synchronized (lock) {
+                System.out.println("New Ping Thread starting");
+                while (true) {
+                    try {
+                        this.pingServer();
+                        lock.wait(1000);
+
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    } catch (RemoteException e) {
+                        System.out.println("The Server is offline");
+                        view.update(State.CLIENTCRASHED, null);
+                        break;
+                    }
+                }
+            }
+        });
+        t.start();
     }
 
     /**
@@ -209,6 +233,14 @@ public class RmiClient extends Client implements RmiClientInterface{
      */
     public void receiveMessage(String message) throws RemoteException{
         this.view.displayChatMessage(message);
+    }
+
+    /**
+     * This method pings the server
+     * @throws RemoteException
+     */
+    private void pingServer() throws RemoteException {
+        this.matchServer.isAlive();
     }
 
 

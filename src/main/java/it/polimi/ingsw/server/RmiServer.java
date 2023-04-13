@@ -236,5 +236,15 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         }
     }
 
+    /**
+     * this method responds to the client's ping
+     * @return true
+     * @throws RemoteException
+     */
+    @Override
+    public boolean isAlive() throws RemoteException {
+        return true;
+    }
+
 
 }

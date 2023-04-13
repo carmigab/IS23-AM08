@@ -19,4 +19,5 @@ public interface RmiServerInterface extends Remote {
 
     public void messageAll(String message, String speaker) throws RemoteException;
 
+    public boolean isAlive() throws RemoteException;
 }

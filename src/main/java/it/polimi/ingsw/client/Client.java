@@ -2,8 +2,6 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.controller.exceptions.InvalidIdException;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
-import it.polimi.ingsw.gameInfo.GameInfo;
-import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.server.exceptions.NoGamesAvailableException;
 
@@ -20,8 +18,7 @@ public abstract class Client extends UnicastRemoteObject {
         return false;
     }
 
-    public boolean makeMove(List<Position> pos, int col) throws RemoteException, InvalidIdException, InvalidMoveException{
-        return false;
+    public void makeMove(List<Position> pos, int col) throws RemoteException, InvalidIdException, InvalidMoveException{
     }
 
     public void createGame(int num) throws RemoteException, NotBoundException{}

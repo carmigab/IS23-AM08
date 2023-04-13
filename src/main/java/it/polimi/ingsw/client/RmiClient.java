@@ -102,13 +102,13 @@ public class RmiClient extends Client implements RmiClientInterface{
 
     /**
      * This method lets the player make a move
+     *
      * @param pos : a List of positions
      * @param col : the column of the shelf
-     * @return true if the move il legal
      * @throws RemoteException
      */
-    public boolean makeMove(List<Position> pos, int col) throws RemoteException, InvalidIdException, InvalidMoveException {
-        return this.matchServer.makeMove(pos, col, nickname);
+    public void makeMove(List<Position> pos, int col) throws RemoteException, InvalidIdException, InvalidMoveException {
+        this.matchServer.makeMove(pos, col, nickname);
     }
 
     /**
@@ -195,5 +195,10 @@ public class RmiClient extends Client implements RmiClientInterface{
     public void receiveMessage(String message) throws RemoteException{
         this.view.displayChatMessage(message);
     }
+
+
+    // TODO
+    // add a ping from the client that tells if the server is alive
+
 
 }

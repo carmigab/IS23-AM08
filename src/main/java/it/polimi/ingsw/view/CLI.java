@@ -49,7 +49,7 @@ public class CLI extends View{
         }
 
         switch (command.substring(0, 2)) {
-            case "/h":
+            case "/h" -> {
                 System.out.println("Command list:");
                 System.out.println("/m: move a tile");
                 System.out.println(" - syntax: /m x1,y1 [x2,y2 x3,y3] columnNumber");
@@ -58,18 +58,11 @@ public class CLI extends View{
                 System.out.println(" - syntax: /c [playerName]: message");
                 System.out.println(" - [] indicates a facultative parameter, if no player name is specified the message is global");
                 System.out.println("/e: exit the game");
-                break;
-            case "/m":
-                parseMoveCommand(command);
-                break;
-            case "/c":
-                parseChatCommand(command);
-                break;
-            case "/e":
-                confirmExit();
-                break;
-            default:
-                errorMessage("invalid command, please try again");
+            }
+            case "/m" -> parseMoveCommand(command);
+            case "/c" -> parseChatCommand(command);
+            case "/e" -> confirmExit();
+            default -> errorMessage("invalid command, please try again");
         }
     }
 

@@ -86,21 +86,32 @@ public class CLI extends View{
         int i;
         List<Position> tiles = new ArrayList<>();
         for (i = 0; i < tilesNumber; i++) {
-            tiles.add(new Position(Integer.parseInt(command.substring(3 + i * 4, 4 + i * 4)), Integer.parseInt(command.substring(5 + i * 6, 8 + i * 4))));
+            try {
+                int x = Integer.parseInt(command.substring(3 + i * 4, 4 + i * 4));
+                int y = Integer.parseInt(command.substring(5 + i * 4, 6 + i * 4));
+                tiles.add(new Position(x, y));
+            } catch (NumberFormatException e) {
+                errorMessage("invalid move, please try again");
+                return;
+            }
         }
 
-        int column = Integer.parseInt(command.substring(3 + i * 4, 4 + i * 4));
-
-        if (checkValidMove(tiles, column)) {
-            try {
-                client.makeMove(tiles, column);
-            } catch (InvalidNicknameException e) {
-                errorMessage("is not your turn, please wait");
-            } catch (InvalidMoveException e) {
+        try {
+            int column = Integer.parseInt(command.substring(3 + i * 4, 4 + i * 4));
+            if (checkValidMove(tiles, column)) {
+                try {
+                    client.makeMove(tiles, column);
+                } catch (InvalidNicknameException e) {
+                    errorMessage("is not your turn, please wait");
+                } catch (InvalidMoveException e) {
+                    errorMessage("invalid move, please try again");
+                }
+            }
+            else {
                 errorMessage("invalid move, please try again");
             }
         }
-        else {
+        catch (NumberFormatException e) {
             errorMessage("invalid move, please try again");
         }
     }

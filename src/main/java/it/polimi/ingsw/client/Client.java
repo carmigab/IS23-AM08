@@ -21,9 +21,9 @@ public abstract class Client extends UnicastRemoteObject {
     public void makeMove(List<Position> pos, int col) throws InvalidNicknameException, InvalidMoveException, InvalidNicknameException {
     }
 
-    public void createGame(int num) throws RemoteException, NotBoundException{}
+    public void createGame(int num) {}
 
-    public void joinGame() throws RemoteException, NotBoundException, NoGamesAvailableException {}
+    public void joinGame() throws NoGamesAvailableException {}
 
     public void messageSomeone(String message, String receiver) {}
 

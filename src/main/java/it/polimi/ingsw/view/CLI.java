@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.RmiClient;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.model.Position;
+import it.polimi.ingsw.server.exceptions.NoGamesAvailableException;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -201,10 +202,39 @@ public class CLI extends View{
     /**
      * This method is called by start to ask the player if he wants to create a new game or join an existing one
      */
-    //TODO: implement
     @Override
     public void createOrJoinGame() {
+        boolean gameSelected = false;
 
+        System.out.println("Do you want to create a new game or join an existing one? (c/j)");
+
+        while (!gameSelected) {
+            String input = System.console().readLine();
+            while (!input.equals("c") && !input.equals("j")) {
+                System.out.println("Invalid input, please try again");
+                input = System.console().readLine();
+            }
+
+            if (input.equals("c")) {
+                System.out.println("Please insert the number of players");
+                String playersNumber = System.console().readLine();
+                while (!playersNumber.matches("[2-4]")) {
+                    System.out.println("Invalid input, please try again");
+                    playersNumber = System.console().readLine();
+                }
+
+                client.createGame(Integer.parseInt(playersNumber));
+                gameSelected = true;
+            }
+            else {
+                try {
+                    client.joinGame();
+                    gameSelected = true;
+                } catch (NoGamesAvailableException e) {
+                    System.out.println("No games available, please create a new one");
+                }
+            }
+        }
     }
 
     /**

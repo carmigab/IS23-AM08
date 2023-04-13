@@ -124,9 +124,20 @@ public class RmiClient extends Client implements RmiClientInterface{
      * @throws RemoteException
      * @throws NotBoundException
      */
-    public void createGame(int num) throws RemoteException, NotBoundException {
-        ConnectionInformationRMI c = this.lobbyServer.createGame(num, nickname, this);
-        this.connectToMatchServer(c);
+    public void createGame(int num) {
+        ConnectionInformationRMI c = null;
+        try {
+            c = this.lobbyServer.createGame(num, nickname, this);
+        } catch (RemoteException e) {
+            System.out.println("Remote exception");
+        }
+        try {
+            this.connectToMatchServer(c);
+        } catch (RemoteException e) {
+            System.out.println("Remote exception");
+        } catch (NotBoundException e) {
+            System.out.println("Not bound exception");
+        }
     }
 
     /**
@@ -134,14 +145,21 @@ public class RmiClient extends Client implements RmiClientInterface{
      * @throws RemoteException
      * @throws NotBoundException
      */
-    public void joinGame() throws RemoteException, NotBoundException, NoGamesAvailableException {
+    public void joinGame() throws NoGamesAvailableException {
         ConnectionInformationRMI c = null;
+
         try {
             c = this.lobbyServer.joinGame(nickname, this);
-        } catch (NoGamesAvailableException e) {
-            throw new NoGamesAvailableException();
+        } catch (RemoteException e) {
+            System.out.println("Remote exception");
         }
-        this.connectToMatchServer(c);
+        try {
+            this.connectToMatchServer(c);
+        } catch (RemoteException e) {
+            System.out.println("Remote exception");
+        } catch (NotBoundException e) {
+            System.out.println("Not bound exception");
+        }
     }
 
     /**

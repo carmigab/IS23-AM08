@@ -18,6 +18,7 @@ public class CLI extends View{
     /**
      * This method is called by update to display the game
      */
+    //TODO: implement this method
     @Override
     protected void display() {
 
@@ -31,9 +32,8 @@ public class CLI extends View{
     @Override
     public String waitCommand() {
         System.out.println("Waiting for command (/help for command list)");
-        String command = System.console().readLine();
 
-        return command;
+        return System.console().readLine();
     }
 
     /**
@@ -197,6 +197,7 @@ public class CLI extends View{
     /**
      * This method is called by start to ask the player if he wants to create a new game or join an existing one
      */
+    //TODO: implement
     @Override
     public void createOrJoinGame() {
 
@@ -232,6 +233,10 @@ public class CLI extends View{
         } catch (InterruptedException ignored) { }
     }
 
+    /**
+     * This method receive a chat message from the server and displays it
+     * @param message the message to display
+     */
     @Override
     public void displayChatMessage(String message) {
         System.out.println(message);

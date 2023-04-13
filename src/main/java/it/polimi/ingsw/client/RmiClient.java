@@ -172,7 +172,7 @@ public class RmiClient extends Client implements RmiClientInterface{
                         throw new RuntimeException(e);
                     } catch (RemoteException e) {
                         System.out.println("The Server is offline");
-                        view.update(State.CLIENTCRASHED, null);
+                        view.update(State.GRACEFULDISCONNECTION, null);
                         break;
                     }
                 }

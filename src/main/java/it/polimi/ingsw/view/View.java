@@ -4,7 +4,6 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.view.exeptions.TimeOutException;
 
 import java.util.List;
 
@@ -67,7 +66,7 @@ public abstract class View {
         while (iWantToPlay) {
             createOrJoinGame();
             String command;
-            while (!currentState.equals(State.ENDGAME) && !currentState.equals(State.CLIENTCRASHED)) {
+            while (!currentState.equals(State.ENDGAME) && !currentState.equals(State.GRACEFULDISCONNECTION)) {
                 // wait for the player's command
                 command = waitCommand();
 
@@ -75,7 +74,7 @@ public abstract class View {
                 parseCommand(command); // il client deve gestire la remote exception e settare shutdown a true
             }
             // ask the player if he wants to play again
-            if (!currentState.equals(State.CLIENTCRASHED)) {
+            if (!currentState.equals(State.GRACEFULDISCONNECTION)) {
                 iWantToPlay = askIfWantToPlayAgain();
             }
         }
@@ -87,7 +86,7 @@ public abstract class View {
      */
     public synchronized void checkForShutdown() {
         while (true) {
-            if (currentState.equals(State.CLIENTCRASHED)) {
+            if (currentState.equals(State.GRACEFULDISCONNECTION)) {
                 close("One player has crashed, the game will be closed");
             }
             try {

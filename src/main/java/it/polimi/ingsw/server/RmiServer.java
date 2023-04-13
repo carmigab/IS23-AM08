@@ -167,7 +167,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
      */
     public void gracefulDisconnection(){
         System.out.println("A client lost connection");
-        this.updateClients(State.CLIENTCRASHED, null);
+        this.updateClients(State.GRACEFULDISCONNECTION, null);
     }
 
     /**
@@ -234,6 +234,16 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
                 throw new RemoteException();
             }
         }
+    }
+
+    /**
+     * this method responds to the client's ping
+     * @return true
+     * @throws RemoteException
+     */
+    @Override
+    public boolean isAlive() throws RemoteException {
+        return true;
     }
 
 

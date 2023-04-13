@@ -7,5 +7,5 @@ public enum State {
     TURN2,
     TURN3,
     ENDGAME,
-    CLIENTCRASHED
+    GRACEFULDISCONNECTION
 }

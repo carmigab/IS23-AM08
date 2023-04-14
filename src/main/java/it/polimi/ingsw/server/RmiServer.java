@@ -6,6 +6,7 @@ import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
+import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.Position;
 
 import java.rmi.RemoteException;
@@ -36,6 +37,17 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         this.state = State.WAITINGFORPLAYERS;
 
         System.out.println("New server for "+numPlayers+" players has been created");
+    }
+
+    /**
+     * TODO
+     * @param gameModel
+     * @throws RemoteException
+     */
+    public RmiServer(GameModel gameModel) throws RemoteException{
+        super();
+        this.numPlayers=4;
+        this.state = State.WAITINGFORPLAYERS;
     }
 
 

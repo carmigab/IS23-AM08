@@ -10,10 +10,15 @@ import com.google.gson.annotations.Expose;
 public class LobbyServerConfig {
 
     /**
-     * Integer containing the port that the lobby server will be open on
+     * Integer containing the port that the lobby server will be open on RMI
      */
     @Expose
-    private final Integer serverPort;
+    private final Integer serverPortRMI;
+    /**
+     * Integer containing the port that the lobby server will be open on TCP
+     */
+    @Expose
+    private final Integer serverPortTCP;
     /**
      * String containing the server name that the client will refer to
      */
@@ -33,24 +38,33 @@ public class LobbyServerConfig {
 
     /**
      * Constructor that takes all the parameters of the class
-     * @param serverPort integer containing the information of the server port
+     * @param serverPortTCP integer containing the information of the server port
+     * @param serverPortRMI integer containing the information of the server port
      * @param serverName string containing the information of the server name
      * @param startingPort integer containing the information of the starting port
      * @param startingName string containing the information of the starting name
      */
-    public LobbyServerConfig(Integer serverPort, String serverName, Integer startingPort, String startingName){
+    public LobbyServerConfig( Integer serverPortRMI, Integer serverPortTCP, String serverName, Integer startingPort, String startingName){
         this.serverName=serverName;
-        this.serverPort=serverPort;
+        this.serverPortRMI=serverPortRMI;
+        this.serverPortTCP=serverPortRMI;
         this.startingPort=startingPort;
         this.startingName=startingName;
     }
 
     /**
-     * Getter of the server port
+     * Getter of the server port in RMI
      * @return an integer
      */
-    public Integer getServerPort() {
-        return this.serverPort;
+    public Integer getServerPortRMI() {
+        return this.serverPortRMI;
+    }
+    /**
+     * Getter of the server port in TCP
+     * @return an integer
+     */
+    public Integer getServerPortTCP() {
+        return this.serverPortTCP;
     }
     /**
      * Getter of the server name

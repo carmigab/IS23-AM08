@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.client.RmiClient;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
+import it.polimi.ingsw.model.PlayerState;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.constants.AppConstants;
@@ -14,6 +15,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * This class is used to represent the CLI view of the game
@@ -21,19 +23,31 @@ import java.util.List;
 public class CLI extends View{
 
     /**
+     * This attribute is used to synchronize the visual update of the view
+     */
+    private final Object displayLock = new Object();
+
+    /**
+     * Scanner used to read user input
+     */
+    private static final Scanner scanner = new Scanner(System.in);
+
+    /**
      * This method is called by update to display the game
      */
     //TODO: implement this method
     @Override
     protected void display() {
-        printBoard();
+        synchronized (displayLock) {
+            printBoard();
+        }
     }
 
     /**
      * This method is called by display to print the board
      */
     private void printBoard() {
-        System.out.println("Board:");
+        printMessage("Board:", AnsiEscapeCodes.GAME_MESSAGE);
         StringBuilder lineBuilder;
         for (int i = 0; i < AppConstants.BOARD_DIMENSION; i++) {
             lineBuilder = new StringBuilder();
@@ -69,9 +83,9 @@ public class CLI extends View{
      */
     @Override
     public String waitCommand() {
-        System.out.println("Waiting for command (/help for command list)");
+        printMessage("Waiting for command (/help for command list) ", AnsiEscapeCodes.REQUEST_MESSAGE);
 
-        return System.console().readLine();
+        return scanner.nextLine();
     }
 
     /**
@@ -82,25 +96,21 @@ public class CLI extends View{
     protected void parseCommand(String command) {
         // if it's not the player's turn, the command will not be sent to the server
         if (!isMyTurn()) {
-            System.out.println("Error: please wait for your turn");
+            printMessage("Error: please wait for your turn ", AnsiEscapeCodes.ERROR_MESSAGE);
             return;
         }
 
-        switch (command.substring(0, 2)) {
-            case "/h" -> {
-                System.out.println("Command list:");
-                System.out.println("/m: move a tile");
-                System.out.println(" - syntax: /m x1,y1 [x2,y2 x3,y3] columnNumber");
-                System.out.println(" - [] indicates a facultative parameter");
-                System.out.println("/c: send a chat message");
-                System.out.println(" - syntax: /c [playerName]: message");
-                System.out.println(" - [] indicates a facultative parameter, if no player name is specified the message is global");
-                System.out.println("/e: exit the game");
+        switch (command.trim()) {
+            case "/help" -> {
+                printMessage("Command list:" + "" +
+                        "/move: move a tile"  + "" +
+                        "/chat: send a chat message"  + "" +
+                        "/exit: exit the game ", AnsiEscapeCodes.REQUEST_MESSAGE);
             }
-            case "/m" -> parseMoveCommand(command);
-            case "/c" -> parseChatCommand(command);
-            case "/e" -> confirmExit();
-            default -> errorMessage("invalid command, please try again");
+            case "/move" -> parseMoveCommand(command);
+            case "/chat" -> chatCommand();
+            case "/exit" -> confirmExit();
+            default -> printMessage("invalid command, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
         }
     }
 
@@ -108,16 +118,17 @@ public class CLI extends View{
      * This method is called by parseCommand to parse a move command
      * @param command the command to parse
      */
+    //TODO: change implementation to match changes in parseCommand
     private void parseMoveCommand(String command) {
         int tilesNumber = (command.length() - 3) / 4;
 
         if (tilesNumber < 1 || tilesNumber > 3) {
-            errorMessage("invalid move, please try again");
+            printMessage("invalid move, please try again", AnsiEscapeCodes.ERROR_MESSAGE);
             return;
         }
 
         if (!gameInfo.getCurrentPlayerNickname().equals(myNickname)) {
-            errorMessage("is not your turn, please wait");
+            printMessage("is not your turn, please wait", AnsiEscapeCodes.ERROR_MESSAGE);
             return;
         }
 
@@ -129,7 +140,7 @@ public class CLI extends View{
                 int y = Integer.parseInt(command.substring(5 + i * 4, 6 + i * 4));
                 tiles.add(new Position(x, y));
             } catch (NumberFormatException e) {
-                errorMessage("invalid move, please try again");
+                printMessage("invalid move, please try again", AnsiEscapeCodes.ERROR_MESSAGE);
                 return;
             }
         }
@@ -140,60 +151,95 @@ public class CLI extends View{
                 try {
                     client.makeMove(tiles, column);
                 } catch (InvalidNicknameException e) {
-                    errorMessage("is not your turn, please wait");
+                    printMessage("is not your turn, please wait", AnsiEscapeCodes.ERROR_MESSAGE);
                 } catch (InvalidMoveException e) {
-                    errorMessage("invalid move, please try again");
+                    printMessage("invalid move, please try again", AnsiEscapeCodes.ERROR_MESSAGE);
                 }
             }
             else {
-                errorMessage("invalid move, please try again");
+                printMessage("invalid move, please try again", AnsiEscapeCodes.ERROR_MESSAGE);
             }
         }
         catch (NumberFormatException e) {
-            errorMessage("invalid move, please try again");
+            printMessage("invalid move, please try again", AnsiEscapeCodes.ERROR_MESSAGE);
         }
     }
 
     /**
-     * This method is called by parseCommand to parse a chat command
-     * @param command the command to parse
+     * This method is called by parseCommand to handle a chat command
      */
-    private void parseChatCommand(String command) {
-        if (command.charAt(3) == ':') {
-            String message = command.substring(4);
-            client.messageAll(message);
-        }
-        else {
-            String receiver = command.substring(3);
-            receiver = receiver.substring(0, receiver.indexOf(':'));
+    //TODO: add timer
+    private void chatCommand() {
+        synchronized (displayLock) {
+            printMessage("To send a global message write 'all : message'", AnsiEscapeCodes.REQUEST_MESSAGE);
+            printMessage("To send a message to a specific player write 'player_name : message' ", AnsiEscapeCodes.REQUEST_MESSAGE);
 
-            String message = command.substring(command.indexOf(':') + 2);
+            boolean messageSent = false;
 
-            client.messageSomeone(receiver, message);
+            while (!messageSent) {
+                String input = scanner.nextLine();
+                while (!input.matches("^[A-Za-z0-9+_.-]+ : (.+)$")) {
+                    printMessage("Invalid message format, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+                    input = scanner.nextLine();
+                }
+
+                String receiverNickname = input.substring(0, input.indexOf(":")).trim();
+                String message = input.substring(input.indexOf(":") + 1).trim();
+                if (receiverNickname.equals("all")) {
+                    client.messageAll(message);
+                    messageSent = true;
+                }
+                else {
+                    if (checkExistingNickname(receiverNickname)) {
+                        client.messageSomeone(message, receiverNickname);
+                        messageSent = true;
+                    }
+                    else {
+                        printMessage("This player does not exist, please type again your message: ", AnsiEscapeCodes.ERROR_MESSAGE);
+                    }
+                }
+            }
         }
+    }
+
+    /**
+     * This method is called by chatCommand to check if the given nickname exists
+     * @param nickname nickname to check
+     * @return true if the nickname is present
+     */
+    private boolean checkExistingNickname(String nickname) {
+        return gameInfo.getPlayerStatesList().stream().map(PlayerState::getNickname).anyMatch(n->n.equals(nickname));
     }
 
     /**
      * This method is called by parseCommand to ask the player to confirm she wants to exit
      */
+    //TODO: add timer
     private void confirmExit() {
-        System.out.println("Are you sure you want to exit? (y/n)");
-        String input = System.console().readLine();
-        while (!input.equals("y") && !input.equals("n")) {
-            System.out.println("Invalid input, please try again");
-            input = System.console().readLine();
-        }
+        synchronized (displayLock) {
+            printMessage("Are you sure you want to exit? (y/n) ", AnsiEscapeCodes.REQUEST_MESSAGE);
+            String input = scanner.nextLine();
+            input = input.trim();
+            while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n")) {
+                printMessage("Invalid input, please try again", AnsiEscapeCodes.ERROR_MESSAGE);
+                input = scanner.nextLine();
+                input = input.trim();
+            }
 
-        if (input.equals("y")) {
-            close("Client closing, bye bye!");
+            if (input.equalsIgnoreCase("y")) {
+                close("Client closing, bye bye!");
+            }
+            else {
+                printMessage("Returning to game ", AnsiEscapeCodes.REQUEST_MESSAGE);
+            }
         }
     }
 
     /**
      * This method is called by parseCommand to print an error message if the command is invalid
      */
-    private void errorMessage(String message) {
-        System.out.println(message);
+    private void printMessage(String message, AnsiEscapeCodes message_type) {
+        System.out.println(message_type.getCode() + message + AnsiEscapeCodes.ENDING_CODE.getCode());
     }
 
     /**
@@ -202,18 +248,20 @@ public class CLI extends View{
     @Override
     // ask for connection type using println, 1 for RMI, 2 for Socket, ask again if the input is not valid
     public void chooseConnectionType() {
-        System.out.println("Choose connection type: 1 for RMI, 2 for Socket");
-        String input = System.console().readLine();
-        while (!input.equals("1") && !input.equals("2")) {
-            System.out.println("Invalid input, please try again");
-            input = System.console().readLine();
+        printMessage("Choose connection type (rmi/socket)", AnsiEscapeCodes.REQUEST_MESSAGE);
+        String input = scanner.nextLine();
+        input = input.trim();
+        while (!input.equalsIgnoreCase("rmi") && !input.equalsIgnoreCase("socket")) {
+            printMessage("Invalid input, please try again ", AnsiEscapeCodes.REQUEST_MESSAGE);
+            input = scanner.nextLine();
+            input = input.trim();
         }
 
-        if (input.equals("1")) {
+        if (input.equalsIgnoreCase("rmi")) {
             try {
                 client = new RmiClient(myNickname, this);
             } catch (RemoteException | NotBoundException | InterruptedException e) {
-                errorMessage("error while connecting to the server");
+                printMessage("error while connecting to the server", AnsiEscapeCodes.ERROR_MESSAGE);
                 close("Client closing, try again later");
             }
         }
@@ -228,11 +276,11 @@ public class CLI extends View{
      */
     @Override
     public void askNickname() {
-        System.out.println("Please insert your nickname");
-        myNickname = System.console().readLine();
+        printMessage("Please insert your nickname: ", AnsiEscapeCodes.REQUEST_MESSAGE);
+        myNickname = scanner.nextLine();
         while ((myNickname == null || myNickname.equals("")) && !client.chooseNickname(myNickname)) {
-            System.out.println("Invalid nickname, please try again");
-            myNickname = System.console().readLine();
+            printMessage("Invalid nickname, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+            myNickname = scanner.nextLine();
         }
     }
 
@@ -243,21 +291,21 @@ public class CLI extends View{
     public void createOrJoinGame() {
         boolean gameSelected = false;
 
-        System.out.println("Do you want to create a new game or join an existing one? (c/j)");
+        printMessage("Do you want to create a new game or join an existing one? (c/j) ", AnsiEscapeCodes.REQUEST_MESSAGE);
 
         while (!gameSelected) {
-            String input = System.console().readLine();
+            String input = scanner.nextLine();
             while (!input.equals("c") && !input.equals("j")) {
-                System.out.println("Invalid input, please try again");
-                input = System.console().readLine();
+                printMessage("Invalid input, please try again ", AnsiEscapeCodes.REQUEST_MESSAGE);
+                input = scanner.nextLine();
             }
 
             if (input.equals("c")) {
-                System.out.println("Please insert the number of players");
-                String playersNumber = System.console().readLine();
+                printMessage("Please insert the number of players ", AnsiEscapeCodes.REQUEST_MESSAGE);
+                String playersNumber = scanner.nextLine();
                 while (!playersNumber.matches("[2-4]")) {
-                    System.out.println("Invalid input, please try again");
-                    playersNumber = System.console().readLine();
+                    printMessage("Invalid input, please try again ", AnsiEscapeCodes.REQUEST_MESSAGE);
+                    playersNumber = scanner.nextLine();
                 }
 
                 try {
@@ -276,7 +324,7 @@ public class CLI extends View{
                     }
                     gameSelected = true;
                 } catch (NoGamesAvailableException e) {
-                    System.out.println("No games available, please create a new one");
+                    printMessage("No games available, please create a new one ", AnsiEscapeCodes.ERROR_MESSAGE);
                 }
             }
         }
@@ -289,11 +337,11 @@ public class CLI extends View{
      */
     @Override
     public boolean askIfWantToPlayAgain() {
-        System.out.println("Do you want to play again? (y/n)");
-        String input = System.console().readLine();
+        printMessage("Do you want to play again? (y/n) ", AnsiEscapeCodes.REQUEST_MESSAGE);
+        String input = scanner.nextLine();
         while (!input.equals("y") && !input.equals("n")) {
-            System.out.println("Invalid input, please try again");
-            input = System.console().readLine();
+            printMessage("Invalid input, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+            input = scanner.nextLine();
         }
 
         return input.equals("y");
@@ -306,7 +354,7 @@ public class CLI extends View{
      */
     @Override
     protected void notifyClose(String message) {
-        System.out.println(message);
+        printMessage(message, AnsiEscapeCodes.REQUEST_MESSAGE);
         try {
             wait(3000);
         } catch (InterruptedException ignored) { }
@@ -318,6 +366,6 @@ public class CLI extends View{
      */
     @Override
     public void displayChatMessage(String message) {
-        System.out.println(message);
+        printMessage(message, AnsiEscapeCodes.CHAT_MESSAGE);
     }
 }

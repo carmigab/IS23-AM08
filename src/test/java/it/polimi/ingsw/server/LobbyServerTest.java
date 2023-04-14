@@ -28,9 +28,7 @@ class LobbyServerTest {
         //trying to insert it again will not work
         assertThrows(ExistentNicknameExcepiton.class, ()-> ls1.chooseNickname("Gabri"));
         //try a name from the ban list
-        List<String> bannedNames=new ArrayList<>();
-        bannedNames=new Gson().fromJson(new FileReader(ServerConstants.SERVER_BAN_LIST),ArrayList.class);
-        String bannedName=bannedNames.get(new Random().nextInt(bannedNames.size()));
+        String bannedName="Matteo";
         assertThrows(IllegalNicknameException.class, ()-> ls1.chooseNickname(bannedName));
 
         LobbyServer ls2= new LobbyServer(1234, "Ciao",2000,"Game");
@@ -46,6 +44,27 @@ class LobbyServerTest {
         assertThrows(IllegalNicknameException.class, ()-> ls3.chooseNickname(bannedName));
     }
 
+    @Test
+    public void testCorrectRegex() throws RemoteException, ExistentNicknameExcepiton, IllegalNicknameException {
+        LobbyServer ls=new LobbyServer();
 
+        // add a non banned name
+        assertTrue(ls.chooseNickname("Gabriele"));
+        // add a name with a banned regex (there is a space
+        assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("Gabriele_"));
+        // try another one in different positions also
+        assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("Gab riele "));
+        assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname(" Gabriele"));
+        // now try with another banned regex
+        assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("Matteo"));
+        assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("aMatteo"));
+        assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("Matteoa"));
+        // now try the keyword "all" alone, should throw the exception
+        assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("all"));
+        // try some variants to show it does not throw anything
+        assertTrue(ls.chooseNickname("call"));
+        assertTrue(ls.chooseNickname("allc"));
+        assertTrue(ls.chooseNickname("All"));
+    }
 
 }

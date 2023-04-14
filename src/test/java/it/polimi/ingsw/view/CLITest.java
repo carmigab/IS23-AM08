@@ -36,4 +36,14 @@ class CLITest {
 
         cli.update(State.TURN0, gameInfo);
     }
+
+    /**
+     * This method tests the user input flow
+     */
+    @Test
+    void getUserInput() {
+        CLI cli = new CLI();
+
+        //cli.getUserInput();
+    }
 }

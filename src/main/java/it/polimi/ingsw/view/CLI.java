@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.client.RmiClient;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
+import it.polimi.ingsw.model.PlayerState;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.constants.AppConstants;
@@ -21,12 +22,19 @@ import java.util.List;
 public class CLI extends View{
 
     /**
+     * This attribute is used to synchronize the visual update of the view
+     */
+    private final Object displayLock = new Object();
+
+    /**
      * This method is called by update to display the game
      */
     //TODO: implement this method
     @Override
     protected void display() {
-        printBoard();
+        synchronized (displayLock) {
+            printBoard();
+        }
     }
 
     /**
@@ -86,20 +94,16 @@ public class CLI extends View{
             return;
         }
 
-        switch (command.substring(0, 2)) {
-            case "/h" -> {
+        switch (command) {
+            case "/help" -> {
                 System.out.println("Command list:");
-                System.out.println("/m: move a tile");
-                System.out.println(" - syntax: /m x1,y1 [x2,y2 x3,y3] columnNumber");
-                System.out.println(" - [] indicates a facultative parameter");
-                System.out.println("/c: send a chat message");
-                System.out.println(" - syntax: /c [playerName]: message");
-                System.out.println(" - [] indicates a facultative parameter, if no player name is specified the message is global");
-                System.out.println("/e: exit the game");
+                System.out.println("/move: move a tile");
+                System.out.println("/chat: send a chat message");
+                System.out.println("/exit: exit the game");
             }
-            case "/m" -> parseMoveCommand(command);
-            case "/c" -> parseChatCommand(command);
-            case "/e" -> confirmExit();
+            case "/move" -> parseMoveCommand(command);
+            case "/chat" -> chatCommand();
+            case "/exit" -> confirmExit();
             default -> errorMessage("invalid command, please try again");
         }
     }
@@ -108,6 +112,7 @@ public class CLI extends View{
      * This method is called by parseCommand to parse a move command
      * @param command the command to parse
      */
+    //TODO: change implementation to match changes in parseCommand
     private void parseMoveCommand(String command) {
         int tilesNumber = (command.length() - 3) / 4;
 
@@ -155,22 +160,48 @@ public class CLI extends View{
     }
 
     /**
-     * This method is called by parseCommand to parse a chat command
-     * @param command the command to parse
+     * This method is called by parseCommand to handle a chat command
      */
-    private void parseChatCommand(String command) {
-        if (command.charAt(3) == ':') {
-            String message = command.substring(4);
-            client.messageAll(message);
-        }
-        else {
-            String receiver = command.substring(3);
-            receiver = receiver.substring(0, receiver.indexOf(':'));
+    private void chatCommand() {
+        synchronized (displayLock) {
+            System.out.println("To send a global message write 'all : message'");
+            System.out.println("To send a message to a specific player write 'player_name : message'");
 
-            String message = command.substring(command.indexOf(':') + 2);
+            boolean messageSent = false;
 
-            client.messageSomeone(receiver, message);
+            while (!messageSent) {
+                String input = System.console().readLine();
+                while (!input.matches("^[A-Za-z0-9+_.-]+ : (.+)$")) {
+                    System.out.println("Invalid message format, please try again");
+                    input = System.console().readLine();
+                }
+
+                String receiverNickname = input.substring(0, input.indexOf(":") - 1);
+                String message = input.substring(input.indexOf(":") + 2);
+                if (receiverNickname.equals("all")) {
+                    client.messageAll(message);
+                    messageSent = true;
+                }
+                else {
+                    if (checkExistingNickname(receiverNickname)) {
+                        client.messageSomeone(message, receiverNickname);
+                        messageSent = true;
+                    }
+                    else {
+                        System.out.println("This player does not exist, please type again your message:");
+                    }
+                }
+            }
         }
+    }
+
+    /**
+     * This method is called by chatCommand to check if the given nickname exists
+     * @param nickname nickname to check
+     * @return true if the nickname is present
+     */
+    private boolean checkExistingNickname(String nickname) {
+        return gameInfo.getPlayerStatesList().stream().map(PlayerState::getNickname).anyMatch(n->n.equals(nickname));
     }
 
     /**

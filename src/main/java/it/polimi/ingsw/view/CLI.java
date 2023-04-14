@@ -4,6 +4,8 @@ import it.polimi.ingsw.client.RmiClient;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.model.Position;
+import it.polimi.ingsw.model.TileColor;
+import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.server.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.server.exceptions.NoGamesAvailableException;
 import it.polimi.ingsw.server.exceptions.NonExistentNicknameException;
@@ -24,7 +26,40 @@ public class CLI extends View{
     //TODO: implement this method
     @Override
     protected void display() {
+        printBoard();
+    }
 
+    /**
+     * This method is called by display to print the board
+     */
+    private void printBoard() {
+        System.out.println("Board:");
+        StringBuilder lineBuilder;
+        for (int i = 0; i < AppConstants.BOARD_DIMENSION; i++) {
+            lineBuilder = new StringBuilder();
+            for (int j = 0; j < AppConstants.BOARD_DIMENSION; j++) {
+                lineBuilder.append(tileColorToAnsiCode(gameInfo.getMyGameBoard()[i][j].getColor())).append("   ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
+            }
+            System.out.println(lineBuilder.toString());
+        }
+    }
+
+    /**
+     * This method is called by printBoard to convert a tile color to an ANSI escape code
+     * @param color the color to convert
+     * @return the ANSI escape code
+     */
+    private String tileColorToAnsiCode(TileColor color) {
+        return switch (color) {
+            case WHITE -> AnsiEscapeCodes.WHITE_BACKGROUND.getCode();
+            case BLUE -> AnsiEscapeCodes.BLUE_BACKGROUND.getCode();
+            case YELLOW -> AnsiEscapeCodes.YELLOW_BACKGROUND.getCode();
+            case VIOLET -> AnsiEscapeCodes.VIOLET_BACKGROUND.getCode();
+            case CYAN -> AnsiEscapeCodes.CYAN_BACKGROUND.getCode();
+            case GREEN -> AnsiEscapeCodes.GREEN_BACKGROUND.getCode();
+            case EMPTY -> AnsiEscapeCodes.EMPTY_BACKGROUND.getCode();
+            default -> AnsiEscapeCodes.DEFAULT_BACKGROUND.getCode();
+        };
     }
 
     /**
@@ -227,9 +262,7 @@ public class CLI extends View{
 
                 try {
                     client.createGame(Integer.parseInt(playersNumber));
-                } catch (NonExistentNicknameException e) {
-                    throw new RuntimeException(e);
-                } catch (AlreadyInGameException e) {
+                } catch (NonExistentNicknameException | AlreadyInGameException e) {
                     throw new RuntimeException(e);
                 }
                 gameSelected = true;
@@ -238,9 +271,7 @@ public class CLI extends View{
                 try {
                     try {
                         client.joinGame();
-                    } catch (NonExistentNicknameException e) {
-                        throw new RuntimeException(e);
-                    } catch (AlreadyInGameException e) {
+                    } catch (NonExistentNicknameException | AlreadyInGameException e) {
                         throw new RuntimeException(e);
                     }
                     gameSelected = true;

@@ -23,13 +23,16 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * Set that contains all the nicknames of every client connected
      */
     private final Set<String> nicknamesPool;
+    /**
+     * Set that contains all the nicknames of every client that is currently playing a game
+     */
     private final Set<String> nicknamesInGame;
     /**
      * List of all the games currently active in the application
      */
     private final List<RmiServer> serverList;
     /**
-     * List of all the game informations present in the application
+     * List of all the game information present in the application
      */
     private final List<ConnectionInformationRMI> serverInformation;
     /**
@@ -254,7 +257,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             RmiServer rs = new RmiServer(numPlayers);
             rs.addPlayer(nickname, client);
             this.serverList.add(rs);
-            ConnectionInformationRMI info = new ConnectionInformationRMI(this.config.getStartingName()+(this.serverList.size()), this.config.getStartingPort()+this.serverList.size());
+            ConnectionInformationRMI info = new ConnectionInformationRMI(this.config.getStartingName()+(this.serverList.size()), this.config.getStartingPort()+(this.serverList.size()*2-1));
             this.serverInformation.add(info);
             this.startGame(rs, info);
             return info;
@@ -264,12 +267,11 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
 
     /**
      * This method lets you join the first game available in the list of all games active
-     * If there is none or every game is full it throws a NoGamesAvailableException
      * @param nickname nickname of the player that calls the method
      * @param client reference to the methods of the client that can be called by the server using RMI
      * @return the information useful for the connection to the game
      * @throws RemoteException exception of RMI
-     * @throws NoGamesAvailableException if there is no available game currently ongoing
+     * @throws NoGamesAvailableException if every game is full or there is no game currently ongoing in the server
      * @throws AlreadyInGameException if the player is already in a different game
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
@@ -338,11 +340,13 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @param pathName file name where the game was stored
      */
     public void removePlayersFromGame(String pathName){
-        Arrays.stream(
-                pathName.substring(0,pathName.length()-ServerConstants.JSON_EXTENSION.length())
-                        .split(ServerConstants.REGEX)
-                )
-                .forEach(this.nicknamesInGame::remove);
+        synchronized (lockCreateGame) {
+            Arrays.stream(
+                            pathName.substring(0, pathName.length() - ServerConstants.JSON_EXTENSION.length())
+                                    .split(ServerConstants.REGEX)
+                    )
+                    .forEach(this.nicknamesInGame::remove);
+        }
     }
 
 }

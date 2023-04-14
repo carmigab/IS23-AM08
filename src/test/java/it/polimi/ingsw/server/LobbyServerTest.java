@@ -3,8 +3,10 @@ package it.polimi.ingsw.server;
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesAtStartFillBoardException;
 import it.polimi.ingsw.server.constants.ServerConstants;
+import it.polimi.ingsw.server.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.server.exceptions.ExistentNicknameExcepiton;
 import it.polimi.ingsw.server.exceptions.IllegalNicknameException;
+import it.polimi.ingsw.server.exceptions.NonExistentNicknameException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -57,7 +59,7 @@ class LobbyServerTest {
         assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname(" Gabriele"));
         // now try with another banned regex
         assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("Matteo"));
-        assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("aMatteo"));
+        assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("aaMatteo"));
         assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("Matteoa"));
         // now try the keyword "all" alone, should throw the exception
         assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("all"));
@@ -65,6 +67,25 @@ class LobbyServerTest {
         assertTrue(ls.chooseNickname("call"));
         assertTrue(ls.chooseNickname("allc"));
         assertTrue(ls.chooseNickname("All"));
+    }
+
+    @Test
+    public void testCreateGame() throws RemoteException, ExistentNicknameExcepiton, IllegalNicknameException, NonExistentNicknameException, AlreadyInGameException {
+        LobbyServer ls=new LobbyServer();
+        //Let's use a banned word first
+        String nickname="all";
+        assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("Matteoa"));
+        // it should not let you create the game (for the moment we do not care about the clients, so let them null
+        assertThrows(NonExistentNicknameException.class, ()-> ls.createGame(3, nickname, null));
+        // now use a normal nickname but still should throw same exception
+        String nickname2="Gabriele";
+        assertThrows(NonExistentNicknameException.class, ()-> ls.createGame(3, nickname2, null));
+        // now add it
+        assertTrue(ls.chooseNickname(nickname2));
+        //and ask same thing but do not throw anything
+        assertNotNull(ls.createGame(3,nickname2,null));
+        //if we try to add it again with the same nickname it should not be possible
+        assertThrows(AlreadyInGameException.class, ()-> ls.createGame(3, nickname2, null));
     }
 
 }

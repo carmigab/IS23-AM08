@@ -4,13 +4,14 @@ import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.App;
 import it.polimi.ingsw.model.constants.AppConstants;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * This is the class containing all the information for the storage of a single personal shelf
  */
-public class PersonalGoal {
+public class PersonalGoal implements Serializable {
 
     /**
      * This attribute stores a list of 6 objects of class SingleGoal

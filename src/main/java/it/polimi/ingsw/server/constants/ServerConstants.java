@@ -7,6 +7,6 @@ public class ServerConstants {
     public static final Integer VERY_NICE=42069;
     public static final String LOBBY_SERVER = "LobbyServer";
     public static final String REGEX="_";
-    public static final String JSON_EXTENSION=".json";
+    public static final String JSON_EXTENSION="_.json";
 
 }

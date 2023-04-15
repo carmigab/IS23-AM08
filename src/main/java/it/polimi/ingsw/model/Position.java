@@ -2,10 +2,12 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.annotations.Expose;
 
+import java.io.Serializable;
+
 /**
  * this class represent the position of a specific tile in the game board
  */
-public class Position {
+public class Position implements Serializable {
     @Expose
     private int x;
     @Expose

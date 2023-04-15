@@ -28,7 +28,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * Set that contains all the nicknames of every client that is currently playing a game
      */
     private final Set<String> nicknamesInGame;
-    private final Map<String, ConnectionInformationRMI> potentialPlayers;
+    private final Map<String, Optional<ConnectionInformationRMI>> potentialPlayers;
     /**
      * List of all the games currently active in the application
      */
@@ -169,6 +169,8 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             System.out.println("Cleaning the directory "+ AppConstants.PATH_SAVED_MATCHES+" ...");
             this.cleanMatchDirectory();
             System.out.println("Cleaning done...");
+            this.loadPreviousGames();
+            System.out.println("Loaded previous games...");
             this.registry = LocateRegistry.createRegistry(this.config.getServerPortRMI());
 
             System.out.println("Registry acquired...");
@@ -226,6 +228,12 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
                 .forEach((match) -> new File(AppConstants.PATH_SAVED_MATCHES+match).delete());
     }
 
+    private void loadPreviousGames(){
+        Arrays.stream(Objects.requireNonNull(new File(AppConstants.PATH_SAVED_MATCHES).list()))
+                .map(fileName-> fileName.substring(0,fileName.length()-ServerConstants.JSON_EXTENSION.length()))
+                .flatMap(fileName -> Arrays.stream(fileName.split(ServerConstants.REGEX)))
+                .forEach(playerName -> this.potentialPlayers.put(playerName, Optional.empty()));
+    }
 
     /**
      * Method that the client can call to get a nickname assigned on the server
@@ -297,7 +305,8 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     public ConnectionInformationRMI joinGame(String nickname, RmiClientInterface client) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
         synchronized (lockCreateGame) {
             if (this.potentialPlayers.containsKey(nickname)) {
-                ConnectionInformationRMI toReturn= this.potentialPlayers.get(nickname);
+                ConnectionInformationRMI toReturn=this.potentialPlayers.get(nickname).orElseGet(()->this.recoverGame(nickname, client));
+                this.serverList.get(this.serverInformation.indexOf(toReturn)).addPlayer(nickname, client);
                 this.potentialPlayers.remove(nickname);
                 return toReturn;
             }
@@ -323,33 +332,14 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     }
 
     /**
-     * This method cheks if in all the saved matches there is a saved game (currently ongoing) with the player whose nickname is inserted in input
-     * @param nickname nickname of the player to be checked
-     * @return true if in the folder "savedMatches" there is a file that contains the nickname
-     */
-    @Override
-    public boolean isGameExistent(String nickname) throws RemoteException{
-        //Should never be null
-        return Arrays.stream(Objects.requireNonNull(new File(AppConstants.PATH_SAVED_MATCHES).list()))
-                .filter(fileName -> fileName.endsWith(ServerConstants.JSON_EXTENSION))
-                .anyMatch(fileName -> fileName.contains(nickname+ServerConstants.REGEX));
-    }
-
-    /**
      * This method lets you recover a game from where it has been stopped
      * It takes the information from the file inferring it by your name
      * Also adds the players to the potential players list (inferred from the file name)
      * @param nickname nickname of the player who asks to recover a game
      * @param client his client infromation
      * @return the information useful for the connection to the game
-     * @throws RemoteException exception of RMI
-     * @throws AlreadyInGameException if the player is already in a different game
-     * @throws NonExistentNicknameException if the player's nickname is not in the server's list or if the player has not a saved game
      */
-    @Override
-    public ConnectionInformationRMI recoverGame(String nickname, RmiClientInterface client) throws RemoteException, AlreadyInGameException, NonExistentNicknameException {
-        this.checkCredentialsIntegrity(nickname);
-        if (!this.isGameExistent(nickname)) throw new NonExistentNicknameException();
+    private ConnectionInformationRMI recoverGame(String nickname, RmiClientInterface client) {
         synchronized (lockCreateGame) {
             this.nicknamesInGame.add(nickname);
 
@@ -363,7 +353,6 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
                 //create a game with the GameModel as parameter
                 GameModel gm = new GameModel(JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(new FileReader(AppConstants.PATH_SAVED_MATCHES + fileName), GameModel.class));
                 RmiServer rs = new RmiServer(gm);
-                rs.addPlayer(nickname, client);
                 this.serverList.add(rs);
                 ConnectionInformationRMI info = new ConnectionInformationRMI(this.config.getStartingName() + (this.serverList.size()), this.config.getStartingPort() + this.serverList.size());
                 this.serverInformation.add(info);
@@ -371,7 +360,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
                 this.addPotentialPlayers(fileName, info, nickname);
                 this.startGame(rs, info);
                 return info;
-            } catch (FileNotFoundException e) {
+            } catch (FileNotFoundException | RemoteException e) {
                 System.out.println(e.getMessage());
             }
             //Should never arrive here
@@ -379,12 +368,12 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         }
     }
 
-    private void addPotentialPlayers(String fileName, ConnectionInformationRMI conn, String firstPlayer){
+    private void addPotentialPlayers(String fileName,ConnectionInformationRMI conn, String firstPlayer){
         Arrays.stream(fileName
                 .substring(0,fileName.length()-ServerConstants.JSON_EXTENSION.length())
                 .split(ServerConstants.REGEX))
                 .filter(name -> !name.equals(firstPlayer))
-                .forEach(match -> this.potentialPlayers.put(match,conn));
+                .forEach(match -> this.potentialPlayers.put(match,Optional.of(conn)));
     }
 
     /**

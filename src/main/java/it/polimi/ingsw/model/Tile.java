@@ -2,11 +2,13 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.annotations.Expose;
 
+import java.io.Serializable;
+
 /**
  * this class represent the single tile of the game
  */
 
-public class Tile {
+public class Tile implements Serializable {
     /**
      * this attribute is the color of the tile;
      */

@@ -3,6 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.client.RmiClient;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
+import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.PlayerState;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.TileColor;
@@ -47,14 +48,16 @@ public class CLI extends View{
      * This method is called by display to print the board
      */
     private void printBoard() {
-        printMessage("Board:", AnsiEscapeCodes.GAME_MESSAGE);
-        StringBuilder lineBuilder;
-        for (int i = 0; i < AppConstants.BOARD_DIMENSION; i++) {
-            lineBuilder = new StringBuilder();
-            for (int j = 0; j < AppConstants.BOARD_DIMENSION; j++) {
-                lineBuilder.append(tileColorToAnsiCode(gameInfo.getMyGameBoard()[i][j].getColor())).append("   ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
+        if(!(this.currentState==State.WAITINGFORPLAYERS)) {
+            printMessage("Board:", AnsiEscapeCodes.GAME_MESSAGE);
+            StringBuilder lineBuilder;
+            for (int i = 0; i < AppConstants.BOARD_DIMENSION; i++) {
+                lineBuilder = new StringBuilder();
+                for (int j = 0; j < AppConstants.BOARD_DIMENSION; j++) {
+                    lineBuilder.append(tileColorToAnsiCode(gameInfo.getMyGameBoard()[i][j].getColor())).append("   ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
+                }
+                System.out.println(lineBuilder.toString());
             }
-            System.out.println(lineBuilder.toString());
         }
     }
 

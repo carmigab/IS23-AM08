@@ -2,11 +2,13 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.annotations.Expose;
 
+import java.io.Serializable;
+
 /**
  * this class represents the specific single objective. Six of them composed one of the personal objective
  * assigned to a player
  */
-public class SingleGoal {
+public class SingleGoal implements Serializable {
     /**
      * this attribute is the position in the personal shelf that allows the player to complete the objective
      */

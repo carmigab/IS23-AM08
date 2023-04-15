@@ -4,13 +4,14 @@ import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.utilities.UtilityFunctions;
 
+import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 /**
  * This class represent the shelf of one of the player
  */
-public class Shelf {
+public class Shelf implements Serializable {
     /**
      * This attribute store all the tile in the player's shelf
      */

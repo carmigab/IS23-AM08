@@ -3,11 +3,13 @@ package it.polimi.ingsw.model;
 import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.model.constants.AppConstants;
 
+import java.io.Serializable;
+
 /**
  * this class represents a generic player of the match
  */
 
-public class PlayerState {
+public class PlayerState implements Serializable {
     /**
      * This attribute is the nickname of the player
      */

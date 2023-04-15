@@ -38,7 +38,7 @@ public class VirtualView implements Observer{
      * This method is the override of the observer pattern
      * It updates the gameInfo which has to be sent to the client with copies of what is present in the model
      * TODO: And also tells the server to update
-     * @param model
+     * @param model that will be observed
      */
     @Override
     public void update(GameModel model) {
@@ -55,6 +55,6 @@ public class VirtualView implements Observer{
                 }
             }
         }
-        //update server
+        this.server.update(this.currentState,this.gameInfo);
     }
 }

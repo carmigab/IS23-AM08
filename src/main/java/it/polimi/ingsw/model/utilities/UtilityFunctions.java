@@ -123,8 +123,7 @@ public class UtilityFunctions {
            ret=ret.concat(s+"_");
         }
 
-        //remove last '_'
-        return ret.substring(0,ret.length()-1).concat(".json");
+        return ret.concat(".json");
     }
 
     /**

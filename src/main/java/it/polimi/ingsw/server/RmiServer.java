@@ -26,8 +26,11 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
     private GameController gameController;
 
     private boolean toLoadGame;
+    private GameModel gameToLoad;
 
     private LobbyServer lobby;
+
+
 
 
     /**
@@ -56,7 +59,8 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         this.lobby = lobby;
         this.numPlayers = gameModel.getPlayerListCopy().size();
         this.toLoadGame = true;
-        this.gameController = new GameController(gameModel, this);
+        this.gameToLoad = gameModel;
+
 
         System.out.println("New server for "+numPlayers+" players has been created from pre-existing model");
         this.state = State.WAITINGFORPLAYERS;
@@ -131,7 +135,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         }
         else {
             System.out.println("Starting a pre-existing game");
-            // the gameController is created in the constructor
+            this.gameController = new GameController(gameToLoad, this);
         }
 
         Thread t = new Thread(() -> {

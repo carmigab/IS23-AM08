@@ -25,6 +25,8 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
 
     private GameController gameController;
 
+    private boolean toLoadGame;
+
 
     /**
      * Constructor of the RmiServer class
@@ -35,28 +37,25 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         super();
         this.numPlayers = numPlayers;
         this.state = State.WAITINGFORPLAYERS;
+        this.toLoadGame = false;
 
         System.out.println("New server for "+numPlayers+" players has been created");
     }
 
     /**
-     * TODO
-     * @param gameModel
+     * Constructor of the rmiServer class from a pre-existing gameModel
+     * @param gameModel: the model to load
      * @throws RemoteException
      */
     public RmiServer(GameModel gameModel) throws RemoteException{
         super();
-        this.numPlayers=4;
+        // infers the numPlayers from playerList
+        this.numPlayers = gameModel.getPlayerListCopy().size();
+        this.toLoadGame = true;
+        this.gameController = new GameController(gameModel, this);
+
+        System.out.println("New server for "+numPlayers+" players has been created from pre-existing model");
         this.state = State.WAITINGFORPLAYERS;
-    }
-
-
-    // This exists only for debugging purposes
-    public void registerPlayer(String nickname, RmiClientInterface client) throws RemoteException{
-        nicknamesList.add(nickname);
-        rmiClients.add(client);
-
-        this.updateClients(State.WAITINGFORPLAYERS, null);
     }
 
     /**
@@ -122,8 +121,14 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
      * oss: note that the first update to the server is called when the model is created
      */
     public void startGame(){
-        System.out.println("Starting new game");
-        this.gameController = new GameController(nicknamesList, numPlayers, this);
+        if (!this.toLoadGame) {
+            System.out.println("Starting new game");
+            this.gameController = new GameController(nicknamesList, numPlayers, this);
+        }
+        else {
+            System.out.println("Starting a pre-existing game");
+            // the gameController is created in the constructor
+        }
 
         Thread t = new Thread(() -> {
             synchronized (nicknamesList) {

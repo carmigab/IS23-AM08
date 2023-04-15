@@ -25,16 +25,32 @@ public class GameController {
         playersList = new ArrayList<>(nicknames);
         this.numPlayers = numPlayers;
         this.model = new GameModel(numPlayers, nicknames);
+
         this.gameStateObserver = new VirtualView(server);
         this.model.addObserver(gameStateObserver);
 
+    }
+
+    /**
+     * This method initializes a new gameController from a pre-existing model
+     * @param model: the model to load
+     * @param server: the server where the controller resides
+     */
+    public GameController(GameModel model, RmiServer server){
+        this.model = model;
+        this.numPlayers = this.model.getPlayerListCopy().size();
+        this.playersList = null;
+
+        this.gameStateObserver = new VirtualView(server);
+        this.model.addObserver(gameStateObserver);
     }
 
     public GameController(GameController controller){
         this.playersList = controller.playersList;
         this.numPlayers = controller.numPlayers;
         this.model = new GameModel(controller.model);
-        this.gameStateObserver = new VirtualView(null); //TODO (pass the rmiServer by parameter)
+
+        this.gameStateObserver = new VirtualView(null);
         this.model.addObserver(gameStateObserver);
     }
 

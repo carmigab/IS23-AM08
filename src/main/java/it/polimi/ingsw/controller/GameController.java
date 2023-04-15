@@ -62,17 +62,12 @@ public class GameController {
         return this.model.getCurrentPlayer();
     }
 
-    /*public State getGameState(){
-        return gameStateObserver.getCurrentState();
-    }
-
+    /**
+     * This method forces the end of a game
      */
-
-    /*public GameInfo getNewInfo(){
-        return new GameInfo(this.model);
+    public void forceGameOver(){
+        this.model.endGame(true);
     }
-
-     */
 
 
 

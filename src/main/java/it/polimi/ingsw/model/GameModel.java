@@ -334,13 +334,13 @@ public class GameModel {
                     this.gameBoard.fillBoard();
                 }
                 catch (NoMoreTilesAtStartFillBoardException | NoMoreTilesToFillBoardException e) {
-                    endGame();
+                    endGame(false);
                 }
             }
         }
         else{
             if(this.currentPlayer == this.numPlayers - 1){
-                endGame();
+                endGame(false);
             }
             else{
                 this.currentPlayer++;
@@ -348,7 +348,7 @@ public class GameModel {
                     try{
                         this.gameBoard.fillBoard();
                     } catch (NoMoreTilesAtStartFillBoardException | NoMoreTilesToFillBoardException e) {
-                        endGame();
+                        endGame(false);
                     }
 
                 }
@@ -408,9 +408,13 @@ public class GameModel {
         return this.gameOver;
     }
 
-    public void endGame(){
+
+    public void endGame(boolean forced){
         this.gameOver = true;
-        createLeaderBoard();
+        // if we force the end of the game (from server) we must not create a leaderboard
+        if (!forced) createLeaderBoard();
+        // if we force the end of the game (from server) we must save the current state
+        if (forced) this.saveCurrentState();
         this.notifyObservers();
     }
 

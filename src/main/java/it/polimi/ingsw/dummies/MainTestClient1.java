@@ -24,7 +24,7 @@ public class MainTestClient1 {
             try {
                 client.joinGame();
             } catch (Exception e) {
-                client.createGame(4);
+                client.createGame(2);
             }
 
             System.out.println("You can now chat in the room");

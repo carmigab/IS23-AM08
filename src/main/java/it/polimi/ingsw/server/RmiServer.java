@@ -136,7 +136,8 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     } catch (RemoteException e) {
-                        throw new RuntimeException(e);
+                        System.out.println("Terminating Ping Thread");
+                        break;
                     }
                 }
             }
@@ -161,6 +162,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
      */
     private void updateClients(State newState, GameInfo newInfo){
         System.out.println("Updating clients with newGameInfo and newState");
+
         Iterator<RmiClientInterface> iter = rmiClients.iterator();
         while (iter.hasNext()) {
             RmiClientInterface client = iter.next();
@@ -177,16 +179,29 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
     /**
      * This method signal the clients that someone has crashed
      */
-    public void gracefulDisconnection(){
+    public void gracefulDisconnection() {
         System.out.println("A client lost connection");
-        this.updateClients(State.GRACEFULDISCONNECTION, null);
+        // Should set also gameOver to true (When a player disconnects the game ends)
+
+        Iterator<RmiClientInterface> iter = rmiClients.iterator();
+        while (iter.hasNext()) {
+            RmiClientInterface client = iter.next();
+            try {
+                client.update(State.GRACEFULDISCONNECTION, null);
+            } catch (RemoteException e) {
+                continue;
+            }
+        }
+
+        // Here we end the current game
+        this.gameController.forceGameOver();
     }
 
     /**
      * This method check if the clients are alive
      */
     private void pingClients() throws RemoteException {
-        System.out.println("checking if RmiClient clients are alive...");
+        //System.out.println("checking if RmiClient clients are alive...");
         Iterator<RmiClientInterface> iter = rmiClients.iterator();
         while (iter.hasNext()) {
             RmiClientInterface client = iter.next();
@@ -260,3 +275,5 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
 
 
 }
+
+// set gameOver to true (in the model) when a player disconnects

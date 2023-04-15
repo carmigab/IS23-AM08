@@ -26,6 +26,11 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
     private GameController gameController;
 
     private boolean toLoadGame;
+    private GameModel gameToLoad;
+
+    private LobbyServer lobby;
+
+
 
 
     /**
@@ -33,8 +38,9 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
      * @param numPlayers
      * @throws RemoteException
      */
-    public RmiServer(int numPlayers) throws RemoteException {
+    public RmiServer(int numPlayers, LobbyServer lobby) throws RemoteException {
         super();
+        this.lobby = lobby;
         this.numPlayers = numPlayers;
         this.state = State.WAITINGFORPLAYERS;
         this.toLoadGame = false;
@@ -47,12 +53,14 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
      * @param gameModel: the model to load
      * @throws RemoteException
      */
-    public RmiServer(GameModel gameModel) throws RemoteException{
+    public RmiServer(GameModel gameModel, LobbyServer lobby) throws RemoteException{
         super();
         // infers the numPlayers from playerList
+        this.lobby = lobby;
         this.numPlayers = gameModel.getPlayerListCopy().size();
         this.toLoadGame = true;
-        this.gameController = new GameController(gameModel, this);
+        this.gameToLoad = gameModel;
+
 
         System.out.println("New server for "+numPlayers+" players has been created from pre-existing model");
         this.state = State.WAITINGFORPLAYERS;
@@ -127,7 +135,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         }
         else {
             System.out.println("Starting a pre-existing game");
-            // the gameController is created in the constructor
+            this.gameController = new GameController(gameToLoad, this);
         }
 
         Thread t = new Thread(() -> {
@@ -200,6 +208,10 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
 
         // Here we end the current game
         this.gameController.forceGameOver();
+        System.out.println("Forcing gameOver");
+        // Here we notify to the lobby to free those nicknames
+        this.lobby.removePlayersFromGame(nicknamesList);
+        System.out.println("Freeing used nicknames");
     }
 
     /**

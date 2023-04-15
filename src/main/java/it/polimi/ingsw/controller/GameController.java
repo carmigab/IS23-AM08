@@ -38,6 +38,7 @@ public class GameController {
      */
     public GameController(GameModel model, RmiServer server){
         this.model = model;
+        this.model.removeObservers();
         this.numPlayers = this.model.getPlayerListCopy().size();
         this.playersList = null;
 

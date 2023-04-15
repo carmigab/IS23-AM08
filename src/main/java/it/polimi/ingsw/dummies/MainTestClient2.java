@@ -30,7 +30,7 @@ public class MainTestClient2 {
 
             System.out.println("You can now chat in the room");
             while(true){
-                client.messageAll(input.readLine());
+                client.messageSomeone(input.readLine(), "Bill1");
             }
 
 

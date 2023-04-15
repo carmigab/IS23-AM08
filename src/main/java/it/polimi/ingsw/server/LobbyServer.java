@@ -279,7 +279,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         synchronized (lockCreateGame) {
             this.checkCredentialsIntegrity(nickname);
             this.nicknamesInGame.add(nickname);
-            RmiServer rs = new RmiServer(numPlayers);
+            RmiServer rs = new RmiServer(numPlayers, this);
             rs.addPlayer(nickname, client);
             this.serverList.add(rs);
             ConnectionInformationRMI info = new ConnectionInformationRMI(this.config.getStartingName()+(this.serverList.size()), this.config.getStartingPort()+(this.serverList.size()*2-1));
@@ -352,7 +352,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             try {
                 //create a game with the GameModel as parameter
                 GameModel gm = new GameModel(JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(new FileReader(AppConstants.PATH_SAVED_MATCHES + fileName), GameModel.class));
-                RmiServer rs = new RmiServer(gm);
+                RmiServer rs = new RmiServer(gm, this);
                 this.serverList.add(rs);
                 ConnectionInformationRMI info = new ConnectionInformationRMI(this.config.getStartingName() + (this.serverList.size()), this.config.getStartingPort() + this.serverList.size());
                 this.serverInformation.add(info);
@@ -377,18 +377,12 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     }
 
     /**
-     * This method takes in input the string where the file is saved and it removes all the players
+     * This method takes in input the list of nicknames and it removes all the players
      * from the current pool of players in game
-     * @param pathName file name where the game was stored
+     * @param playersList file name where the game was stored
      */
-    public void removePlayersFromGame(String pathName){
-        synchronized (lockCreateGame) {
-            Arrays.stream(
-                            pathName.substring(0, pathName.length() - ServerConstants.JSON_EXTENSION.length())
-                                    .split(ServerConstants.REGEX)
-                    )
-                    .forEach(this.nicknamesInGame::remove);
-        }
+    public void removePlayersFromGame(List<String> playersList){
+        playersList.forEach(this.nicknamesInGame::remove);
     }
 
 }

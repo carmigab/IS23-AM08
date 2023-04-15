@@ -14,6 +14,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This class sets up the main server which will make the player set his name and choose a game to join
@@ -27,6 +28,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * Set that contains all the nicknames of every client that is currently playing a game
      */
     private final Set<String> nicknamesInGame;
+    private final Map<String, ConnectionInformationRMI> potentialPlayers;
     /**
      * List of all the games currently active in the application
      */
@@ -73,6 +75,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         this.config = loadInitialConfig();
         this.nicknamesPool = new HashSet<>();
         this.nicknamesInGame = new HashSet<>();
+        this.potentialPlayers = new HashMap<>();
         this.serverList = new ArrayList<>();
         this.serverInformation = new ArrayList<>();
         this.serverRegistries = new ArrayList<>();
@@ -93,6 +96,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         this.config = config;
         this.nicknamesPool = new HashSet<>();
         this.nicknamesInGame = new HashSet<>();
+        this.potentialPlayers = new HashMap<>();
         this.serverList = new ArrayList<>();
         this.serverInformation = new ArrayList<>();
         this.serverRegistries = new ArrayList<>();
@@ -219,7 +223,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
                         return false;
                     }
                 })
-                .forEach((match) -> System.out.println(new File(AppConstants.PATH_SAVED_MATCHES+match).delete()));
+                .forEach((match) -> new File(AppConstants.PATH_SAVED_MATCHES+match).delete());
     }
 
 
@@ -280,6 +284,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
 
     /**
      * This method lets you join the first game available in the list of all games active
+     * Also if a player is in a potential game (recovered by persistance) it will automatically be added to it
      * @param nickname nickname of the player that calls the method
      * @param client reference to the methods of the client that can be called by the server using RMI
      * @return the information useful for the connection to the game
@@ -291,6 +296,11 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     @Override
     public ConnectionInformationRMI joinGame(String nickname, RmiClientInterface client) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
         synchronized (lockCreateGame) {
+            if (this.potentialPlayers.containsKey(nickname)) {
+                ConnectionInformationRMI toReturn= this.potentialPlayers.get(nickname);
+                this.potentialPlayers.remove(nickname);
+                return toReturn;
+            }
             this.checkCredentialsIntegrity(nickname);
             int gameFound = 0;
             ConnectionInformationRMI conn;
@@ -326,25 +336,55 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     }
 
     /**
-     * TODO
-     * @param nickname
-     * @param client
-     * @return
+     * This method lets you recover a game from where it has been stopped
+     * It takes the information from the file inferring it by your name
+     * Also adds the players to the potential players list (inferred from the file name)
+     * @param nickname nickname of the player who asks to recover a game
+     * @param client his client infromation
+     * @return the information useful for the connection to the game
+     * @throws RemoteException exception of RMI
+     * @throws AlreadyInGameException if the player is already in a different game
+     * @throws NonExistentNicknameException if the player's nickname is not in the server's list or if the player has not a saved game
      */
     @Override
     public ConnectionInformationRMI recoverGame(String nickname, RmiClientInterface client) throws RemoteException, AlreadyInGameException, NonExistentNicknameException {
         this.checkCredentialsIntegrity(nickname);
-        this.nicknamesInGame.add(nickname);
+        if (!this.isGameExistent(nickname)) throw new NonExistentNicknameException();
+        synchronized (lockCreateGame) {
+            this.nicknamesInGame.add(nickname);
 
-        //I load the information from file and need to send it to RMIServer
+            //load filename
+            String fileName = Arrays.stream(Objects.requireNonNull(new File(AppConstants.PATH_SAVED_MATCHES).list()))
+                    .filter(file -> file.contains(nickname+ServerConstants.REGEX))
+                    .findFirst()
+                    .orElse("shouldneverenterhere");
 
-        //RmiServer rs = new RmiServer(numPlayers);
-        //rs.addPlayer(nickname, client);
-        //this.serverList.add(rs);
-        //ConnectionInformationRMI info = new ConnectionInformationRMI(this.config.getStartingName()+(this.serverList.size()), this.config.getStartingPort()+this.serverList.size());
-        //this.serverInformation.add(info);
-        //this.startGame(rs, info);
-        return null;
+            try {
+                //create a game with the GameModel as parameter
+                GameModel gm = new GameModel(JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(new FileReader(AppConstants.PATH_SAVED_MATCHES + fileName), GameModel.class));
+                RmiServer rs = new RmiServer(gm);
+                rs.addPlayer(nickname, client);
+                this.serverList.add(rs);
+                ConnectionInformationRMI info = new ConnectionInformationRMI(this.config.getStartingName() + (this.serverList.size()), this.config.getStartingPort() + this.serverList.size());
+                this.serverInformation.add(info);
+                //add the potential players to the list
+                this.addPotentialPlayers(fileName, info, nickname);
+                this.startGame(rs, info);
+                return info;
+            } catch (FileNotFoundException e) {
+                System.out.println(e.getMessage());
+            }
+            //Should never arrive here
+            return null;
+        }
+    }
+
+    private void addPotentialPlayers(String fileName, ConnectionInformationRMI conn, String firstPlayer){
+        Arrays.stream(fileName
+                .substring(0,fileName.length()-ServerConstants.JSON_EXTENSION.length())
+                .split(ServerConstants.REGEX))
+                .filter(name -> !name.equals(firstPlayer))
+                .forEach(match -> this.potentialPlayers.put(match,conn));
     }
 
     /**

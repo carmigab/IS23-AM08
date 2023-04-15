@@ -278,7 +278,7 @@ public class CLI extends View{
     public void askNickname() {
         printMessage("Please insert your nickname: ", AnsiEscapeCodes.REQUEST_MESSAGE);
         myNickname = scanner.nextLine();
-        while ((myNickname == null || myNickname.equals("")) && !client.chooseNickname(myNickname)) {
+        while (!client.chooseNickname(myNickname)) {
             printMessage("Invalid nickname, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
             myNickname = scanner.nextLine();
         }

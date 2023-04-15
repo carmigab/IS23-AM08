@@ -102,6 +102,23 @@ public class FakeLobbyServerView {
                         }
                         else System.out.println("Set a nickname first...");
                     }
+                    case "dorecover" -> {
+                        System.out.println("Trying to recover your game..");
+                        if(myNickname.isPresent()) {
+                            try {
+                                ConnectionInformationRMI conn3=remoteServer.recoverGame(myNickname.get(), null);
+                                System.out.println("Game joined on server, now connecting client side...");
+                                Registry gameRegistry2 = LocateRegistry.getRegistry(conn3.getRegistryPort());
+                                RmiServerInterface rsi2 = (RmiServerInterface) gameRegistry2.lookup(conn3.getRegistryName());
+                                System.out.println("Connected client side...");
+                            } catch (AlreadyInGameException e) {
+                                System.out.println("You have already a game going on...");
+                            } catch (NonExistentNicknameException e) {
+                                System.out.println("Check if there is indeed a game with your name...");
+                            }
+                        }
+                        else System.out.println("Set a nickname first...");
+                    }
                     case "adios" -> end = true;
                 }
             }

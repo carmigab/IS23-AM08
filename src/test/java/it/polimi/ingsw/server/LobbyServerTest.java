@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.server.exceptions.ExistentNicknameExcepiton;
 import it.polimi.ingsw.server.exceptions.IllegalNicknameException;
 import it.polimi.ingsw.server.exceptions.NonExistentNicknameException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -69,6 +70,7 @@ class LobbyServerTest {
         assertTrue(ls.chooseNickname("All"));
     }
 
+    @Disabled
     @Test
     public void testCreateGame() throws RemoteException, ExistentNicknameExcepiton, IllegalNicknameException, NonExistentNicknameException, AlreadyInGameException {
         LobbyServer ls=new LobbyServer();

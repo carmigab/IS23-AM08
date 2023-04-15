@@ -104,8 +104,8 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         rmiClients.add(rmiClient);
         System.out.println("Added player: "+nickname);
 
-        //this.updateClients(State.WAITINGFORPLAYERS, null);
-        //if (this.getFreeSpaces() == 0) this.startGame();
+        this.updateClients(State.WAITINGFORPLAYERS, null);
+        if (this.getFreeSpaces() == 0) this.startGame();
     }
 
     /**

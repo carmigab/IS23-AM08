@@ -23,7 +23,7 @@ public class GameInfo implements Serializable {
     /**
      * This attribute stores the current stack of points for each common goal
      */
-    private final List<List<Integer>> commonGoalsStack;
+    private final List<Integer> commonGoalsStackTop;
     /**
      * This attribute stores all the states of all the players in the game
      */
@@ -43,13 +43,13 @@ public class GameInfo implements Serializable {
      * The constructor stores the references to copies of the GameModel attributes
      * @param myGameBoard reference to a copy of the game board
      * @param commonGoalsCreated reference to a copy of the list of common goals
-     * @param commonGoalsStack reference to a copy of the stack of the common goals
+     * @param commonGoalsStackTop reference to a copy of the stack of the common goals
      * @param playerStatesList reference to a copy of all the player states
      */
-    public GameInfo(Tile[][] myGameBoard, List<Integer> commonGoalsCreated, List<List<Integer>> commonGoalsStack, List<PlayerState> playerStatesList){
+    public GameInfo(Tile[][] myGameBoard, List<Integer> commonGoalsCreated, List<Integer> commonGoalsStackTop, List<PlayerState> playerStatesList){
         this.myGameBoard=myGameBoard;
         this.commonGoalsCreated=commonGoalsCreated;
-        this.commonGoalsStack=commonGoalsStack;
+        this.commonGoalsStackTop=commonGoalsStackTop;
         this.playerStatesList=playerStatesList;
     }
 
@@ -73,8 +73,8 @@ public class GameInfo implements Serializable {
      * Getter
      * @return the reference to the copied stack of the common goals
      */
-    public List<List<Integer>> getCommonGoalsStack() {
-        return commonGoalsStack;
+    public List<Integer> getCommonGoalsStack() {
+        return commonGoalsStackTop;
     }
 
     /**

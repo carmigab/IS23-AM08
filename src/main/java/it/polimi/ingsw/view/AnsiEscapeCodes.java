@@ -18,11 +18,11 @@ public enum AnsiEscapeCodes {
     // messages colors
     ERROR_MESSAGE("\u001B[38;2;252;53;53m"),
     GAME_MESSAGE("\u001B[38;2;255;255;255m"),
-    REQUEST_MESSAGE("\u001B[38;2;17;87;58m"),
+    INFO_MESSAGE("\u001B[38;2;17;87;58m"),
     CHAT_MESSAGE("\u001B[38;2;0;99;186m"),
 
     // ending code
-    ENDING_CODE("\u001B[0m ");
+    ENDING_CODE("\u001B[0m");
 
     private final String code;
 

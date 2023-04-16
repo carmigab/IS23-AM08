@@ -23,6 +23,7 @@ public class ViewLauncher {
             default -> view = new CLI();
         }
 
-        view.getUserInput();
+        new Thread(view::getUserInput).start();
+        new Thread(view::checkForShutdown).start();
     }
 }

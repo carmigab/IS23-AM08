@@ -25,6 +25,14 @@ public class FakeView extends View {
     }
 
     /**
+     * This method is called by getUserInput to wait for other players to join the game
+     */
+    @Override
+    protected void waitForGameStart() {
+
+    }
+
+    /**
      * This method is called by start to wait for a command from the player
      *
      * @return the command represented as a string

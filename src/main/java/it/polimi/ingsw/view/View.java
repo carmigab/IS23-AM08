@@ -41,6 +41,7 @@ public abstract class View {
      */
     protected boolean shutdown = false;
 
+
     /**
      * This method is called by the server to update the view
      * @param newState the new state of the game, it will be used to update the view
@@ -60,11 +61,12 @@ public abstract class View {
     /**
      * This method is called by the client main to start the view
      */
-    public void getUserInput() {
+    public synchronized void getUserInput() {
         chooseConnectionType();
         askNickname();
         while (iWantToPlay) {
             createOrJoinGame();
+            waitForGameStart();
             String command;
             while (!currentState.equals(State.ENDGAME) && !currentState.equals(State.GRACEFULDISCONNECTION)) {
                 // wait for the player's command
@@ -80,6 +82,11 @@ public abstract class View {
         }
         close("Thank you to have played with us, bye bye");
     }
+
+    /**
+     * This method is called by getUserInput to wait for other players to join the game
+     */
+    protected abstract void waitForGameStart();
 
     /**
      * This method is launched in a new thread to check if the client has crashed

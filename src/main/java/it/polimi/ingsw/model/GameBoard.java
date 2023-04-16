@@ -327,10 +327,10 @@ public final class GameBoard {
      * This method creates a copy of all the point stacks present in the current game
      * @return a list of all the stacks (represented also by lists)
      */
-    public List<List<Integer>> getPointStacksCopy(){
-        List<List<Integer>> toReturn= new ArrayList<>();
+    public List<Integer> getPointStacksCopy(){
+        List<Integer> toReturn= new ArrayList<>();
         for(MyStack s: this.commonGoalsStacks){
-            toReturn.add(s.getStackCopy());
+            toReturn.add(s.peek());
         }
         return toReturn;
     }

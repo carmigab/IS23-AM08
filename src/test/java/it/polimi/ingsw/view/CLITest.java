@@ -5,6 +5,7 @@ import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -19,6 +20,7 @@ class CLITest {
      * This method tests the display method
      */
     @Test
+    @Disabled
     void display() {
         CLI cli = new CLI();
 

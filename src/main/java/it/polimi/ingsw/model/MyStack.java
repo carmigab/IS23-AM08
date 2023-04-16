@@ -24,7 +24,7 @@ public class MyStack {
     }
 
     /**
-     * This method is the push function for an usual stack
+     * This method is the push function for a usual stack
      * @param i integer to push in the stack
      */
     public void push(Integer i){
@@ -32,11 +32,19 @@ public class MyStack {
     }
 
     /**
-     * This method is the push function for an usual stack
+     * This method is the push function for a usual stack
      * @return pop of the integer from the stack
      */
     public Integer pop(){
         return this.stack.remove(this.stack.size()-1);
+    }
+
+    /**
+     * This method returns the top of the stack
+     * @return the top of the stack
+     */
+    public Integer peek(){
+        return this.stack.peek();
     }
 
     /**

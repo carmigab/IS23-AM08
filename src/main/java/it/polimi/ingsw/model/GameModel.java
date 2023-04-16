@@ -474,7 +474,7 @@ public class GameModel {
      * This method returns a full copy of all the stacks of the common goals created
      * @return a list of the copied stacks from the game model
      */
-    public List<List<Integer>> getCommonGoalsStackCopy(){
+    public List<Integer> getCommonGoalsStackCopy(){
         return this.gameBoard.getPointStacksCopy();
     }
 

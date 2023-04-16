@@ -1,12 +1,10 @@
 package it.polimi.ingsw.gameInfo;
 
-import it.polimi.ingsw.model.PlayerState;
 import it.polimi.ingsw.model.Tile;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
 /**
  * This immutable class is used for transferring the data to be updated from the server to the client
@@ -15,7 +13,7 @@ public class GameInfo implements Serializable {
     /**
      * This attribute stores the current game board in the game
      */
-    private final Tile[][] myGameBoard;
+    private final Tile[][] gameBoard;
     /**
      * This attribute stores the common goals created in the game
      */
@@ -47,7 +45,7 @@ public class GameInfo implements Serializable {
      * @param playerInfosList reference to a copy of all the player states
      */
     public GameInfo(Tile[][] myGameBoard, List<Integer> commonGoalsCreated, List<Integer> commonGoalsStackTop, List<PlayerInfo> playerInfosList){
-        this.myGameBoard=myGameBoard;
+        this.gameBoard =myGameBoard;
         this.commonGoalsCreated=commonGoalsCreated;
         this.commonGoalsStackTop=commonGoalsStackTop;
         this.playerInfosList=playerInfosList;
@@ -57,8 +55,8 @@ public class GameInfo implements Serializable {
      * Getter
      * @return the reference to the copied game board
      */
-    public Tile[][] getMyGameBoard() {
-        return myGameBoard;
+    public Tile[][] getGameBoard() {
+        return gameBoard;
     }
 
     /**

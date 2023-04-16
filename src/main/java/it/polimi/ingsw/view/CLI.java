@@ -3,7 +3,7 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.client.RmiClient;
 import it.polimi.ingsw.gameInfo.PlayerInfo;
 import it.polimi.ingsw.gameInfo.State;
-import it.polimi.ingsw.model.PlayerState;
+import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.server.exceptions.AlreadyInGameException;
@@ -67,17 +67,22 @@ public class CLI extends View{
             printOtherPlayersShelf();
             printBoard();
             printCommonGoals(gameInfo.getCommonGoalsCreated().get(0), gameInfo.getCommonGoalsCreated().get(1));
-
+            printMyShelf();
         }
     }
 
     /**
      * This method is called by display to print the shelf of the other players
      */
-    //TODO: implement this method
-    //TODO: change GameInfo to have a list of PlayerInfo instead of a list of PlayerState
     private void printOtherPlayersShelf() {
-
+        printMessage("Other players' shelf:", AnsiEscapeCodes.GAME_MESSAGE);
+        for (PlayerInfo playerInfo : gameInfo.getPlayerInfosList()) {
+            if (!playerInfo.getNickname().equals(this.myNickname)) {
+                printMessage(playerInfo.getNickname() + "'s shelf:", AnsiEscapeCodes.GAME_MESSAGE);
+                printBoardOrShelf(AppConstants.ROWS_NUMBER, AppConstants.COLS_NUMBER, playerInfo.getShelf());
+                printMessage("   Common Goal Points: " + playerInfo.getComGoalPoints()[0] + "," + playerInfo.getComGoalPoints()[1], AnsiEscapeCodes.GAME_MESSAGE);
+            }
+        }
     }
 
     /**
@@ -85,11 +90,35 @@ public class CLI extends View{
      */
     private void printBoard() {
         printMessage("Board:", AnsiEscapeCodes.GAME_MESSAGE);
+        printBoardOrShelf(AppConstants.BOARD_DIMENSION, AppConstants.BOARD_DIMENSION, gameInfo.getGameBoard());
+    }
+
+    /**
+     * This method is called by display to print the shelf of the current player
+     */
+    //TODO: add char to sign personal goal
+    private void printMyShelf() {
+        for (PlayerInfo playerInfo : gameInfo.getPlayerInfosList()) {
+            if (playerInfo.getNickname().equals(this.myNickname)) {
+                printMessage("My shelf:", AnsiEscapeCodes.GAME_MESSAGE);
+                printBoardOrShelf(AppConstants.ROWS_NUMBER, AppConstants.COLS_NUMBER, playerInfo.getShelf());
+                printMessage("   Common Goal Points: " + playerInfo.getComGoalPoints()[0] + "," + playerInfo.getComGoalPoints()[1], AnsiEscapeCodes.GAME_MESSAGE);
+                return;
+            }
+        }
+    }
+
+    /**
+     * This method is called to print the board or a shelf
+     * @param xMax the number of rows
+     * @param yMax the number of columns
+     */
+    private void printBoardOrShelf(int yMax, int xMax, Tile[][] boardOrShelf) {
         StringBuilder lineBuilder;
-        for (int i = 0; i < AppConstants.BOARD_DIMENSION; i++) {
+        for (int i = 0; i < yMax; i++) {
             lineBuilder = new StringBuilder();
-            for (int j = 0; j < AppConstants.BOARD_DIMENSION; j++) {
-                lineBuilder.append(tileColorToAnsiCode(gameInfo.getMyGameBoard()[i][j].getColor())).append("   ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
+            for (int j = 0; j < xMax; j++) {
+                lineBuilder.append(tileColorToAnsiCode(boardOrShelf[i][j].getColor())).append("   ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
             }
             System.out.println(lineBuilder);
         }

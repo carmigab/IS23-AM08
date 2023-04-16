@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * This is the class containing all the information for the storage of a single personal shelf
  */
-public class PersonalGoal implements Serializable {
+public class PersonalGoal {
 
     /**
      * This attribute stores a list of 6 objects of class SingleGoal

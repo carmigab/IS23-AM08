@@ -140,7 +140,7 @@
         ]
       },
       "PGPoints": 0,
-      "CGPoints": 0,
+      "CGPoints": [0, 0],
       "groupPoints": 0,
       "firstPoint": 0,
       "personalGoal": {
@@ -341,7 +341,7 @@
         ]
       },
       "PGPoints": 12,
-      "CGPoints": 0,
+      "CGPoints": [0, 0],
       "groupPoints": 18,
       "firstPoint": 1,
       "personalGoal": {
@@ -1212,7 +1212,7 @@
         ]
       },
       "PGPoints": 12,
-      "CGPoints": 0,
+      "CGPoints": [0, 0],
       "groupPoints": 18,
       "firstPoint": 1,
       "personalGoal": {
@@ -1413,7 +1413,7 @@
         ]
       },
       "PGPoints": 0,
-      "CGPoints": 0,
+      "CGPoints": [0, 0],
       "groupPoints": 0,
       "firstPoint": 0,
       "personalGoal": {

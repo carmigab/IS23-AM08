@@ -30,25 +30,30 @@ public class GameInfo implements Serializable {
     /**
      * This attribute store the leader board of the game
      */
-    private Map<String, Integer> leaderBoard;
+    private final Map<String, Integer> leaderBoard;
 
     /**
      * This attribute stores the nickname of the current player
      */
-    private String currentPlayerNickname;
+    private final String currentPlayerNickname;
 
     /**
      * The constructor stores the references to copies of the GameModel attributes
-     * @param myGameBoard reference to a copy of the game board
-     * @param commonGoalsCreated reference to a copy of the list of common goals
-     * @param commonGoalsStackTop reference to a copy of the stack of the common goals
-     * @param playerInfosList reference to a copy of all the player states
+     *
+     * @param myGameBoard           reference to a copy of the game board
+     * @param commonGoalsCreated    reference to a copy of the list of common goals
+     * @param commonGoalsStackTop   reference to a copy of the stack of the common goals
+     * @param playerInfosList       reference to a copy of all the player states
+     * @param leaderBoard           reference to a copy of the leader board
+     * @param currentPlayerNickname reference to the nickname of the current player
      */
-    public GameInfo(Tile[][] myGameBoard, List<Integer> commonGoalsCreated, List<Integer> commonGoalsStackTop, List<PlayerInfo> playerInfosList){
+    public GameInfo(Tile[][] myGameBoard, List<Integer> commonGoalsCreated, List<Integer> commonGoalsStackTop, List<PlayerInfo> playerInfosList, Map<String, Integer> leaderBoard, String currentPlayerNickname){
         this.gameBoard =myGameBoard;
         this.commonGoalsCreated=commonGoalsCreated;
         this.commonGoalsStackTop=commonGoalsStackTop;
         this.playerInfosList=playerInfosList;
+        this.leaderBoard = leaderBoard;
+        this.currentPlayerNickname = currentPlayerNickname;
     }
 
     /**

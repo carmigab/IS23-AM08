@@ -1,8 +1,11 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.client.RmiClient;
+import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
+import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.gameInfo.PlayerInfo;
 import it.polimi.ingsw.gameInfo.State;
+import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.constants.AppConstants;
@@ -12,6 +15,8 @@ import it.polimi.ingsw.server.exceptions.NonExistentNicknameException;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -193,18 +198,14 @@ public class CLI extends View{
      */
     @Override
     protected void parseCommand(String command) {
-        // if it's not the player's turn, the command will not be sent to the server
-        if (!isMyTurn()) {
-            printMessage("Error: please wait for your turn ", AnsiEscapeCodes.ERROR_MESSAGE);
-            return;
-        }
-
         switch (command.trim()) {
-            case "/help" ->
-                printMessage("Command list:" +
-                        "/move: move a tile"  +
-                        "/chat: send a chat message"  +
-                        "/exit: exit the game ", AnsiEscapeCodes.INFO_MESSAGE);
+            case "/help" -> {
+                printMessage("Command list:", AnsiEscapeCodes.INFO_MESSAGE);
+                printMessage("/help: show this list", AnsiEscapeCodes.INFO_MESSAGE);
+                printMessage("/move: move a tile", AnsiEscapeCodes.INFO_MESSAGE);
+                printMessage("/chat: send a message to the chat", AnsiEscapeCodes.INFO_MESSAGE);
+                printMessage("/exit: exit the game", AnsiEscapeCodes.INFO_MESSAGE);
+            }
             case "/move" -> parseMoveCommand(command);
             case "/chat" -> chatCommand();
             case "/exit" -> confirmExit();
@@ -225,17 +226,36 @@ public class CLI extends View{
                 return;
             }
 
-            printMessage("Select a tile to move (column, row) ", AnsiEscapeCodes.INFO_MESSAGE);
+            printMessage("Select a the tiles you want to pick (x1,y1 x2,y2 x3,y3) ", AnsiEscapeCodes.INFO_MESSAGE);
             String input = scanner.nextLine();
-            while (!input.matches("^[0-9]+, [0-9]+$")) {
+            while (!input.matches("^[0-9]+,[0-9]+$") && !input.matches("^[0-9]+,[0-9]+ [0-9]+,[0-9]+$") && !input.matches("^[0-9]+,[0-9]+ [0-9]+,[0-9]+ [0-9]+,[0-9]+$")) {
                 printMessage("Invalid input, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
                 input = scanner.nextLine();
             }
 
-            int column = Integer.parseInt(input.substring(0, input.indexOf(",")));
-            int row = Integer.parseInt(input.substring(input.indexOf(",") + 1).trim());
+            List<Position> positions = new ArrayList<>();
+            for (String position : input.split(" ")) {
+                positions.add(new Position(Integer.parseInt(position.split(",")[0]), Integer.parseInt(position.split(",")[1])));
+            }
 
+            printMessage("Select the column were you want to place the tiles ", AnsiEscapeCodes.INFO_MESSAGE);
 
+            input = scanner.nextLine();
+            while (!input.matches("^[0-4]+$")) {
+                printMessage("Invalid input, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+                input = scanner.nextLine();
+            }
+
+            int column = Integer.parseInt(input);
+
+            try {
+                client.makeMove(positions, column);
+                printMessage("Move sent ", AnsiEscapeCodes.INFO_MESSAGE);
+            } catch (InvalidNicknameException e) {
+                printMessage("Error: invalid nickname ", AnsiEscapeCodes.ERROR_MESSAGE);
+            } catch (InvalidMoveException e) {
+                printMessage("Error: invalid move please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+            }
         }
     }
 

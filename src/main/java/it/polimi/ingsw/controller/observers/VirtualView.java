@@ -5,7 +5,7 @@ import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.server.RmiServer;
 
-import javax.management.remote.rmi.RMIServer;
+import java.util.HashMap;
 
 /**
  * This class is used for storing the information relative to the current game state which has
@@ -43,7 +43,7 @@ public class VirtualView implements Observer{
     @Override
     public void update(GameModel model) {
         // Something bad happens when we create a new gameInfo
-        this.gameInfo=new GameInfo(model.getGameBoardCopy(), model.getCommonGoalsCreatedCopy(), model.getCommonGoalsStackCopy(), model.getPlayerListCopy());
+        this.gameInfo=new GameInfo(model.getGameBoardCopy(), model.getCommonGoalsCreatedCopy(), model.getCommonGoalsStackCopy(), model.getPlayerListCopy(), new HashMap<>(), model.getCurrentPlayerNickName());
         if(model.isGameOver()) this.currentState=State.ENDGAME;
         else {
             switch (model.getCurrentPlayer()) {

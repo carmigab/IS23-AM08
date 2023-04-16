@@ -37,12 +37,6 @@ public abstract class View {
     protected boolean iWantToPlay = true;
 
     /**
-     * if true the view will be closed
-     */
-    protected boolean shutdown = false;
-
-
-    /**
      * This method is called by the server to update the view
      * @param newState the new state of the game, it will be used to update the view
      * @param newGameInfo the new game info, it will be used to update the view
@@ -156,13 +150,6 @@ public abstract class View {
      * @return true if the player wants to play again, false otherwise
      */
     protected abstract boolean askIfWantToPlayAgain();
-
-    /**
-     * This method set the shutdown variable to true
-     */
-    protected void setShutdownTrue() {
-        shutdown = true;
-    }
 
     /**
      * This method tell the user that the client is shutting down

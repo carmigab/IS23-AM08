@@ -372,6 +372,14 @@ public class GameModel {
     }
 
     /**
+     * this method return the number of players
+     * @return an int, the number of players
+     */
+    public String getCurrentPlayerNickName() {
+        return playerList.get(currentPlayer).getNickname();
+    }
+
+    /**
      * this method adds observers
      * @param o the observer
      */

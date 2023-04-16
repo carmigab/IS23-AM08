@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.HashMap;
 
 /**
  * This class is the test of the CLI
@@ -34,7 +35,7 @@ class CLITest {
             System.out.println("File not found");
         }
 
-        GameInfo gameInfo = new GameInfo(myGameBoard, null, null, null);
+        GameInfo gameInfo = new GameInfo(myGameBoard, null, null, null, new HashMap<>(), null);
 
         cli.update(State.TURN0, gameInfo);
     }

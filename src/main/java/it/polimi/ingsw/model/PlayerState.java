@@ -11,7 +11,7 @@ import java.io.Serializable;
  * this class represents a generic player of the match
  */
 
-public class PlayerState implements Serializable {
+public class PlayerState {
     /**
      * This attribute is the nickname of the player
      */

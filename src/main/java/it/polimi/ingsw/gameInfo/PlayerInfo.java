@@ -3,12 +3,13 @@ package it.polimi.ingsw.gameInfo;
 import it.polimi.ingsw.model.SingleGoal;
 import it.polimi.ingsw.model.Tile;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * This immutable class is used for transferring the data to be updated from the server to the client
  */
-public class PlayerInfo {
+public class PlayerInfo implements Serializable {
     /**
      * This attribute stores the nickname of the player
      */
@@ -48,10 +49,10 @@ public class PlayerInfo {
      * Constructor
      *
      * @param nickname      of the player
-     * @param pgPoints   of the player
+     * @param pgPoints      of the player
      * @param comGoalPoints of the player
-     * @param firstPoint
-     * @param groupPoints
+     * @param firstPoint    of the player
+     * @param groupPoints   of the player
      * @param shelf         of the player
      * @param personalGoal  of the player
      */

@@ -211,7 +211,6 @@ public class CLI extends View{
     /**
      * This method is called by parseCommand to handle a chat command
      */
-    //TODO: add timer
     private void chatCommand() {
         synchronized (displayLock) {
             scheduler.schedule(() -> {
@@ -269,7 +268,6 @@ public class CLI extends View{
     /**
      * This method is called by parseCommand to ask the player to confirm she wants to exit
      */
-    //TODO: add timer
     private void confirmExit() {
         synchronized (displayLock) {
             scheduler.schedule(() -> {

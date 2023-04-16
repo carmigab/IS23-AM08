@@ -220,6 +220,8 @@ public class CLI extends View{
     //TODO: change implementation to match changes in parseCommand
     //TODO: add timer to avoid deadlocks
     private void parseMoveCommand(String command) {
+        List<Position> positions = new ArrayList<>();
+        int column;
         synchronized (displayLock) {
             if (!isMyTurn()) {
                 printMessage("Error: please wait for your turn ", AnsiEscapeCodes.ERROR_MESSAGE);
@@ -233,7 +235,6 @@ public class CLI extends View{
                 input = scanner.nextLine();
             }
 
-            List<Position> positions = new ArrayList<>();
             for (String position : input.split(" ")) {
                 positions.add(new Position(Integer.parseInt(position.split(",")[0]), Integer.parseInt(position.split(",")[1])));
             }
@@ -246,7 +247,8 @@ public class CLI extends View{
                 input = scanner.nextLine();
             }
 
-            int column = Integer.parseInt(input);
+            column = Integer.parseInt(input);
+        }
 
             try {
                 client.makeMove(positions, column);
@@ -256,7 +258,6 @@ public class CLI extends View{
             } catch (InvalidMoveException e) {
                 printMessage("Error: invalid move please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
             }
-        }
     }
 
     /**

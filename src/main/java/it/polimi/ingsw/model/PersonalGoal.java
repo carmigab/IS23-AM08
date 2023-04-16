@@ -71,16 +71,12 @@ public class PersonalGoal implements Serializable {
      * This method returns a full copy of the personal goal, with copies also of the single goals
      * @return a copy of the personal goal
      */
-    public PersonalGoal getPersonalGoalCopy(){
-        SingleGoal[] sgCopy=new SingleGoal[this.personalGoal.size()];
+    public List<SingleGoal> getCopy(){
+        List<SingleGoal> sgCopy = new ArrayList<>(this.personalGoal.size());
         for(int i=0;i<AppConstants.TOTAL_POINTS_FOR_PG;i++){
-            sgCopy[i]=this.personalGoal.get(i);
+            sgCopy.add(this.personalGoal.get(i));
         }
-        int[] pointsCopy=new int[this.personalGoal.size()];
-        for(int i=0;i<AppConstants.TOTAL_POINTS_FOR_PG;i++){
-            pointsCopy[i]=this.pointsForCompletion.get(i);
-        }
-        return new PersonalGoal(sgCopy,pointsCopy);
+        return sgCopy;
     }
 }
 

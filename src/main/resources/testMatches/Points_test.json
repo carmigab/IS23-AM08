@@ -137,7 +137,7 @@
     ]
   },
   "PGPoints": 0,
-  "CGPoints": 0,
+  "CGPoints": [0, 0],
   "groupPoints": 0,
   "firstPoint": 0,
   "personalGoal": {

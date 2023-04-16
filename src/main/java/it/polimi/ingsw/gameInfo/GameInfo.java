@@ -27,7 +27,7 @@ public class GameInfo implements Serializable {
     /**
      * This attribute stores all the states of all the players in the game
      */
-    private final List<PlayerState> playerStatesList;
+    private final List<PlayerInfo> playerInfosList;
 
     /**
      * This attribute store the leader board of the game
@@ -44,13 +44,13 @@ public class GameInfo implements Serializable {
      * @param myGameBoard reference to a copy of the game board
      * @param commonGoalsCreated reference to a copy of the list of common goals
      * @param commonGoalsStackTop reference to a copy of the stack of the common goals
-     * @param playerStatesList reference to a copy of all the player states
+     * @param playerInfosList reference to a copy of all the player states
      */
-    public GameInfo(Tile[][] myGameBoard, List<Integer> commonGoalsCreated, List<Integer> commonGoalsStackTop, List<PlayerState> playerStatesList){
+    public GameInfo(Tile[][] myGameBoard, List<Integer> commonGoalsCreated, List<Integer> commonGoalsStackTop, List<PlayerInfo> playerInfosList){
         this.myGameBoard=myGameBoard;
         this.commonGoalsCreated=commonGoalsCreated;
         this.commonGoalsStackTop=commonGoalsStackTop;
-        this.playerStatesList=playerStatesList;
+        this.playerInfosList=playerInfosList;
     }
 
     /**
@@ -81,8 +81,8 @@ public class GameInfo implements Serializable {
      * Getter
      * @return the reference to the copied list of player states
      */
-    public List<PlayerState> getPlayerStatesList() {
-        return playerStatesList;
+    public List<PlayerInfo> getPlayerInfosList() {
+        return playerInfosList;
     }
 
     /**

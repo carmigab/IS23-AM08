@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.client.RmiClient;
+import it.polimi.ingsw.gameInfo.PlayerInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.PlayerState;
 import it.polimi.ingsw.model.TileColor;
@@ -66,12 +67,15 @@ public class CLI extends View{
             printOtherPlayersShelf();
             printBoard();
             printCommonGoals(gameInfo.getCommonGoalsCreated().get(0), gameInfo.getCommonGoalsCreated().get(1));
+
         }
     }
 
     /**
      * This method is called by display to print the shelf of the other players
      */
+    //TODO: implement this method
+    //TODO: change GameInfo to have a list of PlayerInfo instead of a list of PlayerState
     private void printOtherPlayersShelf() {
 
     }
@@ -80,16 +84,14 @@ public class CLI extends View{
      * This method is called by display to print the board
      */
     private void printBoard() {
-        if(!(this.currentState==State.WAITINGFORPLAYERS)) {
-            printMessage("Board:", AnsiEscapeCodes.GAME_MESSAGE);
-            StringBuilder lineBuilder;
-            for (int i = 0; i < AppConstants.BOARD_DIMENSION; i++) {
-                lineBuilder = new StringBuilder();
-                for (int j = 0; j < AppConstants.BOARD_DIMENSION; j++) {
-                    lineBuilder.append(tileColorToAnsiCode(gameInfo.getMyGameBoard()[i][j].getColor())).append("   ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
-                }
-                System.out.println(lineBuilder);
+        printMessage("Board:", AnsiEscapeCodes.GAME_MESSAGE);
+        StringBuilder lineBuilder;
+        for (int i = 0; i < AppConstants.BOARD_DIMENSION; i++) {
+            lineBuilder = new StringBuilder();
+            for (int j = 0; j < AppConstants.BOARD_DIMENSION; j++) {
+                lineBuilder.append(tileColorToAnsiCode(gameInfo.getMyGameBoard()[i][j].getColor())).append("   ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
             }
+            System.out.println(lineBuilder);
         }
     }
 
@@ -262,7 +264,7 @@ public class CLI extends View{
      * @return true if the nickname is present
      */
     private boolean checkExistingNickname(String nickname) {
-        return gameInfo.getPlayerStatesList().stream().map(PlayerState::getNickname).anyMatch(n->n.equals(nickname));
+        return gameInfo.getPlayerInfosList().stream().map(PlayerInfo::getNickname).anyMatch(n->n.equals(nickname));
     }
 
     /**

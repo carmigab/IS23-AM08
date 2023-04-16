@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.annotations.Expose;
+import it.polimi.ingsw.App;
+import it.polimi.ingsw.gameInfo.PlayerInfo;
 import it.polimi.ingsw.model.constants.AppConstants;
 
 import java.io.Serializable;
@@ -32,7 +34,7 @@ public class PlayerState implements Serializable {
      * This attribute is the CGPoints counter of the player
      */
     @Expose
-    private int CGPoints;
+    private int[] CGPoints;
 
     /**
      * This attribute is the groupPoints counter of the player
@@ -69,15 +71,17 @@ public class PlayerState implements Serializable {
     public PlayerState(String name, PersonalGoal personalGoal){
         this.nickname = name;
         this.personalGoal = personalGoal;
+        this.CGPoints = new int[AppConstants.TOTAL_CG_PER_GAME];
 
         // Initialization
         this.myShelf = new Shelf();
         this.PGPoints = 0;
-        this.CGPoints = 0;
+        this.CGPoints[0] = 0;
+        this.CGPoints[1] = 0;
         this.groupPoints = 0;
         this.firstPoint = 0;
 
-        this.comGoalDone = new boolean[2];      // Initialized to false
+        this.comGoalDone = new boolean[AppConstants.TOTAL_CG_PER_GAME];      // Initialized to false
     }
 
     /**
@@ -118,7 +122,7 @@ public class PlayerState implements Serializable {
      * @return total points
      */
     public int getPoints(){
-        return PGPoints + CGPoints + groupPoints + firstPoint;
+        return PGPoints + CGPoints[0] + CGPoints[1] + groupPoints + firstPoint;
     }
 
 
@@ -136,8 +140,8 @@ public class PlayerState implements Serializable {
      * This method adds points to CGPoints counter
      * @param p : the points to add
      */
-    public void addCGPoints(int p){
-        this.CGPoints += p;
+    public void addCGPoints(int p, int index){
+        this.CGPoints[index] += p;
     }
 
     /**
@@ -216,17 +220,15 @@ public class PlayerState implements Serializable {
      * This method returns a full copy of the player's state
      * @return a copied object of the player state
      */
-    public PlayerState getPlayerStateCopy(){
-        PlayerState toReturn=new PlayerState(this.nickname, this.personalGoal.getPersonalGoalCopy());
+    public PlayerInfo getPlayerInfo(){
 
-        toReturn.CGPoints=this.CGPoints;
-        toReturn.PGPoints=this.PGPoints;
-        toReturn.firstPoint=this.firstPoint;
-        toReturn.myShelf=this.myShelf.getShelfCopy();
-        toReturn.comGoalDone=new boolean[AppConstants.TOTAL_CG_PER_GAME];
-        System.arraycopy(this.comGoalDone, 0, toReturn.comGoalDone, 0, AppConstants.TOTAL_CG_PER_GAME);
-
-        return toReturn;
+        return new PlayerInfo(this.nickname,
+                this.PGPoints,
+                this.CGPoints,
+                this.firstPoint,
+                this.groupPoints,
+                this.myShelf.getCopy(),
+                this.personalGoal.getCopy());
     }
 
 }

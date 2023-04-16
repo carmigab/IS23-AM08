@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
+import it.polimi.ingsw.gameInfo.PlayerInfo;
 import it.polimi.ingsw.model.commonGoals.*;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.constants.BoardConstants;
@@ -281,17 +282,17 @@ public class GameModel {
      */
     private void evaluatePoints(){
         PlayerState currP = playerList.get(currentPlayer);
-        CommonGoal obj;
+        CommonGoal commonGoal;
 
         currP.evaluatePGPoints();
         currP.evaluateGroupPoints();
 
         // Evaluate common goals
-        for(int i=0; i<2; i++) {
+        for(int i=0; i<AppConstants.TOTAL_CG_PER_GAME; i++) {
             if (!currP.isCGDone(i)) {
-                obj = gameBoard.getCommonGoal(i);
-                if (obj.evaluate(currP.getShelf())) {
-                    currP.addCGPoints(gameBoard.pop(i));
+                commonGoal = gameBoard.getCommonGoal(i);
+                if (commonGoal.evaluate(currP.getShelf())) {
+                    currP.addCGPoints(gameBoard.pop(i), i);
                     currP.setCGDone(i);
                 }
             }
@@ -482,10 +483,10 @@ public class GameModel {
      * This method creates a list of copies of all the players' states
      * @return a list of copied player states
      */
-    public List<PlayerState> getPlayerListCopy(){
-        List<PlayerState> toReturn = new ArrayList<>(this.numPlayers);
+    public List<PlayerInfo> getPlayerListCopy(){
+        List<PlayerInfo> toReturn = new ArrayList<>(this.numPlayers);
         for(PlayerState player: this.playerList){
-            toReturn.add(player.getPlayerStateCopy());
+            toReturn.add(player.getPlayerInfo());
         }
         return toReturn;
     }

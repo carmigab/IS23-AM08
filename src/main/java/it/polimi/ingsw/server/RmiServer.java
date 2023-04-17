@@ -19,7 +19,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
 
     // This list represents also the playing order
     private List<String> nicknamesList = new ArrayList<>();
-    private List<RmiClientInterface> rmiClients = new ArrayList<>();
+    private List<RmiClientInterface> clientsList = new ArrayList<>();
     private int numPlayers;
     private State state;
 
@@ -29,6 +29,8 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
     private GameModel gameToLoad;
 
     private LobbyServer lobby;
+
+    private boolean toPing;
 
 
 
@@ -42,6 +44,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         super();
         this.lobby = lobby;
         this.numPlayers = numPlayers;
+        this.toPing = true;
         this.state = State.WAITINGFORPLAYERS;
         this.toLoadGame = false;
 
@@ -58,6 +61,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         // infers the numPlayers from playerList
         this.lobby = lobby;
         this.numPlayers = gameModel.getPlayerListCopy().size();
+        this.toPing = true;
         this.toLoadGame = true;
         this.gameToLoad = gameModel;
 
@@ -102,13 +106,12 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
     /**
      * This method lets the lobbyServer add a player and his client
      * and starts the game is no player slots are left
-     * TODO: uncomment these two lines, for now since we have no clients it just generates problems
      * @param nickname
      * @param rmiClient
      */
     public void addPlayer(String nickname, RmiClientInterface rmiClient){
         nicknamesList.add(nickname);
-        rmiClients.add(rmiClient);
+        clientsList.add(rmiClient);
         System.out.println("Added player: "+nickname);
 
         this.updateClients(State.WAITINGFORPLAYERS, null);
@@ -141,7 +144,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         Thread t = new Thread(() -> {
             synchronized (nicknamesList) {
                 System.out.println("New Ping Thread starting");
-                while (true) {
+                while (toPing) {
                     try {
                         this.pingClients();
                         nicknamesList.wait(1000);
@@ -149,6 +152,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     } catch (RemoteException e) {
+                        this.gracefulDisconnection();
                         System.out.println("Terminating Ping Thread");
                         break;
                     }
@@ -176,7 +180,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
     private void updateClients(State newState, GameInfo newInfo){
         System.out.println("Updating clients with newGameInfo and newState");
 
-        Iterator<RmiClientInterface> iter = rmiClients.iterator();
+        Iterator<RmiClientInterface> iter = clientsList.iterator();
         while (iter.hasNext()) {
             RmiClientInterface client = iter.next();
             try {
@@ -196,7 +200,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         System.out.println("A client lost connection");
         // Should set also gameOver to true (When a player disconnects the game ends)
 
-        Iterator<RmiClientInterface> iter = rmiClients.iterator();
+        Iterator<RmiClientInterface> iter = clientsList.iterator();
         while (iter.hasNext()) {
             RmiClientInterface client = iter.next();
             try {
@@ -212,6 +216,9 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         // Here we notify to the lobby to free those nicknames
         this.lobby.removePlayersFromGame(nicknamesList);
         System.out.println("Freeing used nicknames");
+        // Here we tell the thread to stop and empty the clients list
+        this.toPing = false;
+        this.clientsList.clear();
     }
 
     /**
@@ -219,13 +226,12 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
      */
     private void pingClients() throws RemoteException {
         //System.out.println("checking if RmiClient clients are alive...");
-        Iterator<RmiClientInterface> iter = rmiClients.iterator();
+        Iterator<RmiClientInterface> iter = clientsList.iterator();
         while (iter.hasNext()) {
             RmiClientInterface client = iter.next();
             try {
                 client.isAlive();
             } catch (RemoteException e) {
-                this.gracefulDisconnection();
                 throw new RemoteException();
             }
         }
@@ -243,7 +249,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         System.out.println(Thread.currentThread() + ": received '" + messageToSend + "'");
 
         System.out.println("Sending message only to: '"+receiver+"'");
-        Iterator<RmiClientInterface> iter = rmiClients.iterator();
+        Iterator<RmiClientInterface> iter = clientsList.iterator();
         while (iter.hasNext()) {
             RmiClientInterface client = iter.next();
             try {
@@ -268,7 +274,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         System.out.println(Thread.currentThread() + ": received '" + messageToSend + "'");
 
         System.out.println("Sending message to all clients");
-        Iterator<RmiClientInterface> iter = rmiClients.iterator();
+        Iterator<RmiClientInterface> iter = clientsList.iterator();
         while (iter.hasNext()) {
             RmiClientInterface client = iter.next();
             try {

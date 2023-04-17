@@ -383,6 +383,9 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      */
     public void removePlayersFromGame(List<String> playersList){
         playersList.forEach(this.nicknamesInGame::remove);
+        playersList.forEach(this.nicknamesPool::remove);
+        playersList.forEach(this.potentialPlayers::remove);
+
     }
 
 }

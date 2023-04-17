@@ -71,7 +71,6 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
 
     /**
      * This method let the current player make a move
-     *
      * @param pos
      * @param col
      * @param nickname
@@ -145,7 +144,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
                 System.out.println("New Ping Thread starting");
                 while (toPing) {
                     try {
-                        System.out.println("New Ping Iteration");
+                        //System.out.println("New Ping Iteration");
                         this.pingClients();
                         nicknamesList.wait(2000);
 
@@ -211,9 +210,9 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
             //System.out.println(client);
             try {
                 client.update(State.GRACEFULDISCONNECTION, null);
-                System.out.println("Single client update");
+                //System.out.println("Single client update");
             } catch (RemoteException e) {
-                System.out.println("Remote Exception");
+                //System.out.println("Remote Exception");
                 continue;
             }
         }
@@ -307,5 +306,3 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
 
 
 }
-
-// set gameOver to true (in the model) when a player disconnects

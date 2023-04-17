@@ -244,7 +244,9 @@ public class RmiClient extends Client implements RmiClientInterface{
         this.matchServer.isAlive();
     }
 
-
+    /**
+     * This manages the disconnection
+     */
     private void gracefulDisconnection(){
         System.out.println("Connection Error");
         view.update(State.GRACEFULDISCONNECTION, null);

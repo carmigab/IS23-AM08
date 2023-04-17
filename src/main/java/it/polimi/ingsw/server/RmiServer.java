@@ -30,7 +30,8 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
 
     private LobbyServer lobby;
 
-    private boolean toPing;
+    private boolean toPing = true;
+    private boolean disconnectingClients = false;
 
 
 
@@ -44,7 +45,6 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         super();
         this.lobby = lobby;
         this.numPlayers = numPlayers;
-        this.toPing = true;
         this.state = State.WAITINGFORPLAYERS;
         this.toLoadGame = false;
 
@@ -61,7 +61,6 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         // infers the numPlayers from playerList
         this.lobby = lobby;
         this.numPlayers = gameModel.getPlayerListCopy().size();
-        this.toPing = true;
         this.toLoadGame = true;
         this.gameToLoad = gameModel;
 
@@ -146,8 +145,9 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
                 System.out.println("New Ping Thread starting");
                 while (toPing) {
                     try {
+                        System.out.println("New Ping Iteration");
                         this.pingClients();
-                        nicknamesList.wait(1000);
+                        nicknamesList.wait(2000);
 
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
@@ -178,16 +178,20 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
      * @param newInfo
      */
     private void updateClients(State newState, GameInfo newInfo){
-        System.out.println("Updating clients with newGameInfo and newState");
+        // If the disconnection iter has begun we need to stop the clients from receiving updates
+        if(!this.disconnectingClients) {
+            System.out.println("Updating clients with newGameInfo and newState");
 
-        Iterator<RmiClientInterface> iter = clientsList.iterator();
-        while (iter.hasNext()) {
-            RmiClientInterface client = iter.next();
-            try {
-                client.update(newState, newInfo);
-            } catch (RemoteException e) {
-                this.gracefulDisconnection();
-                break;
+            Iterator<RmiClientInterface> iter = clientsList.iterator();
+            while (iter.hasNext()) {
+                RmiClientInterface client = iter.next();
+                try {
+                    client.update(newState, newInfo);
+                } catch (RemoteException e) {
+                    // This flag is needed to stop the program to go on a loop
+                    this.gracefulDisconnection();
+                    break;
+                }
             }
         }
 
@@ -198,14 +202,18 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
      */
     public void gracefulDisconnection() {
         System.out.println("A client lost connection");
-        // Should set also gameOver to true (When a player disconnects the game ends)
+        // Beginning of disconnection iter
+        this.disconnectingClients = true;
 
         Iterator<RmiClientInterface> iter = clientsList.iterator();
         while (iter.hasNext()) {
             RmiClientInterface client = iter.next();
+            //System.out.println(client);
             try {
                 client.update(State.GRACEFULDISCONNECTION, null);
+                System.out.println("Single client update");
             } catch (RemoteException e) {
+                System.out.println("Remote Exception");
                 continue;
             }
         }
@@ -231,6 +239,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
             RmiClientInterface client = iter.next();
             try {
                 client.isAlive();
+                //System.out.println("Ping");
             } catch (RemoteException e) {
                 throw new RemoteException();
             }

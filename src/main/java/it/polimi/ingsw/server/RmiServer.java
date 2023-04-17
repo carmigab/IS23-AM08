@@ -79,8 +79,17 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
      * @throws InvalidMoveException
      */
     public void makeMove(List<Position> pos, int col, String nickname) throws RemoteException, InvalidNicknameException, InvalidMoveException {
-        if(!isMyTurn(nickname)) throw new InvalidNicknameException();
-        gameController.makeMove(pos, col, nickname);
+        if(!isMyTurn(nickname)) {
+            System.out.println("Illegal move: InvalidNicknameException");
+            throw new InvalidNicknameException();
+        }
+        try {
+            gameController.makeMove(pos, col, nickname);
+        } catch (InvalidMoveException e){
+            System.out.println("Illegal move: InvalidMoveException");
+            throw new InvalidMoveException();
+        }
+
     }
 
     /**

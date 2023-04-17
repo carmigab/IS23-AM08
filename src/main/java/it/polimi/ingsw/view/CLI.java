@@ -21,6 +21,7 @@ import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * This class is used to represent the CLI view of the game
@@ -265,13 +266,12 @@ public class CLI extends View{
      */
     private void chatCommand() {
         synchronized (displayLock) {
+            AtomicBoolean messageSent = new AtomicBoolean(false);
             scheduler.schedule(() -> {
                 printMessage("To send a global message write 'all : message'", AnsiEscapeCodes.INFO_MESSAGE);
                 printMessage("To send a message to a specific player write 'player_name : message' ", AnsiEscapeCodes.INFO_MESSAGE);
 
-                boolean messageSent = false;
-
-                while (!messageSent) {
+                while (!messageSent.get()) {
                     String input = scanner.nextLine();
                     while (!input.matches("^[A-Za-z0-9+_.-]+ : (.+)$")) {
                         printMessage("Invalid message format, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
@@ -282,12 +282,12 @@ public class CLI extends View{
                     String message = input.substring(input.indexOf(":") + 1).trim();
                     if (receiverNickname.equals("all")) {
                         client.messageAll(message);
-                        messageSent = true;
+                        messageSent.set(true);
                     }
                     else {
                         if (checkExistingNickname(receiverNickname)) {
                             client.messageSomeone(message, receiverNickname);
-                            messageSent = true;
+                            messageSent.set(true);
                         }
                         else {
                             printMessage("This player does not exist, please type again your message: ", AnsiEscapeCodes.ERROR_MESSAGE);
@@ -295,13 +295,17 @@ public class CLI extends View{
                     }
                 }
             }, 0, TimeUnit.SECONDS);
-            try {
-                if (scheduler.awaitTermination(20, TimeUnit.SECONDS)) {
-                    printMessage("Message sent", AnsiEscapeCodes.INFO_MESSAGE);
+            scheduler.schedule(() -> {
+                if (messageSent.get()) {
+                    printMessage("Message sent ", AnsiEscapeCodes.INFO_MESSAGE);
+                    //scheduler.shutdown();
                 }
                 else {
                     printMessage("You took too long to send your message, please try again", AnsiEscapeCodes.ERROR_MESSAGE);
                 }
+            }, 0, TimeUnit.SECONDS);
+            try {
+                scheduler.awaitTermination(20, TimeUnit.SECONDS);
             } catch (InterruptedException ignored) {
 
             }

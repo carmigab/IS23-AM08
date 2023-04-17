@@ -120,14 +120,30 @@ public class CLI extends View{
      * @param yMax the number of columns
      */
     private void printBoardOrShelf(int yMax, int xMax, Tile[][] boardOrShelf) {
-        StringBuilder lineBuilder;
+        StringBuilder lineBuilder = new StringBuilder();
+
+        lineBuilder.append("   ");
+        for (int i = 0; i < xMax; i++) {
+            lineBuilder.append(" ").append(i).append(" ");
+        }
+        System.out.println(lineBuilder);
+
         for (int i = 0; i < yMax; i++) {
             lineBuilder = new StringBuilder();
+            lineBuilder.append(" ").append(i).append(" ");
             for (int j = 0; j < xMax; j++) {
                 lineBuilder.append(tileColorToAnsiCode(boardOrShelf[i][j].getColor())).append("   ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
             }
+            lineBuilder.append(" ").append(i).append(" ");
             System.out.println(lineBuilder);
         }
+
+        lineBuilder = new StringBuilder();
+        lineBuilder.append("   ");
+        for (int i = 0; i < xMax; i++) {
+            lineBuilder.append(" ").append(i).append(" ");
+        }
+        System.out.println(lineBuilder);
     }
 
     /**

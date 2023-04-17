@@ -210,6 +210,8 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
      */
     public void gracefulDisconnection() {
         System.out.println("A client lost connection");
+        System.out.println("Disconnecting all clients...");
+
         // Beginning of disconnection iter
         this.disconnectingClients = true;
 
@@ -225,6 +227,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
                 continue;
             }
         }
+        System.out.println("Updated all clients with disconnection instructions");
 
         // Here we end the current game
         this.gameController.forceGameOver();

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.dummies;
 
-import it.polimi.ingsw.server.ConnectionInformationRMI;
 import it.polimi.ingsw.server.RMILobbyServerInterface;
 import it.polimi.ingsw.server.RmiServerInterface;
 import it.polimi.ingsw.server.constants.ServerConstants;

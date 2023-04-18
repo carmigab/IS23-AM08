@@ -27,7 +27,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * Set that contains all the nicknames of every client that is currently playing a game
      */
     private final Set<String> nicknamesInGame;
-    private final Map<String, Optional<ConnectionInformationRMI>> potentialPlayers;
+    private final Map<String, Optional<String>> potentialPlayers;
     /**
      * List of all the games currently active in the application
      */
@@ -35,7 +35,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     /**
      * List of all the game information present in the application
      */
-    private final List<ConnectionInformationRMI> serverInformation;
+    private final List<String> serverInformation;
     /**
      * List of all the game registries present in the application
      */
@@ -189,9 +189,9 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * This method starts the game by putting it online in the RMI registry
      * The port and the name of the game are chosen automatically and are incremental
      * @param rs reference to the RMI server that needs to be put online
-     * @param info reference to the information (port and name) that is useful for the setup of the game
+     * @param name reference to the information (name) that is useful for the setup of the game
      */
-    private void startGame(RmiServer rs, ConnectionInformationRMI info){
+    private void startGame(RmiServer rs, String name){
         try {
             System.out.println("Initializing game...");
 
@@ -203,10 +203,10 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
 
             //r.bind(info.getRegistryName(), rs);
 
-            this.registry.bind(info.getRegistryName(), rs);
+            this.registry.bind(name, rs);
 
             System.out.println("RMI Server online...");
-            System.out.println("Name: "+info.getRegistryName()+" Port: "+info.getRegistryPort());
+            System.out.println("Name: "+name);
         }catch (RemoteException e){
             System.out.println(e.getMessage());
         } catch (AlreadyBoundException e) {
@@ -288,10 +288,10 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             RmiServer rs = new RmiServer(numPlayers, this);
             rs.addPlayer(nickname, client);
             this.serverList.add(rs);
-            ConnectionInformationRMI info = new ConnectionInformationRMI(this.config.getStartingName()+(this.serverList.size()), ServerConstants.RMI_PORT);
-            this.serverInformation.add(info);
-            this.startGame(rs, info);
-            return info.getRegistryName();
+            String gameName = this.config.getStartingName()+(this.serverList.size());
+            this.serverInformation.add(gameName);
+            this.startGame(rs, gameName);
+            return gameName;
         }
     }
 
@@ -312,20 +312,20 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     public String joinGame(String nickname, RmiClientInterface client) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
         synchronized (lockCreateGame) {
             if (this.potentialPlayers.containsKey(nickname)) {
-                ConnectionInformationRMI toReturn=this.potentialPlayers.get(nickname).orElseGet(()->this.recoverGame(nickname, client));
+                String toReturn=this.potentialPlayers.get(nickname).orElseGet(()->this.recoverGame(nickname, client));
                 this.serverList.get(this.serverInformation.indexOf(toReturn)).addPlayer(nickname, client);
                 this.potentialPlayers.remove(nickname);
-                return toReturn.getRegistryName();
+                return toReturn;
             }
             this.checkCredentialsIntegrity(nickname);
             int gameFound = 0;
-            ConnectionInformationRMI conn;
+            String gameName;
 
             while(gameFound < this.serverInformation.size()){
                 if(this.serverList.get(gameFound).getFreeSpaces()>0){
                     this.serverList.get(gameFound).addPlayer(nickname, client);
                     this.nicknamesInGame.add(nickname);
-                    return this.serverInformation.get(gameFound).getRegistryName();
+                    return this.serverInformation.get(gameFound);
                 }
                 gameFound++;
             }
@@ -346,7 +346,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @param client his client infromation
      * @return the information useful for the connection to the game
      */
-    private ConnectionInformationRMI recoverGame(String nickname, RmiClientInterface client) {
+    private String recoverGame(String nickname, RmiClientInterface client) {
         synchronized (lockCreateGame) {
             this.nicknamesInGame.add(nickname);
 
@@ -361,12 +361,12 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
                 GameModel gm = new GameModel(JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(new FileReader(AppConstants.PATH_SAVED_MATCHES + fileName), GameModel.class));
                 RmiServer rs = new RmiServer(gm, this);
                 this.serverList.add(rs);
-                ConnectionInformationRMI info = new ConnectionInformationRMI(this.config.getStartingName() + (this.serverList.size()), this.config.getStartingPort() + this.serverList.size());
-                this.serverInformation.add(info);
+                String gameName = this.config.getStartingName() + (this.serverList.size());
+                this.serverInformation.add(gameName);
                 //add the potential players to the list
-                this.addPotentialPlayers(fileName, info, nickname);
-                this.startGame(rs, info);
-                return info;
+                this.addPotentialPlayers(fileName, gameName, nickname);
+                this.startGame(rs, gameName);
+                return gameName;
             } catch (FileNotFoundException | RemoteException e) {
                 System.out.println(e.getMessage());
             }
@@ -375,12 +375,12 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         }
     }
 
-    private void addPotentialPlayers(String fileName,ConnectionInformationRMI conn, String firstPlayer){
+    private void addPotentialPlayers(String fileName,String gameName, String firstPlayer){
         Arrays.stream(fileName
                 .substring(0,fileName.length()-ServerConstants.JSON_EXTENSION.length())
                 .split(ServerConstants.REGEX))
                 .filter(name -> !name.equals(firstPlayer))
-                .forEach(match -> this.potentialPlayers.put(match,Optional.of(conn)));
+                .forEach(match -> this.potentialPlayers.put(match,Optional.of(gameName)));
     }
 
     /**

@@ -13,11 +13,14 @@ import it.polimi.ingsw.server.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.server.exceptions.NoGamesAvailableException;
 import it.polimi.ingsw.server.exceptions.NonExistentNicknameException;
 
+import java.io.*;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -36,12 +39,17 @@ public class CLI extends View{
     /**
      * This attribute is used to set a timeout for the user input to avoid deadlocks
      */
-    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     /**
      * Scanner used to read user input
      */
-    private static final Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
+
+    /**
+     * BufferedReader used to read user input
+     */
+    private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
     /**
      * This method is called by getUserInput to wait for other players to join the game
@@ -70,10 +78,15 @@ public class CLI extends View{
                 return;
             }
 
+            System.out.println();
             printOtherPlayersShelf();
             printBoard();
             printCommonGoals(gameInfo.getCommonGoalsCreated().get(0), gameInfo.getCommonGoalsCreated().get(1));
             printMyShelf();
+
+            if (isMyTurn()) {
+                printMessage("It's your turn!", AnsiEscapeCodes.INFO_MESSAGE);
+            }
         }
     }
 
@@ -204,8 +217,10 @@ public class CLI extends View{
      */
     @Override
     public String waitCommand() {
+        System.out.println();
         printMessage("Waiting for command (/help for command list) ", AnsiEscapeCodes.INFO_MESSAGE);
 
+        scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
 
@@ -215,6 +230,9 @@ public class CLI extends View{
      */
     @Override
     protected void parseCommand(String command) {
+        if (command == null) {
+            return;
+        }
         switch (command.trim()) {
             case "/help" -> {
                 printMessage("Command list:", AnsiEscapeCodes.INFO_MESSAGE);
@@ -283,48 +301,113 @@ public class CLI extends View{
     private void chatCommand() {
         synchronized (displayLock) {
             AtomicBoolean messageSent = new AtomicBoolean(false);
-            scheduler.schedule(() -> {
+
+            // create and start thread to get input from the user
+            Thread getInput = new Thread(() -> {
                 printMessage("To send a global message write 'all : message'", AnsiEscapeCodes.INFO_MESSAGE);
                 printMessage("To send a message to a specific player write 'player_name : message' ", AnsiEscapeCodes.INFO_MESSAGE);
 
                 while (!messageSent.get()) {
-                    String input = scanner.nextLine();
-                    while (!input.matches("^[A-Za-z0-9+_.-]+ : (.+)$")) {
-                        printMessage("Invalid message format, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
-                        input = scanner.nextLine();
-                    }
+                    try {
+                        while (!bufferedReader.ready()) {
+                            Thread.sleep(100);
+                        }
+                        String input = bufferedReader.readLine();
+                        while (!input.matches("^[A-Za-z0-9+_.-]+ : (.+)$")) {
+                            printMessage("Invalid message format, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+                            while (!bufferedReader.ready()) {
+                                Thread.sleep(100);
+                            }
+                            input = bufferedReader.readLine();
+                        }
 
-                    String receiverNickname = input.substring(0, input.indexOf(":")).trim();
-                    String message = input.substring(input.indexOf(":") + 1).trim();
-                    if (receiverNickname.equals("all")) {
-                        client.messageAll(message);
-                        messageSent.set(true);
-                    }
-                    else {
-                        if (checkExistingNickname(receiverNickname)) {
-                            client.messageSomeone(message, receiverNickname);
+                        String receiverNickname = input.substring(0, input.indexOf(":")).trim();
+                        String message = input.substring(input.indexOf(":") + 1).trim();
+                        if (receiverNickname.equals("all")) {
+                            client.messageAll(message);
                             messageSent.set(true);
                         }
                         else {
-                            printMessage("This player does not exist, please type again your message: ", AnsiEscapeCodes.ERROR_MESSAGE);
+                            if (checkExistingNickname(receiverNickname)) {
+                                client.messageSomeone(message, receiverNickname);
+                                messageSent.set(true);
+                            }
+                            else {
+                                printMessage("This player does not exist, please type again your message: ", AnsiEscapeCodes.ERROR_MESSAGE);
+                            }
                         }
+                    } catch (Exception ignored) {
+
                     }
                 }
-            }, 0, TimeUnit.SECONDS);
+            });
+            getInput.start();
+
+            // create and start timer thread, check if the message has been sent after 20 seconds, if not stop the getInput thread
+            scheduler = Executors.newScheduledThreadPool(1);
             scheduler.schedule(() -> {
-                if (messageSent.get()) {
-                    printMessage("Message sent ", AnsiEscapeCodes.INFO_MESSAGE);
-                    //scheduler.shutdown();
+                if (!messageSent.get()) {
+                    printMessage("Message not sent, timeout expired, press Enter to return to game", AnsiEscapeCodes.ERROR_MESSAGE);
+                    getInput.stop();
                 }
-                else {
-                    printMessage("You took too long to send your message, please try again", AnsiEscapeCodes.ERROR_MESSAGE);
-                }
-            }, 0, TimeUnit.SECONDS);
+            }, 10, TimeUnit.SECONDS);
+
             try {
-                scheduler.awaitTermination(20, TimeUnit.SECONDS);
+                getInput.join();
             } catch (InterruptedException ignored) {
 
             }
+            // shutdown the scheduler in case the message has been sent
+            scheduler.shutdown();
+
+//            scheduler.schedule(() -> {
+//                printMessage("To send a global message write 'all : message'", AnsiEscapeCodes.INFO_MESSAGE);
+//                printMessage("To send a message to a specific player write 'player_name : message' ", AnsiEscapeCodes.INFO_MESSAGE);
+//
+//                while (!messageSent.get()) {
+//                    try {
+//                        String input = bufferedReader.readLine();
+//                        while (!input.matches("^[A-Za-z0-9+_.-]+ : (.+)$")) {
+//                            printMessage("Invalid message format, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+//                            input = bufferedReader.readLine();
+//                        }
+//
+//                        String receiverNickname = input.substring(0, input.indexOf(":")).trim();
+//                        String message = input.substring(input.indexOf(":") + 1).trim();
+//                        if (receiverNickname.equals("all")) {
+//                            client.messageAll(message);
+//                            messageSent.set(true);
+//                        }
+//                        else {
+//                            if (checkExistingNickname(receiverNickname)) {
+//                                client.messageSomeone(message, receiverNickname);
+//                                messageSent.set(true);
+//                            }
+//                            else {
+//                                printMessage("This player does not exist, please type again your message: ", AnsiEscapeCodes.ERROR_MESSAGE);
+//                            }
+//                        }
+//                    } catch (Exception ignored) {
+//
+//                    }
+//                }
+//            }, 0, TimeUnit.SECONDS);
+//            try {
+//                scheduler.shutdown();
+//                scheduler.awaitTermination(20, TimeUnit.SECONDS);
+//                System.out.println();
+//                System.setIn(new ByteArrayInputStream("Closing chat".getBytes()));
+//
+//                // scanner.close();
+//                if (messageSent.get()) {
+//                    printMessage("Message sent ", AnsiEscapeCodes.INFO_MESSAGE);
+//                }
+//                else {
+//                    printMessage("You took too long to send your message, please try again", AnsiEscapeCodes.ERROR_MESSAGE);
+//                }
+//            } catch (InterruptedException ignored) {
+//
+//            }
         }
     }
 
@@ -342,37 +425,91 @@ public class CLI extends View{
      */
     private void confirmExit() {
         synchronized (displayLock) {
-            scheduler.schedule(() -> {
-                printMessage("Are you sure you want to exit? (y/n) ", AnsiEscapeCodes.INFO_MESSAGE);
-                String input = scanner.nextLine();
-                input = input.trim();
-                while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n")) {
-                    printMessage("Invalid input, please try again", AnsiEscapeCodes.ERROR_MESSAGE);
-                    input = scanner.nextLine();
-                    input = input.trim();
-                }
 
-                if (input.equalsIgnoreCase("y")) {
-                    close("Client closing, bye bye!");
+            AtomicBoolean messageSent = new AtomicBoolean(false);
+
+            // create and start thread to get input from the user
+            Thread getInput = new Thread(() -> {
+                printMessage("Are you sure you want to exit? (y/n) ", AnsiEscapeCodes.INFO_MESSAGE);
+
+                while (!messageSent.get()) {
+                    try {
+                        while (!bufferedReader.ready()) {
+                            Thread.sleep(100);
+                        }
+                        String input = bufferedReader.readLine();
+                        while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n")) {
+                            printMessage("Invalid input, please try again", AnsiEscapeCodes.ERROR_MESSAGE);
+                            while (!bufferedReader.ready()) {
+                                Thread.sleep(100);
+                            }
+                            input = bufferedReader.readLine();
+                            input = input.trim();
+                        }
+
+                        if (input.equalsIgnoreCase("y")) {
+                            close("Client closing, bye bye!");
+                            messageSent.set(true);
+                        }
+                        else {
+                            printMessage("Returning to game ", AnsiEscapeCodes.INFO_MESSAGE);
+                            messageSent.set(true);
+                        }
+                    } catch (Exception ignored) {
+
+                    }
                 }
-                else {
-                    printMessage("Returning to game ", AnsiEscapeCodes.INFO_MESSAGE);
-                }
-            }, 0, TimeUnit.SECONDS);
-            try {
-                if (!scheduler.awaitTermination(20, TimeUnit.SECONDS)) {
+            });
+            getInput.start();
+
+            // create and start timer thread, check if the message has been sent after 20 seconds, if not stop the getInput thread
+            scheduler = Executors.newScheduledThreadPool(1);
+            scheduler.schedule(() -> {
+                if (!messageSent.get()) {
                     printMessage("You took too long to confirm exit, returning to game...", AnsiEscapeCodes.ERROR_MESSAGE);
+                    getInput.stop();
                 }
+            }, 10, TimeUnit.SECONDS);
+
+            try {
+                getInput.join();
             } catch (InterruptedException ignored) {
 
             }
+            // shutdown the scheduler in case the message has been sent
+            scheduler.shutdown();
+
+//            scheduler.schedule(() -> {
+//                printMessage("Are you sure you want to exit? (y/n) ", AnsiEscapeCodes.INFO_MESSAGE);
+//                String input = scanner.nextLine();
+//                input = input.trim();
+//                while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n")) {
+//                    printMessage("Invalid input, please try again", AnsiEscapeCodes.ERROR_MESSAGE);
+//                    input = scanner.nextLine();
+//                    input = input.trim();
+//                }
+//
+//                if (input.equalsIgnoreCase("y")) {
+//                    close("Client closing, bye bye!");
+//                }
+//                else {
+//                    printMessage("Returning to game ", AnsiEscapeCodes.INFO_MESSAGE);
+//                }
+//            }, 0, TimeUnit.SECONDS);
+//            try {
+//                if (!scheduler.awaitTermination(20, TimeUnit.SECONDS)) {
+//                    printMessage("You took too long to confirm exit, returning to game...", AnsiEscapeCodes.ERROR_MESSAGE);
+//                }
+//            } catch (InterruptedException ignored) {
+//
+//            }
         }
     }
 
     /**
      * This method is called by parseCommand to print an error message if the command is invalid
      */
-    private void printMessage(String message, AnsiEscapeCodes message_type) {
+    public void printMessage(String message, AnsiEscapeCodes message_type) {
         System.out.println(message_type.getCode() + message + AnsiEscapeCodes.ENDING_CODE.getCode());
     }
 

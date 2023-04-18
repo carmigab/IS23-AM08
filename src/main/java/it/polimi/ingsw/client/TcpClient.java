@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.clientLocks.Lock;
+import it.polimi.ingsw.client.exceptions.TimeOutException;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.gameInfo.GameInfo;
@@ -81,23 +82,39 @@ public class TcpClient implements Client{
 
 
 
-
     public boolean chooseNickname(String nick){
-        synchronized (chooseNicknameLock){
-            try {
-                this.sendTcpMessage(new ChooseNicknameMessage(nick));
-                chooseNicknameLock.wait(waitTime);
-                if (!chooseNicknameLock.hasBeenWokeUp()) this.gracefulDisconnection();
-
-            } catch (InterruptedException e) {
-                System.out.println("Interrupted exception");
-                this.gracefulDisconnection();
-            }
-
-            ChooseNicknameResponse response = (ChooseNicknameResponse) chooseNicknameLock.getMessage();
-            return response.getResponse();
-        }
+        ChooseNicknameResponse response = (ChooseNicknameResponse) this.manageConversation(chooseNicknameLock, new ChooseNicknameMessage(nick));
+        return response.getResponse();
     }
+
+
+    // This method tries to retrieve the received message from the lock
+    public Message manageConversation(Lock lock, Message message) {
+        try {
+            synchronized (lock) {
+                this.sendTcpMessage(message);
+                lock.wait(this.waitTime);
+                // we try to retrieve the message from the lock
+                Message newMessage = lock.getMessage();
+                lock.reset();
+                // if new Message == null it means that we did not receive a response message from the server
+                if (newMessage == null) throw new TimeOutException();
+                return newMessage;
+            }
+        } catch (InterruptedException e) {
+            System.out.println("Interrupted Exception");
+            this.gracefulDisconnection();
+        } catch (TimeOutException e) {
+            System.out.println("Tcp server too slow to respond");
+            this.gracefulDisconnection();
+        }
+
+        // the code should never arrive here
+        this.gracefulDisconnection();
+        System.out.println("Qualcosa è andato orribilmente male");
+        return new Message("None");
+    }
+
 
     public void makeMove(List<Position> pos, int col) throws InvalidNicknameException, InvalidMoveException, InvalidNicknameException{}
 

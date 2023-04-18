@@ -48,7 +48,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         this.view = fV;
         this.nickname = nickname;
 
-        System.setProperty("java.rmi.server.hostname", "192.168.43.54");
+        //System.setProperty("java.rmi.server.hostname", "192.168.43.54");
         // to comment in case of test without LobbyServer
         this.connectToLobbyServer();
     }
@@ -63,7 +63,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         while(true) {
             try {
                 System.out.println("Looking up the registry for LobbyServer");
-                this.lobbyRegistry = LocateRegistry.getRegistry(lobbyPort);
+                this.lobbyRegistry = LocateRegistry.getRegistry("192.168.43.4", lobbyPort);
                 this.lobbyServer = (RMILobbyServerInterface) this.lobbyRegistry.lookup(LobbyServerName);
                 break;
             } catch (Exception e) {

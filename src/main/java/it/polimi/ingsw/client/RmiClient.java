@@ -126,7 +126,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      */
     public void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException {
         try {
-            ConnectionInformationRMI c = this.lobbyServer.createGame(num, nickname, this);
+            RmiServerInterface c = this.lobbyServer.createGame(num, nickname, this);
             this.connectToMatchServer(c);
         } catch (RemoteException | NotBoundException e) {
             this.gracefulDisconnection();
@@ -139,7 +139,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @throws NotBoundException
      */
     public void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException {
-        ConnectionInformationRMI c = null;
+        RmiServerInterface c = null;
 
         try {
             c = this.lobbyServer.joinGame(nickname, this);
@@ -157,11 +157,11 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @throws RemoteException
      * @throws NotBoundException
      */
-    private void connectToMatchServer(ConnectionInformationRMI c) throws RemoteException, NotBoundException {
-        System.out.println("Looking up the registry for MatchServer");
-        System.out.println("Name: "+c.getRegistryName()+" Port: "+c.getRegistryPort());
-        Registry registry = LocateRegistry.getRegistry("192.168.43.4", c.getRegistryPort());
-        this.matchServer = (RmiServerInterface) registry.lookup(c.getRegistryName());
+    private void connectToMatchServer(RmiServerInterface c) throws RemoteException, NotBoundException {
+//        System.out.println("Looking up the registry for MatchServer");
+//        System.out.println("Name: "+c.getRegistryName()+" Port: "+c.getRegistryPort());
+//        Registry registry = LocateRegistry.getRegistry("192.168.43.4", c.getRegistryPort());
+        this.matchServer = c; //(RmiServerInterface) registry.lookup(c.getRegistryName());
 
         // new thread to ping server
         Thread t = new Thread(() -> {

@@ -5,7 +5,6 @@ import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.server.ConnectionInformationRMI;
 import it.polimi.ingsw.server.RMILobbyServerInterface;
 import it.polimi.ingsw.server.RmiServer;
 import it.polimi.ingsw.server.RmiServerInterface;
@@ -49,7 +48,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         this.view = fV;
         this.nickname = nickname;
 
-        //System.setProperty("java.rmi.server.hostname", "192.168.43.4");
+        System.setProperty("java.rmi.server.hostname", "192.168.43.54");
         // to comment in case of test without LobbyServer
         this.connectToLobbyServer();
     }
@@ -64,7 +63,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         while(true) {
             try {
                 System.out.println("Looking up the registry for LobbyServer");
-                this.lobbyRegistry = LocateRegistry.getRegistry( lobbyPort);
+                this.lobbyRegistry = LocateRegistry.getRegistry(lobbyPort);
                 this.lobbyServer = (RMILobbyServerInterface) this.lobbyRegistry.lookup(LobbyServerName);
                 break;
             } catch (Exception e) {
@@ -156,7 +155,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     /**
      * This method connects to the MatchServer using information available in the parameter
      * it also starts a thread that pings the server every 1 second
-     * @param c : a ConnectionInformationRMI object
+     * @param matchServerName : name of the server to connect
      * @throws RemoteException
      * @throws NotBoundException
      */

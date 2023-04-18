@@ -6,6 +6,7 @@ import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.gameInfo.PlayerInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Position;
+import it.polimi.ingsw.model.SingleGoal;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.constants.AppConstants;
@@ -97,7 +98,7 @@ public class CLI extends View{
         for (PlayerInfo playerInfo : gameInfo.getPlayerInfosList()) {
             if (!playerInfo.getNickname().equals(this.myNickname)) {
                 printMessage(playerInfo.getNickname() + "'s shelf:", AnsiEscapeCodes.GAME_MESSAGE);
-                printBoardOrShelf(AppConstants.ROWS_NUMBER, AppConstants.COLS_NUMBER, playerInfo.getShelf());
+                printBoardOrShelf(AppConstants.ROWS_NUMBER, AppConstants.COLS_NUMBER, playerInfo.getShelf(), null);
                 printMessage("   Common Goal Points: " + playerInfo.getComGoalPoints()[0] + "," + playerInfo.getComGoalPoints()[1], AnsiEscapeCodes.GAME_MESSAGE);
             }
         }
@@ -108,7 +109,7 @@ public class CLI extends View{
      */
     private void printBoard() {
         printMessage("Board:", AnsiEscapeCodes.GAME_MESSAGE);
-        printBoardOrShelf(AppConstants.BOARD_DIMENSION, AppConstants.BOARD_DIMENSION, gameInfo.getGameBoard());
+        printBoardOrShelf(AppConstants.BOARD_DIMENSION, AppConstants.BOARD_DIMENSION, gameInfo.getGameBoard(), null);
     }
 
     /**
@@ -119,7 +120,7 @@ public class CLI extends View{
         for (PlayerInfo playerInfo : gameInfo.getPlayerInfosList()) {
             if (playerInfo.getNickname().equals(this.myNickname)) {
                 printMessage("My shelf:", AnsiEscapeCodes.GAME_MESSAGE);
-                printBoardOrShelf(AppConstants.ROWS_NUMBER, AppConstants.COLS_NUMBER, playerInfo.getShelf());
+                printBoardOrShelf(AppConstants.ROWS_NUMBER, AppConstants.COLS_NUMBER, playerInfo.getShelf(), playerInfo.getPersonalGoal());
                 printMessage("   Common Goal Points: " + playerInfo.getComGoalPoints()[0] + "," + playerInfo.getComGoalPoints()[1], AnsiEscapeCodes.GAME_MESSAGE);
                 return;
             }
@@ -131,7 +132,7 @@ public class CLI extends View{
      * @param xMax the number of rows
      * @param yMax the number of columns
      */
-    private void printBoardOrShelf(int yMax, int xMax, Tile[][] boardOrShelf) {
+    private void printBoardOrShelf(int yMax, int xMax, Tile[][] boardOrShelf, List<SingleGoal> personalGoal) {
         StringBuilder lineBuilder = new StringBuilder();
 
         lineBuilder.append("   ");
@@ -144,6 +145,11 @@ public class CLI extends View{
             lineBuilder = new StringBuilder();
             lineBuilder.append(" ").append(i).append(" ");
             for (int j = 0; j < xMax; j++) {
+                for (SingleGoal singleGoal : personalGoal) {
+                    if (singleGoal.getPosition().equals(new Position(j, i))) {
+
+                    }
+                }
                 lineBuilder.append(tileColorToAnsiCode(boardOrShelf[i][j].getColor())).append("   ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
             }
             lineBuilder.append(" ").append(i).append(" ");

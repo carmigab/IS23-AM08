@@ -87,7 +87,7 @@ public abstract class View {
      */
     public synchronized void checkForShutdown() {
         while (true) {
-            if (currentState.equals(State.GRACEFULDISCONNECTION)) {
+            if (currentState != null && currentState.equals(State.GRACEFULDISCONNECTION)) {
                 close("One player has crashed, the game will be closed");
             }
             try {

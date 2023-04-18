@@ -160,6 +160,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     } catch (RemoteException e) {
+                        System.out.println("Remote exception from pingClients");
                         this.gracefulDisconnection();
                         System.out.println("Terminating Ping Thread");
                         break;
@@ -197,8 +198,8 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
                     client.update(newState, newInfo);
                 } catch (RemoteException e) {
                     // This flag is needed to stop the program to go on a loop
-                    System.out.println("Remote exception while updating clients");
-                    e.printStackTrace();
+                    System.out.println("Remote exception from client.update");
+                    //e.printStackTrace();
                     this.gracefulDisconnection();
                     break;
                 }
@@ -223,13 +224,12 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
             //System.out.println(client);
             try {
                 client.update(State.GRACEFULDISCONNECTION, null);
-                //System.out.println("Single client update");
             } catch (RemoteException e) {
                 //System.out.println("Remote Exception");
                 continue;
             }
         }
-        System.out.println("Updated all clients with disconnection instructions");
+        System.out.println("Initialized graceful disconnection for all clients");
 
         // Here we end the current game
         this.gameController.forceGameOver();
@@ -279,8 +279,8 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
                 else if(client.name().equals(speaker)) client.receiveMessage(messageToSend);
 
             } catch (RemoteException e) {
+                System.out.println("Remote exception from client.receiveMessage in private chat");
                 this.gracefulDisconnection();
-                throw new RemoteException();
             }
         }
     }
@@ -302,8 +302,8 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
             try {
                 client.receiveMessage(messageToSend);
             } catch (RemoteException e) {
+                System.out.println("Remote exception from client.receiveMessage in public chat");
                 this.gracefulDisconnection();
-                throw new RemoteException();
             }
         }
     }

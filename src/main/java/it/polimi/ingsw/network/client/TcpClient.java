@@ -105,13 +105,20 @@ public class TcpClient implements Client{
 
         // the code should never arrive here
         this.gracefulDisconnection();
-        System.out.println("Should never arrve here");
+        System.out.println("Should never arrive here");
         return new Message("None");
     }
 
 
     private void sendTcpMessage(Message message){
+        System.out.println("Sending message to Server socket");
 
+        try {
+            this.objectOutputStream.writeObject(message);
+        } catch (IOException e) {
+            System.out.println("An error occurred while trying to send a message to the server");
+            this.gracefulDisconnection();
+        }
     }
 
 
@@ -188,7 +195,7 @@ public class TcpClient implements Client{
     }
 
     private void gracefulDisconnection(){
-        System.out.println("Connection Error");
+        System.out.println("Initializing graceful disconnection");
         try {
             System.out.println("Closing socket");
             this.socket.close();

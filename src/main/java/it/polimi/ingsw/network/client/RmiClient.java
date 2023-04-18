@@ -98,6 +98,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         } catch (ExistentNicknameExcepiton | IllegalNicknameException e) {
             flag = false;
         } catch (RemoteException e) {
+            System.out.println("Remote exception from chooseNickname");
             this.gracefulDisconnection();
         }
 
@@ -115,6 +116,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         try {
             this.matchServer.makeMove(pos, col, nickname);
         } catch (RemoteException e) {
+            System.out.println("Remote exception from makeMove");
             this.gracefulDisconnection();
         }
     }
@@ -129,8 +131,12 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         try {
             String matchServerName = this.lobbyServer.createGame(num, nickname, this);
             this.connectToMatchServer(matchServerName);
-        } catch (RemoteException | NotBoundException e) {
+        } catch (RemoteException e) {
+            System.out.println("Remote exception from createGame");
             this.gracefulDisconnection();
+        } catch (NotBoundException e) {
+            System.out.println("Trying to lock up an unbound registry");
+            throw new RuntimeException(e);
         }
     }
 
@@ -140,13 +146,15 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @throws NotBoundException
      */
     public void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException {
-        String matchServerName = null;
-
         try {
-            matchServerName = this.lobbyServer.joinGame(nickname, this);
+            String matchServerName = this.lobbyServer.joinGame(nickname, this);
             this.connectToMatchServer(matchServerName);
-        } catch (RemoteException | NotBoundException e) {
+        } catch (RemoteException e) {
+            System.out.println("Remote exception from joinGame");
             this.gracefulDisconnection();
+        } catch (NotBoundException e) {
+            System.out.println("Trying to lock up an unbound registry");
+            throw new RuntimeException(e);
         }
 
     }
@@ -202,6 +210,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         try {
             this.matchServer.messageSomeone(message, this.nickname, receiver);
         } catch (RemoteException e) {
+            System.out.println("Remote exception from chat");
             this.gracefulDisconnection();
         }
     }
@@ -215,6 +224,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         try {
             this.matchServer.messageAll(message, this.nickname);
         } catch (RemoteException e) {
+            System.out.println("Remote exception from chat");
             this.gracefulDisconnection();
         }
 
@@ -250,7 +260,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * This manages the disconnection
      */
     private void gracefulDisconnection(){
-        System.out.println("Connection Error");
+        System.out.println("Initializing graceful disconnection");
         view.update(State.GRACEFULDISCONNECTION, null);
     }
 

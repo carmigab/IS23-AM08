@@ -51,6 +51,7 @@ public class CLI extends View{
      */
     private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
+
     /**
      * This method is called by getUserInput to wait for other players to join the game
      */
@@ -141,16 +142,21 @@ public class CLI extends View{
         }
         System.out.println(lineBuilder);
 
+        String toPrint;
         for (int i = 0; i < yMax; i++) {
             lineBuilder = new StringBuilder();
             lineBuilder.append(" ").append(i).append(" ");
             for (int j = 0; j < xMax; j++) {
-                for (SingleGoal singleGoal : personalGoal) {
-                    if (singleGoal.getPosition().equals(new Position(j, i))) {
-
+                toPrint = "   ";
+                if (personalGoal != null) {
+                    for (SingleGoal singleGoal : personalGoal) {
+                        if (singleGoal.getPosition().equals(new Position(j, i))) {
+                            toPrint = tileColorToAnsiCode(singleGoal.getColor(), false) + " X " + AnsiEscapeCodes.ENDING_CODE.getCode();
+                            break;
+                        }
                     }
                 }
-                lineBuilder.append(tileColorToAnsiCode(boardOrShelf[i][j].getColor())).append("   ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
+                lineBuilder.append(tileColorToAnsiCode(boardOrShelf[i][j].getColor(), true)).append(toPrint).append(AnsiEscapeCodes.ENDING_CODE.getCode());
             }
             lineBuilder.append(" ").append(i).append(" ");
             System.out.println(lineBuilder);
@@ -169,16 +175,16 @@ public class CLI extends View{
      * @param color the color to convert
      * @return the ANSI escape code
      */
-    private String tileColorToAnsiCode(TileColor color) {
+    private String tileColorToAnsiCode(TileColor color, boolean isBackground) {
         return switch (color) {
-            case WHITE -> AnsiEscapeCodes.WHITE_BACKGROUND.getCode();
-            case BLUE -> AnsiEscapeCodes.BLUE_BACKGROUND.getCode();
-            case YELLOW -> AnsiEscapeCodes.YELLOW_BACKGROUND.getCode();
-            case VIOLET -> AnsiEscapeCodes.VIOLET_BACKGROUND.getCode();
-            case CYAN -> AnsiEscapeCodes.CYAN_BACKGROUND.getCode();
-            case GREEN -> AnsiEscapeCodes.GREEN_BACKGROUND.getCode();
-            case EMPTY -> AnsiEscapeCodes.EMPTY_BACKGROUND.getCode();
-            default -> AnsiEscapeCodes.DEFAULT_BACKGROUND.getCode();
+            case WHITE -> isBackground ? AnsiEscapeCodes.WHITE_BACKGROUND.getCode() : AnsiEscapeCodes.WHITE_TEXT.getCode();
+            case BLUE -> isBackground ? AnsiEscapeCodes.BLUE_BACKGROUND.getCode() : AnsiEscapeCodes.BLUE_TEXT.getCode();
+            case YELLOW -> isBackground ? AnsiEscapeCodes.YELLOW_BACKGROUND.getCode() : AnsiEscapeCodes.YELLOW_TEXT.getCode();
+            case VIOLET -> isBackground ? AnsiEscapeCodes.VIOLET_BACKGROUND.getCode() : AnsiEscapeCodes.VIOLET_TEXT.getCode();
+            case CYAN -> isBackground ? AnsiEscapeCodes.CYAN_BACKGROUND.getCode() : AnsiEscapeCodes.CYAN_TEXT.getCode();
+            case GREEN -> isBackground ? AnsiEscapeCodes.GREEN_BACKGROUND.getCode() : AnsiEscapeCodes.GREEN_TEXT.getCode();
+            case EMPTY -> isBackground ? AnsiEscapeCodes.EMPTY_BACKGROUND.getCode() : AnsiEscapeCodes.EMPTY_TEXT.getCode();
+            default -> isBackground ? AnsiEscapeCodes.DEFAULT_BACKGROUND.getCode() : AnsiEscapeCodes.DEFAULT_TEXT.getCode();
         };
     }
 

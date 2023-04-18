@@ -25,17 +25,14 @@ class CLITest {
     void display() {
         CLI cli = new CLI();
 
-        Tile[][] myGameBoard = new Tile[AppConstants.BOARD_DIMENSION][AppConstants.BOARD_DIMENSION];
-
+        GameInfo gameInfo = null;
         String configFile = "src/test/resources/view_tests_configs/boardDisplayTest.json";
 
         try {
-            myGameBoard = JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(new FileReader(configFile), Tile[][].class);
+            gameInfo = JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(new FileReader(configFile), GameInfo.class);
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
         }
-
-        GameInfo gameInfo = new GameInfo(myGameBoard, null, null, null, new HashMap<>(), null);
 
         cli.update(State.TURN0, gameInfo);
     }

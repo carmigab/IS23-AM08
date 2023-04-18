@@ -7,8 +7,6 @@ import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.server.RMILobbyServerInterface;
-import it.polimi.ingsw.server.RmiServerInterface;
 import it.polimi.ingsw.server.constants.ServerConstants;
 import it.polimi.ingsw.server.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.server.exceptions.NoGamesAvailableException;

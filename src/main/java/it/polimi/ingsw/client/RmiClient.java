@@ -46,6 +46,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         this.view = fV;
         this.nickname = nickname;
 
+        System.setProperty("java.rmi.server.hostname", "192.168.43.4");
         // to comment in case of test without LobbyServer
         this.connectToLobbyServer();
     }
@@ -60,7 +61,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         while(true) {
             try {
                 System.out.println("Looking up the registry for LobbyServer");
-                Registry registry = LocateRegistry.getRegistry(lobbyPort);
+                Registry registry = LocateRegistry.getRegistry("192.168.43.4", lobbyPort);
                 this.lobbyServer = (RMILobbyServerInterface) registry.lookup(LobbyServerName);
                 break;
             } catch (Exception e) {
@@ -159,7 +160,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     private void connectToMatchServer(ConnectionInformationRMI c) throws RemoteException, NotBoundException {
         System.out.println("Looking up the registry for MatchServer");
         System.out.println("Name: "+c.getRegistryName()+" Port: "+c.getRegistryPort());
-        Registry registry = LocateRegistry.getRegistry(c.getRegistryPort());
+        Registry registry = LocateRegistry.getRegistry("192.168.43.4", c.getRegistryPort());
         this.matchServer = (RmiServerInterface) registry.lookup(c.getRegistryName());
 
         // new thread to ping server

@@ -197,6 +197,8 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
                     client.update(newState, newInfo);
                 } catch (RemoteException e) {
                     // This flag is needed to stop the program to go on a loop
+                    System.out.println("Remote exception while updating clients");
+                    e.printStackTrace();
                     this.gracefulDisconnection();
                     break;
                 }

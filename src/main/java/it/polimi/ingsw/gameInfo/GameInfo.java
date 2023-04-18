@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gameInfo;
 
+import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.model.Tile;
 
 import java.io.Serializable;
@@ -13,28 +14,34 @@ public class GameInfo implements Serializable {
     /**
      * This attribute stores the current game board in the game
      */
+    @Expose
     private final Tile[][] gameBoard;
     /**
      * This attribute stores the common goals created in the game
      */
+    @Expose
     private final List<Integer> commonGoalsCreated;
     /**
      * This attribute stores the current stack of points for each common goal
      */
+    @Expose
     private final List<Integer> commonGoalsStackTop;
     /**
      * This attribute stores all the states of all the players in the game
      */
+    @Expose
     private final List<PlayerInfo> playerInfosList;
 
     /**
      * This attribute store the leader board of the game
      */
+    @Expose
     private final Map<String, Integer> leaderBoard;
 
     /**
      * This attribute stores the nickname of the current player
      */
+    @Expose
     private final String currentPlayerNickname;
 
     /**

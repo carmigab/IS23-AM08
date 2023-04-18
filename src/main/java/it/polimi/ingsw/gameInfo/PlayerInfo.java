@@ -1,5 +1,6 @@
 package it.polimi.ingsw.gameInfo;
 
+import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.model.SingleGoal;
 import it.polimi.ingsw.model.Tile;
 
@@ -13,36 +14,43 @@ public class PlayerInfo implements Serializable {
     /**
      * This attribute stores the nickname of the player
      */
+    @Expose
     private final String nickname;
 
     /**
      * This attribute stores the total points of the player
      */
+    @Expose
     private final int pgPoints;
 
     /**
      * This attribute stores the points of the player for each common goal
      */
+    @Expose
     private final int[] comGoalPoints;
 
     /**
      * This attribute stores the points of the player for the first player
      */
+    @Expose
     private final int firstPoint;
 
     /**
      * This attribute stores the points of the player for the groups
      */
+    @Expose
     private final int groupPoints;
 
     /**
      * This attribute stores the shelf of the player
      */
+    @Expose
     private final Tile[][] shelf;
 
     /**
      * This attribute stores the personal goals of the player
      */
+    @Expose
     private final List<SingleGoal> personalGoal;
 
     /**

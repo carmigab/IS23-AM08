@@ -7,13 +7,13 @@ import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Position;
+import it.polimi.ingsw.network.messages.clientMessages.*;
+import it.polimi.ingsw.network.messages.serverMessages.*;
 import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.network.server.exceptions.NonExistentNicknameException;
 import it.polimi.ingsw.network.server.constants.ServerConstants;
 import it.polimi.ingsw.network.server.exceptions.NoGamesAvailableException;
-import it.polimi.ingsw.network.server.messages.Message;
-import it.polimi.ingsw.network.server.messages.clientMessages.ChooseNicknameMessage;
-import it.polimi.ingsw.network.server.messages.serverMessages.ChooseNicknameResponse;
+import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.view.View;
 
 import java.io.*;
@@ -42,6 +42,11 @@ public class TcpClient implements Client{
     // Locks
     private int waitTime = 2000;
     private Lock chooseNicknameLock = new Lock();
+    private Lock makeMoveLock = new Lock();
+    private Lock createGameLock = new Lock();
+    private Lock joinGameLock = new Lock();
+    private Lock chatSomeoneLock = new Lock();
+    private Lock chatAllLock = new Lock();
 
 
 
@@ -77,15 +82,8 @@ public class TcpClient implements Client{
 
 
 
-
-    public boolean chooseNickname(String nick){
-        ChooseNicknameResponse response = (ChooseNicknameResponse) this.manageConversation(chooseNicknameLock, new ChooseNicknameMessage(nick));
-        return response.getResponse();
-    }
-
-
     // This method tries to retrieve the received message from the lock
-    public Message manageConversation(Lock lock, Message message) {
+    public Message manageTcpConversation(Lock lock, Message message) {
         try {
             synchronized (lock) {
                 this.sendTcpMessage(message);
@@ -112,21 +110,62 @@ public class TcpClient implements Client{
     }
 
 
-    public void makeMove(List<Position> pos, int col) throws InvalidNicknameException, InvalidMoveException, InvalidNicknameException{}
-
-    public void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException {}
-
-    public void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException{}
-
-    public void messageSomeone(String message, String receiver){}
-
-    public void messageAll(String message){}
-
-
-
     private void sendTcpMessage(Message message){
 
     }
+
+
+
+
+    public boolean chooseNickname(String nick){
+        ChooseNicknameResponse response = (ChooseNicknameResponse) this.manageTcpConversation(chooseNicknameLock,
+                new ChooseNicknameMessage(nick));
+        return response.getResponse();
+    }
+
+
+    public void makeMove(List<Position> pos, int col) throws InvalidMoveException, InvalidNicknameException{
+        MakeMoveResponse response = (MakeMoveResponse) this.manageTcpConversation(makeMoveLock,
+                new MakeMoveMessage(this.nickname, pos, col));
+        if (response.isInvalidMove()) throw new InvalidMoveException();
+        if (response.isInvalidNickname()) throw new InvalidNicknameException();
+    }
+
+
+    public void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException {
+        CreateGameResponse response = (CreateGameResponse) this.manageTcpConversation(createGameLock,
+                new CreateGameMessage(this.nickname, num));
+        if (response.isNonExistentNickname()) throw new NonExistentNicknameException();
+        if (response.isAlreadyInGame()) throw new AlreadyInGameException();
+    }
+
+
+    public void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException{
+        JoinGameResponse response = (JoinGameResponse) this.manageTcpConversation(joinGameLock,
+                new JoinGameMessage(this.nickname));
+        if (response.isAlreadyInGame()) throw new AlreadyInGameException();
+        if (response.isNoGamesAvailable()) throw new NoGamesAvailableException();
+        if (response.isNonExistentNickname()) throw new NonExistentNicknameException();
+
+    }
+
+
+    public void messageSomeone(String chatMessage, String receiver){
+        ChatSomeoneResponse response = (ChatSomeoneResponse) this.manageTcpConversation(chatSomeoneLock,
+                new ChatSomeoneMessage(this.nickname, chatMessage, receiver));
+
+    }
+
+
+    public void messageAll(String chatMessage){
+        ChatAllMessage response = (ChatAllMessage) this.manageTcpConversation(chatAllLock,
+                new ChatAllMessage(this.nickname, chatMessage));
+
+    }
+
+
+
+
 
 
 

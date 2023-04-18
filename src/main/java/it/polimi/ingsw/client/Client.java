@@ -12,23 +12,18 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
-public abstract class Client extends UnicastRemoteObject {
-    protected Client() throws RemoteException {
-    }
+public interface Client  {
 
-    public boolean chooseNickname(String nick) {
-        return false;
-    }
+    public boolean chooseNickname(String nick);
 
-    public void makeMove(List<Position> pos, int col) throws InvalidNicknameException, InvalidMoveException, InvalidNicknameException {
-    }
+    public void makeMove(List<Position> pos, int col) throws InvalidNicknameException, InvalidMoveException, InvalidNicknameException;
 
-    public void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException {}
+    public void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException;
 
-    public void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException {}
+    public void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException;
 
-    public void messageSomeone(String message, String receiver) {}
+    public void messageSomeone(String message, String receiver);
 
-    public void messageAll(String message) {}
+    public void messageAll(String message);
 
 }

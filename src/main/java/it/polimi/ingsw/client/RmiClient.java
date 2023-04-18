@@ -16,18 +16,18 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
-public class RmiClient extends Client implements RmiClientInterface{
+public class RmiClient extends UnicastRemoteObject implements Client, RmiClientInterface{
     private String nickname;
 
-    private int lobbyPort = ServerConstants.VERY_NICE;
+    private int lobbyPort = ServerConstants.RMI_PORT;
     private String LobbyServerName = ServerConstants.LOBBY_SERVER;
 
     private RmiServerInterface matchServer;
     private RMILobbyServerInterface lobbyServer;
 
-    // Here we will use an observer or the true view
     private View view;
 
     private Object lock = new Object();

@@ -13,7 +13,7 @@ public class MainTestClient1 {
                 BufferedReader input = new BufferedReader(new InputStreamReader(System.in))
         )
         {
-            int port = ServerConstants.VERY_NICE;
+            int port = ServerConstants.RMI_PORT;
             String nickname = "Bill1";
             FakeView fakeView = new FakeView();
 

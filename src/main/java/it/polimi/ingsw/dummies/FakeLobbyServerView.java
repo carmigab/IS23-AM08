@@ -6,7 +6,6 @@ import it.polimi.ingsw.server.RmiServerInterface;
 import it.polimi.ingsw.server.constants.ServerConstants;
 import it.polimi.ingsw.server.exceptions.*;
 
-import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -20,7 +19,7 @@ public class FakeLobbyServerView {
 
     public static void main(String[] args) {
         try {
-            Integer remoteObjectPort= ServerConstants.VERY_NICE;
+            Integer remoteObjectPort= ServerConstants.RMI_PORT;
             System.out.println("Locating registry...");
             Registry registry= LocateRegistry.getRegistry(remoteObjectPort);
             System.out.println("Registry found...");

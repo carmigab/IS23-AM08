@@ -170,7 +170,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             System.out.println("Cleaning done...");
             this.loadPreviousGames();
             System.out.println("Loaded previous games...");
-            System.setProperty("java.rmi.server.hostname", "192.168.43.4");
+            //System.setProperty("java.rmi.server.hostname", "192.168.43.4");
             this.registry = LocateRegistry.createRegistry(this.config.getServerPortRMI());
 
             System.out.println("Registry acquired...");
@@ -280,7 +280,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
     @Override
-    public RmiServer createGame(Integer numPlayers, String nickname, RmiClientInterface client) throws RemoteException, AlreadyInGameException, NonExistentNicknameException {
+    public String createGame(Integer numPlayers, String nickname, RmiClientInterface client) throws RemoteException, AlreadyInGameException, NonExistentNicknameException {
         synchronized (lockCreateGame) {
             this.checkCredentialsIntegrity(nickname);
             this.nicknamesInGame.add(nickname);
@@ -290,7 +290,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             ConnectionInformationRMI info = new ConnectionInformationRMI(this.config.getStartingName()+(this.serverList.size()), ServerConstants.RMI_PORT);
             this.serverInformation.add(info);
             this.startGame(rs, info);
-            return rs;
+            return info.getRegistryName();
         }
     }
 
@@ -308,13 +308,13 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
     @Override
-    public RmiServer joinGame(String nickname, RmiClientInterface client) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
+    public String joinGame(String nickname, RmiClientInterface client) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
         synchronized (lockCreateGame) {
             if (this.potentialPlayers.containsKey(nickname)) {
                 ConnectionInformationRMI toReturn=this.potentialPlayers.get(nickname).orElseGet(()->this.recoverGame(nickname, client));
                 this.serverList.get(this.serverInformation.indexOf(toReturn)).addPlayer(nickname, client);
                 this.potentialPlayers.remove(nickname);
-                return this.serverList.get(this.serverInformation.indexOf(toReturn));
+                return toReturn.getRegistryName();
             }
             this.checkCredentialsIntegrity(nickname);
             int gameFound = 0;
@@ -324,7 +324,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
                 if(this.serverList.get(gameFound).getFreeSpaces()>0){
                     this.serverList.get(gameFound).addPlayer(nickname, client);
                     this.nicknamesInGame.add(nickname);
-                    return this.serverList.get(gameFound);
+                    return this.serverInformation.get(gameFound).getRegistryName();
                 }
                 gameFound++;
             }

@@ -29,6 +29,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     private RmiServerInterface matchServer;
     private RMILobbyServerInterface lobbyServer;
 
+    private Registry lobbyRegistry;
+
     private View view;
 
     private Object lock = new Object();
@@ -47,7 +49,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         this.view = fV;
         this.nickname = nickname;
 
-        System.setProperty("java.rmi.server.hostname", "192.168.43.4");
+        //System.setProperty("java.rmi.server.hostname", "192.168.43.4");
         // to comment in case of test without LobbyServer
         this.connectToLobbyServer();
     }
@@ -62,8 +64,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         while(true) {
             try {
                 System.out.println("Looking up the registry for LobbyServer");
-                Registry registry = LocateRegistry.getRegistry("192.168.43.4", lobbyPort);
-                this.lobbyServer = (RMILobbyServerInterface) registry.lookup(LobbyServerName);
+                this.lobbyRegistry = LocateRegistry.getRegistry( lobbyPort);
+                this.lobbyServer = (RMILobbyServerInterface) this.lobbyRegistry.lookup(LobbyServerName);
                 break;
             } catch (Exception e) {
                 System.out.println("Registry not found");
@@ -127,8 +129,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      */
     public void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException {
         try {
-            RmiServer c = this.lobbyServer.createGame(num, nickname, this);
-            this.connectToMatchServer(c);
+            String matchServerName = this.lobbyServer.createGame(num, nickname, this);
+            this.connectToMatchServer(matchServerName);
         } catch (RemoteException | NotBoundException e) {
             this.gracefulDisconnection();
         }
@@ -140,7 +142,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @throws NotBoundException
      */
     public void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException {
-        RmiServer c = null;
+        String c = null;
 
         try {
             c = this.lobbyServer.joinGame(nickname, this);
@@ -158,11 +160,11 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @throws RemoteException
      * @throws NotBoundException
      */
-    private void connectToMatchServer(RmiServerInterface c) throws RemoteException, NotBoundException {
+    private void connectToMatchServer(String matchServerName) throws RemoteException, NotBoundException {
 //        System.out.println("Looking up the registry for MatchServer");
 //        System.out.println("Name: "+c.getRegistryName()+" Port: "+c.getRegistryPort());
 //        Registry registry = LocateRegistry.getRegistry("192.168.43.4", c.getRegistryPort());
-        this.matchServer = c; //(RmiServerInterface) registry.lookup(c.getRegistryName());
+        this.matchServer = (RmiServerInterface) this.lobbyRegistry.lookup(matchServerName);
 
         // new thread to ping server
         Thread t = new Thread(() -> {

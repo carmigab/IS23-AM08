@@ -3,7 +3,7 @@ package it.polimi.ingsw.controller.observers;
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.server.RmiServer;
+import it.polimi.ingsw.network.server.RmiServer;
 
 import java.util.HashMap;
 

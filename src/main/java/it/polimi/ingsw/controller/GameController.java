@@ -6,7 +6,7 @@ import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.observers.VirtualView;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.server.RmiServer;
+import it.polimi.ingsw.network.server.RmiServer;
 
 import java.util.ArrayList;
 import java.util.List;

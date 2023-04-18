@@ -1,22 +1,16 @@
 package it.polimi.ingsw.server;
 
-import com.google.gson.Gson;
-import it.polimi.ingsw.model.exceptions.NoMoreTilesAtStartFillBoardException;
-import it.polimi.ingsw.server.constants.ServerConstants;
-import it.polimi.ingsw.server.exceptions.AlreadyInGameException;
-import it.polimi.ingsw.server.exceptions.ExistentNicknameExcepiton;
-import it.polimi.ingsw.server.exceptions.IllegalNicknameException;
-import it.polimi.ingsw.server.exceptions.NonExistentNicknameException;
+import it.polimi.ingsw.network.server.LobbyServer;
+import it.polimi.ingsw.network.server.LobbyServerConfig;
+import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
+import it.polimi.ingsw.network.server.exceptions.ExistentNicknameExcepiton;
+import it.polimi.ingsw.network.server.exceptions.IllegalNicknameException;
+import it.polimi.ingsw.network.server.exceptions.NonExistentNicknameException;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 

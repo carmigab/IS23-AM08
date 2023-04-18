@@ -1,6 +1,6 @@
 package it.polimi.ingsw.dummies;
 
-import it.polimi.ingsw.server.LobbyServer;
+import it.polimi.ingsw.network.server.LobbyServer;
 
 import java.rmi.RemoteException;
 

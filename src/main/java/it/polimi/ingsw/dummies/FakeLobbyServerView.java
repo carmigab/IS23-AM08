@@ -1,19 +1,5 @@
 package it.polimi.ingsw.dummies;
 
-import it.polimi.ingsw.server.RMILobbyServerInterface;
-import it.polimi.ingsw.server.RmiServerInterface;
-import it.polimi.ingsw.server.constants.ServerConstants;
-import it.polimi.ingsw.server.exceptions.*;
-
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
-
 public class FakeLobbyServerView {
 //
 //    public static void main(String[] args) {

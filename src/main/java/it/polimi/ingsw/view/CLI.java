@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.client.RmiClient;
+import it.polimi.ingsw.network.client.RmiClient;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.gameInfo.PlayerInfo;
@@ -10,12 +10,11 @@ import it.polimi.ingsw.model.SingleGoal;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.constants.AppConstants;
-import it.polimi.ingsw.server.exceptions.AlreadyInGameException;
-import it.polimi.ingsw.server.exceptions.NoGamesAvailableException;
-import it.polimi.ingsw.server.exceptions.NonExistentNicknameException;
+import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
+import it.polimi.ingsw.network.server.exceptions.NoGamesAvailableException;
+import it.polimi.ingsw.network.server.exceptions.NonExistentNicknameException;
 
 import java.io.*;
-import java.nio.channels.InterruptibleChannel;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.dummies;
 
-import it.polimi.ingsw.client.Client;
-import it.polimi.ingsw.client.RmiClient;
-import it.polimi.ingsw.server.constants.ServerConstants;
+import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.network.client.RmiClient;
+import it.polimi.ingsw.network.server.constants.ServerConstants;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

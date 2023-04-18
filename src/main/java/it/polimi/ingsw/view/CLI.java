@@ -14,6 +14,7 @@ import it.polimi.ingsw.server.exceptions.NoGamesAvailableException;
 import it.polimi.ingsw.server.exceptions.NonExistentNicknameException;
 
 import java.io.*;
+import java.nio.channels.InterruptibleChannel;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -339,71 +340,16 @@ public class CLI extends View{
             });
             getInput.start();
 
-            // create and start timer thread, check if the message has been sent after 20 seconds, if not stop the getInput thread
-            scheduler = Executors.newScheduledThreadPool(1);
-            scheduler.schedule(() -> {
-                if (!messageSent.get()) {
-                    printMessage("Message not sent, timeout expired, press Enter to return to game", AnsiEscapeCodes.ERROR_MESSAGE);
-                    getInput.stop();
-                }
-            }, 10, TimeUnit.SECONDS);
-
             try {
-                getInput.join();
+                getInput.join(10000);
+                if(getInput.isAlive()) {
+                    printMessage("ancora vivo", AnsiEscapeCodes.ERROR_MESSAGE);
+                    getInput.interrupt();
+                }
+                else printMessage("finito", AnsiEscapeCodes.GAME_MESSAGE);
             } catch (InterruptedException ignored) {
 
             }
-            // shutdown the scheduler in case the message has been sent
-            scheduler.shutdown();
-
-//            scheduler.schedule(() -> {
-//                printMessage("To send a global message write 'all : message'", AnsiEscapeCodes.INFO_MESSAGE);
-//                printMessage("To send a message to a specific player write 'player_name : message' ", AnsiEscapeCodes.INFO_MESSAGE);
-//
-//                while (!messageSent.get()) {
-//                    try {
-//                        String input = bufferedReader.readLine();
-//                        while (!input.matches("^[A-Za-z0-9+_.-]+ : (.+)$")) {
-//                            printMessage("Invalid message format, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
-//                            input = bufferedReader.readLine();
-//                        }
-//
-//                        String receiverNickname = input.substring(0, input.indexOf(":")).trim();
-//                        String message = input.substring(input.indexOf(":") + 1).trim();
-//                        if (receiverNickname.equals("all")) {
-//                            client.messageAll(message);
-//                            messageSent.set(true);
-//                        }
-//                        else {
-//                            if (checkExistingNickname(receiverNickname)) {
-//                                client.messageSomeone(message, receiverNickname);
-//                                messageSent.set(true);
-//                            }
-//                            else {
-//                                printMessage("This player does not exist, please type again your message: ", AnsiEscapeCodes.ERROR_MESSAGE);
-//                            }
-//                        }
-//                    } catch (Exception ignored) {
-//
-//                    }
-//                }
-//            }, 0, TimeUnit.SECONDS);
-//            try {
-//                scheduler.shutdown();
-//                scheduler.awaitTermination(20, TimeUnit.SECONDS);
-//                System.out.println();
-//                System.setIn(new ByteArrayInputStream("Closing chat".getBytes()));
-//
-//                // scanner.close();
-//                if (messageSent.get()) {
-//                    printMessage("Message sent ", AnsiEscapeCodes.INFO_MESSAGE);
-//                }
-//                else {
-//                    printMessage("You took too long to send your message, please try again", AnsiEscapeCodes.ERROR_MESSAGE);
-//                }
-//            } catch (InterruptedException ignored) {
-//
-//            }
         }
     }
 
@@ -458,47 +404,16 @@ public class CLI extends View{
             });
             getInput.start();
 
-            // create and start timer thread, check if the message has been sent after 20 seconds, if not stop the getInput thread
-            scheduler = Executors.newScheduledThreadPool(1);
-            scheduler.schedule(() -> {
-                if (!messageSent.get()) {
-                    printMessage("You took too long to confirm exit, returning to game...", AnsiEscapeCodes.ERROR_MESSAGE);
-                    getInput.stop();
-                }
-            }, 10, TimeUnit.SECONDS);
-
             try {
-                getInput.join();
+                getInput.join(10000);
+                if(getInput.isAlive()) {
+                    printMessage("ancora vivo", AnsiEscapeCodes.ERROR_MESSAGE);
+                    getInput.interrupt();
+                }
+                else printMessage("finito", AnsiEscapeCodes.GAME_MESSAGE);
             } catch (InterruptedException ignored) {
 
             }
-            // shutdown the scheduler in case the message has been sent
-            scheduler.shutdown();
-
-//            scheduler.schedule(() -> {
-//                printMessage("Are you sure you want to exit? (y/n) ", AnsiEscapeCodes.INFO_MESSAGE);
-//                String input = scanner.nextLine();
-//                input = input.trim();
-//                while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n")) {
-//                    printMessage("Invalid input, please try again", AnsiEscapeCodes.ERROR_MESSAGE);
-//                    input = scanner.nextLine();
-//                    input = input.trim();
-//                }
-//
-//                if (input.equalsIgnoreCase("y")) {
-//                    close("Client closing, bye bye!");
-//                }
-//                else {
-//                    printMessage("Returning to game ", AnsiEscapeCodes.INFO_MESSAGE);
-//                }
-//            }, 0, TimeUnit.SECONDS);
-//            try {
-//                if (!scheduler.awaitTermination(20, TimeUnit.SECONDS)) {
-//                    printMessage("You took too long to confirm exit, returning to game...", AnsiEscapeCodes.ERROR_MESSAGE);
-//                }
-//            } catch (InterruptedException ignored) {
-//
-//            }
         }
     }
 

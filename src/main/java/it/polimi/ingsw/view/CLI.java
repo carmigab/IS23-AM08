@@ -17,10 +17,8 @@ import java.io.*;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -241,7 +239,7 @@ public class CLI extends View{
                 printMessage("/chat: send a message to the chat", AnsiEscapeCodes.INFO_MESSAGE);
                 printMessage("/exit: exit the game", AnsiEscapeCodes.INFO_MESSAGE);
             }
-            case "/move" -> parseMoveCommand(command);
+            case "/move" -> parseMoveCommand();
             case "/chat" -> chatCommand();
             case "/exit" -> confirmExit();
             default -> printMessage("invalid command, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
@@ -250,11 +248,9 @@ public class CLI extends View{
 
     /**
      * This method is called by parseCommand to parse a move command
-     * @param command the command to parse
      */
     //TODO: change implementation to match changes in parseCommand
-    //TODO: add timer to avoid deadlocks
-    private void parseMoveCommand(String command) {
+    private void parseMoveCommand() {
         List<Position> positions = new ArrayList<>();
         int column;
         synchronized (displayLock) {

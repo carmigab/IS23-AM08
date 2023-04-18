@@ -170,7 +170,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             System.out.println("Cleaning done...");
             this.loadPreviousGames();
             System.out.println("Loaded previous games...");
-            //System.setProperty("java.rmi.server.hostname", "192.168.43.4");
+            System.setProperty("java.rmi.server.hostname", "192.168.43.130");
             this.registry = LocateRegistry.createRegistry(this.config.getServerPortRMI());
 
             System.out.println("Registry acquired...");
@@ -250,6 +250,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     @Override
     public boolean chooseNickname(String nickname) throws RemoteException, ExistentNicknameExcepiton, IllegalNicknameException {
         synchronized (lockChooseNickName) {
+            System.out.println("In chooseNickname()");
             if (this.banList.stream().anyMatch(nickname::matches)) throw new IllegalNicknameException();
             if (!this.nicknamesPool.add(nickname)) throw new ExistentNicknameExcepiton();
             return true;
@@ -320,7 +321,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             int gameFound = 0;
             ConnectionInformationRMI conn;
 
-            while(gameFound < this.serverRegistries.size()){
+            while(gameFound < this.serverInformation.size()){
                 if(this.serverList.get(gameFound).getFreeSpaces()>0){
                     this.serverList.get(gameFound).addPlayer(nickname, client);
                     this.nicknamesInGame.add(nickname);

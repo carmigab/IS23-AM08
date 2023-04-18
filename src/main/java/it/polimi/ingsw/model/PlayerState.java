@@ -16,7 +16,7 @@ public class PlayerState {
      * This attribute is the nickname of the player
      */
     @Expose
-    private String nickname;
+    private final String nickname;
 
     /**
      * This attribute is the Shelf of the player

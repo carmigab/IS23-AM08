@@ -191,4 +191,32 @@ public class UtilityFunctions {
     public static Integer distanceSquared(Position p1, Position p2){
         return (p1.x()-p2.x())*(p1.x()-p2.x()) + (p1.y()-p2.y())*(p1.y()-p2.y());
     }
+
+    public static boolean hasFreeAdjacent(Tile[][] myGameBoard, Position p){
+        // get all the adjacent position containing a tile
+        List<Position> adjacents = UtilityFunctions.getAdjacentPositions(p, true);
+
+        // adjacents.size() < 4 means that the tile is on the edge of the board (the missing(s) position in this list are the ones out of the board
+        if (adjacents.size() < 4) return true;
+
+        // for each adjacent it is considered free if the corresponding tile is empty or invalid
+        for (Position position : adjacents) {
+            if (myGameBoard[position.y()][position.x()].isEmpty() || myGameBoard[position.y()][position.x()].isInvalid()) return true;
+        }
+
+        return false;
+    }
+
+    public static Integer getFreeSpaces(Tile[][] myShelf, Integer col){
+        int result = 0;
+        int rowIdx = 0;
+
+        // starting from the top row, go down until finds a not empty cell
+        while(rowIdx < AppConstants.ROWS_NUMBER && myShelf[rowIdx][col].isEmpty()) {
+            rowIdx++;
+            result++;
+        }
+
+        return result;
+    }
 }

@@ -2,10 +2,14 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.gameInfo.GameInfo;
+import it.polimi.ingsw.gameInfo.PlayerInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Position;
+import it.polimi.ingsw.model.constants.AppConstants;
+import it.polimi.ingsw.model.utilities.UtilityFunctions;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * This abstract class is used to represent the view of the game
@@ -137,13 +141,53 @@ public abstract class View {
     }
 
     /**
-     * This method is called by parseCommand to check if the move is valid, if not it will not send the command to the server
-     * @return true if the move is valid, false otherwise
+     * This method is used to check the single position: the client choose a tile and this method check if the
+     * position is in the board, if the tile isn't invalid or empty and if the tile has free adjacent
      */
     //TODO: implementare
-    protected boolean checkValidMove(List<Position> tiles, int column){
-        return true;
+    protected boolean checkSinglePosition(Position pos){
+        if(this.gameInfo.getGameBoard()[pos.x()] [pos.y()].isEmpty() || this.gameInfo.getGameBoard()[pos.x()] [pos.y()].isInvalid()){
+            return false;
+        }
+        if(pos.x() < 0 || pos.x() >=AppConstants.BOARD_DIMENSION) return false;
+        if(pos.y() < 0 || pos.y() >=AppConstants.BOARD_DIMENSION) return false;
+        return UtilityFunctions.hasFreeAdjacent(this.gameInfo.getGameBoard(), pos);
     }
+
+
+
+    /**
+     * this method receive the List of the position adjacent to a specific position and return the List of the
+     * adjacent positions that are not empty or invalid
+     * @param adj list of adjacent position
+     * @return the list of adjacent position that are not empty or invalid
+     */
+    protected List<Position> reduceAdjacent(List<Position> adj){
+       return adj.stream().filter(pos -> checkSinglePosition(pos)).collect(Collectors.toList());
+    }
+
+    /**
+     * this method check if the column is valid
+     * @param col the column selected by the player
+     * @param numTiles the number of tiles taken by the player
+     * @return true if the column is valid, false if is not valid
+     */
+
+
+    protected boolean CheckColumn(int col, int numTiles){
+        if(col < 0 || col >= AppConstants.COLS_NUMBER) return false;
+        List<PlayerInfo>  player = this.gameInfo.getPlayerInfosList();
+        for(int i=0; i<player.size();i++){
+            if(player.get(i).getNickname().equals(gameInfo.getCurrentPlayerNickname())){
+                return UtilityFunctions.getFreeSpaces(this.gameInfo.getPlayerInfosList().get(i).getShelf(), col) >= numTiles;
+            }
+        }
+        return false;
+    }
+
+
+
+
 
     /**
      * This method is called by start to ask the player if he wants to play again

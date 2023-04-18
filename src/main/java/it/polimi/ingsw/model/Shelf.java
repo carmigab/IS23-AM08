@@ -132,16 +132,7 @@ public class Shelf implements Serializable {
      * @return the number of free spaces in the column
      */
     public Integer getFreeSpaces(Integer col) {
-        int result = 0;
-        int rowIdx = 0;
-
-        // starting from the top row, go down until finds a not empty cell
-        while(rowIdx < AppConstants.ROWS_NUMBER && myShelf[rowIdx][col].isEmpty()) {
-            rowIdx++;
-            result++;
-        }
-
-        return result;
+        return UtilityFunctions.getFreeSpaces(this.myShelf, col);
     }
 
 

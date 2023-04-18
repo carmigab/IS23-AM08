@@ -222,19 +222,9 @@ public final class GameBoard {
      * @return true if the tile in position p has at least one empty space in one of the final directions
      */
     public boolean hasFreeAdjacent(Position p){
-        // get all the adjacent position containing a tile
-        List<Position> adjacents = UtilityFunctions.getAdjacentPositions(p, true);
-
-        // adjacents.size() < 4 means that the tile is on the edge of the board (the missing(s) position in this list are the ones out of the board
-        if (adjacents.size() < 4) return true;
-
-        // for each adjacent it is considered free if the corresponding tile is empty or invalid
-        for (Position position : adjacents) {
-            if (myGameBoard[position.y()][position.x()].isEmpty() || myGameBoard[position.y()][position.x()].isInvalid()) return true;
-        }
-
-        return false;
+        return UtilityFunctions.hasFreeAdjacent(this.myGameBoard, p);
     }
+
 
     /**
      * This method is similar to hasFreeAdjacent, but it checks that every adjacent is empty.

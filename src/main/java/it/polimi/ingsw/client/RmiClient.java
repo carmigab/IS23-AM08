@@ -7,6 +7,7 @@ import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.server.ConnectionInformationRMI;
 import it.polimi.ingsw.server.RMILobbyServerInterface;
+import it.polimi.ingsw.server.RmiServer;
 import it.polimi.ingsw.server.RmiServerInterface;
 import it.polimi.ingsw.server.constants.ServerConstants;
 import it.polimi.ingsw.server.exceptions.*;
@@ -126,7 +127,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      */
     public void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException {
         try {
-            RmiServerInterface c = this.lobbyServer.createGame(num, nickname, this);
+            RmiServer c = this.lobbyServer.createGame(num, nickname, this);
             this.connectToMatchServer(c);
         } catch (RemoteException | NotBoundException e) {
             this.gracefulDisconnection();
@@ -139,7 +140,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @throws NotBoundException
      */
     public void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException {
-        RmiServerInterface c = null;
+        RmiServer c = null;
 
         try {
             c = this.lobbyServer.joinGame(nickname, this);

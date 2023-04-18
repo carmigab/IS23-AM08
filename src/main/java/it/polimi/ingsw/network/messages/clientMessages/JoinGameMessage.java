@@ -1,6 +1,6 @@
-package it.polimi.ingsw.network.server.messages.clientMessages;
+package it.polimi.ingsw.network.messages.clientMessages;
 
-import it.polimi.ingsw.network.server.messages.Message;
+import it.polimi.ingsw.network.messages.Message;
 
 public class JoinGameMessage extends Message {
     public JoinGameMessage(String text) {

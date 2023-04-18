@@ -1,6 +1,6 @@
-package it.polimi.ingsw.network.server.messages.serverMessages;
+package it.polimi.ingsw.network.messages.serverMessages;
 
-import it.polimi.ingsw.network.server.messages.Message;
+import it.polimi.ingsw.network.messages.Message;
 
 public class ChooseNicknameResponse extends Message {
     private boolean flag;

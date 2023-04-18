@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.App;
 import it.polimi.ingsw.network.client.RmiClientInterface;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.constants.AppConstants;
@@ -9,6 +10,8 @@ import it.polimi.ingsw.network.server.constants.ServerConstants;
 import it.polimi.ingsw.network.server.exceptions.*;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -37,10 +40,6 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * List of all the game information present in the application
      */
     private final List<String> serverInformation;
-    /**
-     * List of all the game registries present in the application
-     */
-    private final List<Registry> serverRegistries;
     /**
      * Setup information of the server
      * Can be loaded from file
@@ -78,7 +77,6 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         this.potentialPlayers = new HashMap<>();
         this.serverList = new ArrayList<>();
         this.serverInformation = new ArrayList<>();
-        this.serverRegistries = new ArrayList<>();
         this.banList = new ArrayList<>();
         this.banList.addAll(loadBanList());
         lockChooseNickName=new Object();
@@ -99,7 +97,6 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         this.potentialPlayers = new HashMap<>();
         this.serverList = new ArrayList<>();
         this.serverInformation = new ArrayList<>();
-        this.serverRegistries = new ArrayList<>();
         this.banList = new ArrayList<>();
         this.banList.addAll(loadBanList());
         lockChooseNickName=new Object();
@@ -222,11 +219,14 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     private void cleanMatchDirectory(){
         Arrays.stream(Objects.requireNonNull(new File(AppConstants.PATH_SAVED_MATCHES).list()))
                 .filter(match -> {
-                    try {
+                    try (FileReader fr = new FileReader(AppConstants.PATH_SAVED_MATCHES+match)){
                         return JsonWithExposeSingleton.getJsonWithExposeSingleton()
-                                .fromJson(new FileReader(AppConstants.PATH_SAVED_MATCHES+match), GameModel.class)
+                                .fromJson(fr, GameModel.class)
                                 .isGameOver();
                     } catch (FileNotFoundException e) {
+                        System.out.println(e.getMessage());
+                        return false;
+                    } catch (IOException e) {
                         System.out.println(e.getMessage());
                         return false;
                     }
@@ -252,7 +252,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     @Override
     public boolean chooseNickname(String nickname) throws RemoteException, ExistentNicknameExcepiton, IllegalNicknameException {
         synchronized (lockChooseNickName) {
-            System.out.println("Someone is choosing a nickname");
+            System.out.println("Someone is choosing the nickname "+nickname+"...");
             if (this.banList.stream().anyMatch(nickname::matches)) throw new IllegalNicknameException();
             if (!this.nicknamesPool.add(nickname)) throw new ExistentNicknameExcepiton();
             return true;
@@ -285,6 +285,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     @Override
     public String createGame(Integer numPlayers, String nickname, RmiClientInterface client) throws RemoteException, AlreadyInGameException, NonExistentNicknameException {
         synchronized (lockCreateGame) {
+            System.out.println("Creating new game...");
             this.checkCredentialsIntegrity(nickname);
             this.nicknamesInGame.add(nickname);
             RmiServer rs = new RmiServer(numPlayers, this);
@@ -314,6 +315,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     public String joinGame(String nickname, RmiClientInterface client) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
         synchronized (lockCreateGame) {
             if (this.potentialPlayers.containsKey(nickname)) {
+                System.out.println("Joining game recovered from persistance...");
                 String toReturn=this.potentialPlayers.get(nickname).orElseGet(()->this.recoverGame(nickname, client));
                 this.serverList.get(this.serverInformation.indexOf(toReturn)).addPlayer(nickname, client);
                 this.potentialPlayers.remove(nickname);
@@ -325,6 +327,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
 
             while(gameFound < this.serverInformation.size()){
                 if(this.serverList.get(gameFound).getFreeSpaces()>0){
+                    System.out.println("Joining game at random...");
                     this.serverList.get(gameFound).addPlayer(nickname, client);
                     this.nicknamesInGame.add(nickname);
                     return this.serverInformation.get(gameFound);
@@ -332,7 +335,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
                 gameFound++;
             }
 
-            if(gameFound == this.serverRegistries.size())
+            if(gameFound == this.serverInformation.size())
                 throw new NoGamesAvailableException();
 
             //Should never arrive here
@@ -350,6 +353,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      */
     private String recoverGame(String nickname, RmiClientInterface client) {
         synchronized (lockCreateGame) {
+            System.out.println("Recovering game...");
             this.nicknamesInGame.add(nickname);
 
             //load filename

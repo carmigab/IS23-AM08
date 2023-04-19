@@ -122,6 +122,11 @@ public class TcpClient implements Client{
     }
 
 
+    private void manageInboundTcpMessages(){
+
+    }
+
+
 
 
     public boolean chooseNickname(String nick){

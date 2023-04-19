@@ -162,7 +162,6 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
                     } catch (RemoteException e) {
                         System.out.println("Remote exception from pingClients");
                         this.gracefulDisconnection();
-                        System.out.println("Terminating Ping Thread");
                         break;
                     }
                 }
@@ -204,6 +203,18 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
                     break;
                 }
             }
+
+            if (this.state == State.ENDGAME){
+                System.out.println("The game has ended");
+                // Here we tell the thread to stop
+                System.out.println("Terminating Ping Thread");
+                this.toPing = false;
+                // Here we notify to the lobby to free the player nicknames
+                System.out.println("Freeing used nicknames");
+                this.lobby.removePlayersFromGame(nicknamesList);
+                // Here we empty the clients list
+                this.clientsList.clear();
+            }
         }
 
     }
@@ -212,6 +223,9 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
      * This method signal the clients that someone has crashed
      */
     public void gracefulDisconnection() {
+        // Here we tell the thread to stop
+        System.out.println("Terminating Ping Thread");
+        this.toPing = false;
         System.out.println("A client lost connection");
         System.out.println("Disconnecting all clients...");
 
@@ -232,13 +246,12 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         System.out.println("Initialized graceful disconnection for all clients");
 
         // Here we end the current game
-        this.gameController.forceGameOver();
         System.out.println("Forcing gameOver");
+        this.gameController.forceGameOver();
         // Here we notify to the lobby to free those nicknames
-        this.lobby.removePlayersFromGame(nicknamesList);
         System.out.println("Freeing used nicknames");
-        // Here we tell the thread to stop and empty the clients list
-        this.toPing = false;
+        this.lobby.removePlayersFromGame(nicknamesList);
+        // Here we empty the clients list
         this.clientsList.clear();
     }
 
@@ -258,6 +271,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
             }
         }
     }
+
 
     /**
      * This method lets a client message to someone specific

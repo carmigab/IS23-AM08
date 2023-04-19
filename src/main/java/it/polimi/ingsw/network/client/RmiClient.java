@@ -184,7 +184,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
                 while (true) {
                     try {
                         this.pingServer();
-                        lock.wait(1000);
+                        lock.wait(ServerConstants.PING_TIME);
 
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);

@@ -2,5 +2,6 @@
   "serverPortRMI": 42069,
   "serverPortTCP": 42070,
   "serverName": "LobbyServer",
+  "startingPort": 45000,
   "startingName": "Game"
 }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.annotations.Expose;
+import it.polimi.ingsw.App;
 import it.polimi.ingsw.model.commonGoals.*;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.constants.BoardConstants;
@@ -10,6 +11,7 @@ import it.polimi.ingsw.model.exceptions.NoMoreTilesToFillBoardException;
 import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.model.utilities.RandomSingleton;
 import it.polimi.ingsw.model.utilities.UtilityFunctions;
+import jdk.jfr.Enabled;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -17,6 +19,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 
 /**
  * This is the class used for the simulation of the physical game board.

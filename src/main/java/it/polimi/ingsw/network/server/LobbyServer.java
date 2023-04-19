@@ -108,12 +108,11 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * Constructor that receives in input the parameters and creates a configuration manually
      * @param serverPort integer containing the information of the server port in RMI (the TCP will be automatically be +1)
      * @param serverName string containing the information of the server name
-     * @param startingPort integer containing the information of the starting port
      * @param startingName string containing the information of the starting name
      * @throws RemoteException exception of RMI
      */
-    public LobbyServer(int serverPort, String serverName, int startingPort, String startingName) throws RemoteException{
-        this(new LobbyServerConfig(serverPort, serverPort+1, serverName, startingPort, startingName));
+    public LobbyServer(int serverPort, String serverName, String startingName) throws RemoteException{
+        this(new LobbyServerConfig(serverPort, serverPort+1, serverName, startingName));
     }
 
     /**
@@ -121,12 +120,11 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @param serverPortRMI integer containing the information of the server port in RMI
      * @param serverPortTCP integer containing the information of the server port in RMI
      * @param serverName string containing the information of the server name
-     * @param startingPort integer containing the information of the starting port
      * @param startingName string containing the information of the starting name
      * @throws RemoteException exception of RMI
      */
-    public LobbyServer(int serverPortRMI, int serverPortTCP, String serverName, int startingPort, String startingName) throws RemoteException{
-        this(new LobbyServerConfig(serverPortRMI, serverPortTCP, serverName, startingPort, startingName));
+    public LobbyServer(int serverPortRMI, int serverPortTCP, String serverName, String startingName) throws RemoteException{
+        this(new LobbyServerConfig(serverPortRMI, serverPortTCP, serverName, startingName));
     }
 
 

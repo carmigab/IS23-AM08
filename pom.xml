@@ -20,31 +20,42 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
-      <version>RELEASE</version>
+      <version>5.9.2</version>
       <scope>test</scope>
     </dependency>
       <dependency>
           <groupId>org.jetbrains</groupId>
           <artifactId>annotations</artifactId>
-          <version>RELEASE</version>
+          <version>24.0.1</version>
           <scope>compile</scope>
-      </dependency>
+    </dependency>
       <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
       <version>2.10.1</version>
-  </dependency>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-controls</artifactId>
+      <version>20</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-fxml</artifactId>
+      <version>19.0.2.1</version>
+    </dependency>
   </dependencies>
 
   <build>
 
-    <resources>
+    <!-- For now leave commented PLZ-->
+    <!--resources>
       <resource>
         <directory>src/main/resources</directory>
         <includes>
@@ -57,15 +68,56 @@
           <include>*.json</include>
         </includes>
       </resource>
-    </resources>
+    </resources -->
 
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.22.2</version>
+        <configuration>
+          <skipTests>true</skipTests>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>16</source>
+          <target>16</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <shadedArtifactAttached>true</shadedArtifactAttached>
+              <shadedClassifierName>project-classifier</shadedClassifierName>
+              <outputFile>shade\${project.artifactId}.jar</outputFile>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>it.polimi.ingsw.guitest.Launcher</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>0.0.8</version>
       </plugin>
     </plugins>
+
 
   </build>
 </project>

@@ -25,11 +25,6 @@ public class LobbyServerConfig {
     @Expose
     private final String serverName;
     /**
-     * Integer containing the first port that can be used for the creation of a game
-     */
-    @Expose
-    private final Integer startingPort;
-    /**
      * String containing the prefix used for the creaton of the game (in the form of startingName+numberOfGames)
      */
     @Expose
@@ -41,14 +36,12 @@ public class LobbyServerConfig {
      * @param serverPortTCP integer containing the information of the server port
      * @param serverPortRMI integer containing the information of the server port
      * @param serverName string containing the information of the server name
-     * @param startingPort integer containing the information of the starting port
      * @param startingName string containing the information of the starting name
      */
-    public LobbyServerConfig( Integer serverPortRMI, Integer serverPortTCP, String serverName, Integer startingPort, String startingName){
+    public LobbyServerConfig( Integer serverPortRMI, Integer serverPortTCP, String serverName, String startingName){
         this.serverName=serverName;
         this.serverPortRMI=serverPortRMI;
-        this.serverPortTCP=serverPortRMI;
-        this.startingPort=startingPort;
+        this.serverPortTCP=serverPortTCP;
         this.startingName=startingName;
     }
 
@@ -75,12 +68,9 @@ public class LobbyServerConfig {
     }
 
     /**
-     * Getter of the starting port of the server
+     * Getter of the starting name of the server
      * @return an integer
      */
-    public Integer getStartingPort() {
-        return this.startingPort;
-    }
     public String getStartingName(){
         return this.startingName;
     }

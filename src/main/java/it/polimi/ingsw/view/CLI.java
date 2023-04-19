@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.SingleGoal;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.constants.AppConstants;
+import it.polimi.ingsw.network.server.constants.ServerConstants;
 import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.network.server.exceptions.NoGamesAvailableException;
 import it.polimi.ingsw.network.server.exceptions.NonExistentNicknameException;
@@ -80,7 +81,7 @@ public class CLI extends View{
             System.out.println();
             printOtherPlayersShelf();
             printBoard();
-            printCommonGoals(gameInfo.getCommonGoalsCreated().get(0), gameInfo.getCommonGoalsCreated().get(1));
+            printCommonGoals();
             printMyShelf();
 
             if (isMyTurn()) {
@@ -120,7 +121,11 @@ public class CLI extends View{
             if (playerInfo.getNickname().equals(this.myNickname)) {
                 printMessage("My shelf:", AnsiEscapeCodes.GAME_MESSAGE);
                 printBoardOrShelf(AppConstants.ROWS_NUMBER, AppConstants.COLS_NUMBER, playerInfo.getShelf(), playerInfo.getPersonalGoal());
-                printMessage("   Common Goal Points: " + playerInfo.getComGoalPoints()[0] + "," + playerInfo.getComGoalPoints()[1], AnsiEscapeCodes.GAME_MESSAGE);
+                String toPrint="   Common Goal Points: | ";
+                for(Integer i: this.gameInfo.getCommonGoalsStack()){
+                    toPrint+= i +" | ";
+                }
+                printMessage(toPrint, AnsiEscapeCodes.GAME_MESSAGE);
                 return;
             }
         }
@@ -189,12 +194,11 @@ public class CLI extends View{
     /**
      * This method is called by display to print the common goals
      */
-    private void printCommonGoals(int goalIndex1, int goalIndex2) {
+    private void printCommonGoals() {
         printMessage("Common goals:", AnsiEscapeCodes.GAME_MESSAGE);
-        printMessage("1) " + getGoalDescription(goalIndex1), AnsiEscapeCodes.GAME_MESSAGE);
-        printMessage("   Points for this goal: " + gameInfo.getCommonGoalsStack().get(0), AnsiEscapeCodes.GAME_MESSAGE);
-        printMessage("2) " + getGoalDescription(goalIndex2), AnsiEscapeCodes.GAME_MESSAGE);
-        printMessage("   Points for this goal: " + gameInfo.getCommonGoalsStack().get(1), AnsiEscapeCodes.GAME_MESSAGE);
+        for(int i=0;i<this.gameInfo.getCommonGoalsCreated().size();i++){
+            printMessage(i+") " + getGoalDescription(this.gameInfo.getCommonGoalsCreated().get(i)), AnsiEscapeCodes.GAME_MESSAGE);
+        }
     }
 
     /**
@@ -435,11 +439,39 @@ public class CLI extends View{
     }
 
     /**
-     * This method is called by start to ask the player if he wants to connect via rmi or socket
+     * This method is called by start to ask the player
+     * if he wants to connect via rmi or socket
+     * and to which port and ip he wants to connect
      */
     @Override
     // ask for connection type using println, 1 for RMI, 2 for Socket, ask again if the input is not valid
     public void chooseConnectionType() {
+        printMessage("Insert ip of the server", AnsiEscapeCodes.INFO_MESSAGE);
+        String ip=scanner.nextLine();
+        ip=ip.trim();
+        //https://www.geeksforgeeks.org/how-to-validate-an-ip-address-using-regular-expressions-in-java/
+        String zeroTo255 ="localhost|(\\d{1,2}|(0|1)\\"
+                + "d{2}|2[0-4]\\d|25[0-5])";
+        String regexIP=zeroTo255 + "\\." + zeroTo255
+                + "\\." + zeroTo255
+                + "\\." + zeroTo255;
+        while(!ip.matches(regexIP)){
+            printMessage("Invalid input, please try again ", AnsiEscapeCodes.INFO_MESSAGE);
+            ip = scanner.nextLine();
+            ip = ip.trim();
+        }
+
+        printMessage("Insert port of the server (or <default> for automatic detection)", AnsiEscapeCodes.INFO_MESSAGE);
+        String port=scanner.nextLine();
+        Integer intPort= ServerConstants.RMI_PORT;
+        port=port.trim();
+        while(!port.matches("default|\\d+")){
+            printMessage("Invalid input, please try again ", AnsiEscapeCodes.INFO_MESSAGE);
+            port = scanner.nextLine();
+            port = port.trim();
+        }
+
+
         printMessage("Choose connection type (rmi/socket)", AnsiEscapeCodes.INFO_MESSAGE);
         String input = scanner.nextLine();
         input = input.trim();
@@ -451,13 +483,17 @@ public class CLI extends View{
 
         if (input.equalsIgnoreCase("rmi")) {
             try {
-                client = new RmiClient(myNickname, this);
+                if(port.equals("default")) intPort=ServerConstants.RMI_PORT;
+                else intPort=Integer.valueOf(port);
+                client = new RmiClient(myNickname, this, ip, intPort);
             } catch (RemoteException | NotBoundException | InterruptedException e) {
                 printMessage("error while connecting to the server", AnsiEscapeCodes.ERROR_MESSAGE);
                 close("Client closing, try again later");
             }
         }
         else {
+            if(port.equals("default")) intPort=ServerConstants.TCP_PORT;
+            else intPort=Integer.valueOf(port);
             //TODO: implement socket client
             // client = new SocketClient();
         }

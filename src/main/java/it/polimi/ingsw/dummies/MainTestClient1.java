@@ -18,7 +18,7 @@ public class MainTestClient1 {
             FakeView fakeView = new FakeView();
 
             System.out.println("Starting client");
-            Client client = new RmiClient(nickname, fakeView);
+            Client client = new RmiClient(nickname, fakeView, "localhost", ServerConstants.RMI_PORT);
 
             client.chooseNickname(nickname);
             try {

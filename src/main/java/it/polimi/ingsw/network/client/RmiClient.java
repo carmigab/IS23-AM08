@@ -22,8 +22,9 @@ import java.util.List;
 public class RmiClient extends UnicastRemoteObject implements Client, RmiClientInterface{
     private String nickname;
 
-    private int lobbyPort = ServerConstants.RMI_PORT;
+    private int lobbyPort;
     private String LobbyServerName = ServerConstants.LOBBY_SERVER;
+    private final String ipToConnect;
 
     private RmiServerInterface matchServer;
     private RMILobbyServerInterface lobbyServer;
@@ -39,13 +40,16 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * This method is the constructor of RmiClient
      * @param nickname
      * @param fV : this will become the true view
+     * @param ipToConnect ip of the server to connect to
      * @throws RemoteException
      * @throws NotBoundException
      */
-    public RmiClient(String nickname, View fV) throws NotBoundException, InterruptedException, RemoteException {
+    public RmiClient(String nickname, View fV, String ipToConnect, Integer lobbyPort) throws NotBoundException, InterruptedException, RemoteException {
         super();
         this.view = fV;
         this.nickname = nickname;
+        this.ipToConnect=ipToConnect;
+        this.lobbyPort=lobbyPort;
 
         //System.setProperty("java.rmi.server.hostname", "192.168.43.54");
         // to comment in case of test without LobbyServer
@@ -61,9 +65,9 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     private void connectToLobbyServer() throws InterruptedException {
         while(true) {
             try {
-                System.out.println("Looking up the registry for LobbyServer");
+                System.out.println("Looking up the registry for LobbyServer at "+this.ipToConnect+":"+this.lobbyPort);
                 // swap 'localhost' with the server ip when trying to connect with two different machines
-                this.lobbyRegistry = LocateRegistry.getRegistry("localhost", lobbyPort);
+                this.lobbyRegistry = LocateRegistry.getRegistry(this.ipToConnect, this.lobbyPort);
                 this.lobbyServer = (RMILobbyServerInterface) this.lobbyRegistry.lookup(LobbyServerName);
                 break;
             } catch (Exception e) {
@@ -99,6 +103,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
             flag = false;
         } catch (RemoteException e) {
             System.out.println("Remote exception from chooseNickname");
+            e.printStackTrace();
             this.gracefulDisconnection();
         }
 

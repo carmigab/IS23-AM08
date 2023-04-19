@@ -169,7 +169,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             this.loadPreviousGames();
             System.out.println("Loaded previous games...");
             // Swap 'localhost' with the server ip if clients are not local
-            System.setProperty("java.rmi.server.hostname", "localhost");
+            //System.setProperty("java.rmi.server.hostname", "192.168.1.6");
             this.registry = LocateRegistry.createRegistry(this.config.getServerPortRMI());
 
             System.out.println("Registry acquired...");

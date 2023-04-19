@@ -8,6 +8,7 @@ import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.Position;
+import it.polimi.ingsw.network.server.constants.ServerConstants;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -155,7 +156,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
                     try {
                         //System.out.println("New Ping Iteration");
                         this.pingClients();
-                        nicknamesList.wait(2000);
+                        nicknamesList.wait(ServerConstants.PING_TIME);
 
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);

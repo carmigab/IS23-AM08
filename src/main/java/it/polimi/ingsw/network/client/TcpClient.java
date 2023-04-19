@@ -122,12 +122,35 @@ public class TcpClient implements Client{
     }
 
 
-    private void manageInboundTcpMessages(){
+    private void manageInboundTcpMessages(Message message){
+        // synchronous messages
+        if (message instanceof ChatAllResponse)
+            notifyLockAndSetMessage(chatAllLock, message);
+        else if (message instanceof ChatSomeoneResponse)
+            notifyLockAndSetMessage(chatSomeoneLock, message);
+        else if (message instanceof ChooseNicknameResponse)
+            notifyLockAndSetMessage(chooseNicknameLock, message);
+        else if (message instanceof CreateGameResponse)
+            notifyLockAndSetMessage(createGameLock, message);
+        else if (message instanceof JoinGameResponse)
+            notifyLockAndSetMessage(joinGameLock, message);
+        else if (message instanceof MakeMoveResponse)
+            notifyLockAndSetMessage(makeMoveLock, message);
 
+        // asynchronous messages
+
+    }
+
+    private void notifyLockAndSetMessage(Lock lock, Message message){
+        synchronized (lock){
+            lock.setMessage(message);
+            lock.notify();
+        }
     }
 
 
 
+    // synchronous methods
 
     public boolean chooseNickname(String nick){
         ChooseNicknameResponse response = (ChooseNicknameResponse) this.manageTcpConversation(chooseNicknameLock,
@@ -178,7 +201,7 @@ public class TcpClient implements Client{
 
 
 
-
+    // asynchronous methods
 
 
 
@@ -211,3 +234,9 @@ public class TcpClient implements Client{
         view.update(State.GRACEFULDISCONNECTION, null);
     }
 }
+
+
+// to do:
+// add the remaining messages
+// finish the manageInboundTcpMessages
+// launch the listening thread

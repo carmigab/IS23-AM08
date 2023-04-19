@@ -28,13 +28,13 @@ class LobbyServerTest {
         String bannedName="Matteo";
         assertThrows(IllegalNicknameException.class, ()-> ls1.chooseNickname(bannedName));
 
-        LobbyServer ls2= new LobbyServer(1234, "Ciao","Game");
+        LobbyServer ls2= new LobbyServer(1234, "Ciao",2000,"Game");
 
         assertTrue(ls2.chooseNickname("Gabri"));
         assertThrows(ExistentNicknameExcepiton.class, ()-> ls2.chooseNickname("Gabri"));
         assertThrows(IllegalNicknameException.class, ()-> ls2.chooseNickname(bannedName));
 
-        LobbyServer ls3= new LobbyServer(new LobbyServerConfig(1234, 1235, "Ciao","Game"));
+        LobbyServer ls3= new LobbyServer(new LobbyServerConfig(1234, 1235, "Ciao",2000,"Game"));
 
         assertTrue(ls3.chooseNickname("Gabri"));
         assertThrows(ExistentNicknameExcepiton.class, ()-> ls3.chooseNickname("Gabri"));

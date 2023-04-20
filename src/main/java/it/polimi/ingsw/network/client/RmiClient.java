@@ -99,7 +99,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
             flag = false;
         } catch (RemoteException e) {
             System.out.println("Remote exception from chooseNickname");
-            e.printStackTrace();
+            //e.printStackTrace();
             this.gracefulDisconnection();
         }
 
@@ -137,7 +137,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
             this.gracefulDisconnection();
         } catch (NotBoundException e) {
             System.out.println("Trying to lock up an unbound registry");
-            throw new RuntimeException(e);
+            this.gracefulDisconnection();
         }
     }
 
@@ -155,7 +155,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
             this.gracefulDisconnection();
         } catch (NotBoundException e) {
             System.out.println("Trying to lock up an unbound registry");
-            throw new RuntimeException(e);
+            this.gracefulDisconnection();
         }
 
     }
@@ -174,6 +174,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         this.matchServer = (RmiServerInterface) this.lobbyRegistry.lookup(matchServerName);
 
         // new thread to ping server
+        this.createPingThread();
+    }
+
+    private void createPingThread(){
         Thread t = new Thread(() -> {
             synchronized (lock) {
                 System.out.println("New Ping Thread starting");
@@ -183,8 +187,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
                         lock.wait(ServerConstants.PING_TIME);
 
                     } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
+                        System.out.println("Interrupted exception from PingThread");
+                        this.gracefulDisconnection();
                     } catch (RemoteException e) {
+                        System.out.println("Remote exception from PingThread");
                         this.gracefulDisconnection();
                         break;
                     }
@@ -196,7 +202,6 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
 
     /**
      * This method lets the server check if the client is alive
-     *
      * @throws RemoteException
      */
     public void isAlive() throws RemoteException {}

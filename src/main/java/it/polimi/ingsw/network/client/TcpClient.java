@@ -36,9 +36,6 @@ public class TcpClient implements Client{
 
     private ObjectInputStream objectInputStream;
 
-    // Time to wait before throwing a TimeOutException
-    private int waitTime = ServerConstants.TCP_WAIT_TIME;
-
     // Locks
     private Lock chooseNicknameLock = new Lock();
     private Lock makeMoveLock = new Lock();
@@ -46,6 +43,11 @@ public class TcpClient implements Client{
     private Lock joinGameLock = new Lock();
     private Lock chatSomeoneLock = new Lock();
     private Lock chatAllLock = new Lock();
+    private Lock messagesListenerLock = new Lock();
+    private Lock pingThreadLock = new Lock();
+
+    private boolean toPing = true;
+    private boolean listeningForMessages = true;
 
 
 
@@ -77,8 +79,62 @@ public class TcpClient implements Client{
                 Thread.sleep(5000);
             }
         }
+
+        // Thread to receive messages from server
+        this.createInboundMessagesThread();
+
+        // Thread to ping server
+        this.createPingThread();
     }
 
+
+    private void createInboundMessagesThread(){
+        Thread t = new Thread(() -> {
+            synchronized (messagesListenerLock){
+                System.out.println("New MessagesListener Thread starting");
+                while(listeningForMessages){
+                    try {
+                        Message message = (Message) objectInputStream.readObject();
+                        this.manageInboundTcpMessages(message);
+
+                    } catch (IOException e) {
+                        if (listeningForMessages){
+                            System.out.println("IOException from InboundMessagesThread");
+                            this.gracefulDisconnection();
+                        }
+                    } catch (ClassNotFoundException e) {
+                        if (listeningForMessages){
+                            System.out.println("ClassNotFoundException from InboundMessagesThread");
+                            this.gracefulDisconnection();
+                        }
+                    }
+                }
+
+            }
+        });
+        t.start();
+
+    }
+
+
+    private void createPingThread(){
+        Thread t = new Thread(() -> {
+            synchronized (pingThreadLock) {
+                System.out.println("New Ping Thread starting");
+                while (toPing) {
+                    try {
+                    this.manageTcpConversation(pingThreadLock, new PingMessage(this.nickname));
+                    pingThreadLock.wait(ServerConstants.PING_TIME);
+                    } catch (InterruptedException e) {
+                        System.out.println("Interrupted exception from PingThread");
+                        this.gracefulDisconnection();
+                    }
+                }
+
+            }
+        });
+        t.start();
+    }
 
 
     // This method tries to retrieve the received message from the lock
@@ -86,11 +142,11 @@ public class TcpClient implements Client{
         try {
             synchronized (lock) {
                 this.sendTcpMessage(message);
-                lock.wait(this.waitTime);
+                lock.wait(ServerConstants.TCP_WAIT_TIME);
                 // we try to retrieve the message from the lock
                 Message newMessage = lock.getMessage();
                 lock.reset();
-                // if new Message == null it means that we did not receive a response message from the server
+                // if the new Message == null it means that we did not receive a response message from the server
                 if (newMessage == null) throw new TimeOutException();
                 return newMessage;
             }
@@ -134,6 +190,8 @@ public class TcpClient implements Client{
             notifyLockAndSetMessage(joinGameLock, message);
         else if (message instanceof MakeMoveResponse)
             notifyLockAndSetMessage(makeMoveLock, message);
+        else if (message instanceof PingResponse)
+            notifyLockAndSetMessage(pingThreadLock, message);
 
         // asynchronous messages
         else if (message instanceof ChatReceiveMessage){
@@ -199,16 +257,12 @@ public class TcpClient implements Client{
 
 
     public void messageSomeone(String chatMessage, String receiver){
-        ChatSomeoneResponse response = (ChatSomeoneResponse) this.manageTcpConversation(chatSomeoneLock,
-                new ChatSomeoneMessage(this.nickname, chatMessage, receiver));
-
+        this.manageTcpConversation(chatSomeoneLock, new ChatSomeoneMessage(this.nickname, chatMessage, receiver));
     }
 
 
     public void messageAll(String chatMessage){
-        ChatAllMessage response = (ChatAllMessage) this.manageTcpConversation(chatAllLock,
-                new ChatAllMessage(this.nickname, chatMessage));
-
+        this.manageTcpConversation(chatAllLock, new ChatAllMessage(this.nickname, chatMessage));
     }
 
 
@@ -225,6 +279,11 @@ public class TcpClient implements Client{
     }
 
     private void gracefulDisconnection(){
+        System.out.println("Terminating Ping thread");
+        this.toPing = false;
+        System.out.println("Terminating messageListener");
+        this.listeningForMessages = false;
+
         System.out.println("Initializing graceful disconnection");
         try {
             System.out.println("Closing socket");

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server;
+package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.network.server.LobbyServer;
 import it.polimi.ingsw.network.server.LobbyServerConfig;

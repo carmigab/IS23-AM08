@@ -14,7 +14,6 @@ public class MainTestClient2 {
                 BufferedReader input = new BufferedReader(new InputStreamReader(System.in))
         )
         {
-            int port = ServerConstants.RMI_PORT;
             String nickname = "Bill2";
             FakeView fakeView = new FakeView();
 

@@ -31,7 +31,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     /**
      * List of all the games currently active in the application
      */
-    private final List<RmiServer> serverList;
+    private final List<MatchServer> serverList;
     /**
      * List of all the game information present in the application
      */
@@ -186,7 +186,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @param rs reference to the RMI server that needs to be put online
      * @param name reference to the information (name) that is useful for the setup of the game
      */
-    private void startGame(RmiServer rs, String name){
+    private void startGame(MatchServer rs, String name){
         try {
             System.out.println("Initializing game...");
 
@@ -284,7 +284,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             System.out.println("Creating new game...");
             this.checkCredentialsIntegrity(nickname);
             this.nicknamesInGame.add(nickname);
-            RmiServer rs = new RmiServer(numPlayers, this);
+            MatchServer rs = new MatchServer(numPlayers, this);
             rs.addPlayer(nickname, client);
             this.serverList.add(rs);
             String gameName = this.config.getStartingName()+(this.serverList.size());
@@ -361,7 +361,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             try {
                 //create a game with the GameModel as parameter
                 GameModel gm = new GameModel(JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(new FileReader(AppConstants.PATH_SAVED_MATCHES + fileName), GameModel.class));
-                RmiServer rs = new RmiServer(gm, this);
+                MatchServer rs = new MatchServer(gm, this);
                 this.serverList.add(rs);
                 String gameName = this.config.getStartingName() + (this.serverList.size());
                 this.serverInformation.add(gameName);

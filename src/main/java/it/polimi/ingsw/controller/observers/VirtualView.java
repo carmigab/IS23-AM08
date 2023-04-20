@@ -3,7 +3,7 @@ package it.polimi.ingsw.controller.observers;
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.network.server.RmiServer;
+import it.polimi.ingsw.network.server.MatchServer;
 
 import java.util.HashMap;
 
@@ -24,10 +24,10 @@ public class VirtualView implements Observer{
      */
     private GameInfo gameInfo;
 
-    private final RmiServer server;
+    private final MatchServer server;
 
 
-    public VirtualView(RmiServer server){
+    public VirtualView(MatchServer server){
         this.server=server;
         this.currentState=State.TURN0;
         this.gameInfo=null;

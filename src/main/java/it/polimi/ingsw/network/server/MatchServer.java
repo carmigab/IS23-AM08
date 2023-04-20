@@ -8,6 +8,7 @@ import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.Position;
+import it.polimi.ingsw.network.client.exceptions.TimeOutException;
 import it.polimi.ingsw.network.server.constants.ServerConstants;
 
 import java.rmi.RemoteException;
@@ -16,11 +17,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class RmiServer extends UnicastRemoteObject implements RmiServerInterface {
+public class MatchServer extends UnicastRemoteObject implements RmiServerInterface {
 
     // This list represents also the playing order
     private List<String> nicknamesList = new ArrayList<>();
-    private List<RmiClientInterface> clientsList = new ArrayList<>();
+    private List<RmiClientInterface> rmiClientsList = new ArrayList<>();
+    private List<SocketClientHandler> tcpClientsList = new ArrayList<>();
     private int numPlayers;
     private State state;
 
@@ -42,7 +44,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
      * @param numPlayers
      * @throws RemoteException
      */
-    public RmiServer(int numPlayers, LobbyServer lobby) throws RemoteException {
+    public MatchServer(int numPlayers, LobbyServer lobby) throws RemoteException {
         super();
         this.lobby = lobby;
         this.numPlayers = numPlayers;
@@ -57,7 +59,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
      * @param gameModel: the model to load
      * @throws RemoteException
      */
-    public RmiServer(GameModel gameModel, LobbyServer lobby) throws RemoteException{
+    public MatchServer(GameModel gameModel, LobbyServer lobby) throws RemoteException{
         super();
         // infers the numPlayers from playerList
         this.lobby = lobby;
@@ -119,7 +121,17 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
      */
     public void addPlayer(String nickname, RmiClientInterface rmiClient){
         nicknamesList.add(nickname);
-        clientsList.add(rmiClient);
+        rmiClientsList.add(rmiClient);
+        System.out.println("Added player: "+nickname);
+
+        this.updateClients(State.WAITINGFORPLAYERS, null);
+        if (this.getFreeSpaces() == 0) this.startGame();
+    }
+
+
+    public void addPlayer(String nickname, SocketClientHandler tcpClient){
+        nicknamesList.add(nickname);
+        tcpClientsList.add(tcpClient);
         System.out.println("Added player: "+nickname);
 
         this.updateClients(State.WAITINGFORPLAYERS, null);
@@ -161,9 +173,12 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     } catch (RemoteException e) {
-                        System.out.println("Remote exception from pingClients");
+                        System.out.println("Remote exception from pingClients caused by an rmiClient");
                         this.gracefulDisconnection();
                         break;
+                    } catch (TimeOutException e) {
+                        System.out.println("TimeOutException from pingClients caused by an tcpClient");
+                        this.gracefulDisconnection();
                     }
                 }
             }
@@ -191,14 +206,30 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         if(!this.disconnectingClients) {
             System.out.println("Updating clients with newGameInfo and newState");
 
-            Iterator<RmiClientInterface> iter = clientsList.iterator();
-            while (iter.hasNext()) {
-                RmiClientInterface client = iter.next();
+            // This updates the rmi clients
+            Iterator<RmiClientInterface> rmiIter = rmiClientsList.iterator();
+            while (rmiIter.hasNext()) {
+                RmiClientInterface client = rmiIter.next();
                 try {
                     client.update(newState, newInfo);
                 } catch (RemoteException e) {
                     // This flag is needed to stop the program to go on a loop
                     System.out.println("Remote exception from client.update");
+                    //e.printStackTrace();
+                    this.gracefulDisconnection();
+                    break;
+                }
+            }
+
+            // This updates the tcp clients
+            Iterator<SocketClientHandler> tcpIter = tcpClientsList.iterator();
+            while (tcpIter.hasNext()) {
+                SocketClientHandler client = tcpIter.next();
+                try {
+                    client.update(newState, newInfo);
+                } catch (TimeOutException e) {
+                    // This flag is needed to stop the program to go on a loop
+                    System.out.println("TimeOutException from client.update");
                     //e.printStackTrace();
                     this.gracefulDisconnection();
                     break;
@@ -214,7 +245,7 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
                 System.out.println("Freeing used nicknames");
                 this.lobby.removePlayersFromGame(nicknamesList);
                 // Here we empty the clients list
-                this.clientsList.clear();
+                this.rmiClientsList.clear();
             }
         }
 
@@ -233,9 +264,10 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         // Beginning of disconnection iter
         this.disconnectingClients = true;
 
-        Iterator<RmiClientInterface> iter = clientsList.iterator();
-        while (iter.hasNext()) {
-            RmiClientInterface client = iter.next();
+        // This updates the rmi clients
+        Iterator<RmiClientInterface> rmiIter = rmiClientsList.iterator();
+        while (rmiIter.hasNext()) {
+            RmiClientInterface client = rmiIter.next();
             //System.out.println(client);
             try {
                 client.update(State.GRACEFULDISCONNECTION, null);
@@ -244,6 +276,20 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
                 continue;
             }
         }
+
+        // This updates the tcp clients
+        Iterator<SocketClientHandler> tcpIter = tcpClientsList.iterator();
+        while (tcpIter.hasNext()) {
+            SocketClientHandler client = tcpIter.next();
+            //System.out.println(client);
+            try {
+                client.update(State.GRACEFULDISCONNECTION, null);
+            } catch (TimeOutException e) {
+                //System.out.println("Remote Exception");
+                continue;
+            }
+        }
+
         System.out.println("Initialized graceful disconnection for all clients");
 
         // Here we end the current game
@@ -253,22 +299,36 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
         System.out.println("Freeing used nicknames");
         this.lobby.removePlayersFromGame(nicknamesList);
         // Here we empty the clients list
-        this.clientsList.clear();
+        this.rmiClientsList.clear();
     }
 
     /**
      * This method check if the clients are alive
      */
-    private void pingClients() throws RemoteException {
+    private void pingClients() throws RemoteException, TimeOutException {
         //System.out.println("checking if RmiClient clients are alive...");
-        Iterator<RmiClientInterface> iter = clientsList.iterator();
-        while (iter.hasNext()) {
-            RmiClientInterface client = iter.next();
+
+        // This updates the rmi clients
+        Iterator<RmiClientInterface> rmiIter = rmiClientsList.iterator();
+        while (rmiIter.hasNext()) {
+            RmiClientInterface client = rmiIter.next();
             try {
                 client.isAlive();
                 //System.out.println("Ping");
             } catch (RemoteException e) {
                 throw new RemoteException();
+            }
+        }
+
+        // This pings the tcp clients
+        Iterator<SocketClientHandler> tcpIter = tcpClientsList.iterator();
+        while (tcpIter.hasNext()) {
+            SocketClientHandler client = tcpIter.next();
+            try {
+                client.isAlive();
+                //System.out.println("Ping");
+            } catch (TimeOutException e) {
+                throw new TimeOutException();
             }
         }
     }
@@ -284,17 +344,32 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
     public void messageSomeone(String message, String speaker, String receiver) throws RemoteException{
         String messageToSend = speaker + "[Privately]: " + message;
         System.out.println(Thread.currentThread() + ": received '" + messageToSend + "'");
-
         System.out.println("Sending message only to: '"+receiver+"'");
-        Iterator<RmiClientInterface> iter = clientsList.iterator();
-        while (iter.hasNext()) {
-            RmiClientInterface client = iter.next();
+
+        // This updates the rmi clients
+        Iterator<RmiClientInterface> rmiIter = rmiClientsList.iterator();
+        while (rmiIter.hasNext()) {
+            RmiClientInterface client = rmiIter.next();
             try {
                 if (client.name().equals(receiver)) client.receiveMessage(messageToSend);
                 else if(client.name().equals(speaker)) client.receiveMessage(messageToSend);
 
             } catch (RemoteException e) {
                 System.out.println("Remote exception from client.receiveMessage in private chat");
+                this.gracefulDisconnection();
+            }
+        }
+
+        // This updates the tcp clients
+        Iterator<SocketClientHandler> tcpIter = tcpClientsList.iterator();
+        while (tcpIter.hasNext()) {
+            SocketClientHandler client = tcpIter.next();
+            try {
+                if (client.name().equals(receiver)) client.receiveMessage(messageToSend);
+                else if(client.name().equals(speaker)) client.receiveMessage(messageToSend);
+
+            } catch (TimeOutException e) {
+                System.out.println("TimeOutException from client.receiveMessage in private chat");
                 this.gracefulDisconnection();
             }
         }
@@ -309,15 +384,28 @@ public class RmiServer extends UnicastRemoteObject implements RmiServerInterface
     public void messageAll(String message, String speaker) throws RemoteException {
         String messageToSend = speaker + ": " + message;
         System.out.println(Thread.currentThread() + ": received '" + messageToSend + "'");
-
         System.out.println("Sending message to all clients");
-        Iterator<RmiClientInterface> iter = clientsList.iterator();
-        while (iter.hasNext()) {
-            RmiClientInterface client = iter.next();
+
+        // This updates the rmi clients
+        Iterator<RmiClientInterface> rmiIter = rmiClientsList.iterator();
+        while (rmiIter.hasNext()) {
+            RmiClientInterface client = rmiIter.next();
             try {
                 client.receiveMessage(messageToSend);
             } catch (RemoteException e) {
                 System.out.println("Remote exception from client.receiveMessage in public chat");
+                this.gracefulDisconnection();
+            }
+        }
+
+        // This updates the tcp clients
+        Iterator<SocketClientHandler> tcpIter = tcpClientsList.iterator();
+        while (tcpIter.hasNext()) {
+            SocketClientHandler client = tcpIter.next();
+            try {
+                client.receiveMessage(messageToSend);
+            } catch (TimeOutException e) {
+                System.out.println("TimeOutException from client.receiveMessage in public chat");
                 this.gracefulDisconnection();
             }
         }

@@ -6,7 +6,7 @@ import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.observers.VirtualView;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.network.server.RmiServer;
+import it.polimi.ingsw.network.server.MatchServer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class GameController {
 
     private final VirtualView gameStateObserver;
 
-    public GameController(List<String> nicknames, int numPlayers, RmiServer server){
+    public GameController(List<String> nicknames, int numPlayers, MatchServer server){
         playersList = new ArrayList<>(nicknames);
         this.numPlayers = numPlayers;
         this.model = new GameModel(numPlayers, nicknames);
@@ -36,7 +36,7 @@ public class GameController {
      * @param model: the model to load
      * @param server: the server where the controller resides
      */
-    public GameController(GameModel model, RmiServer server){
+    public GameController(GameModel model, MatchServer server){
         this.model = model;
         this.model.removeObservers();
         this.numPlayers = this.model.getPlayerListCopy().size();

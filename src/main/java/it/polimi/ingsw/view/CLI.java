@@ -276,11 +276,7 @@ public class CLI extends View{
             }
 
             printMessage("Select a the tiles you want to pick (x1,y1 x2,y2 x3,y3) ", AnsiEscapeCodes.INFO_MESSAGE);
-            String input = scanner.nextLine();
-            while (!input.matches("^[0-9]+,[0-9]+$") && !input.matches("^[0-9]+,[0-9]+ [0-9]+,[0-9]+$") && !input.matches("^[0-9]+,[0-9]+ [0-9]+,[0-9]+ [0-9]+,[0-9]+$")) {
-                printMessage("Invalid input, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
-                input = scanner.nextLine();
-            }
+            String input = this.retryInput("^[0-9]+,[0-9]+$|^[0-9]+,[0-9]+ [0-9]+,[0-9]+$|^[0-9]+,[0-9]+ [0-9]+,[0-9]+ [0-9]+,[0-9]+$");
 
             for (String position : input.split(" ")) {
                 positions.add(new Position(Integer.parseInt(position.split(",")[0]), Integer.parseInt(position.split(",")[1])));
@@ -288,11 +284,7 @@ public class CLI extends View{
 
             printMessage("Select the column were you want to place the tiles ", AnsiEscapeCodes.INFO_MESSAGE);
 
-            input = scanner.nextLine();
-            while (!input.matches("^[0-4]+$")) {
-                printMessage("Invalid input, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
-                input = scanner.nextLine();
-            }
+            input = this.retryInput("^[0-"+(AppConstants.COLS_NUMBER-1)+"]+$");
 
             column = Integer.parseInt(input);
         }
@@ -448,43 +440,26 @@ public class CLI extends View{
     // ask for connection type using println, 1 for RMI, 2 for Socket, ask again if the input is not valid
     public void chooseConnectionType() {
         printMessage("Insert ip of the server", AnsiEscapeCodes.INFO_MESSAGE);
-        String ip=scanner.nextLine();
-        ip=ip.trim();
         //https://www.geeksforgeeks.org/how-to-validate-an-ip-address-using-regular-expressions-in-java/
         String zeroTo255 ="localhost|(\\d{1,2}|(0|1)\\"
                 + "d{2}|2[0-4]\\d|25[0-5])";
-        String regexIP=zeroTo255 + "\\." + zeroTo255
+        String regexIP="|"+zeroTo255 + "\\." + zeroTo255
                 + "\\." + zeroTo255
                 + "\\." + zeroTo255;
-        while(!ip.matches(regexIP)){
-            printMessage("Invalid input, please try again ", AnsiEscapeCodes.INFO_MESSAGE);
-            ip = scanner.nextLine();
-            ip = ip.trim();
-        }
+        String ip=this.retryInput(regexIP);
+        if(ip.equals("")) ip="localhost";
 
         printMessage("Insert port of the server (or <default> for automatic detection)", AnsiEscapeCodes.INFO_MESSAGE);
-        String port=scanner.nextLine();
+        String port=this.retryInput("|default|\\d+");
         Integer intPort= ServerConstants.RMI_PORT;
-        port=port.trim();
-        while(!port.matches("default|\\d+")){
-            printMessage("Invalid input, please try again ", AnsiEscapeCodes.INFO_MESSAGE);
-            port = scanner.nextLine();
-            port = port.trim();
-        }
 
 
         printMessage("Choose connection type (rmi/socket)", AnsiEscapeCodes.INFO_MESSAGE);
-        String input = scanner.nextLine();
-        input = input.trim();
-        while (!input.equalsIgnoreCase("rmi") && !input.equalsIgnoreCase("socket")) {
-            printMessage("Invalid input, please try again ", AnsiEscapeCodes.INFO_MESSAGE);
-            input = scanner.nextLine();
-            input = input.trim();
-        }
+        String input = this.retryInput("rmi|RMI|socket|SOCKET");
 
         if (input.equalsIgnoreCase("rmi")) {
             try {
-                if(port.equals("default")) intPort=ServerConstants.RMI_PORT;
+                if(port.equals("default") || port.equals("")) intPort=ServerConstants.RMI_PORT;
                 else intPort=Integer.valueOf(port);
                 client = new RmiClient(myNickname, this, ip, intPort);
             } catch (RemoteException | NotBoundException | InterruptedException e) {
@@ -528,19 +503,11 @@ public class CLI extends View{
         printMessage("Do you want to create a new game or join an existing one? (c/j) ", AnsiEscapeCodes.INFO_MESSAGE);
 
         while (!gameSelected) {
-            String input = scanner.nextLine();
-            while (!input.equals("c") && !input.equals("j")) {
-                printMessage("Invalid input, please try again ", AnsiEscapeCodes.INFO_MESSAGE);
-                input = scanner.nextLine();
-            }
+            String input = this.retryInput("c|j");
 
             if (input.equals("c")) {
                 printMessage("Please insert the number of players ", AnsiEscapeCodes.INFO_MESSAGE);
-                String playersNumber = scanner.nextLine();
-                while (!playersNumber.matches("[2-4]")) {
-                    printMessage("Invalid input, please try again ", AnsiEscapeCodes.INFO_MESSAGE);
-                    playersNumber = scanner.nextLine();
-                }
+                String playersNumber =this.retryInput("[2-4]");
 
                 try {
                     client.createGame(Integer.parseInt(playersNumber));
@@ -572,12 +539,7 @@ public class CLI extends View{
     @Override
     public boolean askIfWantToPlayAgain() {
         printMessage("Do you want to play again? (y/n) ", AnsiEscapeCodes.INFO_MESSAGE);
-        String input = scanner.nextLine();
-        while (!input.equals("y") && !input.equals("n")) {
-            printMessage("Invalid input, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
-            input = scanner.nextLine();
-        }
-
+        String input = this.retryInput("y|n");
         return input.equals("y");
     }
 
@@ -602,4 +564,19 @@ public class CLI extends View{
     public void displayChatMessage(String message) {
         printMessage(message, AnsiEscapeCodes.CHAT_MESSAGE);
     }
+
+    /**
+     * This method acts as a utility for the continous retry of the input insertion based on the match of a regex
+     * @param regex regular expression that has to be satisfied
+     * @return the correct input based on the regex
+     */
+    public String retryInput(String regex){
+        String input = scanner.nextLine();
+        while(!input.trim().matches(regex)){
+            printMessage("Invalid input, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+            input = scanner.nextLine();
+        }
+        return input.trim();
+    }
+
 }

@@ -1,17 +1,13 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.App;
 import it.polimi.ingsw.network.client.RmiClientInterface;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
-import it.polimi.ingsw.network.server.exceptions.*;
 import it.polimi.ingsw.network.server.constants.ServerConstants;
 import it.polimi.ingsw.network.server.exceptions.*;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;

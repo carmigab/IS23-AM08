@@ -50,7 +50,7 @@ public class TcpClient implements Client{
 
 
 
-    public TcpClient(String nickname, View fV) throws InterruptedException {
+    public TcpClient(String nickname, View fV, String ipToConnect, Integer lobbyPort) throws InterruptedException {
         super();
         this.view = fV;
         this.nickname = nickname;

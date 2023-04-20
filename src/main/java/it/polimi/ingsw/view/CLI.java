@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.SingleGoal;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.constants.AppConstants;
+import it.polimi.ingsw.network.client.TcpClient;
 import it.polimi.ingsw.network.server.constants.ServerConstants;
 import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.network.server.exceptions.NoGamesAvailableException;
@@ -492,10 +493,15 @@ public class CLI extends View{
             }
         }
         else {
-            if(port.equals("default")) intPort=ServerConstants.TCP_PORT;
-            else intPort=Integer.valueOf(port);
-            //TODO: implement socket client
-            // client = new SocketClient();
+            try {
+                System.out.println("Tcp connection is not ready, problems may occur");
+                if (port.equals("default")) intPort = ServerConstants.TCP_PORT;
+                else intPort = Integer.valueOf(port);
+                client = new TcpClient(myNickname, this, ip, intPort);
+            } catch (InterruptedException e) {
+                printMessage("error while connecting to the server", AnsiEscapeCodes.ERROR_MESSAGE);
+                close("Client closing, try again later");
+            }
         }
     }
 

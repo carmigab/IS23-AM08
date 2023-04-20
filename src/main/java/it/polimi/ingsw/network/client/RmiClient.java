@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Position;
+import it.polimi.ingsw.network.client.clientLocks.Lock;
 import it.polimi.ingsw.network.server.RmiServerInterface;
 import it.polimi.ingsw.network.server.RMILobbyServerInterface;
 import it.polimi.ingsw.network.server.constants.ServerConstants;
@@ -21,9 +22,7 @@ import java.util.List;
 public class RmiClient extends UnicastRemoteObject implements Client, RmiClientInterface{
     private String nickname;
 
-    private int lobbyPort;
     private String LobbyServerName = ServerConstants.LOBBY_SERVER;
-    private final String ipToConnect;
 
     private RmiServerInterface matchServer;
     private RMILobbyServerInterface lobbyServer;
@@ -32,7 +31,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
 
     private View view;
 
-    private Object lock = new Object();
+    private Object lock = new Lock();
     private boolean toPing = true;
 
 
@@ -48,12 +47,9 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         super();
         this.view = fV;
         this.nickname = nickname;
-        this.ipToConnect=ipToConnect;
-        this.lobbyPort=lobbyPort;
 
         //System.setProperty("java.rmi.server.hostname", "192.168.43.54");
-        // to comment in case of test without LobbyServer
-        this.connectToLobbyServer();
+        this.connectToLobbyServer(ipToConnect, lobbyPort);
     }
 
     /**
@@ -62,12 +58,12 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @throws RemoteException
      * @throws NotBoundException
      */
-    private void connectToLobbyServer() throws InterruptedException {
+    private void connectToLobbyServer(String ipToConnect, Integer lobbyPort) throws InterruptedException {
         while(true) {
             try {
-                System.out.println("Looking up the registry for LobbyServer at "+this.ipToConnect+":"+this.lobbyPort);
+                System.out.println("Looking up the registry for LobbyServer at "+ipToConnect+":"+lobbyPort);
                 // swap 'localhost' with the server ip when trying to connect with two different machines
-                this.lobbyRegistry = LocateRegistry.getRegistry(this.ipToConnect, this.lobbyPort);
+                this.lobbyRegistry = LocateRegistry.getRegistry(ipToConnect, lobbyPort);
                 this.lobbyServer = (RMILobbyServerInterface) this.lobbyRegistry.lookup(LobbyServerName);
                 break;
             } catch (Exception e) {
@@ -200,10 +196,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
 
     /**
      * This method lets the server check if the client is alive
-     * @return true
+     *
      * @throws RemoteException
      */
-    public boolean isAlive() throws RemoteException {return true;}
+    public void isAlive() throws RemoteException {}
 
     /**
      * This method lets the client send a message privately only to someone

@@ -25,9 +25,6 @@ public class TcpClient implements Client{
 
     private String nickname;
 
-    private int lobbyPort = ServerConstants.TCP_PORT;
-    private String serverIp = "localhost";
-
     private Socket socket;
 
     private OutputStream outputStream;
@@ -39,8 +36,10 @@ public class TcpClient implements Client{
 
     private ObjectInputStream objectInputStream;
 
+    // Time to wait before throwing a TimeOutException
+    private int waitTime = ServerConstants.TCP_WAIT_TIME;
+
     // Locks
-    private int waitTime = 2000;
     private Lock chooseNicknameLock = new Lock();
     private Lock makeMoveLock = new Lock();
     private Lock createGameLock = new Lock();
@@ -55,16 +54,16 @@ public class TcpClient implements Client{
         this.view = fV;
         this.nickname = nickname;
 
-        this.connectToLobbyServer();
+        this.connectToLobbyServer(ipToConnect, lobbyPort);
     }
 
 
 
 
-    private void connectToLobbyServer() throws InterruptedException {
+    private void connectToLobbyServer(String ipToConnect, Integer lobbyPort) throws InterruptedException {
         while (true) {
             try {
-                this.socket = new Socket(this.serverIp, this.lobbyPort);
+                this.socket = new Socket(ipToConnect, lobbyPort);
                 System.out.println("Tcp connection established");
 
                 this.outputStream = socket.getOutputStream();
@@ -106,13 +105,12 @@ public class TcpClient implements Client{
         // the code should never arrive here
         this.gracefulDisconnection();
         System.out.println("Should never arrive here");
-        return new Message("None");
+        return new Message("Error");
     }
 
 
     private void sendTcpMessage(Message message){
         System.out.println("Sending message to Server socket");
-
         try {
             this.objectOutputStream.writeObject(message);
         } catch (IOException e) {
@@ -138,8 +136,23 @@ public class TcpClient implements Client{
             notifyLockAndSetMessage(makeMoveLock, message);
 
         // asynchronous messages
+        else if (message instanceof ChatReceiveMessage){
+            this.sendTcpMessage(new ChatReceiveResponse(this.nickname));
+            ChatReceiveMessage m = (ChatReceiveMessage) message;
+            this.receiveMessage(m.getChatMessage());
+        }
+        else if (message instanceof IsClientAlive) {
+            this.sendTcpMessage(new IsClientAliveResponse(this.nickname));
+        }
+        else if (message instanceof UpdateMessage) {
+            this.sendTcpMessage(new UpdateResponse(this.nickname));
+            UpdateMessage m = (UpdateMessage) message;
+            this.update(m.getNewState(), m.getNewInfo());
 
+        }
     }
+
+
 
     private void notifyLockAndSetMessage(Lock lock, Message message){
         synchronized (lock){
@@ -203,19 +216,8 @@ public class TcpClient implements Client{
 
     // asynchronous methods
 
-
-
-
     private void update(State newState, GameInfo newInfo){
         this.view.update(newState, newInfo);
-    }
-
-    private boolean isAlive(){
-        return true;
-    }
-
-    private String name(){
-        return this.nickname;
     }
 
     private void receiveMessage(String message){

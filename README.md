@@ -18,12 +18,12 @@
 | SingleGoal    | :green_circle:  | 100%                    | 
 | Tile          | :green_circle:  | 100%                    |
 | Position      | :green_circle:  | 100%                    |
-| Server        | :yellow_circle: | 70%                     |
-| Client        | :yellow_circle: | 70%                     |
-| CLI           | :yellow_circle: | 90%                     |
+| Server        | :yellow_circle: |                         |
+| Client        | :yellow_circle: |                         |
+| CLI           | :yellow_circle: |                         |
 | GUI           | :red_circle:    |                         |
-| RMI           | :green_circle:  | 100%                    |
-| TCP           | :yellow_circle: | 20%                     |
+| RMI           | :green_circle:  |                         |
+| TCP           | :yellow_circle: |                         |
 
 
 

@@ -34,6 +34,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     private View view;
 
     private Object lock = new Object();
+    private boolean toPing = true;
 
 
     /**
@@ -181,7 +182,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         Thread t = new Thread(() -> {
             synchronized (lock) {
                 System.out.println("New Ping Thread starting");
-                while (true) {
+                while (toPing) {
                     try {
                         this.pingServer();
                         lock.wait(ServerConstants.PING_TIME);
@@ -265,6 +266,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * This manages the disconnection
      */
     private void gracefulDisconnection(){
+        System.out.println("Terminating Ping Thread");
+        this.toPing = false;
         System.out.println("Initializing graceful disconnection");
         view.update(State.GRACEFULDISCONNECTION, null);
     }

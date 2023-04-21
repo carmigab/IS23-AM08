@@ -4,9 +4,7 @@ import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.network.client.exceptions.TimeOutException;
 
-import java.rmi.RemoteException;
-
-public class SocketClientHandler {
+public class TcpClientHandler {
     public void update(State newState, GameInfo newInfo) throws TimeOutException {}
 
     public void isAlive() throws TimeOutException {}

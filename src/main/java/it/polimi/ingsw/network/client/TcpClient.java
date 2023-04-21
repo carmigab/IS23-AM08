@@ -279,12 +279,12 @@ public class TcpClient implements Client{
     }
 
     private void gracefulDisconnection(){
+        System.out.println("Initializing graceful disconnection");
         System.out.println("Terminating Ping thread");
         this.toPing = false;
         System.out.println("Terminating messageListener");
         this.listeningForMessages = false;
 
-        System.out.println("Initializing graceful disconnection");
         try {
             System.out.println("Closing socket");
             this.socket.close();

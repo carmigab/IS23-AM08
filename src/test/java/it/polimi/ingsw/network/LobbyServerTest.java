@@ -1,7 +1,11 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.network.client.RmiClient;
+import it.polimi.ingsw.network.client.RmiClientInterface;
 import it.polimi.ingsw.network.server.LobbyServer;
 import it.polimi.ingsw.network.server.LobbyServerConfig;
+import it.polimi.ingsw.network.server.constants.ServerConstants;
 import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.network.server.exceptions.ExistentNicknameExcepiton;
 import it.polimi.ingsw.network.server.exceptions.IllegalNicknameException;
@@ -10,6 +14,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -66,22 +71,23 @@ class LobbyServerTest {
 
     @Disabled
     @Test
-    public void testCreateGame() throws RemoteException, ExistentNicknameExcepiton, IllegalNicknameException, NonExistentNicknameException, AlreadyInGameException {
+    public void testCreateGame() throws RemoteException, ExistentNicknameExcepiton, IllegalNicknameException, NonExistentNicknameException, AlreadyInGameException, NotBoundException, InterruptedException {
         LobbyServer ls=new LobbyServer();
+        RmiClientInterface rmiClient = new RmiClient("The one who tests", null, "localhost", ServerConstants.RMI_PORT);
         //Let's use a banned word first
         String nickname="all";
-        assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("Matteoa"));
+        assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("The one who tests"));
         // it should not let you create the game (for the moment we do not care about the clients, so let them null
-        assertThrows(NonExistentNicknameException.class, ()-> ls.createGame(3, nickname, null));
+        assertThrows(NonExistentNicknameException.class, ()-> ls.createGame(3, nickname, rmiClient));
         // now use a normal nickname but still should throw same exception
         String nickname2="Gabriele";
-        assertThrows(NonExistentNicknameException.class, ()-> ls.createGame(3, nickname2, null));
+        assertThrows(NonExistentNicknameException.class, ()-> ls.createGame(3, nickname2, rmiClient));
         // now add it
         assertTrue(ls.chooseNickname(nickname2));
         //and ask same thing but do not throw anything
-        assertNotNull(ls.createGame(3,nickname2,null));
+        assertNotNull(ls.createGame(3,nickname2,rmiClient));
         //if we try to add it again with the same nickname it should not be possible
-        assertThrows(AlreadyInGameException.class, ()-> ls.createGame(3, nickname2, null));
+        assertThrows(AlreadyInGameException.class, ()-> ls.createGame(3, nickname2, rmiClient));
     }
 
 }

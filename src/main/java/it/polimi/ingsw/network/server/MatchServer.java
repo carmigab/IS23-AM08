@@ -22,7 +22,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
     // This list represents also the playing order
     private List<String> nicknamesList = new ArrayList<>();
     private List<RmiClientInterface> rmiClientsList = new ArrayList<>();
-    private List<SocketClientHandler> tcpClientsList = new ArrayList<>();
+    private List<TcpClientHandler> tcpClientsList = new ArrayList<>();
     private int numPlayers;
     private State state;
 
@@ -129,7 +129,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
     }
 
 
-    public void addPlayer(String nickname, SocketClientHandler tcpClient){
+    public void addPlayer(String nickname, TcpClientHandler tcpClient){
         nicknamesList.add(nickname);
         tcpClientsList.add(tcpClient);
         System.out.println("Added player: "+nickname);
@@ -222,9 +222,9 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
             }
 
             // This updates the tcp clients
-            Iterator<SocketClientHandler> tcpIter = tcpClientsList.iterator();
+            Iterator<TcpClientHandler> tcpIter = tcpClientsList.iterator();
             while (tcpIter.hasNext()) {
-                SocketClientHandler client = tcpIter.next();
+                TcpClientHandler client = tcpIter.next();
                 try {
                     client.update(newState, newInfo);
                 } catch (TimeOutException e) {
@@ -278,9 +278,9 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
         }
 
         // This updates the tcp clients
-        Iterator<SocketClientHandler> tcpIter = tcpClientsList.iterator();
+        Iterator<TcpClientHandler> tcpIter = tcpClientsList.iterator();
         while (tcpIter.hasNext()) {
-            SocketClientHandler client = tcpIter.next();
+            TcpClientHandler client = tcpIter.next();
             //System.out.println(client);
             try {
                 client.update(State.GRACEFULDISCONNECTION, null);
@@ -321,9 +321,9 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
         }
 
         // This pings the tcp clients
-        Iterator<SocketClientHandler> tcpIter = tcpClientsList.iterator();
+        Iterator<TcpClientHandler> tcpIter = tcpClientsList.iterator();
         while (tcpIter.hasNext()) {
-            SocketClientHandler client = tcpIter.next();
+            TcpClientHandler client = tcpIter.next();
             try {
                 client.isAlive();
                 //System.out.println("Ping");
@@ -361,9 +361,9 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
         }
 
         // This updates the tcp clients
-        Iterator<SocketClientHandler> tcpIter = tcpClientsList.iterator();
+        Iterator<TcpClientHandler> tcpIter = tcpClientsList.iterator();
         while (tcpIter.hasNext()) {
-            SocketClientHandler client = tcpIter.next();
+            TcpClientHandler client = tcpIter.next();
             try {
                 if (client.name().equals(receiver)) client.receiveMessage(messageToSend);
                 else if(client.name().equals(speaker)) client.receiveMessage(messageToSend);
@@ -399,9 +399,9 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
         }
 
         // This updates the tcp clients
-        Iterator<SocketClientHandler> tcpIter = tcpClientsList.iterator();
+        Iterator<TcpClientHandler> tcpIter = tcpClientsList.iterator();
         while (tcpIter.hasNext()) {
-            SocketClientHandler client = tcpIter.next();
+            TcpClientHandler client = tcpIter.next();
             try {
                 client.receiveMessage(messageToSend);
             } catch (TimeOutException e) {

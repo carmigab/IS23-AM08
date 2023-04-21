@@ -81,7 +81,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      */
     @Override
     public void update(State newState, GameInfo newInfo) throws RemoteException {
-        this.view.update(newState, newInfo);
+        if (newState == State.GRACEFULDISCONNECTION) this.gracefulDisconnection();
+        else this.view.update(newState, newInfo);
     }
 
     /**
@@ -168,9 +169,6 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @throws NotBoundException
      */
     private void connectToMatchServer(String matchServerName) throws RemoteException, NotBoundException {
-//        System.out.println("Looking up the registry for MatchServer");
-//        System.out.println("Name: "+c.getRegistryName()+" Port: "+c.getRegistryPort());
-//        Registry registry = LocateRegistry.getRegistry("192.168.43.4", c.getRegistryPort());
         this.matchServer = (RmiServerInterface) this.lobbyRegistry.lookup(matchServerName);
 
         // new thread to ping server
@@ -266,9 +264,9 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * This manages the disconnection
      */
     private void gracefulDisconnection(){
+        System.out.println("Initializing graceful disconnection");
         System.out.println("Terminating Ping Thread");
         this.toPing = false;
-        System.out.println("Initializing graceful disconnection");
         view.update(State.GRACEFULDISCONNECTION, null);
     }
 

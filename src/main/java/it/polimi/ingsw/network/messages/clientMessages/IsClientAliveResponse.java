@@ -5,5 +5,6 @@ import it.polimi.ingsw.network.messages.Message;
 public class IsClientAliveResponse extends Message {
     public IsClientAliveResponse(String sender) {
         super(sender);
+        setMessageType("IsClientAliveResponse");
     }
 }

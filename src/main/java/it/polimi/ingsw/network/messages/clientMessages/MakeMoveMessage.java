@@ -13,6 +13,7 @@ public class MakeMoveMessage extends Message {
         super(text);
         this.pos = pos;
         this.col = col;
+        setMessageType("MakeMoveMessage");
     }
 
     public List<Position> getPositions(){

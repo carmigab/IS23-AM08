@@ -6,10 +6,12 @@ public class CreateGameResponse extends Message {
     private boolean nonExistentNickname = false;
     private boolean alreadyInGame = false;
 
+
     public CreateGameResponse(String sender, boolean nonExistentNickname, boolean alreadyInGame) {
         super(sender);
         this.nonExistentNickname = nonExistentNickname;
         this.alreadyInGame = alreadyInGame;
+        setMessageType("CreateGameResponse");
     }
 
     public boolean isAlreadyInGame() {

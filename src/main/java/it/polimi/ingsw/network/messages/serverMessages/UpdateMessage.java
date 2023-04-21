@@ -12,6 +12,7 @@ public class UpdateMessage extends Message {
         super(sender);
         this.newInfo = newInfo;
         this.newState = newState;
+        setMessageType("UpdateMessage");
     }
 
     public State getNewState() {

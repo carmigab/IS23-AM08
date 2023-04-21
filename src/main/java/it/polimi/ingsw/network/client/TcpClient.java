@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.network.client.clientLocks.Lock;
+import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.network.client.exceptions.TimeOutException;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
@@ -33,7 +34,6 @@ public class TcpClient implements Client{
     private View view;
 
     private InputStream inputStream;
-
     private ObjectInputStream objectInputStream;
 
     // Locks
@@ -51,7 +51,7 @@ public class TcpClient implements Client{
 
 
 
-    public TcpClient(String nickname, View fV, String ipToConnect, Integer lobbyPort) throws InterruptedException {
+    public TcpClient(String nickname, View fV, String ipToConnect, Integer lobbyPort) throws InterruptedException, ConnectionError {
         super();
         this.view = fV;
         this.nickname = nickname;
@@ -62,23 +62,32 @@ public class TcpClient implements Client{
 
 
 
-    private void connectToLobbyServer(String ipToConnect, Integer lobbyPort) throws InterruptedException {
+    private void connectToLobbyServer(String ipToConnect, Integer lobbyPort) throws InterruptedException, ConnectionError {
         while (true) {
             try {
                 this.socket = new Socket(ipToConnect, lobbyPort);
                 System.out.println("Tcp connection established");
 
-                this.outputStream = socket.getOutputStream();
-                this.objectOutputStream = new ObjectOutputStream(outputStream);
-
-                this.inputStream = socket.getInputStream();
-                this.objectInputStream  = new ObjectInputStream(inputStream);
                 break;
             } catch (IOException e) {
                 System.out.println("Server not found");
                 Thread.sleep(5000);
             }
         }
+
+        // Opening output streams
+        try {
+            System.out.println("Opening Output Streams");
+            this.outputStream = socket.getOutputStream();
+            this.objectOutputStream = new ObjectOutputStream(outputStream);
+        } catch (IOException e) {
+            System.out.println("Failed opening Output Streams");
+            this.gracefulDisconnection();
+            throw new ConnectionError();
+        }
+
+
+
 
         // Thread to receive messages from server
         this.createInboundMessagesThread();
@@ -89,28 +98,36 @@ public class TcpClient implements Client{
 
 
     private void createInboundMessagesThread(){
+        System.out.println("New MessagesListener Thread starting");
+        System.out.println("Opening Input Streams");
         Thread t = new Thread(() -> {
-            synchronized (messagesListenerLock){
-                System.out.println("New MessagesListener Thread starting");
-                while(listeningForMessages){
-                    try {
-                        Message message = (Message) objectInputStream.readObject();
-                        this.manageInboundTcpMessages(message);
+            try {
+                this.inputStream = socket.getInputStream();
+                this.objectInputStream  = new ObjectInputStream(inputStream);
+            } catch (IOException e) {
+                System.out.println("Failed opening Input Streams");
+                this.gracefulDisconnection();
+            }
 
-                    } catch (IOException e) {
-                        if (listeningForMessages){
-                            System.out.println("IOException from InboundMessagesThread");
-                            this.gracefulDisconnection();
-                        }
-                    } catch (ClassNotFoundException e) {
-                        if (listeningForMessages){
-                            System.out.println("ClassNotFoundException from InboundMessagesThread");
-                            this.gracefulDisconnection();
-                        }
+
+            while(listeningForMessages){
+                try {
+                    Message message = (Message) objectInputStream.readObject();
+                    this.manageInboundTcpMessages(message);
+
+                } catch (IOException e) {
+                    if (listeningForMessages){
+                        System.out.println("IOException from InboundMessagesThread");
+                        this.gracefulDisconnection();
+                    }
+                } catch (ClassNotFoundException e) {
+                    if (listeningForMessages){
+                        System.out.println("ClassNotFoundException from InboundMessagesThread");
+                        this.gracefulDisconnection();
                     }
                 }
-
             }
+
         });
         t.start();
 
@@ -118,16 +135,18 @@ public class TcpClient implements Client{
 
 
     private void createPingThread(){
+        System.out.println("New Ping Thread starting");
         Thread t = new Thread(() -> {
             synchronized (pingThreadLock) {
-                System.out.println("New Ping Thread starting");
                 while (toPing) {
                     try {
-                    this.manageTcpConversation(pingThreadLock, new PingMessage(this.nickname));
+                    this.manageTcpConversation(pingThreadLock, new PingClientMessage(this.nickname));
                     pingThreadLock.wait(ServerConstants.PING_TIME);
                     } catch (InterruptedException e) {
                         System.out.println("Interrupted exception from PingThread");
                         this.gracefulDisconnection();
+                    } catch (ConnectionError e) {
+                        //ignore
                     }
                 }
 
@@ -138,7 +157,7 @@ public class TcpClient implements Client{
 
 
     // This method tries to retrieve the received message from the lock
-    public Message manageTcpConversation(Lock lock, Message message) {
+    public Message manageTcpConversation(Lock lock, Message message) throws ConnectionError {
         try {
             synchronized (lock) {
                 this.sendTcpMessage(message);
@@ -158,17 +177,19 @@ public class TcpClient implements Client{
             this.gracefulDisconnection();
         }
 
-        // the code should never arrive here
-        this.gracefulDisconnection();
-        System.out.println("Should never arrive here");
-        return new Message("Error");
+        // to comment out
+        System.out.println("ManageTcpConversation failed");
+        throw new ConnectionError();
     }
 
 
     private void sendTcpMessage(Message message){
-        System.out.println("Sending message to Server socket");
+        if (!message.toString().equals("PingClientMessage"))
+            System.out.println("Sending "+message.toString() +" to Server socket");
         try {
             this.objectOutputStream.writeObject(message);
+            this.objectOutputStream.flush();
+            //this.objectOutputStream.reset();
         } catch (IOException e) {
             System.out.println("An error occurred while trying to send a message to the server");
             this.gracefulDisconnection();
@@ -190,7 +211,7 @@ public class TcpClient implements Client{
             notifyLockAndSetMessage(joinGameLock, message);
         else if (message instanceof MakeMoveResponse)
             notifyLockAndSetMessage(makeMoveLock, message);
-        else if (message instanceof PingResponse)
+        else if (message instanceof PingClientResponse)
             notifyLockAndSetMessage(pingThreadLock, message);
 
         // asynchronous messages
@@ -223,14 +244,15 @@ public class TcpClient implements Client{
 
     // synchronous methods
 
-    public boolean chooseNickname(String nick){
+    public boolean chooseNickname(String nick) throws ConnectionError {
         ChooseNicknameResponse response = (ChooseNicknameResponse) this.manageTcpConversation(chooseNicknameLock,
                 new ChooseNicknameMessage(nick));
+        if (response.getResponse()) this.nickname = nick;
         return response.getResponse();
     }
 
 
-    public void makeMove(List<Position> pos, int col) throws InvalidMoveException, InvalidNicknameException{
+    public void makeMove(List<Position> pos, int col) throws InvalidMoveException, InvalidNicknameException, ConnectionError {
         MakeMoveResponse response = (MakeMoveResponse) this.manageTcpConversation(makeMoveLock,
                 new MakeMoveMessage(this.nickname, pos, col));
         if (response.isInvalidMove()) throw new InvalidMoveException();
@@ -238,30 +260,32 @@ public class TcpClient implements Client{
     }
 
 
-    public void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException {
+    public void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException, ConnectionError {
         CreateGameResponse response = (CreateGameResponse) this.manageTcpConversation(createGameLock,
                 new CreateGameMessage(this.nickname, num));
+        System.out.println(this.nickname);
         if (response.isNonExistentNickname()) throw new NonExistentNicknameException();
         if (response.isAlreadyInGame()) throw new AlreadyInGameException();
     }
 
 
-    public void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException{
+    public void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError {
         JoinGameResponse response = (JoinGameResponse) this.manageTcpConversation(joinGameLock,
                 new JoinGameMessage(this.nickname));
         if (response.isAlreadyInGame()) throw new AlreadyInGameException();
         if (response.isNoGamesAvailable()) throw new NoGamesAvailableException();
         if (response.isNonExistentNickname()) throw new NonExistentNicknameException();
 
+
     }
 
 
-    public void messageSomeone(String chatMessage, String receiver){
+    public void messageSomeone(String chatMessage, String receiver) throws ConnectionError {
         this.manageTcpConversation(chatSomeoneLock, new ChatSomeoneMessage(this.nickname, chatMessage, receiver));
     }
 
 
-    public void messageAll(String chatMessage){
+    public void messageAll(String chatMessage) throws ConnectionError {
         this.manageTcpConversation(chatAllLock, new ChatAllMessage(this.nickname, chatMessage));
     }
 
@@ -271,7 +295,8 @@ public class TcpClient implements Client{
     // asynchronous methods
 
     private void update(State newState, GameInfo newInfo){
-        this.view.update(newState, newInfo);
+        if (newState == State.GRACEFULDISCONNECTION) this.gracefulDisconnection();
+        else this.view.update(newState, newInfo);
     }
 
     private void receiveMessage(String message){
@@ -298,6 +323,4 @@ public class TcpClient implements Client{
 
 
 // to do:
-// add the remaining messages
-// finish the manageInboundTcpMessages
-// launch the listening thread
+// make the graceful disconnection throw an exception

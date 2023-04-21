@@ -11,6 +11,7 @@ public class ChatSomeoneMessage extends Message {
 
         this.chatMessage = chatMessage;
         this.receiver = receiver;
+        setMessageType("ChatSomeoneMessage");
     }
 
     public String getChatMessage(){

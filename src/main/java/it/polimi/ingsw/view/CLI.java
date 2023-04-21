@@ -11,6 +11,7 @@ import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.network.client.TcpClient;
+import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.network.server.constants.ServerConstants;
 import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.network.server.exceptions.NoGamesAvailableException;
@@ -296,6 +297,8 @@ public class CLI extends View{
                 printMessage("Error: invalid nickname ", AnsiEscapeCodes.ERROR_MESSAGE);
             } catch (InvalidMoveException e) {
                 printMessage("Error: invalid move please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+            } catch (ConnectionError e) {
+                // ignore
             }
     }
 
@@ -476,6 +479,8 @@ public class CLI extends View{
             } catch (InterruptedException e) {
                 printMessage("error while connecting to the server", AnsiEscapeCodes.ERROR_MESSAGE);
                 close("Client closing, try again later");
+            } catch (ConnectionError e) {
+                //ignore?
             }
         }
     }
@@ -485,11 +490,17 @@ public class CLI extends View{
      */
     @Override
     public void askNickname() {
-        printMessage("Please insert your nickname: ", AnsiEscapeCodes.INFO_MESSAGE);
-        myNickname = scanner.nextLine();
-        while (myNickname.equals("") || !client.chooseNickname(myNickname)) {
-            printMessage("Invalid nickname, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+        try {
+
+
+            printMessage("Please insert your nickname: ", AnsiEscapeCodes.INFO_MESSAGE);
             myNickname = scanner.nextLine();
+            while (myNickname.equals("") || !client.chooseNickname(myNickname)) {
+                printMessage("Invalid nickname, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+                myNickname = scanner.nextLine();
+            }
+        } catch (ConnectionError e) {
+            //ignore
         }
     }
 
@@ -513,6 +524,8 @@ public class CLI extends View{
                     client.createGame(Integer.parseInt(playersNumber));
                 } catch (NonExistentNicknameException | AlreadyInGameException e) {
                     throw new RuntimeException(e);
+                } catch (ConnectionError e) {
+                    //ignore
                 }
                 gameSelected = true;
             }
@@ -522,6 +535,8 @@ public class CLI extends View{
                         client.joinGame();
                     } catch (NonExistentNicknameException | AlreadyInGameException e) {
                         throw new RuntimeException(e);
+                    } catch (ConnectionError e) {
+                        //ignore
                     }
                     gameSelected = true;
                 } catch (NoGamesAvailableException e) {

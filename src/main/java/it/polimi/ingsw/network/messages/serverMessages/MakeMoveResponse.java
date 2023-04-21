@@ -10,6 +10,7 @@ public class MakeMoveResponse extends Message {
         super(sender);
         this.invalidMove = invalidMove;
         this.invalidNickname = invalidNickname;
+        setMessageType("MakeMoveResponse");
     }
 
     public boolean isInvalidMove(){

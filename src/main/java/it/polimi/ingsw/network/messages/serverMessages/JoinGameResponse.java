@@ -13,6 +13,7 @@ public class JoinGameResponse extends Message {
         this.alreadyInGame = alreadyInGame;
         this.noGamesAvailable = noGamesAvailable;
         this.nonExistentNickname = nonExistentNickname;
+        setMessageType("JoinGameResponse");
     }
 
     public boolean isAlreadyInGame() {

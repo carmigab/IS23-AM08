@@ -8,6 +8,7 @@ public class ChatReceiveMessage extends Message {
     public ChatReceiveMessage(String sender, String chatMessage) {
         super(sender);
         this.chatMessage = chatMessage;
+        setMessageType("ChatReceiveMessage");
     }
 
     public String getChatMessage(){

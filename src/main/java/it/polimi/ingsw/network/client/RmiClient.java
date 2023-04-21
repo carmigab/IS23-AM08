@@ -6,6 +6,7 @@ import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.network.client.clientLocks.Lock;
+import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.network.server.RmiServerInterface;
 import it.polimi.ingsw.network.server.RMILobbyServerInterface;
 import it.polimi.ingsw.network.server.constants.ServerConstants;
@@ -92,7 +93,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @throws RemoteException
      */
     @Override
-    public boolean chooseNickname(String nick) {
+    public boolean chooseNickname(String nick) throws ConnectionError {
         boolean flag = false;
         try {
             flag = lobbyServer.chooseNickname(nick);
@@ -102,6 +103,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
             System.out.println("Remote exception from chooseNickname");
             //e.printStackTrace();
             this.gracefulDisconnection();
+            throw new ConnectionError();
         }
 
         if (flag) this.nickname = nick;
@@ -114,12 +116,13 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @param col : the column of the shelf
      * @throws RemoteException
      */
-    public void makeMove(List<Position> pos, int col) throws InvalidNicknameException, InvalidMoveException {
+    public void makeMove(List<Position> pos, int col) throws InvalidNicknameException, InvalidMoveException, ConnectionError {
         try {
             this.matchServer.makeMove(pos, col, nickname);
         } catch (RemoteException e) {
             System.out.println("Remote exception from makeMove");
             this.gracefulDisconnection();
+            throw new ConnectionError();
         }
     }
 
@@ -129,16 +132,18 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @throws RemoteException
      * @throws NotBoundException
      */
-    public void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException {
+    public void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException, ConnectionError {
         try {
             String matchServerName = this.lobbyServer.createGame(num, nickname, this);
             this.connectToMatchServer(matchServerName);
         } catch (RemoteException e) {
             System.out.println("Remote exception from createGame");
             this.gracefulDisconnection();
+            throw new ConnectionError();
         } catch (NotBoundException e) {
             System.out.println("Trying to lock up an unbound registry");
             this.gracefulDisconnection();
+            throw new ConnectionError();
         }
     }
 
@@ -147,16 +152,18 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @throws RemoteException
      * @throws NotBoundException
      */
-    public void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException {
+    public void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError {
         try {
             String matchServerName = this.lobbyServer.joinGame(nickname, this);
             this.connectToMatchServer(matchServerName);
         } catch (RemoteException e) {
             System.out.println("Remote exception from joinGame");
             this.gracefulDisconnection();
+            throw new ConnectionError();
         } catch (NotBoundException e) {
             System.out.println("Trying to lock up an unbound registry");
             this.gracefulDisconnection();
+            throw new ConnectionError();
         }
 
     }
@@ -210,12 +217,13 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @param receiver : the one that is supposed to receive the message
      * @throws RemoteException
      */
-    public void messageSomeone(String message, String receiver){
+    public void messageSomeone(String message, String receiver) throws ConnectionError {
         try {
             this.matchServer.messageSomeone(message, this.nickname, receiver);
         } catch (RemoteException e) {
             System.out.println("Remote exception from chat");
             this.gracefulDisconnection();
+            throw new ConnectionError();
         }
     }
 
@@ -224,12 +232,13 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @param message
      * @throws RemoteException
      */
-    public void messageAll(String message){
+    public void messageAll(String message) throws ConnectionError {
         try {
             this.matchServer.messageAll(message, this.nickname);
         } catch (RemoteException e) {
             System.out.println("Remote exception from chat");
             this.gracefulDisconnection();
+            throw new ConnectionError();
         }
 
     }
@@ -263,11 +272,14 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     /**
      * This manages the disconnection
      */
-    private void gracefulDisconnection(){
+    private void gracefulDisconnection() {
         System.out.println("Initializing graceful disconnection");
         System.out.println("Terminating Ping Thread");
         this.toPing = false;
         view.update(State.GRACEFULDISCONNECTION, null);
+
     }
 
 }
+
+   // make the graceful disconnection throw an exception

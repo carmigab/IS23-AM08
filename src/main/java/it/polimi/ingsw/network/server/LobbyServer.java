@@ -298,7 +298,10 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             this.nicknamesInGame.add(nickname);
             MatchServer rs = new MatchServer(numPlayers, this);
             if (rmiInvocation) rs.addPlayer(nickname, rmiClient);
-            else rs.addPlayer(nickname, tcpClient);
+            else {
+                rs.addPlayer(nickname, tcpClient);
+                tcpClient.setMatchServer(rs);
+            }
             this.serverList.add(rs);
             String gameName = this.config.getStartingName()+(this.serverList.size());
             this.serverInformation.add(gameName);
@@ -327,7 +330,10 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
                 System.out.println("Joining game recovered from persistance...");
                 String toReturn=this.potentialPlayers.get(nickname).orElseGet(()->this.recoverGame(nickname));
                 if (rmiInvocation) this.serverList.get(this.serverInformation.indexOf(toReturn)).addPlayer(nickname, rmiClient);
-                else this.serverList.get(this.serverInformation.indexOf(toReturn)).addPlayer(nickname, tcpClient);
+                else{
+                    this.serverList.get(this.serverInformation.indexOf(toReturn)).addPlayer(nickname, tcpClient);
+                    tcpClient.setMatchServer(this.serverList.get(this.serverInformation.indexOf(toReturn)));
+                }
                 this.potentialPlayers.remove(nickname);
                 return toReturn;
             }
@@ -339,7 +345,10 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
                 if(this.serverList.get(gameFound).getFreeSpaces()>0){
                     System.out.println("Joining game at random...");
                     if (rmiInvocation) this.serverList.get(gameFound).addPlayer(nickname, rmiClient);
-                    else this.serverList.get(gameFound).addPlayer(nickname, tcpClient);
+                    else {
+                        this.serverList.get(gameFound).addPlayer(nickname, tcpClient);
+                        tcpClient.setMatchServer(this.serverList.get(gameFound));
+                    }
                     this.nicknamesInGame.add(nickname);
                     return this.serverInformation.get(gameFound);
                 }
@@ -475,7 +484,9 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             while (true) {
                 try {
                     Socket socket = serverSocket.accept();
-                    executor.submit(new TcpClientHandler(socket));
+                    System.out.println("Accepted new tcp connection");
+                    executor.submit(new TcpClientHandler(socket, this));
+                    System.out.println("Connection submitted to executor");
                 } catch(IOException e) {
                     System.out.println("Error while accepting tcp connection");
                     break;

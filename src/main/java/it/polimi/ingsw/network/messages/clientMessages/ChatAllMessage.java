@@ -8,6 +8,7 @@ public class ChatAllMessage extends Message {
         super(text);
 
         this.chatMessage = chatMessage;
+        setMessageType("ChatAllMessage");
     }
 
     public String getChatMessage(){

@@ -4,7 +4,14 @@ import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.network.client.exceptions.TimeOutException;
 
-public class TcpClientHandler {
+import java.net.Socket;
+
+public class TcpClientHandler implements Runnable{
+    Socket socket;
+
+    TcpClientHandler(Socket socket) {
+        this.socket = socket;
+    }
     public void update(State newState, GameInfo newInfo) throws TimeOutException {}
 
     public void isAlive() throws TimeOutException {}
@@ -12,4 +19,9 @@ public class TcpClientHandler {
     public String name() {return "Bill1";}
 
     public void receiveMessage(String message) throws TimeOutException{}
+
+    @Override
+    public void run() {
+
+    }
 }

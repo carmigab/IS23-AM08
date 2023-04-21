@@ -8,12 +8,16 @@ import it.polimi.ingsw.network.server.constants.ServerConstants;
 import it.polimi.ingsw.network.server.exceptions.*;
 
 import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * This class sets up the main server which will make the player set his name and choose a game to join
@@ -172,12 +176,19 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             this.registry.bind(this.config.getServerName(), this);
 
             System.out.println("RMI Server online...");
-            System.out.println("Name: "+this.config.getServerName()+" Port: "+this.config.getServerPortRMI());
         }catch (RemoteException e){
             System.out.println(e.getMessage());
         } catch (AlreadyBoundException e) {
             System.out.println(e.getMessage());
         }
+
+        // Here we start the Tcp Server
+        this.startTcpServer(this.config.getServerPortTCP());
+
+        // Info about the server
+        System.out.println("Name: "+this.config.getServerName());
+        System.out.println("Rmi Port: "+this.config.getServerPortRMI());
+        System.out.println("Tcp Port: "+this.config.getServerPortTCP());
     }
 
     /**
@@ -444,5 +455,38 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
 
     public String createGame(Integer numPlayers, String nickname, TcpClientHandler tcpClient) throws RemoteException, AlreadyInGameException, NonExistentNicknameException{
         return this.createGameTcpRmi(numPlayers, nickname, null, tcpClient, false);
+    }
+
+    public void startTcpServer(int port){
+        System.out.println("Starting Tcp Server...");
+
+        Thread t = new Thread(() -> {
+            ExecutorService executor = Executors.newCachedThreadPool();
+            ServerSocket serverSocket;
+
+            try {
+                serverSocket = new ServerSocket(port);
+            } catch (IOException e) {
+                System.out.println("Error while opening the tcp Server port");
+                System.err.println(e.getMessage());
+                return;
+            }
+
+            while (true) {
+                try {
+                    Socket socket = serverSocket.accept();
+                    executor.submit(new TcpClientHandler(socket));
+                } catch(IOException e) {
+                    System.out.println("Error while accepting tcp connection");
+                    break;
+                }
+            }
+
+            executor.shutdown();
+            System.out.println("Shutting down Tcp Server");
+        });
+        t.start();
+
+        System.out.println("Tcp Server online...");
     }
 }

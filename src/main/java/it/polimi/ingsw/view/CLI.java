@@ -470,7 +470,7 @@ public class CLI extends View{
         else {
             try {
                 System.out.println("Tcp connection is not ready, problems may occur");
-                if (port.equals("default")) intPort = ServerConstants.TCP_PORT;
+                if (port.equals("default") || port.equals("")) intPort = ServerConstants.TCP_PORT;
                 else intPort = Integer.valueOf(port);
                 client = new TcpClient(myNickname, this, ip, intPort);
             } catch (InterruptedException e) {

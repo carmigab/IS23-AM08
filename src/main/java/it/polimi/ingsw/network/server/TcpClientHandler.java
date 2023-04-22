@@ -13,10 +13,11 @@ import it.polimi.ingsw.network.messages.clientMessages.ChatSomeoneMessage;
 import it.polimi.ingsw.network.messages.serverMessages.*;
 import it.polimi.ingsw.network.server.constants.ServerConstants;
 import it.polimi.ingsw.network.server.exceptions.*;
-import it.polimi.ingsw.view.View;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.rmi.RemoteException;
 
 public class TcpClientHandler implements Runnable{
@@ -27,6 +28,7 @@ public class TcpClientHandler implements Runnable{
     String nickname;
 
     boolean listeningForMessages = true;
+    boolean tcpClientHandlerOnline = true;
 
     OutputStream outputStream;
     ObjectOutputStream objectOutputStream;
@@ -37,7 +39,14 @@ public class TcpClientHandler implements Runnable{
 
     Thread listeningThread;
 
-    Lock uselessLock = new Lock();
+    Lock updateLock = new Lock();
+    Lock isClientAliveLock = new Lock();
+    Lock chatReceiveMessageLock = new Lock();
+    Lock manageTcpConversationLock = new Lock();
+
+    // flag to mute the clientHandler
+    private boolean mute = true;
+
 
     TcpClientHandler(Socket socket, LobbyServer lobbyServer) {
         this.socket = socket;
@@ -47,13 +56,21 @@ public class TcpClientHandler implements Runnable{
 
     @Override
     public void run() {
+        // Setting a timeout, client must keep heartbeat
+        try {
+            this.socket.setSoTimeout(ServerConstants.PING_TIME+ServerConstants.TCP_WAIT_TIME+1000);
+        } catch (SocketException e) {
+            if(!mute) System.out.println("CH["+nickname+"]: SocketException");
+            this.disconnection();
+        }
+
         // Opening output streams
         try {
-            System.out.println("Opening Output Streams");
+            if(!mute) System.out.println("CH: Opening Output Streams");
             this.outputStream = socket.getOutputStream();
             this.objectOutputStream = new ObjectOutputStream(outputStream);
         } catch (IOException e) {
-            System.out.println("Failed opening Output Streams");
+            if(!mute) System.out.println("CH["+nickname+"]: Failed opening Output Streams");
             this.disconnection();
         }
 
@@ -65,14 +82,14 @@ public class TcpClientHandler implements Runnable{
     }
 
     private void createInboundMessagesThread(){
-        System.out.println("New MessagesListener Thread starting");
-        System.out.println("Opening Input Streams");
+        if(!mute) System.out.println("CH["+nickname+"]: New MessagesListener Thread starting");
+        if(!mute) System.out.println("CH["+nickname+"]: Opening Input Streams");
         Thread t = new Thread(() -> {
             try {
                 this.inputStream = socket.getInputStream();
                 this.objectInputStream  = new ObjectInputStream(inputStream);
             } catch (IOException e) {
-                System.out.println("Failed opening Input Streams");
+                if(!mute) System.out.println("CH["+nickname+"]: Failed opening Input Streams");
                 this.disconnection();
             }
 
@@ -82,16 +99,22 @@ public class TcpClientHandler implements Runnable{
                     Message message = (Message) objectInputStream.readObject();
                     this.manageInboundTcpMessages(message);
 
-                } catch (IOException e) {
+                } catch (SocketTimeoutException e) {
+                    if(!mute) System.out.println("CH["+nickname+"]: SocketTimeoutException from InboundMessagesThread");
+                    // e.printStackTrace();
+                    this.disconnection();
+                    break;
+                }
+                catch (IOException e) {
                     if (listeningForMessages){
-                        System.out.println("IOException from InboundMessagesThread");
-                        e.printStackTrace();
+                        if(!mute) System.out.println("CH["+nickname+"]: IOException from InboundMessagesThread");
+                        // e.printStackTrace();
                         this.disconnection();
                         break;
                     }
                 } catch (ClassNotFoundException e) {
                     if (listeningForMessages){
-                        System.out.println("ClassNotFoundException from InboundMessagesThread");
+                        if(!mute) System.out.println("CH["+nickname+"]: ClassNotFoundException from InboundMessagesThread");
                         this.disconnection();
                         break;
                     }
@@ -103,30 +126,9 @@ public class TcpClientHandler implements Runnable{
 
     }
 
-    public Message manageTcpConversation(Lock lock, Message message) throws TimeOutException {
-        try {
-            synchronized (lock) {
-                this.sendTcpMessage(message);
-                lock.wait(ServerConstants.TCP_WAIT_TIME);
-                // we try to retrieve the message from the lock
-                Message newMessage = lock.getMessage();
-                lock.reset();
-                // if the new Message == null it means that we did not receive a response message from the server
-                if (newMessage == null) throw new TimeOutException();
-                return newMessage;
-            }
-        } catch (InterruptedException e) {
-            System.out.println("Interrupted Exception");
-            this.disconnection();
-        } catch (TimeOutException e) {
-            System.out.println("Tcp server too slow to respond");
-            this.disconnection();
-        }
-
-        throw new TimeOutException();
-    }
-
     public void manageInboundTcpMessages(Message message){
+        if (!message.toString().equals("PingClientMessage"))
+            if(!mute) System.out.println("CH["+nickname+"]: Received a "+message.toString()+" from "+message.sender());
         try {
             // asynchronous messages
             if (message instanceof ChatAllMessage) {
@@ -139,7 +141,6 @@ public class TcpClientHandler implements Runnable{
                 this.matchServer.messageSomeone(m.getChatMessage(), m.sender(), m.getReceiver());
                 sendTcpMessage(new ChatSomeoneResponse("Server"));
             }
-
             else if (message instanceof ChooseNicknameMessage) {
                 ChooseNicknameMessage m = (ChooseNicknameMessage) message;
                 boolean response;
@@ -184,7 +185,6 @@ public class TcpClientHandler implements Runnable{
                 }
                 sendTcpMessage(new JoinGameResponse("Server", noGamesAvailable, nonExistentNickname, alreadyInGame));
             }
-
             else if (message instanceof MakeMoveMessage) {
                 MakeMoveMessage m = (MakeMoveMessage) message;
                 boolean invalidNickname = false;
@@ -198,56 +198,92 @@ public class TcpClientHandler implements Runnable{
                 }
                 sendTcpMessage(new MakeMoveResponse("Server", invalidMove, invalidNickname));
             }
+            else if (message instanceof IsServerAliveMessage)
+                this.sendTcpMessage(new IsServerAliveResponse("Server"));
 
-            else if (message instanceof PingClientMessage)
-                this.sendTcpMessage(new PingClientResponse("Server"));
 
+            // The server shouldn't receive responses!!!!
             // synchronous messages
+//            else if (message instanceof UpdateResponse)
+//                notifyLockAndSetMessage(updateLock, message);
+//            else if (message instanceof IsClientAliveResponse)
+//                notifyLockAndSetMessage(isClientAliveLock, message);
+//            else if (message instanceof ChatReceiveResponse)
+//                notifyLockAndSetMessage(chatReceiveMessageLock, message);
 
 
         } catch (RemoteException e) {
+            if(!mute) System.out.println("CH["+nickname+"]: This remote exception shouldn't be here");
             //ignore
         }
     }
 
-    private void notifyLockAndSetMessage(Lock lock, Message message){
-        synchronized (lock){
-            lock.setMessage(message);
-            lock.notify();
-        }
-    }
+
+//    private void notifyLockAndSetMessage(Lock lock, Message message){
+//        synchronized (lock){
+//            lock.setMessage(message);
+//            lock.notify();
+//        }
+//    }
 
 
     private void sendTcpMessage(Message message){
-        if (!message.toString().equals("PingClientResponse"))
-            System.out.println("Sending "+message.toString() +" to the client socket");
-        try {
-            this.objectOutputStream.writeObject(message);
-            this.objectOutputStream.flush();
-            //this.objectOutputStream.reset();
-        } catch (IOException e) {
-            System.out.println("An error occurred while trying to send a message");
-            this.disconnection();
+        if (tcpClientHandlerOnline) {
+            if (!message.toString().equals("PingClientResponse"))
+                if(!mute) System.out.println("CH["+nickname+"]: Sending " + message.toString() + " to the client socket");
+            try {
+                this.objectOutputStream.writeObject(message);
+                this.objectOutputStream.flush();
+                //this.objectOutputStream.reset();
+            } catch (IOException e) {
+                if(!mute) System.out.println("CH["+nickname+"]: An error occurred while trying to send a message");
+                this.disconnection();
+            }
         }
 
     }
 
 
-    public void update(State newState, GameInfo newInfo) throws TimeOutException {}
+    public void update(State newState, GameInfo newInfo) throws TimeOutException {
+        this.sendTcpMessage(new UpdateMessage("Server", newState, newInfo));
+    }
 
-    public void isAlive() throws TimeOutException {}
+    // the client must keep the hearthbeat!!! not the server
+    public void isAlive() throws TimeOutException {
+        if (!tcpClientHandlerOnline) throw new TimeOutException();
+    }
 
-    public String name() {return "Bill1";}
 
-    public void receiveMessage(String message) throws TimeOutException{}
+    public void receiveMessage(String message) throws TimeOutException{
+        this.sendTcpMessage(new ChatReceiveMessage("Server", message));
+    }
+
+
 
     public void setMatchServer(MatchServer matchServer){
         this.matchServer = matchServer;
     }
-
     public void setNickname(String nickname){
         this.nickname = nickname;
     }
+    public String name() {return this.nickname;}
 
-    private void disconnection(){}
+    private synchronized void disconnection(){
+        if (tcpClientHandlerOnline){
+            if(!mute) System.out.println("CH["+nickname+"]: initializing disconnection");
+
+            // ending the listening thread
+            this.listeningForMessages = false;
+
+            try {
+                if(!mute) System.out.println("CH["+nickname+"]: closing socket");
+                this.socket.close();
+            } catch (IOException e) {
+                if(!mute) System.out.println("CH["+nickname+"]: error while closing socket");
+            }
+
+            // changing the flag to the correct value
+            this.tcpClientHandlerOnline = false;
+        }
+    }
 }

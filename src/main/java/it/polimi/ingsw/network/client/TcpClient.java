@@ -44,10 +44,18 @@ public class TcpClient implements Client{
     private Lock chatSomeoneLock = new Lock();
     private Lock chatAllLock = new Lock();
     private Lock messagesListenerLock = new Lock();
+    private Lock pingThreadConversationLock = new Lock();
     private Lock pingThreadLock = new Lock();
+
+    private Lock manageTcpConversationLock = new Lock();
 
     private boolean toPing = true;
     private boolean listeningForMessages = true;
+    private boolean isClientOnline = true;
+
+    private boolean mute = false;
+    // when this flag is true the clients prints only essential messages
+    private boolean essential = true;
 
 
 
@@ -66,46 +74,44 @@ public class TcpClient implements Client{
         while (true) {
             try {
                 this.socket = new Socket(ipToConnect, lobbyPort);
-                System.out.println("Tcp connection established");
-
+                if (!mute) System.out.println("Tcp connection established");
                 break;
             } catch (IOException e) {
-                System.out.println("Server not found");
+                if (!mute) System.out.println("Server not found");
                 Thread.sleep(5000);
             }
         }
 
         // Opening output streams
         try {
-            System.out.println("Opening Output Streams");
+            if (!mute && !essential) System.out.println("Opening Output Streams");
             this.outputStream = socket.getOutputStream();
             this.objectOutputStream = new ObjectOutputStream(outputStream);
         } catch (IOException e) {
-            System.out.println("Failed opening Output Streams");
+            if (!mute && !essential) System.out.println("Failed opening Output Streams");
             this.gracefulDisconnection();
             throw new ConnectionError();
         }
 
 
-
-
         // Thread to receive messages from server
         this.createInboundMessagesThread();
 
+        // to fix
         // Thread to ping server
         this.createPingThread();
     }
 
 
     private void createInboundMessagesThread(){
-        System.out.println("New MessagesListener Thread starting");
-        System.out.println("Opening Input Streams");
+        if (!mute && !essential) System.out.println("New MessagesListener Thread starting");
+        if (!mute && !essential) System.out.println("Opening Input Streams");
         Thread t = new Thread(() -> {
             try {
                 this.inputStream = socket.getInputStream();
                 this.objectInputStream  = new ObjectInputStream(inputStream);
             } catch (IOException e) {
-                System.out.println("Failed opening Input Streams");
+                if (!mute && !essential) System.out.println("Failed opening Input Streams");
                 this.gracefulDisconnection();
             }
 
@@ -117,12 +123,12 @@ public class TcpClient implements Client{
 
                 } catch (IOException e) {
                     if (listeningForMessages){
-                        System.out.println("IOException from InboundMessagesThread");
+                        if (!mute && !essential) System.out.println("IOException from InboundMessagesThread");
                         this.gracefulDisconnection();
                     }
                 } catch (ClassNotFoundException e) {
                     if (listeningForMessages){
-                        System.out.println("ClassNotFoundException from InboundMessagesThread");
+                        if (!mute && !essential) System.out.println("ClassNotFoundException from InboundMessagesThread");
                         this.gracefulDisconnection();
                     }
                 }
@@ -135,15 +141,15 @@ public class TcpClient implements Client{
 
 
     private void createPingThread(){
-        System.out.println("New Ping Thread starting");
+        if (!mute && !essential) System.out.println("New Ping Thread starting");
         Thread t = new Thread(() -> {
             synchronized (pingThreadLock) {
                 while (toPing) {
                     try {
-                    this.manageTcpConversation(pingThreadLock, new PingClientMessage(this.nickname));
+                    this.manageTcpConversation(pingThreadConversationLock, new IsServerAliveMessage(this.nickname));
                     pingThreadLock.wait(ServerConstants.PING_TIME);
                     } catch (InterruptedException e) {
-                        System.out.println("Interrupted exception from PingThread");
+                        if (!mute && !essential) System.out.println("Interrupted exception from PingThread");
                         this.gracefulDisconnection();
                     } catch (ConnectionError e) {
                         //ignore
@@ -158,46 +164,76 @@ public class TcpClient implements Client{
 
     // This method tries to retrieve the received message from the lock
     public Message manageTcpConversation(Lock lock, Message message) throws ConnectionError {
-        try {
-            synchronized (lock) {
-                this.sendTcpMessage(message);
-                lock.wait(ServerConstants.TCP_WAIT_TIME);
-                // we try to retrieve the message from the lock
-                Message newMessage = lock.getMessage();
-                lock.reset();
-                // if the new Message == null it means that we did not receive a response message from the server
-                if (newMessage == null) throw new TimeOutException();
-                return newMessage;
+        // here we create a thread that manages the inbound message
+        Thread t = new Thread(()->{
+            try {
+                synchronized (manageTcpConversationLock) {
+                    synchronized (lock) {
+                        this.sendTcpMessage(message);
+                        lock.wait(ServerConstants.TCP_WAIT_TIME);
+
+                        // With this we notify all the synchronous methods that are waiting
+                        this.manageTcpConversationLock.notifyAll();
+                    }
+                }
+            } catch (InterruptedException e) {
+                if (!mute && !essential) System.out.println("Interrupted Exception from manageTcpConversation");
+                this.gracefulDisconnection();
             }
-        } catch (InterruptedException e) {
-            System.out.println("Interrupted Exception");
+
+
+        });
+
+        // Here we start the thread and release the lock
+        try {
+            synchronized (manageTcpConversationLock) {
+                t.start();
+                manageTcpConversationLock.wait();
+            }
+        }
+        catch (InterruptedException e) {
+            if (!mute && !essential) System.out.println("Interrupted Exception from "+ message.toString());
             this.gracefulDisconnection();
-        } catch (TimeOutException e) {
-            System.out.println("Tcp server too slow to respond");
-            this.gracefulDisconnection();
+            throw new ConnectionError();
         }
 
-        // to comment out
-        System.out.println("ManageTcpConversation failed");
-        throw new ConnectionError();
+        // here we return the message and check for exceptions
+        try {
+            return this.retrieveMessageFromLock(lock);
+        } catch (TimeOutException e) {
+            if (!mute && !essential) System.out.println("Servet too slow to respond to "+ message.toString());
+            throw new ConnectionError();
+        }
+    }
+
+
+    public Message retrieveMessageFromLock(Lock lock) throws TimeOutException {
+        Message newMessage = lock.getMessage();
+        lock.reset();
+        // if the new Message == null it means that we did not receive a response message from the server
+        if (newMessage == null) throw new TimeOutException();
+        return newMessage;
+
     }
 
 
     private void sendTcpMessage(Message message){
         if (!message.toString().equals("PingClientMessage"))
-            System.out.println("Sending "+message.toString() +" to Server socket");
+            if (!mute && !essential) System.out.println("Sending "+message.toString() +" to Server socket");
         try {
             this.objectOutputStream.writeObject(message);
             this.objectOutputStream.flush();
             //this.objectOutputStream.reset();
         } catch (IOException e) {
-            System.out.println("An error occurred while trying to send a message to the server");
+            if (!mute && !essential) System.out.println("An error occurred while trying to send a message to the server");
             this.gracefulDisconnection();
         }
     }
 
 
     private void manageInboundTcpMessages(Message message){
+        if (!message.toString().equals("PingClientResponse"))
+            if (!mute && !essential) System.out.println("Received a "+message.toString()+" from "+message.sender());
         // synchronous messages
         if (message instanceof ChatAllResponse)
             notifyLockAndSetMessage(chatAllLock, message);
@@ -211,20 +247,17 @@ public class TcpClient implements Client{
             notifyLockAndSetMessage(joinGameLock, message);
         else if (message instanceof MakeMoveResponse)
             notifyLockAndSetMessage(makeMoveLock, message);
-        else if (message instanceof PingClientResponse)
-            notifyLockAndSetMessage(pingThreadLock, message);
+        else if (message instanceof IsServerAliveResponse)
+            notifyLockAndSetMessage(pingThreadConversationLock, message);
 
         // asynchronous messages
         else if (message instanceof ChatReceiveMessage){
-            this.sendTcpMessage(new ChatReceiveResponse(this.nickname));
             ChatReceiveMessage m = (ChatReceiveMessage) message;
             this.receiveMessage(m.getChatMessage());
         }
-        else if (message instanceof IsClientAlive) {
-            this.sendTcpMessage(new IsClientAliveResponse(this.nickname));
+        else if (message instanceof IsClientAliveMessage) {
         }
         else if (message instanceof UpdateMessage) {
-            this.sendTcpMessage(new UpdateResponse(this.nickname));
             UpdateMessage m = (UpdateMessage) message;
             this.update(m.getNewState(), m.getNewInfo());
 
@@ -244,34 +277,38 @@ public class TcpClient implements Client{
 
     // synchronous methods
 
-    public boolean chooseNickname(String nick) throws ConnectionError {
+    public synchronized boolean chooseNickname(String nick) throws ConnectionError {
         ChooseNicknameResponse response = (ChooseNicknameResponse) this.manageTcpConversation(chooseNicknameLock,
-                new ChooseNicknameMessage(nick));
+                new ChooseNicknameMessage(this.nickname, nick));
+
         if (response.getResponse()) this.nickname = nick;
         return response.getResponse();
     }
 
 
-    public void makeMove(List<Position> pos, int col) throws InvalidMoveException, InvalidNicknameException, ConnectionError {
+    public synchronized void makeMove(List<Position> pos, int col) throws InvalidMoveException, InvalidNicknameException, ConnectionError {
         MakeMoveResponse response = (MakeMoveResponse) this.manageTcpConversation(makeMoveLock,
                 new MakeMoveMessage(this.nickname, pos, col));
+
+
         if (response.isInvalidMove()) throw new InvalidMoveException();
         if (response.isInvalidNickname()) throw new InvalidNicknameException();
     }
 
 
-    public void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException, ConnectionError {
+    public synchronized void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException, ConnectionError {
         CreateGameResponse response = (CreateGameResponse) this.manageTcpConversation(createGameLock,
                 new CreateGameMessage(this.nickname, num));
-        System.out.println(this.nickname);
+
         if (response.isNonExistentNickname()) throw new NonExistentNicknameException();
         if (response.isAlreadyInGame()) throw new AlreadyInGameException();
     }
 
 
-    public void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError {
+    public synchronized void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError {
         JoinGameResponse response = (JoinGameResponse) this.manageTcpConversation(joinGameLock,
                 new JoinGameMessage(this.nickname));
+
         if (response.isAlreadyInGame()) throw new AlreadyInGameException();
         if (response.isNoGamesAvailable()) throw new NoGamesAvailableException();
         if (response.isNonExistentNickname()) throw new NonExistentNicknameException();
@@ -280,13 +317,15 @@ public class TcpClient implements Client{
     }
 
 
-    public void messageSomeone(String chatMessage, String receiver) throws ConnectionError {
-        this.manageTcpConversation(chatSomeoneLock, new ChatSomeoneMessage(this.nickname, chatMessage, receiver));
+    public synchronized void messageSomeone(String chatMessage, String receiver) throws ConnectionError {
+        this.manageTcpConversation(chatSomeoneLock,
+                new ChatSomeoneMessage(this.nickname, chatMessage, receiver));
     }
 
 
-    public void messageAll(String chatMessage) throws ConnectionError {
-        this.manageTcpConversation(chatAllLock, new ChatAllMessage(this.nickname, chatMessage));
+    public synchronized void messageAll(String chatMessage) throws ConnectionError {
+        this.manageTcpConversation(chatAllLock,
+                new ChatAllMessage(this.nickname, chatMessage));
     }
 
 
@@ -303,24 +342,29 @@ public class TcpClient implements Client{
         this.view.displayChatMessage(message);
     }
 
-    private void gracefulDisconnection(){
-        System.out.println("Initializing graceful disconnection");
-        System.out.println("Terminating Ping thread");
-        this.toPing = false;
-        System.out.println("Terminating messageListener");
-        this.listeningForMessages = false;
+    private synchronized void gracefulDisconnection(){
+        if (isClientOnline) {
+            if (!mute && essential) System.out.println("Connection error");
+            if (!mute) System.out.println("Initializing graceful disconnection");
+            if (!mute && !essential) System.out.println("Terminating Ping thread");
+            this.toPing = false;
+            if (!mute && !essential) System.out.println("Terminating messageListener");
+            this.listeningForMessages = false;
 
-        try {
-            System.out.println("Closing socket");
-            this.socket.close();
-        } catch (IOException e) {
-            System.out.println("Error while closing socket");
+            try {
+                if (!mute && !essential) System.out.println("Closing socket");
+                this.socket.close();
+            } catch (IOException e) {
+                if (!mute && !essential) System.out.println("Error while closing socket");
+            }
+
+            view.update(State.GRACEFULDISCONNECTION, null);
+
+            this.isClientOnline = false;
         }
-
-        view.update(State.GRACEFULDISCONNECTION, null);
     }
 }
 
 
 // to do:
-// make the graceful disconnection throw an exception
+// synchronize graceful disconnection!!!!!!!

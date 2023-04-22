@@ -35,6 +35,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     private Object lock = new Lock();
     private boolean toPing = true;
 
+    private boolean mute = false;
+    // when this flag is true the clients prints only essential messages
+    private boolean essential = true;
+
 
     /**
      * This method is the constructor of RmiClient
@@ -62,13 +66,13 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     private void connectToLobbyServer(String ipToConnect, Integer lobbyPort) throws InterruptedException {
         while(true) {
             try {
-                System.out.println("Looking up the registry for LobbyServer at "+ipToConnect+":"+lobbyPort);
+                if (!mute) System.out.println("Looking up the registry for LobbyServer at "+ipToConnect+":"+lobbyPort);
                 // swap 'localhost' with the server ip when trying to connect with two different machines
                 this.lobbyRegistry = LocateRegistry.getRegistry(ipToConnect, lobbyPort);
                 this.lobbyServer = (RMILobbyServerInterface) this.lobbyRegistry.lookup(LobbyServerName);
                 break;
             } catch (Exception e) {
-                System.out.println("Registry not found");
+                if (!mute) System.out.println("Registry not found");
                 Thread.sleep(5000);
             }
         }
@@ -100,7 +104,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         } catch (ExistentNicknameExcepiton | IllegalNicknameException e) {
             flag = false;
         } catch (RemoteException e) {
-            System.out.println("Remote exception from chooseNickname");
+            if (!mute && !essential) System.out.println("Remote exception from chooseNickname");
             //e.printStackTrace();
             this.gracefulDisconnection();
             throw new ConnectionError();
@@ -120,7 +124,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         try {
             this.matchServer.makeMove(pos, col, nickname);
         } catch (RemoteException e) {
-            System.out.println("Remote exception from makeMove");
+            if (!mute && !essential) System.out.println("Remote exception from makeMove");
             this.gracefulDisconnection();
             throw new ConnectionError();
         }
@@ -137,11 +141,11 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
             String matchServerName = this.lobbyServer.createGame(num, nickname, this);
             this.connectToMatchServer(matchServerName);
         } catch (RemoteException e) {
-            System.out.println("Remote exception from createGame");
+            if (!mute && !essential) System.out.println("Remote exception from createGame");
             this.gracefulDisconnection();
             throw new ConnectionError();
         } catch (NotBoundException e) {
-            System.out.println("Trying to lock up an unbound registry");
+            if (!mute && !essential) System.out.println("Trying to lock up an unbound registry");
             this.gracefulDisconnection();
             throw new ConnectionError();
         }
@@ -157,11 +161,11 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
             String matchServerName = this.lobbyServer.joinGame(nickname, this);
             this.connectToMatchServer(matchServerName);
         } catch (RemoteException e) {
-            System.out.println("Remote exception from joinGame");
+            if (!mute && !essential) System.out.println("Remote exception from joinGame");
             this.gracefulDisconnection();
             throw new ConnectionError();
         } catch (NotBoundException e) {
-            System.out.println("Trying to lock up an unbound registry");
+            if (!mute && !essential) System.out.println("Trying to lock up an unbound registry");
             this.gracefulDisconnection();
             throw new ConnectionError();
         }
@@ -183,19 +187,19 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     }
 
     private void createPingThread(){
+        if (!mute && !essential) System.out.println("New Ping Thread starting");
         Thread t = new Thread(() -> {
             synchronized (lock) {
-                System.out.println("New Ping Thread starting");
                 while (toPing) {
                     try {
                         this.pingServer();
                         lock.wait(ServerConstants.PING_TIME);
 
                     } catch (InterruptedException e) {
-                        System.out.println("Interrupted exception from PingThread");
+                        if (!mute && !essential) System.out.println("Interrupted exception from PingThread");
                         this.gracefulDisconnection();
                     } catch (RemoteException e) {
-                        System.out.println("Remote exception from PingThread");
+                        if (!mute && !essential) System.out.println("Remote exception from PingThread");
                         this.gracefulDisconnection();
                         break;
                     }
@@ -221,7 +225,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         try {
             this.matchServer.messageSomeone(message, this.nickname, receiver);
         } catch (RemoteException e) {
-            System.out.println("Remote exception from chat");
+            if (!mute && !essential) System.out.println("Remote exception from chat");
             this.gracefulDisconnection();
             throw new ConnectionError();
         }
@@ -236,7 +240,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         try {
             this.matchServer.messageAll(message, this.nickname);
         } catch (RemoteException e) {
-            System.out.println("Remote exception from chat");
+            if (!mute && !essential) System.out.println("Remote exception from chat");
             this.gracefulDisconnection();
             throw new ConnectionError();
         }
@@ -273,8 +277,9 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * This manages the disconnection
      */
     private void gracefulDisconnection() {
-        System.out.println("Initializing graceful disconnection");
-        System.out.println("Terminating Ping Thread");
+        if (!mute && essential) System.out.println("Connection error");
+        if (!mute) System.out.println("Initializing graceful disconnection");
+        if (!mute && !essential) System.out.println("Terminating Ping Thread");
         this.toPing = false;
         view.update(State.GRACEFULDISCONNECTION, null);
 

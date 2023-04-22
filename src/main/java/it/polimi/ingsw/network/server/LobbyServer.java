@@ -64,6 +64,9 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      */
     private Registry registry;
 
+    // flag to mute the LobbyServer
+    private boolean mute = false;
+
 
     /**
      * Constructor that loads the initial configuration of the server from file
@@ -162,20 +165,21 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      */
     public void start(){
         try {
-            System.out.println("Initializing server...");
-            System.out.println("Cleaning the directory "+ AppConstants.PATH_SAVED_MATCHES+" ...");
+
+            if(!mute) System.out.println("LS: Initializing server...");
+            if(!mute) System.out.println("LS: Cleaning the directory "+ AppConstants.PATH_SAVED_MATCHES+" ...");
             this.cleanMatchDirectory();
-            System.out.println("Cleaning done...");
+            if(!mute) System.out.println("LS: Cleaning done...");
             this.loadPreviousGames();
-            System.out.println("Loaded previous games...");
+            if(!mute) System.out.println("LS: Loaded previous games...");
             // Swap 'localhost' with the server ip if clients are not local
             //System.setProperty("java.rmi.server.hostname", "192.168.1.6");
             this.registry = LocateRegistry.createRegistry(this.config.getServerPortRMI());
 
-            System.out.println("Registry acquired...");
+            if(!mute) System.out.println("LS: Registry acquired...");
             this.registry.bind(this.config.getServerName(), this);
 
-            System.out.println("RMI Server online...");
+            if(!mute) System.out.println("LS: RMI Server online...");
         }catch (RemoteException e){
             System.out.println(e.getMessage());
         } catch (AlreadyBoundException e) {
@@ -186,9 +190,9 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         this.startTcpServer(this.config.getServerPortTCP());
 
         // Info about the server
-        System.out.println("Name: "+this.config.getServerName());
-        System.out.println("Rmi Port: "+this.config.getServerPortRMI());
-        System.out.println("Tcp Port: "+this.config.getServerPortTCP());
+        if(!mute) System.out.println("LS: Name: "+this.config.getServerName());
+        if(!mute) System.out.println("LS: Rmi Port: "+this.config.getServerPortRMI());
+        if(!mute) System.out.println("LS: Tcp Port: "+this.config.getServerPortTCP());
     }
 
     /**
@@ -199,20 +203,20 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      */
     private void startGame(MatchServer rs, String name){
         try {
-            System.out.println("Initializing game...");
+            if(!mute) System.out.println("LS: Initializing game...");
 
             //System.setProperty("java.rmi.server.hostname", "192.168.43.4");
             //Registry r = LocateRegistry.createRegistry(info.getRegistryPort());
             //this.serverRegistries.add(r);
 
-            System.out.println("Registry acquired...");
+           if(!mute) System.out.println("LS: Registry acquired...");
 
             //r.bind(info.getRegistryName(), rs);
 
             this.registry.bind(name, rs);
 
-            System.out.println("RMI Server online...");
-            System.out.println("Name: "+name);
+            if(!mute) System.out.println("LS: RMI Server online...");
+            if(!mute) System.out.println("LS: Name: "+name);
         }catch (RemoteException e){
             System.out.println(e.getMessage());
         } catch (AlreadyBoundException e) {
@@ -259,7 +263,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     @Override
     public boolean chooseNickname(String nickname) throws RemoteException, ExistentNicknameExcepiton, IllegalNicknameException {
         synchronized (lockChooseNickName) {
-            System.out.println("Someone is choosing the nickname "+nickname+"...");
+            if(!mute) System.out.println("LS: Someone is choosing the nickname "+nickname+"...");
             if (this.banList.stream().anyMatch(nickname::matches)) throw new IllegalNicknameException();
             if (!this.nicknamesPool.add(nickname)) throw new ExistentNicknameExcepiton();
             return true;
@@ -293,7 +297,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      */
     public String createGameTcpRmi(Integer numPlayers, String nickname, RmiClientInterface rmiClient, TcpClientHandler tcpClient, boolean rmiInvocation) throws RemoteException, AlreadyInGameException, NonExistentNicknameException {
         synchronized (lockCreateGame) {
-            System.out.println("Creating new game...");
+            if(!mute) System.out.println("LS: Creating new game...");
             this.checkCredentialsIntegrity(nickname);
             this.nicknamesInGame.add(nickname);
             MatchServer rs = new MatchServer(numPlayers, this);
@@ -327,7 +331,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     public String joinGameTcpRmi(String nickname, RmiClientInterface rmiClient, TcpClientHandler tcpClient, boolean rmiInvocation) throws NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
         synchronized (lockCreateGame) {
             if (this.potentialPlayers.containsKey(nickname)) {
-                System.out.println("Joining game recovered from persistance...");
+                if(!mute) System.out.println("LS: Joining game recovered from persistance...");
                 String toReturn=this.potentialPlayers.get(nickname).orElseGet(()->this.recoverGame(nickname));
                 if (rmiInvocation) this.serverList.get(this.serverInformation.indexOf(toReturn)).addPlayer(nickname, rmiClient);
                 else{
@@ -343,7 +347,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
 
             while(gameFound < this.serverInformation.size()){
                 if(this.serverList.get(gameFound).getFreeSpaces()>0){
-                    System.out.println("Joining game at random...");
+                    if(!mute) System.out.println("LS: Joining game at random...");
                     if (rmiInvocation) this.serverList.get(gameFound).addPlayer(nickname, rmiClient);
                     else {
                         this.serverList.get(gameFound).addPlayer(nickname, tcpClient);
@@ -372,14 +376,14 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      */
     private String recoverGame(String nickname) {
         synchronized (lockCreateGame) {
-            System.out.println("Recovering game...");
+            if(!mute) System.out.println("LS: Recovering game...");
             this.nicknamesInGame.add(nickname);
 
             //load filename
             String fileName = Arrays.stream(Objects.requireNonNull(new File(AppConstants.PATH_SAVED_MATCHES).list()))
                     .filter(file -> file.contains(nickname+ServerConstants.REGEX))
                     .findFirst()
-                    .orElse("shouldneverenterhere");
+                    .orElse("LS: shouldneverenterhere");
 
             try {
                 //create a game with the GameModel as parameter
@@ -467,7 +471,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     }
 
     public void startTcpServer(int port){
-        System.out.println("Starting Tcp Server...");
+        if(!mute) System.out.println("LS: Starting Tcp Server...");
 
         Thread t = new Thread(() -> {
             ExecutorService executor = Executors.newCachedThreadPool();
@@ -476,7 +480,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             try {
                 serverSocket = new ServerSocket(port);
             } catch (IOException e) {
-                System.out.println("Error while opening the tcp Server port");
+                if(!mute) System.out.println("LS: Error while opening the tcp Server port");
                 System.err.println(e.getMessage());
                 return;
             }
@@ -484,20 +488,20 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             while (true) {
                 try {
                     Socket socket = serverSocket.accept();
-                    System.out.println("Accepted new tcp connection");
+                    if(!mute) System.out.println("LS: Accepted new tcp connection");
                     executor.submit(new TcpClientHandler(socket, this));
-                    System.out.println("Connection submitted to executor");
+                    if(!mute) System.out.println("LS: Connection submitted to executor");
                 } catch(IOException e) {
-                    System.out.println("Error while accepting tcp connection");
+                    if(!mute) System.out.println("LS: Error while accepting tcp connection");
                     break;
                 }
             }
 
             executor.shutdown();
-            System.out.println("Shutting down Tcp Server");
+            if(!mute) System.out.println("LS: Shutting down Tcp Server");
         });
         t.start();
 
-        System.out.println("Tcp Server online...");
+        if(!mute) System.out.println("LS: Tcp Server online...");
     }
 }

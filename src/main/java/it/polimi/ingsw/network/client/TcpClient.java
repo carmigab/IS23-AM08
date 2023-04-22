@@ -255,8 +255,6 @@ public class TcpClient implements Client{
             ChatReceiveMessage m = (ChatReceiveMessage) message;
             this.receiveMessage(m.getChatMessage());
         }
-        else if (message instanceof IsClientAliveMessage) {
-        }
         else if (message instanceof UpdateMessage) {
             UpdateMessage m = (UpdateMessage) message;
             this.update(m.getNewState(), m.getNewInfo());
@@ -365,6 +363,3 @@ public class TcpClient implements Client{
     }
 }
 
-
-// to do:
-// synchronize graceful disconnection!!!!!!!

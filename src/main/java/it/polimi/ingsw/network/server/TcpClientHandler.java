@@ -4,8 +4,6 @@ import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
-import it.polimi.ingsw.network.client.clientLocks.Lock;
-import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.network.client.exceptions.TimeOutException;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.clientMessages.*;
@@ -37,12 +35,6 @@ public class TcpClientHandler implements Runnable{
     InputStream inputStream;
     ObjectInputStream objectInputStream;
 
-    Thread listeningThread;
-
-    Lock updateLock = new Lock();
-    Lock isClientAliveLock = new Lock();
-    Lock chatReceiveMessageLock = new Lock();
-    Lock manageTcpConversationLock = new Lock();
 
     // flag to mute the clientHandler
     private boolean mute = true;
@@ -201,30 +193,11 @@ public class TcpClientHandler implements Runnable{
             else if (message instanceof IsServerAliveMessage)
                 this.sendTcpMessage(new IsServerAliveResponse("Server"));
 
-
-            // The server shouldn't receive responses!!!!
-            // synchronous messages
-//            else if (message instanceof UpdateResponse)
-//                notifyLockAndSetMessage(updateLock, message);
-//            else if (message instanceof IsClientAliveResponse)
-//                notifyLockAndSetMessage(isClientAliveLock, message);
-//            else if (message instanceof ChatReceiveResponse)
-//                notifyLockAndSetMessage(chatReceiveMessageLock, message);
-
-
         } catch (RemoteException e) {
             if(!mute) System.out.println("CH["+nickname+"]: This remote exception shouldn't be here");
             //ignore
         }
     }
-
-
-//    private void notifyLockAndSetMessage(Lock lock, Message message){
-//        synchronized (lock){
-//            lock.setMessage(message);
-//            lock.notify();
-//        }
-//    }
 
 
     private void sendTcpMessage(Message message){

@@ -18,7 +18,7 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.rmi.RemoteException;
 
-public class TcpClientHandler implements Runnable{
+public class TcpClientHandler implements TcpClientInterface{
     Socket socket;
     LobbyServer lobbyServer;
     MatchServer matchServer;
@@ -118,7 +118,7 @@ public class TcpClientHandler implements Runnable{
 
     }
 
-    public void manageInboundTcpMessages(Message message){
+    private void manageInboundTcpMessages(Message message){
         if (!message.toString().equals("PingClientMessage"))
             if(!mute) System.out.println("CH["+nickname+"]: Received a "+message.toString()+" from "+message.sender());
         try {
@@ -236,10 +236,14 @@ public class TcpClientHandler implements Runnable{
     public void setMatchServer(MatchServer matchServer){
         this.matchServer = matchServer;
     }
-    public void setNickname(String nickname){
+
+    private void setNickname(String nickname){
         this.nickname = nickname;
     }
-    public String name() {return this.nickname;}
+
+    public String name() {
+        return this.nickname;
+    }
 
     private synchronized void disconnection(){
         if (tcpClientHandlerOnline){
@@ -260,3 +264,8 @@ public class TcpClientHandler implements Runnable{
         }
     }
 }
+
+
+// TODO
+// commentare tutto per bene, ricordarsi di specificare che il server è solo asynchrono
+// mentre il client è synchrono

@@ -18,7 +18,7 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.rmi.RemoteException;
 
-public class TcpClientHandler implements TcpClientInterface{
+public class TcpClientHandler implements Runnable {
     Socket socket;
     LobbyServer lobbyServer;
     MatchServer matchServer;

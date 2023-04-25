@@ -295,7 +295,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws AlreadyInGameException       if the player is already in a different game
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
-    public String createGameTcpRmi(Integer numPlayers, String nickname, RmiClientInterface rmiClient, TcpClientInterface tcpClient, boolean rmiInvocation) throws RemoteException, AlreadyInGameException, NonExistentNicknameException {
+    public String createGameTcpRmi(Integer numPlayers, String nickname, RmiClientInterface rmiClient, TcpServerInterface tcpClient, boolean rmiInvocation) throws RemoteException, AlreadyInGameException, NonExistentNicknameException {
         synchronized (lockCreateGame) {
             if(!mute) System.out.println("LS: Creating new game...");
             this.checkCredentialsIntegrity(nickname);
@@ -328,7 +328,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws AlreadyInGameException       if the player is already in a different game
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
-    public String joinGameTcpRmi(String nickname, RmiClientInterface rmiClient, TcpClientInterface tcpClient, boolean rmiInvocation) throws NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
+    public String joinGameTcpRmi(String nickname, RmiClientInterface rmiClient, TcpServerInterface tcpClient, boolean rmiInvocation) throws NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
         synchronized (lockCreateGame) {
             if (this.potentialPlayers.containsKey(nickname)) {
                 if(!mute) System.out.println("LS: Joining game recovered from persistance...");
@@ -463,11 +463,11 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     ///////////////////////////////////  Tcp methods  ////////////////////////////////////
 
 
-    public String joinGame(String nickname, TcpClientInterface tcpClient) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
+    public String joinGame(String nickname, TcpServerInterface tcpClient) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
         return this.joinGameTcpRmi(nickname, null, tcpClient, false);
     }
 
-    public String createGame(Integer numPlayers, String nickname, TcpClientInterface tcpClient) throws RemoteException, AlreadyInGameException, NonExistentNicknameException{
+    public String createGame(Integer numPlayers, String nickname, TcpServerInterface tcpClient) throws RemoteException, AlreadyInGameException, NonExistentNicknameException{
         return this.createGameTcpRmi(numPlayers, nickname, null, tcpClient, false);
     }
 

@@ -4,7 +4,7 @@ import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.network.client.exceptions.TimeOutException;
 
-public interface TcpClientInterface extends Runnable {
+public interface TcpServerInterface extends Runnable {
 
     public void run();
 

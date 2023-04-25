@@ -28,7 +28,6 @@ public class TcpClient implements Client{
 
     private Socket socket;
 
-    private OutputStream outputStream;
     private ObjectOutputStream objectOutputStream;
 
     private View view;
@@ -55,7 +54,7 @@ public class TcpClient implements Client{
 
     private boolean mute = false;
     // when this flag is true the clients prints only essential messages
-    private boolean essential = true;
+    private boolean essential = false;
 
 
 
@@ -85,8 +84,7 @@ public class TcpClient implements Client{
         // Opening output streams
         try {
             if (!mute && !essential) System.out.println("Opening Output Streams");
-            this.outputStream = socket.getOutputStream();
-            this.objectOutputStream = new ObjectOutputStream(outputStream);
+            this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             if (!mute && !essential) System.out.println("Failed opening Output Streams");
             this.gracefulDisconnection();

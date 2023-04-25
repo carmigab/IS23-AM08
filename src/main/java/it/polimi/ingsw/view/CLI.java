@@ -444,11 +444,8 @@ public class CLI extends View{
     public void chooseConnectionType() {
         printMessage("Insert ip of the server", AnsiEscapeCodes.INFO_MESSAGE);
         //https://www.geeksforgeeks.org/how-to-validate-an-ip-address-using-regular-expressions-in-java/
-        String zeroTo255 ="localhost|(\\d{1,2}|(0|1)\\"
-                + "d{2}|2[0-4]\\d|25[0-5])";
-        String regexIP="|"+zeroTo255 + "\\." + zeroTo255
-                + "\\." + zeroTo255
-                + "\\." + zeroTo255;
+        String zeroTo255 ="(\\d{1,2}|(0|1)\\d{2}|2[0-4]\\d|25[0-5])";
+        String regexIP="|localhost|"+zeroTo255 + "\\." + zeroTo255 + "\\." + zeroTo255 + "\\." + zeroTo255;
         String ip=this.retryInput(regexIP);
         if(ip.equals("")) ip="localhost";
 
@@ -457,8 +454,8 @@ public class CLI extends View{
         Integer intPort= ServerConstants.RMI_PORT;
 
 
-        printMessage("Choose connection type (rmi/socket)", AnsiEscapeCodes.INFO_MESSAGE);
-        String input = this.retryInput("rmi|RMI|socket|SOCKET");
+        printMessage("Choose connection type (rmi/tcp)", AnsiEscapeCodes.INFO_MESSAGE);
+        String input = this.retryInput("rmi|RMI|tcp|TCP");
 
         if (input.equalsIgnoreCase("rmi")) {
             try {
@@ -490,7 +487,6 @@ public class CLI extends View{
     @Override
     public void askNickname() {
         try {
-
 
             printMessage("Please insert your nickname: ", AnsiEscapeCodes.INFO_MESSAGE);
             myNickname = scanner.nextLine();

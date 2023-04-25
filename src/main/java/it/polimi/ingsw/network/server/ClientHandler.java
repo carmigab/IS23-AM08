@@ -36,8 +36,9 @@ public class ClientHandler {
 
     }
 
-    public String name(){
-        return "Bill1";
+    public String name() throws RemoteException {
+        if(rmiInvocation) return rmiClient.name();
+        else return tcpClient.name();
     }
 
     public void receiveMessage(String message) throws RemoteException, TimeOutException {

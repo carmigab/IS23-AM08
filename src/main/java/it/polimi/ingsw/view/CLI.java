@@ -506,10 +506,10 @@ public class CLI extends View{
     public void createOrJoinGame() {
         boolean gameSelected = false;
 
-        printMessage("Do you want to create a new game or join an existing one? (c/j) ", AnsiEscapeCodes.INFO_MESSAGE);
+        printMessage("Do you want to create a new game or join an existing one? (c/j/com) ", AnsiEscapeCodes.INFO_MESSAGE);
 
         while (!gameSelected) {
-            String input = this.retryInput("c|j");
+            String input = this.retryInput("c|j|com");
 
             if (input.equals("c")) {
                 printMessage("Please insert the number of players ", AnsiEscapeCodes.INFO_MESSAGE);
@@ -524,7 +524,7 @@ public class CLI extends View{
                 }
                 gameSelected = true;
             }
-            else {
+            else if (input.equals("j")){
                 try {
                     try {
                         client.joinGame();
@@ -537,6 +537,20 @@ public class CLI extends View{
                 } catch (NoGamesAvailableException e) {
                     printMessage("No games available, please create a new one ", AnsiEscapeCodes.ERROR_MESSAGE);
                 }
+            }
+            else if (input.equals("com")){
+
+                printMessage("Please insert the number of players ", AnsiEscapeCodes.INFO_MESSAGE);
+                String playersNumber =this.retryInput("[2-4]");
+
+                try {
+                    client.createGameWithComputer(Integer.parseInt(playersNumber));
+                } catch (NonExistentNicknameException | AlreadyInGameException e) {
+                    throw new RuntimeException(e);
+                } catch (ConnectionError e) {
+                    //ignore
+                }
+                gameSelected = true;
             }
         }
     }

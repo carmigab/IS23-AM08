@@ -18,6 +18,8 @@ public interface Client  {
 
     public void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException,ConnectionError;
 
+    public void createGameWithComputer(int num) throws NonExistentNicknameException, AlreadyInGameException,ConnectionError;
+
     public void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError;
 
     public void messageSomeone(String message, String receiver) throws ConnectionError;

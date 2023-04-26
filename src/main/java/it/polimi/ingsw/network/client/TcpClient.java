@@ -303,6 +303,11 @@ public class TcpClient implements Client{
         if (response.isAlreadyInGame()) throw new AlreadyInGameException();
     }
 
+    @Override
+    public void createGameWithComputer(int num) throws NonExistentNicknameException, AlreadyInGameException, ConnectionError {
+        //TODO
+    }
+
 
     public synchronized void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError {
         JoinGameResponse response = (JoinGameResponse) this.manageTcpConversation(actionLock,

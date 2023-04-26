@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.view.DumbComputer;
 import it.polimi.ingsw.network.client.RmiClientInterface;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.constants.AppConstants;
@@ -338,14 +339,13 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             }
             this.checkCredentialsIntegrity(nickname);
             int gameFound = 0;
-            String gameName;
 
             while(gameFound < this.serverInformation.size()){
                 if(this.serverList.get(gameFound).getFreeSpaces()>0){
                     if(!mute) System.out.println("LS: Joining game at random...");
 
-                        this.serverList.get(gameFound).addPlayer(nickname, client);
-                        client.setMatchServer(this.serverList.get(gameFound));
+                    this.serverList.get(gameFound).addPlayer(nickname, client);
+                    client.setMatchServer(this.serverList.get(gameFound));
 
                     this.nicknamesInGame.add(nickname);
                     return this.serverInformation.get(gameFound);
@@ -423,7 +423,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * It is the method called by a rmi remote call
      *
      * @param nickname nickname of the player that calls the method
-     * @param rmiClient reference to the methods of the client that can be called by the server using RMI
+     * @param client reference to the methods of the client that can be called by the server using RMI
 
      * @return the information useful for the connection to the game
      * @throws RemoteException exception of RMI
@@ -432,8 +432,8 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
     @Override
-    public String joinGame(String nickname, RmiClientInterface rmiClient) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
-        return this.joinGameTcpRmi(nickname, new ClientHandler(rmiClient));
+    public String joinGame(String nickname, RmiClientInterface client) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
+        return this.joinGameTcpRmi(nickname, new ClientHandler(client));
     }
 
     /**
@@ -442,15 +442,44 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      *
      * @param numPlayers number of players that the client has chosen
      * @param nickname   nickname of the player that calls the method
-     * @param rmiClient     reference to the methods of the client that can be called by the server using RMI
+     * @param client     reference to the methods of the client that can be called by the server using RMI
      * @return the information useful for the connection to the game
      * @throws RemoteException exception of RMI
      * @throws AlreadyInGameException       if the player is already in a different game
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
     @Override
-    public String createGame(Integer numPlayers, String nickname, RmiClientInterface rmiClient) throws RemoteException, AlreadyInGameException, NonExistentNicknameException{
-        return this.createGameTcpRmi(numPlayers, nickname, new ClientHandler(rmiClient));
+    public String createGame(Integer numPlayers, String nickname, RmiClientInterface client) throws RemoteException, AlreadyInGameException, NonExistentNicknameException{
+        return this.createGameTcpRmi(numPlayers, nickname, new ClientHandler(client));
+    }
+
+    @Override
+    public String createGameWithComputer(Integer numPlayers, String nickname, RmiClientInterface client) throws RemoteException, AlreadyInGameException, NonExistentNicknameException {
+
+        synchronized (lockCreateGame) {
+            if(!mute) System.out.println("LS: Creating new game with computers...");
+            this.checkCredentialsIntegrity(nickname);
+            this.nicknamesInGame.add(nickname);
+            MatchServer rs = new MatchServer(numPlayers, this);
+
+            ClientHandler c=new ClientHandler(client);
+            rs.addPlayer(nickname, c);
+            c.setMatchServer(rs);
+
+            this.serverList.add(rs);
+            String gameName = this.config.getStartingName()+"COM"+(this.serverList.size());
+            this.serverInformation.add(gameName);
+            this.startGame(rs, gameName);
+            for (int i = 0; i < numPlayers - 1; i++) {
+                String comName="COM"+(i+1);
+                if(!mute) System.out.println("LS: Adding "+comName+"...");
+                DumbComputer com=new DumbComputer(i+1,comName, gameName);
+                ClientHandler c2=new ClientHandler(com.getRMIClientInterface());
+                rs.addPlayer(comName, c2);
+                c2.setMatchServer(rs);
+            }
+            return gameName;
+        }
     }
 
 

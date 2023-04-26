@@ -7,9 +7,12 @@ import it.polimi.ingsw.network.messages.Message;
 public class Lock {
 
     private Message message;
+    private boolean toWait;
+    private boolean disconnection;
 
     public Lock(){
         this.reset();
+        this.disconnection = false;
     }
 
     public Message getMessage(){
@@ -22,6 +25,22 @@ public class Lock {
 
     public void reset(){
         this.message = null;
+        this.toWait = true;
     }
 
+    public boolean toWait(){
+        return this.toWait;
+    }
+
+    public void setToWait(boolean flag){
+        this.toWait = flag;
+    }
+
+    public boolean isDisconnection() {
+        return disconnection;
+    }
+
+    public void setDisconnection(boolean flag){
+        this.disconnection = flag;
+    }
 }

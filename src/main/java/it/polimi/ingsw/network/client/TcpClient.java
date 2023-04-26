@@ -32,17 +32,12 @@ public class TcpClient implements Client{
 
     private View view;
 
-    private InputStream inputStream;
     private ObjectInputStream objectInputStream;
 
     // Locks
-    private Lock chooseNicknameLock = new Lock();
-    private Lock makeMoveLock = new Lock();
-    private Lock createGameLock = new Lock();
-    private Lock joinGameLock = new Lock();
-    private Lock chatSomeoneLock = new Lock();
-    private Lock chatAllLock = new Lock();
-    private Lock messagesListenerLock = new Lock();
+
+    private Lock actionLock = new Lock();
+
     private Lock pingThreadConversationLock = new Lock();
     private Lock pingThreadLock = new Lock();
 
@@ -106,13 +101,11 @@ public class TcpClient implements Client{
         if (!mute && !essential) System.out.println("Opening Input Streams");
         Thread t = new Thread(() -> {
             try {
-                this.inputStream = socket.getInputStream();
-                this.objectInputStream  = new ObjectInputStream(inputStream);
+                this.objectInputStream  = new ObjectInputStream(socket.getInputStream());
             } catch (IOException e) {
                 if (!mute && !essential) System.out.println("Failed opening Input Streams");
                 this.gracefulDisconnection();
             }
-
 
             while(listeningForMessages){
                 try {
@@ -234,17 +227,17 @@ public class TcpClient implements Client{
             if (!mute && !essential) System.out.println("Received a "+message.toString()+" from "+message.sender());
         // synchronous messages
         if (message instanceof ChatAllResponse)
-            notifyLockAndSetMessage(chatAllLock, message);
+            notifyLockAndSetMessage(actionLock, message);
         else if (message instanceof ChatSomeoneResponse)
-            notifyLockAndSetMessage(chatSomeoneLock, message);
+            notifyLockAndSetMessage(actionLock, message);
         else if (message instanceof ChooseNicknameResponse)
-            notifyLockAndSetMessage(chooseNicknameLock, message);
+            notifyLockAndSetMessage(actionLock, message);
         else if (message instanceof CreateGameResponse)
-            notifyLockAndSetMessage(createGameLock, message);
+            notifyLockAndSetMessage(actionLock, message);
         else if (message instanceof JoinGameResponse)
-            notifyLockAndSetMessage(joinGameLock, message);
+            notifyLockAndSetMessage(actionLock, message);
         else if (message instanceof MakeMoveResponse)
-            notifyLockAndSetMessage(makeMoveLock, message);
+            notifyLockAndSetMessage(actionLock, message);
         else if (message instanceof IsServerAliveResponse)
             notifyLockAndSetMessage(pingThreadConversationLock, message);
 
@@ -274,7 +267,7 @@ public class TcpClient implements Client{
     // synchronous methods
 
     public synchronized boolean chooseNickname(String nick) throws ConnectionError {
-        ChooseNicknameResponse response = (ChooseNicknameResponse) this.manageTcpConversation(chooseNicknameLock,
+        ChooseNicknameResponse response = (ChooseNicknameResponse) this.manageTcpConversation(actionLock,
                 new ChooseNicknameMessage(this.nickname, nick));
 
         if (response.getResponse()) this.nickname = nick;
@@ -283,7 +276,7 @@ public class TcpClient implements Client{
 
 
     public synchronized void makeMove(List<Position> pos, int col) throws InvalidMoveException, InvalidNicknameException, ConnectionError {
-        MakeMoveResponse response = (MakeMoveResponse) this.manageTcpConversation(makeMoveLock,
+        MakeMoveResponse response = (MakeMoveResponse) this.manageTcpConversation(actionLock,
                 new MakeMoveMessage(this.nickname, pos, col));
 
 
@@ -293,7 +286,7 @@ public class TcpClient implements Client{
 
 
     public synchronized void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException, ConnectionError {
-        CreateGameResponse response = (CreateGameResponse) this.manageTcpConversation(createGameLock,
+        CreateGameResponse response = (CreateGameResponse) this.manageTcpConversation(actionLock,
                 new CreateGameMessage(this.nickname, num));
 
         if (response.isNonExistentNickname()) throw new NonExistentNicknameException();
@@ -302,7 +295,7 @@ public class TcpClient implements Client{
 
 
     public synchronized void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError {
-        JoinGameResponse response = (JoinGameResponse) this.manageTcpConversation(joinGameLock,
+        JoinGameResponse response = (JoinGameResponse) this.manageTcpConversation(actionLock,
                 new JoinGameMessage(this.nickname));
 
         if (response.isAlreadyInGame()) throw new AlreadyInGameException();
@@ -314,13 +307,13 @@ public class TcpClient implements Client{
 
 
     public synchronized void messageSomeone(String chatMessage, String receiver) throws ConnectionError {
-        this.manageTcpConversation(chatSomeoneLock,
+        this.manageTcpConversation(actionLock,
                 new ChatSomeoneMessage(this.nickname, chatMessage, receiver));
     }
 
 
     public synchronized void messageAll(String chatMessage) throws ConnectionError {
-        this.manageTcpConversation(chatAllLock,
+        this.manageTcpConversation(actionLock,
                 new ChatAllMessage(this.nickname, chatMessage));
     }
 
@@ -360,4 +353,7 @@ public class TcpClient implements Client{
         }
     }
 }
+
+// TODO
+//possibilità: spostare il ping sul server e implementare la disconnessione con i timeout
 

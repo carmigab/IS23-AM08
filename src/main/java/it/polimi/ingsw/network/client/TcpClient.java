@@ -180,6 +180,8 @@ public class TcpClient implements Client{
                     synchronized (lock) {
                         this.sendTcpMessage(message);
                         while (lock.toWait()) lock.wait();
+                        // Version 2 (without managing the spurious wakeup and giving  limit to the wait
+                        //lock.wait(ServerConstants.TCP_WAIT_TIME);
 
                         manageTcpConversationLock.notifyAll();
                     }
@@ -213,10 +215,14 @@ public class TcpClient implements Client{
 
 
     public Message retrieveMessageFromLock(Lock lock) throws ConnectionError {
-        Message newMessage = lock.getMessage();
-        if (lock.isDisconnection()) throw new ConnectionError();
-        lock.reset();
-        return newMessage;
+        synchronized (lock) {
+            Message newMessage = lock.getMessage();
+            if (lock.isDisconnection()) throw new ConnectionError();
+            // Version 2
+            // if (newMessage == null) throw new ConnectionError();
+            lock.reset();
+            return newMessage;
+        }
 
     }
 

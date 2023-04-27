@@ -60,20 +60,25 @@ public class DumbComputer extends View{
                                 boolean done = false;
                                 System.out.println(this.myNickname + ": My turn now!");
                                 while (!done) {
-                                    System.out.println(this.myNickname + "Trying to make a move!");
+                                    System.out.println(this.myNickname + ": Trying to make a move!");
                                     int numOfTilesSelected = this.r.nextInt(3) + 1;
                                     List<Position> toSend = new ArrayList<>(numOfTilesSelected);
-                                    for (int i = 0; i < numOfTilesSelected; i++) {
-                                        toSend.add(new Position(this.r.nextInt(9), this.r.nextInt(9)));
-                                        try {
-                                            this.client.makeMove(toSend, this.r.nextInt(5));
-                                            done = true;
-                                        } catch (InvalidNicknameException | InvalidMoveException | ConnectionError e) {
+                                    Position start=new Position(this.r.nextInt(9), this.r.nextInt(9));
+                                    toSend.add(start);
+                                    if(this.r.nextDouble()<0.3){
+                                        int random=r.nextInt(4);
+                                        switch (random) {
+                                            case 0 -> toSend.add(new Position(start.x() + 1, start.y()));
+                                            case 1 -> toSend.add(new Position(start.x(), start.y() + 1));
+                                            case 2 -> toSend.add(new Position(start.x() - 1, start.y()));
+                                            case 3 -> toSend.add(new Position(start.x(), start.y() - 1));
                                         }
                                     }
                                     try {
+                                        this.client.makeMove(toSend, this.r.nextInt(5));
+                                        done = true;
                                         Thread.sleep(300);
-                                    } catch (InterruptedException ignored) {
+                                    } catch (InvalidNicknameException | InvalidMoveException | ConnectionError | InterruptedException ignored) {
                                     }
                                 }
                                 System.out.println(this.myNickname + ": Move done!");

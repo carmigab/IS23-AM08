@@ -214,6 +214,7 @@ public final class GameBoard {
      */
     public boolean positionOccupied(Position p){
 
+        if(p.x()<0 || p.x()>=BoardConstants.BOARD_DIMENSION || p.y()<0 || p.y()>=BoardConstants.BOARD_DIMENSION) return false;
         return !myGameBoard[p.y()][p.x()].isInvalid() && !myGameBoard[p.y()][p.x()].isEmpty();
 
     }

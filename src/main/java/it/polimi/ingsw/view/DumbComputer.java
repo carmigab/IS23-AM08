@@ -54,8 +54,8 @@ public class DumbComputer extends View{
                     if(this.hasToBeUpdated){
                         this.hasToBeUpdated=false;
                         System.out.println(this.myNickname+": Update received!");
-                        if(gameInfo!=null) {
-                            if(this.currentState.equals(State.ENDGAME)) iWantToPlay=false;
+                        if(this.currentState.equals(State.ENDGAME)) iWantToPlay=false;
+                        if(gameInfo!=null && iWantToPlay) {
                             if (isMyTurn()) {
                                 boolean done = false;
                                 System.out.println(this.myNickname + ": My turn now!");
@@ -75,9 +75,9 @@ public class DumbComputer extends View{
                                         }
                                     }
                                     try {
+                                        Thread.sleep(300);
                                         this.client.makeMove(toSend, this.r.nextInt(5));
                                         done = true;
-                                        Thread.sleep(300);
                                     } catch (InvalidNicknameException | InvalidMoveException | ConnectionError | InterruptedException ignored) {
                                     }
                                 }

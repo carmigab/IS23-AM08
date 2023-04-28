@@ -24,8 +24,6 @@ import java.util.List;
 public class RmiClient extends UnicastRemoteObject implements Client, RmiClientInterface{
     private String nickname;
 
-    private String LobbyServerName = ServerConstants.LOBBY_SERVER;
-
     private RmiServerInterface matchServer;
     private RMILobbyServerInterface lobbyServer;
 
@@ -70,7 +68,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
                 if (!mute) System.out.println("Looking up the registry for LobbyServer at "+ipToConnect+":"+lobbyPort);
                 // swap 'localhost' with the server ip when trying to connect with two different machines
                 this.lobbyRegistry = LocateRegistry.getRegistry(ipToConnect, lobbyPort);
-                this.lobbyServer = (RMILobbyServerInterface) this.lobbyRegistry.lookup(LobbyServerName);
+                this.lobbyServer = (RMILobbyServerInterface) this.lobbyRegistry.lookup(ServerConstants.LOBBY_SERVER);
                 break;
             } catch (Exception e) {
                 if (!mute) System.out.println("Registry not found");
@@ -217,6 +215,15 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     public void isAlive() throws RemoteException {}
 
     /**
+     * This method lets the server ask a client for his nickname
+     * @return the nickname of the client
+     * @throws RemoteException
+     */
+    public String name() throws RemoteException{
+        return this.nickname;
+    }
+
+    /**
      * This method lets the client send a message privately only to someone
      * @param message
      * @param receiver : the one that is supposed to receive the message
@@ -249,15 +256,6 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     }
 
     /**
-     * This method lets the server ask a client for his nickname
-     * @return the nickname of the client
-     * @throws RemoteException
-     */
-    public String name() throws RemoteException{
-        return this.nickname;
-    }
-
-    /**
      * This method notifies the view that a message has arrived
      * @param message
      * @throws RemoteException
@@ -283,7 +281,6 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         if (!mute && !essential) System.out.println("Terminating Ping Thread");
         this.toPing = false;
         view.update(State.GRACEFULDISCONNECTION, null);
-
     }
 
 }

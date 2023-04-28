@@ -260,6 +260,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws ExistentNicknameExcepiton if the nickname is already present in the list
      * @throws IllegalNicknameException if the nickname is one of the banned words (or contains one)
      */
+
     @Override
     public boolean chooseNickname(String nickname) throws RemoteException, ExistentNicknameExcepiton, IllegalNicknameException {
         synchronized (lockChooseNickName) {
@@ -293,7 +294,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws AlreadyInGameException       if the player is already in a different game
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
-    public String createGameTcpRmi(Integer numPlayers, String nickname, ClientHandler client) throws RemoteException, AlreadyInGameException, NonExistentNicknameException {
+    private String createGameTcpRmi(Integer numPlayers, String nickname, ClientHandler client) throws RemoteException, AlreadyInGameException, NonExistentNicknameException {
         synchronized (lockCreateGame) {
             if(!mute) System.out.println("LS: Creating new game...");
             this.checkCredentialsIntegrity(nickname);
@@ -323,7 +324,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws AlreadyInGameException       if the player is already in a different game
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
-    public String joinGameTcpRmi(String nickname, ClientHandler client) throws NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
+    private String joinGameTcpRmi(String nickname, ClientHandler client) throws NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
         synchronized (lockCreateGame) {
             if (this.potentialPlayers.containsKey(nickname)) {
                 if(!mute) System.out.println("LS: Joining game recovered from persistance...");
@@ -344,8 +345,8 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
                 if(this.serverList.get(gameFound).getFreeSpaces()>0){
                     if(!mute) System.out.println("LS: Joining game at random...");
 
-                        this.serverList.get(gameFound).addPlayer(nickname, client);
-                        client.setMatchServer(this.serverList.get(gameFound));
+                    this.serverList.get(gameFound).addPlayer(nickname, client);
+                    client.setMatchServer(this.serverList.get(gameFound));
 
                     this.nicknamesInGame.add(nickname);
                     return this.serverInformation.get(gameFound);
@@ -398,7 +399,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         }
     }
 
-    private void addPotentialPlayers(String fileName,String gameName, String firstPlayer){
+    private void addPotentialPlayers(String fileName, String gameName, String firstPlayer){
         Arrays.stream(fileName
                 .substring(0,fileName.length()-ServerConstants.JSON_EXTENSION.length())
                 .split(ServerConstants.REGEX))
@@ -411,7 +412,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * from the current pool of players in game
      * @param playersList file name where the game was stored
      */
-    public void removePlayersFromGame(List<String> playersList){
+    public void removePlayersFromLobby(List<String> playersList){
         playersList.forEach(this.nicknamesInGame::remove);
         playersList.forEach(this.nicknamesPool::remove);
         playersList.forEach(this.potentialPlayers::remove);
@@ -465,7 +466,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         return this.createGameTcpRmi(numPlayers, nickname, new ClientHandler(tcpClient));
     }
 
-    public void startTcpServer(int port){
+    private void startTcpServer(int port){
         if(!mute) System.out.println("LS: Starting Tcp Server...");
 
         Thread t = new Thread(() -> {

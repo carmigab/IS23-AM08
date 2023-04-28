@@ -29,13 +29,11 @@ public class TcpClient implements Client{
     private Socket socket;
 
     private ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
 
     private View view;
 
-    private ObjectInputStream objectInputStream;
-
     // Locks
-
     private Lock actionLock = new Lock();
 
     private Lock pingLock = new Lock();
@@ -171,7 +169,7 @@ public class TcpClient implements Client{
 
 
     // This method tries to retrieve the received message from the lock
-    public Message manageTcpConversation(Lock lock, Message message) throws ConnectionError {
+    private Message manageTcpConversation(Lock lock, Message message) throws ConnectionError {
         Lock manageTcpConversationLock = new Lock();
 
         // here we create a thread that manages the inbound message
@@ -200,8 +198,8 @@ public class TcpClient implements Client{
             synchronized (manageTcpConversationLock) {
                 t.start();
                 manageTcpConversationLock.wait();
+                return this.retrieveMessageFromLock(lock);
             }
-            return this.retrieveMessageFromLock(lock);
         }
          catch (ConnectionError e) {
             if (!mute && !essential) System.out.println("Connection error from "+ message.toString());
@@ -215,7 +213,7 @@ public class TcpClient implements Client{
     }
 
 
-    public Message retrieveMessageFromLock(Lock lock) throws ConnectionError {
+    private Message retrieveMessageFromLock(Lock lock) throws ConnectionError {
         synchronized (lock) {
             Message newMessage = lock.getMessage();
             if (lock.isDisconnection()) throw new ConnectionError();

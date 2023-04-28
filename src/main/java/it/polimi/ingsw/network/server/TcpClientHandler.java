@@ -26,16 +26,11 @@ public class TcpClientHandler implements Runnable {
 
     String nickname;
 
-    boolean listeningForMessages = true;
-    boolean tcpClientHandlerOnline = true;
-
-    OutputStream outputStream;
     ObjectOutputStream objectOutputStream;
-
-
-    InputStream inputStream;
     ObjectInputStream objectInputStream;
 
+    boolean listeningForMessages = true;
+    boolean tcpClientHandlerOnline = true;
 
     // flag to mute the clientHandler
     private boolean mute = true;
@@ -60,8 +55,7 @@ public class TcpClientHandler implements Runnable {
         // Opening output streams
         try {
             if(!mute) System.out.println("CH: Opening Output Streams");
-            this.outputStream = socket.getOutputStream();
-            this.objectOutputStream = new ObjectOutputStream(outputStream);
+            this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             if(!mute) System.out.println("CH["+nickname+"]: Failed opening Output Streams");
             this.disconnection();
@@ -79,8 +73,7 @@ public class TcpClientHandler implements Runnable {
         if(!mute) System.out.println("CH["+nickname+"]: Opening Input Streams");
         Thread t = new Thread(() -> {
             try {
-                this.inputStream = socket.getInputStream();
-                this.objectInputStream  = new ObjectInputStream(inputStream);
+                this.objectInputStream  = new ObjectInputStream(socket.getInputStream());
             } catch (IOException e) {
                 if(!mute) System.out.println("CH["+nickname+"]: Failed opening Input Streams");
                 this.disconnection();
@@ -268,8 +261,3 @@ public class TcpClientHandler implements Runnable {
         }
     }
 }
-
-
-// TODO
-// commentare tutto per bene, ricordarsi di specificare che il server è solo asynchrono
-// mentre il client è synchrono

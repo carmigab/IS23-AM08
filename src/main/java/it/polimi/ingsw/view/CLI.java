@@ -71,7 +71,6 @@ public class CLI extends View{
     /**
      * This method is called by update to display the game
      */
-    //TODO: implement end game
     @Override
     protected void display() {
         synchronized (displayLock) {

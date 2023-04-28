@@ -134,4 +134,16 @@ public class PlayerInfo implements Serializable {
     public int getGroupPoints() {
         return groupPoints;
     }
+
+    /**
+     * This method returns the total points of the player
+     * @return the total points of the player
+     */
+    public int getScore(){
+        int scores = pgPoints + firstPoint + groupPoints;
+        for (int i = 0; i < comGoalPoints.length; i++) {
+            scores += comGoalPoints[i];
+        }
+        return scores;
+    }
 }

@@ -73,6 +73,8 @@ public abstract class View {
                 // parse the command and send it to the server
                 parseCommand(command); // il client deve gestire la remote exception e settare shutdown a true
             }
+
+            iWantToPlay = false;
             // ask the player if he wants to play again
             if (!currentState.equals(State.GRACEFULDISCONNECTION)) {
                 iWantToPlay = askIfWantToPlayAgain();

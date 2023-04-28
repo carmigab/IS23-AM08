@@ -71,7 +71,7 @@ public class CLI extends View{
     /**
      * This method is called by update to display the game
      */
-    //TODO: implement this method
+    //TODO: implement end game
     @Override
     protected void display() {
         synchronized (displayLock) {
@@ -81,6 +81,16 @@ public class CLI extends View{
             }
 
             System.out.println();
+
+            if (currentState == State.ENDGAME) {
+                printMessage("Game ended!", AnsiEscapeCodes.INFO_MESSAGE);
+                printMessage("Final scores:", AnsiEscapeCodes.INFO_MESSAGE);
+                for (PlayerInfo playerInfo : gameInfo.getPlayerInfosList()) {
+                    printMessage(playerInfo.getNickname() + ": " + playerInfo.getScore(), AnsiEscapeCodes.INFO_MESSAGE);
+                }
+                return;
+            }
+
             printOtherPlayersShelf();
             printBoard();
             printCommonGoals();
@@ -117,7 +127,6 @@ public class CLI extends View{
     /**
      * This method is called by display to print the shelf of the current player
      */
-    //TODO: add char to sign personal goal
     private void printMyShelf() {
         for (PlayerInfo playerInfo : gameInfo.getPlayerInfosList()) {
             if (playerInfo.getNickname().equals(this.myNickname)) {
@@ -248,6 +257,7 @@ public class CLI extends View{
         if (command == null) {
             return;
         }
+
         switch (command.trim()) {
             case "/help" -> {
                 printMessage("Command list:", AnsiEscapeCodes.INFO_MESSAGE);

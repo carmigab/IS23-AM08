@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
+import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.network.client.exceptions.TimeOutException;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.clientMessages.*;
@@ -181,14 +182,17 @@ public class TcpClientHandler implements Runnable {
                 MakeMoveMessage m = (MakeMoveMessage) message;
                 boolean invalidNickname = false;
                 boolean invalidMove = false;
+                boolean gameEnded = false;
                 try {
                     this.matchServer.makeMove(m.getPositions(), m.getColumn(), m.sender());
                 } catch (InvalidNicknameException e) {
                     invalidNickname = true;
                 } catch (InvalidMoveException e) {
                     invalidMove = true;
+                } catch (GameEndedException e) {
+                    gameEnded = true;
                 }
-                sendTcpMessage(new MakeMoveResponse("Server", invalidMove, invalidNickname));
+                sendTcpMessage(new MakeMoveResponse("Server", invalidMove, invalidNickname, gameEnded));
             }
             else if (message instanceof IsServerAliveMessage)
                 this.sendTcpMessage(new IsServerAliveResponse("Server"));

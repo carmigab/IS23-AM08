@@ -12,6 +12,7 @@ import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.network.client.TcpClient;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
+import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.network.server.constants.ServerConstants;
 import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.network.server.exceptions.NoGamesAvailableException;
@@ -308,6 +309,9 @@ public class CLI extends View{
                 printMessage("Error: invalid move please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
             } catch (ConnectionError e) {
                 // ignore
+            } catch (GameEndedException e) {
+                // this one needs to be managed better
+                printMessage("Error: game has already ended", AnsiEscapeCodes.ERROR_MESSAGE);
             }
     }
 

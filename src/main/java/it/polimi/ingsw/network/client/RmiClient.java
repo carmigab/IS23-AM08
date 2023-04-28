@@ -7,6 +7,7 @@ import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.network.client.clientLocks.Lock;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
+import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.network.server.RmiServerInterface;
 import it.polimi.ingsw.network.server.RMILobbyServerInterface;
 import it.polimi.ingsw.network.server.constants.ServerConstants;
@@ -120,7 +121,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @param col : the column of the shelf
      * @throws RemoteException
      */
-    public void makeMove(List<Position> pos, int col) throws InvalidNicknameException, InvalidMoveException, ConnectionError {
+    public void makeMove(List<Position> pos, int col) throws InvalidNicknameException, InvalidMoveException, ConnectionError, GameEndedException {
         try {
             this.matchServer.makeMove(pos, col, nickname);
         } catch (RemoteException e) {

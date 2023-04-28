@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Position;
+import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.network.messages.clientMessages.*;
 import it.polimi.ingsw.network.messages.serverMessages.*;
 import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
@@ -49,7 +50,7 @@ public class TcpClient implements Client{
 
     private boolean mute = false;
     // when this flag is true the clients prints only essential messages
-    private boolean essential = false;
+    private boolean essential = true;
 
 
 
@@ -291,11 +292,12 @@ public class TcpClient implements Client{
     }
 
 
-    public synchronized void makeMove(List<Position> pos, int col) throws InvalidMoveException, InvalidNicknameException, ConnectionError {
+    public synchronized void makeMove(List<Position> pos, int col) throws InvalidMoveException, InvalidNicknameException, ConnectionError, GameEndedException {
         MakeMoveResponse response = (MakeMoveResponse) this.manageTcpConversation(actionLock,
                 new MakeMoveMessage(this.nickname, pos, col));
 
 
+        if (response.isGameEnded()) throw new GameEndedException();
         if (response.isInvalidMove()) throw new InvalidMoveException();
         if (response.isInvalidNickname()) throw new InvalidNicknameException();
     }

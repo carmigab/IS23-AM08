@@ -8,6 +8,7 @@ import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.Position;
+import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.network.client.exceptions.TimeOutException;
 import it.polimi.ingsw.network.server.constants.ServerConstants;
 
@@ -83,7 +84,8 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
      * @throws InvalidNicknameException
      * @throws InvalidMoveException
      */
-    public void makeMove(List<Position> pos, int col, String nickname) throws RemoteException, InvalidNicknameException, InvalidMoveException {
+    public void makeMove(List<Position> pos, int col, String nickname) throws RemoteException, InvalidNicknameException, InvalidMoveException, GameEndedException {
+        if (this.state == State.ENDGAME) throw new GameEndedException();
         if(!isMyTurn(nickname)) {
             if(!mute) System.out.println("MS: Illegal move: InvalidNicknameException");
             throw new InvalidNicknameException();
@@ -95,6 +97,8 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
             throw new InvalidMoveException();
         }
 
+        // Uncomment this line to test for endgame display in the cli
+        // this.gameController.forceGameOver();
     }
 
     /**

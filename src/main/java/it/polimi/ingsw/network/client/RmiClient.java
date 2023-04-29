@@ -88,8 +88,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     /**
      * This method looks up the registry of the lobby server
      * If it doesn't found it he waits for 5 second
-     * @throws RemoteException
-     * @throws NotBoundException
+     * @throws InterruptedException
      */
     private void connectToLobbyServer(String ipToConnect, Integer lobbyPort) throws InterruptedException {
         while(true) {
@@ -122,7 +121,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * This method lets the player choose his nickname
      * @param nick: the nickname of the player
      * @return true if nickname is available
-     * @throws RemoteException
+     * @throws ConnectionError
      */
     @Override
     public boolean chooseNickname(String nick) throws ConnectionError {
@@ -146,7 +145,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * This method lets the player make a move
      * @param pos : a List of positions
      * @param col : the column of the shelf
-     * @throws RemoteException
+     * @throws InvalidNicknameException
+     * @throws InvalidMoveException
+     * @throws ConnectionError
+     * @throws GameEndedException
      */
     public void makeMove(List<Position> pos, int col) throws InvalidNicknameException, InvalidMoveException, ConnectionError, GameEndedException {
         try {
@@ -161,8 +163,9 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     /**
      * This method lets a player create a game and choose the available player slots
      * @param num : player slots
-     * @throws RemoteException
-     * @throws NotBoundException
+     * @throws NonExistentNicknameException
+     * @throws AlreadyInGameException
+     * @throws ConnectionError
      */
     public void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException, ConnectionError {
         try {
@@ -181,8 +184,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
 
     /**
      * This method lets a player join a game
-     * @throws RemoteException
-     * @throws NotBoundException
+     * @throws NoGamesAvailableException
+     * @throws NonExistentNicknameException
+     * @throws AlreadyInGameException
+     * @throws ConnectionError
      */
     public void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError {
         try {
@@ -259,7 +264,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * This method lets the client send a message privately to someone
      * @param message: the message
      * @param receiver : the one that is supposed to receive the message
-     * @throws RemoteException
+     * @throws ConnectionError
      */
     public void messageSomeone(String message, String receiver) throws ConnectionError {
         try {
@@ -274,7 +279,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     /**
      * This method lets the client send a message to every other client connected to the game
      * @param message: the message
-     * @throws RemoteException
+     * @throws ConnectionError
      */
     public void messageAll(String message) throws ConnectionError {
         try {
@@ -292,7 +297,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @param message: the message
      * @throws RemoteException
      */
-    public void receiveMessage(String message) throws RemoteException{
+    public void receiveMessage(String message) throws RemoteException {
         this.view.displayChatMessage(message);
     }
 

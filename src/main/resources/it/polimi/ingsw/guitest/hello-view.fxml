@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="BOTTOM_CENTER" prefHeight="700.0" prefWidth="800.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.guitest.HelloController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+   <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@box_noshadow_280x280.png" />
+      </image>
+   </ImageView>
+   <TextField fx:id="connectionType" alignment="CENTER" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" promptText="rmi / tcp">
+      <font>
+         <Font name="Comic Sans MS" size="12.0" />
+      </font>
+   </TextField>
+    <TextField fx:id="serverIP" alignment="CENTER" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" promptText="IP of the server">
+        <font>
+            <Font name="Comic Sans MS" size="12.0" />
+        </font></TextField>
+    <TextField fx:id="serverPort" alignment="CENTER" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" promptText="Port of the server">
+        <font>
+            <Font name="Comic Sans MS" size="12.0" />
+        </font></TextField>
+    <Button onAction="#onConnectButtonClick" text="Connect">
+        <font>
+            <Font name="Comic Sans MS" size="12.0" />
+        </font></Button>
+   <Label fx:id="errorLabel" alignment="CENTER" textAlignment="CENTER" textFill="RED">
+      <font>
+         <Font name="Comic Sans MS" size="22.0" />
+      </font></Label>
+</VBox>

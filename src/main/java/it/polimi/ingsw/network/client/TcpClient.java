@@ -127,7 +127,7 @@ public class TcpClient implements Client{
                 } catch (IOException e) {
                     if (listeningForMessages){
                         if (!mute && !essential) System.out.println("IOException from InboundMessagesThread");
-                        e.printStackTrace();
+                        // e.printStackTrace();
                         this.gracefulDisconnection();
                     }
                 } catch (ClassNotFoundException e) {
@@ -178,9 +178,10 @@ public class TcpClient implements Client{
                 synchronized (manageTcpConversationLock) {
                     synchronized (lock) {
                         this.sendTcpMessage(message);
-                        while (lock.toWait()) lock.wait();
-                        // Version 2 (without managing the spurious wakeup and giving  limit to the wait
-                        //lock.wait(ServerConstants.TCP_WAIT_TIME);
+                        // Version 1: infinite wait
+                        //while (lock.toWait()) lock.wait();
+                        // Version 2: finite wait
+                        lock.wait(ServerConstants.TCP_WAIT_TIME);
 
                         manageTcpConversationLock.notifyAll();
                     }
@@ -218,7 +219,7 @@ public class TcpClient implements Client{
             Message newMessage = lock.getMessage();
             if (lock.isDisconnection()) throw new ConnectionError();
             // Version 2
-            // if (newMessage == null) throw new ConnectionError();
+            if (newMessage == null) throw new ConnectionError();
             lock.reset();
             return newMessage;
         }

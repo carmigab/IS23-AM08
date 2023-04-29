@@ -22,20 +22,49 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 public class RmiClient extends UnicastRemoteObject implements Client, RmiClientInterface{
+    /**
+     * This attribute represents the nickname of the player
+     */
     private String nickname;
 
+    /**
+     * This attribute is the rmi reference to the matchServer
+     */
     private RmiServerInterface matchServer;
+
+    /**
+     * This attribute is the rmi reference to the lobbyServer
+     */
     private RMILobbyServerInterface lobbyServer;
 
+    /**
+     * This attribute is the registry of the lobby server
+     */
     private Registry lobbyRegistry;
 
+    /**
+     * This attribute is the View
+     */
     private View view;
 
+    /**
+     * This attribute is a lock useful for synchronization
+     */
     private Object lock = new Lock();
+
+    /**
+     * If this flag is true the client has to ping the server
+     */
     private boolean toPing = true;
 
+    /**
+     * If this flag is true the client is silent
+     */
     private boolean mute = false;
-    // when this flag is true the clients prints only essential messages
+
+    /**
+     * If this flag is true the client only prints essential messages
+     */
     private boolean essential = true;
 
 
@@ -91,7 +120,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
 
     /**
      * This method lets the player choose his nickname
-     * @param nick
+     * @param nick: the nickname of the player
      * @return true if nickname is available
      * @throws RemoteException
      */
@@ -172,8 +201,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     }
 
     /**
-     * This method connects to the MatchServer using information available in the parameter
-     * it also starts a thread that pings the server every 1 second
+     * This method connects the client to the MatchServer using information available in the parameter
+     * it also starts a thread that pings the server
      * @param matchServerName : name of the server to connect
      * @throws RemoteException
      * @throws NotBoundException
@@ -185,6 +214,9 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         this.createPingThread();
     }
 
+    /**
+     * This method creates a Ping thread that pings the server
+     */
     private void createPingThread(){
         if (!mute && !essential) System.out.println("New Ping Thread starting");
         Thread t = new Thread(() -> {
@@ -224,8 +256,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     }
 
     /**
-     * This method lets the client send a message privately only to someone
-     * @param message
+     * This method lets the client send a message privately to someone
+     * @param message: the message
      * @param receiver : the one that is supposed to receive the message
      * @throws RemoteException
      */
@@ -241,7 +273,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
 
     /**
      * This method lets the client send a message to every other client connected to the game
-     * @param message
+     * @param message: the message
      * @throws RemoteException
      */
     public void messageAll(String message) throws ConnectionError {
@@ -256,8 +288,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     }
 
     /**
-     * This method notifies the view that a message has arrived
-     * @param message
+     * This method notifies the view that a chat message has arrived
+     * @param message: the message
      * @throws RemoteException
      */
     public void receiveMessage(String message) throws RemoteException{
@@ -273,7 +305,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     }
 
     /**
-     * This manages the disconnection
+     * This method manages the disconnection by setting toPing to false and updating the view
      */
     private void gracefulDisconnection() {
         if (!mute && essential) System.out.println("Connection error");
@@ -284,5 +316,3 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     }
 
 }
-
-   // make the graceful disconnection throw an exception

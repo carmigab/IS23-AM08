@@ -1,14 +1,14 @@
 package it.polimi.ingsw.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import it.polimi.ingsw.model.constants.AppConstants;
-import it.polimi.ingsw.model.utilities.UtilityFunctions;
+import it.polimi.ingsw.UtilityTestFunctions;
 import org.junit.jupiter.api.Test;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.InputStreamReader;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,14 +35,8 @@ class PlayerStateTest {
     @Test
     void getPoints() {
         // Loading json playerstate
-        String file = "src/main/resources/testMatches/Points_test.json";
         Gson json = new GsonBuilder().setPrettyPrinting().create();
-        PlayerState pl;
-        try {
-            pl = new PlayerState(json.fromJson(new FileReader(file), PlayerState.class));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        PlayerState pl = new PlayerState(json.fromJson(UtilityTestFunctions.getReaderFromFileNameRelativePath("Points_test.json", this.getClass()), PlayerState.class));
 
 
         // Points evaluations
@@ -74,14 +68,8 @@ class PlayerStateTest {
      */
     @Test
     void getShelf() {
-        String file = "src/main/resources/testMatches/Points_test.json";
         Gson json = new GsonBuilder().setPrettyPrinting().create();
-        PlayerState pl;
-        try {
-            pl = new PlayerState(json.fromJson(new FileReader(file), PlayerState.class));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        PlayerState pl = new PlayerState(json.fromJson(UtilityTestFunctions.getReaderFromFileNameRelativePath("Points_test.json", this.getClass()), PlayerState.class));
 
         PlayerState pl2 = new PlayerState(pl);
 

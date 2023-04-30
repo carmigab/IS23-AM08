@@ -4,8 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.UtilityTestFunctions;
 import it.polimi.ingsw.model.constants.AppConstants;
-import it.polimi.ingsw.model.utilities.UtilityFunctions;
+import it.polimi.ingsw.utilities.UtilityFunctionsModel;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +30,7 @@ class GameModelTest {
     public void testLoadFromFile() throws FileNotFoundException {
         List<String> players=new ArrayList<>(4);
         players.add("MatteCenz"); players.add("GabriCarr"); players.add("GabriCarm"); players.add("AleCappe");
-        String file= AppConstants.PATH_SAVED_MATCHES + UtilityFunctions.getJSONFileName(players);
+        String file= AppConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(players);
         Gson json=new GsonBuilder().setPrettyPrinting().create();
         GameModel gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
         //System.out.println(json.toJson(gm));
@@ -46,7 +47,7 @@ class GameModelTest {
         players.add("MatteCenz"); players.add("GabriCarr"); players.add("GabriCarm"); players.add("AleCappe");
         String file= "src/main/resources/testMatches/MatchTestMakeMove.json";
         Gson json=new GsonBuilder().setPrettyPrinting().create();
-        GameModel gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
+        GameModel gm=new GameModel(json.fromJson(UtilityTestFunctions.getReaderFromFileNameRelativePath("MatchTestMakeMove.json", this.getClass()), GameModel.class));
 
         Position p = new Position(0, 4);
         List<Position> pos = new ArrayList<>();
@@ -59,7 +60,7 @@ class GameModelTest {
         assertEquals(2, gm.getPlayer().getShelf().getTile(p1).getSprite());
 
         // I test the method with 2 cards taken by the board
-        gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
+        gm=new GameModel(json.fromJson(UtilityTestFunctions.getReaderFromFileNameRelativePath("MatchTestMakeMove.json", this.getClass()), GameModel.class));
         Position p2 = new Position(0, 4);
         Position p3 = new Position(1, 4);
         Position p4 = new Position(2, 4);
@@ -84,15 +85,13 @@ class GameModelTest {
 
     /**
      * this method tests the method checkValidMove of the class GameModel
-     * @throws FileNotFoundException if the file which simulate the match didn't find
      */
     @Test
-    public void checkValidMove() throws FileNotFoundException {
+    public void checkValidMove(){
         List<String> players=new ArrayList<>(4);
         players.add("MatteCenz"); players.add("GabriCarr"); players.add("GabriCarm"); players.add("AleCappe");
-        String file= "src/main/resources/testMatches/TestCheckValidMoveAndCheckValidColumn.json";
         Gson json=new GsonBuilder().setPrettyPrinting().create();
-        GameModel gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
+        GameModel gm=new GameModel(json.fromJson(UtilityTestFunctions.getReaderFromFileNameRelativePath("TestCheckValidMoveAndCheckValidColumn.json", this.getClass()), GameModel.class));
 
         List<Position> pos = new ArrayList<>();
         assertFalse(gm.checkValidMove(pos));
@@ -126,15 +125,13 @@ class GameModelTest {
 
     /**
      * this method tests the method checkValidColumn of the class GameModel
-     * @throws FileNotFoundException if the file which simulate the match didn't find
      */
     @Test
     public void checkValidColumn() throws FileNotFoundException {
         List<String> players=new ArrayList<>(4);
         players.add("MatteCenz"); players.add("GabriCarr"); players.add("GabriCarm"); players.add("AleCappe");
-        String file= "src/main/resources/testMatches/TestCheckValidMoveAndCheckValidColumn.json";
         Gson json=new GsonBuilder().setPrettyPrinting().create();
-        GameModel gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
+        GameModel gm=new GameModel(json.fromJson(UtilityTestFunctions.getReaderFromFileNameRelativePath("TestCheckValidMoveAndCheckValidColumn.json", this.getClass()), GameModel.class));
         assertFalse(gm.checkValidColumn(6,1));
         assertTrue(gm.checkValidColumn(0,3));
         assertFalse(gm.checkValidColumn(1, 1));
@@ -152,7 +149,7 @@ class GameModelTest {
     public void getCurrentPlayer() throws FileNotFoundException {
         List<String> players=new ArrayList<>(4);
         players.add("MatteCenz"); players.add("GabriCarr"); players.add("GabriCarm"); players.add("AleCappe");
-        String file= AppConstants.PATH_SAVED_MATCHES + UtilityFunctions.getJSONFileName(players);
+        String file= AppConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(players);
         Gson json=new GsonBuilder().setPrettyPrinting().create();
         GameModel gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
 
@@ -167,7 +164,7 @@ class GameModelTest {
     public void getPlayer() throws FileNotFoundException {
         List<String> players=new ArrayList<>(4);
         players.add("MatteCenz"); players.add("GabriCarr"); players.add("GabriCarm"); players.add("AleCappe");
-        String file= AppConstants.PATH_SAVED_MATCHES + UtilityFunctions.getJSONFileName(players);
+        String file= AppConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(players);
         Gson json=new GsonBuilder().setPrettyPrinting().create();
         GameModel gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
         PlayerState p = gm.getPlayer();

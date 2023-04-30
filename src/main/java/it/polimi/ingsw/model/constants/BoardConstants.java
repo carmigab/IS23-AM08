@@ -22,10 +22,9 @@ public final class BoardConstants {
      */
     public static final int TOTAL_CG_PER_GAME =   2;
     /**
-     * TODO understand what happens when maven builds the project in .jar
-     * paths to the game board configuration files
+     * relative paths to the game board configuration files
      */
-    public static final String FILE_CONFIG_GAMEBOARD2 = "src/main/config/model/gameBoard2.json";
-    public static final String FILE_CONFIG_GAMEBOARD3 = "src/main/config/model/gameBoard3.json";
-    public static final String FILE_CONFIG_GAMEBOARD4 = "src/main/config/model/gameBoard4.json";
+    public static final String FILE_CONFIG_GAMEBOARD2 = "gameBoard2.json";
+    public static final String FILE_CONFIG_GAMEBOARD3 = "gameBoard3.json";
+    public static final String FILE_CONFIG_GAMEBOARD4 = "gameBoard4.json";
 }

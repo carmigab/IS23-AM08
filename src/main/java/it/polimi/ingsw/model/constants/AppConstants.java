@@ -52,12 +52,12 @@ public class AppConstants {
      */
     public static int TOTAL_POINTS_FOR_PG  =   6;
     /**
-     *
+     * relative paths of all configuration files
      */
-    public static String FILE_CONFIG_PERSONALGOAL = "src/main/config/model/singleObjectives.json";
-    public static String FILE_CONFIG_NGROUPOFSIZEM = "src/main/config/model/commonGoals1and2.json";
-    public static String FILE_CONFIG_NLINESOFATMOSTMDIFFERENTCOLORS = "src/main/config/model/commonGoals5and8and9and10.json";
-    public static String FILE_CONFIG_SINGLEOCCURRENCEOFGIVENSHAPE = "src/main/config/model/commonGoals3and7and11.json";
+    public static String FILE_CONFIG_PERSONALGOAL = "singleObjectives.json";
+    public static String FILE_CONFIG_NGROUPOFSIZEM = "commonGoals1and2.json";
+    public static String FILE_CONFIG_NLINESOFATMOSTMDIFFERENTCOLORS = "commonGoals5and8and9and10.json";
+    public static String FILE_CONFIG_SINGLEOCCURRENCEOFGIVENSHAPE = "commonGoals3and7and11.json";
 
     public static String PATH_SAVED_MATCHES = "src/main/resources/savedMatches/";
 

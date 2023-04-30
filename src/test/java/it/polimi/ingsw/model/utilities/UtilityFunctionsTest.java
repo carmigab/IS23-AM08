@@ -5,12 +5,13 @@ import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.constants.AppConstants;
+import it.polimi.ingsw.utilities.UtilityFunctionsModel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit test for UtilityFunctions
+ * Unit test for UtilityFunctionsModel
  */
 class UtilityFunctionsTest {
 
@@ -25,7 +26,7 @@ class UtilityFunctionsTest {
 
         // initializing the library with a group of only one card and check if the method return 1 and if the library has not been changed except for the card valued
         shelf.add(card, 0);
-        assertEquals(1, UtilityFunctions.findGroupSize(shelf, new Position(0, 5)));
+        assertEquals(1, UtilityFunctionsModel.findGroupSize(shelf, new Position(0, 5)));
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
                 Position position = new Position(j, i);
@@ -36,7 +37,7 @@ class UtilityFunctionsTest {
         // add more cards to create a group of 2, then of 3, 4, 5, 6 and 7
         shelf.add(card, 0);
         shelf.add(card, 0);
-        assertEquals(2, UtilityFunctions.findGroupSize(shelf, new Position(0, 5)));
+        assertEquals(2, UtilityFunctionsModel.findGroupSize(shelf, new Position(0, 5)));
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
                 Position position = new Position(j, i);
@@ -47,19 +48,7 @@ class UtilityFunctionsTest {
         shelf.add(card, 0);
         shelf.add(card, 0);
         shelf.add(card, 1);
-        assertEquals(3, UtilityFunctions.findGroupSize(shelf, new Position(0, 5)));
-        for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
-            for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
-                Position position = new Position(j, i);
-                assertEquals(copy.getTile(position), shelf.getTile(position));
-            }
-        }
-
-        shelf.add(card, 0);
-        shelf.add(card, 0);
-        shelf.add(card, 1);
-        shelf.add(card, 1);
-        assertEquals(4, UtilityFunctions.findGroupSize(shelf, new Position(0, 5)));
+        assertEquals(3, UtilityFunctionsModel.findGroupSize(shelf, new Position(0, 5)));
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
                 Position position = new Position(j, i);
@@ -71,8 +60,7 @@ class UtilityFunctionsTest {
         shelf.add(card, 0);
         shelf.add(card, 1);
         shelf.add(card, 1);
-        shelf.add(card, 0);
-        assertEquals(5, UtilityFunctions.findGroupSize(shelf, new Position(0, 5)));
+        assertEquals(4, UtilityFunctionsModel.findGroupSize(shelf, new Position(0, 5)));
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
                 Position position = new Position(j, i);
@@ -85,8 +73,21 @@ class UtilityFunctionsTest {
         shelf.add(card, 1);
         shelf.add(card, 1);
         shelf.add(card, 0);
+        assertEquals(5, UtilityFunctionsModel.findGroupSize(shelf, new Position(0, 5)));
+        for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
+            for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
+                Position position = new Position(j, i);
+                assertEquals(copy.getTile(position), shelf.getTile(position));
+            }
+        }
+
         shelf.add(card, 0);
-        assertEquals(6, UtilityFunctions.findGroupSize(shelf, new Position(0, 5)));
+        shelf.add(card, 0);
+        shelf.add(card, 1);
+        shelf.add(card, 1);
+        shelf.add(card, 0);
+        shelf.add(card, 0);
+        assertEquals(6, UtilityFunctionsModel.findGroupSize(shelf, new Position(0, 5)));
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
                 Position position = new Position(j, i);
@@ -101,7 +102,7 @@ class UtilityFunctionsTest {
         shelf.add(card, 0);
         shelf.add(card, 0);
         shelf.add(card, 2);
-        assertEquals(7, UtilityFunctions.findGroupSize(shelf, new Position(0, 5)));
+        assertEquals(7, UtilityFunctionsModel.findGroupSize(shelf, new Position(0, 5)));
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
                 Position position = new Position(j, i);
@@ -121,7 +122,7 @@ class UtilityFunctionsTest {
         shelf.add(card, 1);
         shelf.add(card, 1);
         shelf.add(card, 0);
-        assertEquals(5, UtilityFunctions.findGroupSize(shelf, new Position(0, 5)));
+        assertEquals(5, UtilityFunctionsModel.findGroupSize(shelf, new Position(0, 5)));
         for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
                 Position position = new Position(j, i);

@@ -6,6 +6,7 @@ module AM08 {
 
     opens it.polimi.ingsw.model.commonGoals to com.google.gson;
     opens it.polimi.ingsw.model to com.google.gson;
+    opens it.polimi.ingsw.controller to com.google.gson;
     opens it.polimi.ingsw.network.server to java.rmi, com.google.gson;
     opens it.polimi.ingsw.network.client to java.rmi;
     opens it.polimi.ingsw.guitest to javafx.fxml;

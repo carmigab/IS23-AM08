@@ -6,7 +6,7 @@ import it.polimi.ingsw.gameInfo.PlayerInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.constants.AppConstants;
-import it.polimi.ingsw.model.utilities.UtilityFunctions;
+import it.polimi.ingsw.utilities.UtilityFunctionsModel;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -153,7 +153,7 @@ public abstract class View {
         }
         if(pos.x() < 0 || pos.x() >=AppConstants.BOARD_DIMENSION) return false;
         if(pos.y() < 0 || pos.y() >=AppConstants.BOARD_DIMENSION) return false;
-        return UtilityFunctions.hasFreeAdjacent(this.gameInfo.getGameBoard(), pos);
+        return UtilityFunctionsModel.hasFreeAdjacent(this.gameInfo.getGameBoard(), pos);
     }
 
 
@@ -181,7 +181,7 @@ public abstract class View {
         List<PlayerInfo>  player = this.gameInfo.getPlayerInfosList();
         for(int i=0; i<player.size();i++){
             if(player.get(i).getNickname().equals(gameInfo.getCurrentPlayerNickname())){
-                return UtilityFunctions.getFreeSpaces(this.gameInfo.getPlayerInfosList().get(i).getShelf(), col) >= numTiles;
+                return UtilityFunctionsModel.getFreeSpaces(this.gameInfo.getPlayerInfosList().get(i).getShelf(), col) >= numTiles;
             }
         }
         return false;

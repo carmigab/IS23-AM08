@@ -2,12 +2,13 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.UtilityTestFunctions;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.model.constants.AppConstants;
-import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
-import it.polimi.ingsw.model.utilities.UtilityFunctions;
+import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
+import it.polimi.ingsw.utilities.UtilityFunctionsModel;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -29,23 +30,19 @@ class CompleteGameTest {
     @Test
     @Disabled
     void twoPlayerCompleteGame() throws FileNotFoundException {
-        String configFile = "src/test/resources/CompleteGameTestConfig.json";
-        String actionsFile = "src/test/resources/CompleteGameTestActions.json";
-        String modelsFileStart = "src/test/resources/Model";
         String modelsFileCount = "1";
-        String modelsFileExtension = ".json";
 
         Gson json = new GsonBuilder().setPrettyPrinting().create();
-        GameController gameController = new GameController(JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(new FileReader(configFile), GameController.class));
+        GameController gameController = new GameController(JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(UtilityTestFunctions.getReaderFromFileNameResourcesPath("completeGameTest/CompleteGameTestConfig.json", this.getClass()), GameController.class));
 
         Gson jsonLoader = JsonWithExposeSingleton.getJsonWithExposeSingleton();
 
         List<String> players=new ArrayList<>(2);
         players.add("MatteCenz"); players.add("GabriCarr");
-        String file = AppConstants.PATH_SAVED_MATCHES + UtilityFunctions.getJSONFileName(players);
+        String file = AppConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(players);
         GameModel savedModel;
 
-        List<String> actions = json.fromJson(new FileReader(actionsFile), ArrayList.class);
+        List<String> actions = json.fromJson(UtilityTestFunctions.getReaderFromFileNameResourcesPath("completeGameTest/CompleteGameTestActions.json", this.getClass()), ArrayList.class);
 
         int index = 1;
         for (String action: actions) {
@@ -66,7 +63,7 @@ class CompleteGameTest {
                 savedModel = new GameModel(json.fromJson(new FileReader(file), GameModel.class));
                 if (index < 14) {
                     modelsFileCount = new String(intToString(index));
-                    GameModel expectedGameModel = new GameModel(jsonLoader.fromJson(new FileReader(modelsFileStart + modelsFileCount + modelsFileExtension), GameModel.class));
+                    GameModel expectedGameModel = new GameModel(jsonLoader.fromJson(UtilityTestFunctions.getReaderFromFileNameResourcesPath("Model"+modelsFileCount+".json", GameModel.class), GameModel.class));
                     assertTrue(expectedGameModel.equals(savedModel));
                 }
             } catch (InvalidNicknameException e) {

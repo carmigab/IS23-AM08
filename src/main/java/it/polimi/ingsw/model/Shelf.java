@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.model.constants.AppConstants;
-import it.polimi.ingsw.model.utilities.UtilityFunctions;
+import it.polimi.ingsw.utilities.UtilityFunctionsModel;
 
 import java.io.Serializable;
 import java.util.ArrayDeque;
@@ -132,7 +132,7 @@ public class Shelf implements Serializable {
      * @return the number of free spaces in the column
      */
     public Integer getFreeSpaces(Integer col) {
-        return UtilityFunctions.getFreeSpaces(this.myShelf, col);
+        return UtilityFunctionsModel.getFreeSpaces(this.myShelf, col);
     }
 
 
@@ -183,7 +183,7 @@ public class Shelf implements Serializable {
         // Create an array
         while(!posToExplore.isEmpty()){
             Position p = posToExplore.pop();
-            components.add(UtilityFunctions.findGroupSize(tempLib, p));
+            components.add(UtilityFunctionsModel.findGroupSize(tempLib, p));
 
         }
 

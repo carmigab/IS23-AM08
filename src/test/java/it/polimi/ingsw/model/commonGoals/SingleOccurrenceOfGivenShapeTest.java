@@ -1,11 +1,12 @@
 package it.polimi.ingsw.model.commonGoals;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.UtilityTestFunctions;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.constants.AppConstants;
-import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
+import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -27,14 +28,8 @@ class SingleOccurrenceOfGivenShapeTest {
     void evaluate() {
         Shelf shelf = new Shelf();
         Gson jsonLoader= JsonWithExposeSingleton.getJsonWithExposeSingleton();
-        Reader fileReader= null;
-        try {
-            fileReader = new FileReader(AppConstants.FILE_CONFIG_SINGLEOCCURRENCEOFGIVENSHAPE);
-        }
-        catch(FileNotFoundException e){
-            System.out.println("error");
-        }
-        SingleOccurrenceOfGivenShapeConfiguration singleOccurrenceOfGivenShapeConfiguration = jsonLoader.fromJson(fileReader, SingleOccurrenceOfGivenShapeConfiguration.class);
+
+        SingleOccurrenceOfGivenShapeConfiguration singleOccurrenceOfGivenShapeConfiguration = jsonLoader.fromJson(UtilityTestFunctions.getReaderFromFileNameRelativePath("commonGoals3and7and11.json", this.getClass()), SingleOccurrenceOfGivenShapeConfiguration.class);
 
 
         singleOccurrenceOfGivenShape = singleOccurrenceOfGivenShapeConfiguration.getGoalAt(0);

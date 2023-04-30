@@ -7,9 +7,10 @@ import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.model.constants.BoardConstants;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesAtStartFillBoardException;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesToFillBoardException;
-import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
-import it.polimi.ingsw.model.utilities.RandomSingleton;
-import it.polimi.ingsw.model.utilities.UtilityFunctions;
+import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
+import it.polimi.ingsw.utilities.RandomSingleton;
+import it.polimi.ingsw.utilities.UtilityFunctions;
+import it.polimi.ingsw.utilities.UtilityFunctionsModel;
 import it.polimi.ingsw.controller.observers.Observer;
 
 import java.io.*;
@@ -118,26 +119,19 @@ public class GameModel {
     private void initializePlayers(List<String> nicknames){
 
         Gson jsonLoader= JsonWithExposeSingleton.getJsonWithExposeSingleton();
-        Reader fileReader;
-        try {
-            fileReader = new FileReader(AppConstants.FILE_CONFIG_PERSONALGOAL);
+        PersonalGoalsConfiguration poc = jsonLoader.fromJson(UtilityFunctions.getReaderFromFileNameRelativePath(AppConstants.FILE_CONFIG_PERSONALGOAL, this.getClass()), PersonalGoalsConfiguration.class);
 
-            PersonalGoalsConfiguration poc = jsonLoader.fromJson(fileReader, PersonalGoalsConfiguration.class);
-
-            Set<Integer> extractedPersonalGoals = new HashSet<>();
-            Random r = RandomSingleton.getRandomSingleton();
-            int random = r.nextInt(AppConstants.TOTAL_GOALS);;
-            for(String s: nicknames){
-                while (extractedPersonalGoals.contains(random)) {
-                    random = r.nextInt(AppConstants.TOTAL_GOALS);
-                }
-                playerList.add(new PlayerState(s, poc.getPersonalGoalAtIndex(random)));
-                extractedPersonalGoals.add(random);
+        Set<Integer> extractedPersonalGoals = new HashSet<>();
+        Random r = RandomSingleton.getRandomSingleton();
+        int random = r.nextInt(AppConstants.TOTAL_GOALS);;
+        for(String s: nicknames){
+            while (extractedPersonalGoals.contains(random)) {
+                random = r.nextInt(AppConstants.TOTAL_GOALS);
             }
+            playerList.add(new PlayerState(s, poc.getPersonalGoalAtIndex(random)));
+            extractedPersonalGoals.add(random);
         }
-        catch(FileNotFoundException e){
-            System.out.println("error");
-        }
+
     }
 
     /**
@@ -146,7 +140,7 @@ public class GameModel {
      * @param nicks list of the names of the players
      */
     private void initializePersistencyFile(List<String> nicks){
-        this.fileName=AppConstants.PATH_SAVED_MATCHES + UtilityFunctions.getJSONFileName(nicks);
+        this.fileName=AppConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(nicks);
         saveCurrentState();
     }
 
@@ -225,12 +219,12 @@ public class GameModel {
 
         //and we have to check the distance between the current and the next. if it is 1 it is ok, if not then it means they are not adjacent
         for(int i=0;i<pos.size()-1;i++){
-            if(UtilityFunctions.distanceSquared(copyPos.get(i), copyPos.get(i+1))!=1) return false;
+            if(UtilityFunctionsModel.distanceSquared(copyPos.get(i), copyPos.get(i+1))!=1) return false;
         }
         //also at the end we have to check that the first and the last are in a line (have a distance of exactly 4)
         //now 4 is the constant which depends on the lenght of the total array, for now i will leave it hard coded
 
-        if(pos.size()> AppConstants.MAX_NUM_OF_MOVES-1) if(UtilityFunctions.distanceSquared(copyPos.get(0),copyPos.get(copyPos.size()-1)) != 4) return false;
+        if(pos.size()> AppConstants.MAX_NUM_OF_MOVES-1) if(UtilityFunctionsModel.distanceSquared(copyPos.get(0),copyPos.get(copyPos.size()-1)) != 4) return false;
 
         /*
         for(int i=0;i<pos.size()-1;i++) {

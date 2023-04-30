@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.utilities;
+package it.polimi.ingsw.utilities;
 
 import java.util.Random;
 

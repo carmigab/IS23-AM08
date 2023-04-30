@@ -1,7 +1,6 @@
-package it.polimi.ingsw.model.utilities;
+package it.polimi.ingsw.utilities;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.App;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.Shelf;
@@ -19,7 +18,7 @@ import java.util.List;
 /**
  * This class is used to contain utility functions that will be used in different part of the program
  */
-public class UtilityFunctions {
+public class UtilityFunctionsModel {
     /**
      * This method is a private method used by the evaluate method to find the size of a group
      * containing the given card
@@ -127,61 +126,6 @@ public class UtilityFunctions {
     }
 
     /**
-     * This method receive and integer and initialize and return the corresponding common goal
-     * @param goalIndex index of the goal to be instantiated
-     * @return the goal corresponding to index
-     */
-    public static CommonGoal createCommonGoal(int goalIndex) {
-        Gson jsonLoader = JsonWithExposeSingleton.getJsonWithExposeSingleton();
-        Reader fileReader = null;
-        // creating configuration from json file for common goal 1 and 2
-        try {
-            fileReader = new FileReader(AppConstants.FILE_CONFIG_NGROUPOFSIZEM);
-        }
-        catch(FileNotFoundException e){
-            System.out.println("error");
-        }
-        NGroupsOfSizeMConfiguration nGroupsOfSizeMConfiguration = jsonLoader.fromJson(fileReader, NGroupsOfSizeMConfiguration.class);
-
-        // creating configuration from json file for common goal 5, 8, 9 and 10
-        try {
-            fileReader = new FileReader(AppConstants.FILE_CONFIG_NLINESOFATMOSTMDIFFERENTCOLORS);
-        }
-        catch(FileNotFoundException e){
-            System.out.println("error");
-        }
-        NLinesOfAtMostMDifferentColorsConfiguration nLinesOfAtMostMDifferentColorsConfiguration = jsonLoader.fromJson(fileReader, NLinesOfAtMostMDifferentColorsConfiguration.class);
-
-        // creating configuration from json file for common goal 3, 7 and 11
-        try {
-            fileReader = new FileReader(AppConstants.FILE_CONFIG_SINGLEOCCURRENCEOFGIVENSHAPE);
-        }
-        catch(FileNotFoundException e){
-            System.out.println("error");
-        }
-        SingleOccurrenceOfGivenShapeConfiguration singleOccurrenceOfGivenShapeConfiguration = jsonLoader.fromJson(fileReader, SingleOccurrenceOfGivenShapeConfiguration.class);
-
-        CommonGoal commonGoal;
-
-        commonGoal = switch (goalIndex) {
-            case 0 -> nGroupsOfSizeMConfiguration.getGoalAt(0);
-            case 1 -> nGroupsOfSizeMConfiguration.getGoalAt(1);
-            case 2 -> singleOccurrenceOfGivenShapeConfiguration.getGoalAt(0);
-            case 3 -> new TwoSquares();
-            case 4 -> nLinesOfAtMostMDifferentColorsConfiguration.getGoalAt(0);
-            case 5 -> new EightTilesOfTheSameColor();
-            case 6 -> singleOccurrenceOfGivenShapeConfiguration.getGoalAt(1);
-            case 7 -> nLinesOfAtMostMDifferentColorsConfiguration.getGoalAt(1);
-            case 8 -> nLinesOfAtMostMDifferentColorsConfiguration.getGoalAt(2);
-            case 9 -> nLinesOfAtMostMDifferentColorsConfiguration.getGoalAt(3);
-            case 10 -> singleOccurrenceOfGivenShapeConfiguration.getGoalAt(2);
-            default -> new Ladder();
-        };
-
-        return commonGoal;
-    }
-
-    /**
      * This method is used for calculating the mathematical distance (Pythagora's theorem) between two Positions,
      * useful for checking the adjacent cells
      * @param p1 first position
@@ -194,7 +138,7 @@ public class UtilityFunctions {
 
     public static boolean hasFreeAdjacent(Tile[][] myGameBoard, Position p){
         // get all the adjacent position containing a tile
-        List<Position> adjacents = UtilityFunctions.getAdjacentPositions(p, true);
+        List<Position> adjacents = UtilityFunctionsModel.getAdjacentPositions(p, true);
 
         // adjacents.size() < 4 means that the tile is on the edge of the board (the missing(s) position in this list are the ones out of the board
         if (adjacents.size() < 4) return true;

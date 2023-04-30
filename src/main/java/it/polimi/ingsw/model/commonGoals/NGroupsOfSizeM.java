@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.constants.AppConstants;
-import it.polimi.ingsw.model.utilities.UtilityFunctions;
+import it.polimi.ingsw.utilities.UtilityFunctionsModel;
 
 /**
  * This class implements the first and second common goal: N group of M tiles of the same color (different groups can have different colors)
@@ -49,7 +49,7 @@ public class NGroupsOfSizeM extends CommonGoal{
                 // execute the algorithm only if the current tile is not empty
                 if (!c.isEmpty()) {
                     // find the dimension of the group of which c is part and add 1 if the group is made of m or more tiles
-                    groupNum += UtilityFunctions.findGroupSize(copy, new Position(j, i)) >= m ? 1 : 0;
+                    groupNum += UtilityFunctionsModel.findGroupSize(copy, new Position(j, i)) >= m ? 1 : 0;
                 }
             }
         }

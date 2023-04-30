@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.utilities;
+package it.polimi.ingsw.utilities;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

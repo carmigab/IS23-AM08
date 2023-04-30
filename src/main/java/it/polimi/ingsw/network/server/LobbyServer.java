@@ -3,9 +3,10 @@ package it.polimi.ingsw.network.server;
 import it.polimi.ingsw.network.client.RmiClientInterface;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.constants.AppConstants;
-import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
+import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.network.server.constants.ServerConstants;
 import it.polimi.ingsw.network.server.exceptions.*;
+import it.polimi.ingsw.utilities.UtilityFunctions;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -138,12 +139,15 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @return a LobbyServerConfig object
      */
     private LobbyServerConfig loadInitialConfig() {
+        /*
         try {
             Reader r= new FileReader(ServerConstants.SERVER_INITIAL_CONFIG);
             return JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(r, LobbyServerConfig.class);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+        */
+        return JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(UtilityFunctions.getReaderFromFileNameRelativePath("lobbyServerInitialConfig.json", this.getClass()),LobbyServerConfig.class);
     }
 
     /**
@@ -151,12 +155,15 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @return list of banned words
      */
     private List<String> loadBanList(){
+        /*
         try {
             Reader r= new FileReader(ServerConstants.SERVER_BAN_LIST);
             return JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(r, ArrayList.class);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+        */
+        return JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(UtilityFunctions.getReaderFromFileNameRelativePath("lobbyServerBanList.json", this.getClass()),ArrayList.class);
     }
 
 

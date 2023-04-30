@@ -1,12 +1,12 @@
 package it.polimi.ingsw.model.commonGoals;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import it.polimi.ingsw.UtilityTestFunctions;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.constants.AppConstants;
-import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
+import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -29,14 +29,7 @@ class NGroupsOfSizeMTest {
         Shelf shelf = new Shelf();
 
         Gson jsonLoader= JsonWithExposeSingleton.getJsonWithExposeSingleton();
-        Reader fileReader= null;
-        try {
-            fileReader = new FileReader(AppConstants.FILE_CONFIG_NGROUPOFSIZEM);
-        }
-        catch(FileNotFoundException e){
-            System.out.println("error");
-        }
-        NGroupsOfSizeMConfiguration nGroupsOfSizeMConfiguration = jsonLoader.fromJson(fileReader, NGroupsOfSizeMConfiguration.class);
+        NGroupsOfSizeMConfiguration nGroupsOfSizeMConfiguration = jsonLoader.fromJson(UtilityTestFunctions.getReaderFromFileNameRelativePath("commonGoals1and2.json", this.getClass()), NGroupsOfSizeMConfiguration.class);
 
 
         nGroupsOfSizeM = nGroupsOfSizeMConfiguration.getGoalAt(0);

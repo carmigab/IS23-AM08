@@ -7,9 +7,10 @@ import it.polimi.ingsw.model.constants.BoardConstants;
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesAtStartFillBoardException;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesToFillBoardException;
-import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
-import it.polimi.ingsw.model.utilities.RandomSingleton;
-import it.polimi.ingsw.model.utilities.UtilityFunctions;
+import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
+import it.polimi.ingsw.utilities.RandomSingleton;
+import it.polimi.ingsw.utilities.UtilityFunctions;
+import it.polimi.ingsw.utilities.UtilityFunctionsModel;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -70,18 +71,10 @@ public final class GameBoard {
         for(int i=0; i<BoardConstants.TOTAL_CG_PER_GAME; i++) this.commonGoalsStacks.add(new MyStack());
         this.allTiles =new ArrayList<>(BoardConstants.TOTAL_TILES);
         Gson jsonParser= JsonWithExposeSingleton.getJsonWithExposeSingleton();
-        Reader fileReader;
-        try {
-            fileReader = new FileReader(typeOfBoard);
-            GameBoardConfiguration g=jsonParser.fromJson(fileReader, GameBoardConfiguration.class);
-
-            fillAllTilesList();
-            initialGameBoardFill(g.getValidPositions());
-            fillAllPointStack(g.getPointStack());
-        }
-        catch(FileNotFoundException e){
-            System.out.println("error");
-        }
+        GameBoardConfiguration g=jsonParser.fromJson(UtilityFunctions.getReaderFromFileNameRelativePath(typeOfBoard, GameBoard.class), GameBoardConfiguration.class);
+        fillAllTilesList();
+        initialGameBoardFill(g.getValidPositions());
+        fillAllPointStack(g.getPointStack());
     }
 
     public GameBoard(GameBoard gameBoard, List<Integer> cg){
@@ -99,7 +92,7 @@ public final class GameBoard {
     private void addAllCommonGoals(List<Integer> list){
         // map integer to specific common goal
         for(Integer i : list){
-            CommonGoal commonGoal = UtilityFunctions.createCommonGoal(i);
+            CommonGoal commonGoal = CommonGoalFactory.createCommonGoal(i);
 
             this.commonGoals.add(commonGoal);
         }
@@ -219,7 +212,7 @@ public final class GameBoard {
      * @return true if the tile in position p has at least one empty space in one of the final directions
      */
     public boolean hasFreeAdjacent(Position p){
-        return UtilityFunctions.hasFreeAdjacent(this.myGameBoard, p);
+        return UtilityFunctionsModel.hasFreeAdjacent(this.myGameBoard, p);
     }
 
 

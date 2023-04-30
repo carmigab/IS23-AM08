@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.constants.AppConstants;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.model.utilities.UtilityFunctions.findGroupContainingGivenPosition;
+import static it.polimi.ingsw.utilities.UtilityFunctionsModel.findGroupContainingGivenPosition;
 
 /**
  * This class implements the fourth common goal: two squares 2x2 of the same color

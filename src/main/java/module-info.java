@@ -9,6 +9,6 @@ module AM08 {
     opens it.polimi.ingsw.controller to com.google.gson;
     opens it.polimi.ingsw.network.server to java.rmi, com.google.gson;
     opens it.polimi.ingsw.network.client to java.rmi;
-    opens it.polimi.ingsw.guitest to javafx.fxml;
-    exports it.polimi.ingsw.guitest;
+    opens it.polimi.ingsw.view to javafx.fxml;
+    exports it.polimi.ingsw.view;
 }

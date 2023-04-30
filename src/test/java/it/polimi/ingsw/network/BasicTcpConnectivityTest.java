@@ -34,7 +34,7 @@ public class BasicTcpConnectivityTest {
             client.createGame(2);
         } catch (Exception e) {
             testSuccessful = false;
-            // e.printStackTrace();
+            e.printStackTrace();
         }
 
         assertTrue(testSuccessful);

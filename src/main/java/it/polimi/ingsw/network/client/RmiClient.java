@@ -128,7 +128,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         boolean flag = false;
         try {
             flag = lobbyServer.chooseNickname(nick);
-        } catch (ExistentNicknameExcepiton | IllegalNicknameException e) {
+        } catch (ExistentNicknameException | IllegalNicknameException e) {
             flag = false;
         } catch (RemoteException e) {
             if (!mute && !essential) System.out.println("Remote exception from chooseNickname");

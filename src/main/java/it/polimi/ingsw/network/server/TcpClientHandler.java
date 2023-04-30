@@ -132,7 +132,7 @@ public class TcpClientHandler implements Runnable {
                 boolean response;
                 try {
                     response = this.lobbyServer.chooseNickname(m.getNick());
-                } catch (ExistentNicknameExcepiton e) {
+                } catch (ExistentNicknameException e) {
                     response = false;
                 } catch (IllegalNicknameException e) {
                     response = false;
@@ -147,7 +147,10 @@ public class TcpClientHandler implements Runnable {
                 boolean nonExistentNickname = false;
                 try {
                     this.lobbyServer.createGame(m.getNumberOfPlayers(), m.sender(), this);
-                } catch (AlreadyInGameException e) {
+                } catch (RemoteException e){
+                    // ignore
+                }
+                catch (AlreadyInGameException e) {
                     alreadyInGame = true;
                 } catch (NonExistentNicknameException e) {
                     nonExistentNickname = true;

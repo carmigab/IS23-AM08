@@ -1,13 +1,12 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.RmiClient;
 import it.polimi.ingsw.network.client.RmiClientInterface;
 import it.polimi.ingsw.network.server.LobbyServer;
 import it.polimi.ingsw.network.server.LobbyServerConfig;
 import it.polimi.ingsw.network.server.constants.ServerConstants;
 import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
-import it.polimi.ingsw.network.server.exceptions.ExistentNicknameExcepiton;
+import it.polimi.ingsw.network.server.exceptions.ExistentNicknameException;
 import it.polimi.ingsw.network.server.exceptions.IllegalNicknameException;
 import it.polimi.ingsw.network.server.exceptions.NonExistentNicknameException;
 import org.junit.jupiter.api.Disabled;
@@ -22,13 +21,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class LobbyServerTest {
 
     @Test
-    public void testChooseNickNameAndConstructors() throws RemoteException, ExistentNicknameExcepiton, IllegalNicknameException, FileNotFoundException {
+    public void testChooseNickNameAndConstructors() throws RemoteException, ExistentNicknameException, IllegalNicknameException, FileNotFoundException {
         LobbyServer ls1= new LobbyServer();
 
         //create a player with a correct nickname
         assertTrue(ls1.chooseNickname("Gabri"));
         //trying to insert it again will not work
-        assertThrows(ExistentNicknameExcepiton.class, ()-> ls1.chooseNickname("Gabri"));
+        assertThrows(ExistentNicknameException.class, ()-> ls1.chooseNickname("Gabri"));
         //try a name from the ban list
         String bannedName="Matteo";
         assertThrows(IllegalNicknameException.class, ()-> ls1.chooseNickname(bannedName));
@@ -36,18 +35,18 @@ class LobbyServerTest {
         LobbyServer ls2= new LobbyServer(1234, "Ciao",2000,"Game");
 
         assertTrue(ls2.chooseNickname("Gabri"));
-        assertThrows(ExistentNicknameExcepiton.class, ()-> ls2.chooseNickname("Gabri"));
+        assertThrows(ExistentNicknameException.class, ()-> ls2.chooseNickname("Gabri"));
         assertThrows(IllegalNicknameException.class, ()-> ls2.chooseNickname(bannedName));
 
         LobbyServer ls3= new LobbyServer(new LobbyServerConfig(1234, 1235, "Ciao",2000,"Game"));
 
         assertTrue(ls3.chooseNickname("Gabri"));
-        assertThrows(ExistentNicknameExcepiton.class, ()-> ls3.chooseNickname("Gabri"));
+        assertThrows(ExistentNicknameException.class, ()-> ls3.chooseNickname("Gabri"));
         assertThrows(IllegalNicknameException.class, ()-> ls3.chooseNickname(bannedName));
     }
 
     @Test
-    public void testCorrectRegex() throws RemoteException, ExistentNicknameExcepiton, IllegalNicknameException {
+    public void testCorrectRegex() throws RemoteException, ExistentNicknameException, IllegalNicknameException {
         LobbyServer ls=new LobbyServer();
 
         // add a non banned name
@@ -71,7 +70,7 @@ class LobbyServerTest {
 
     @Disabled
     @Test
-    public void testCreateGame() throws RemoteException, ExistentNicknameExcepiton, IllegalNicknameException, NonExistentNicknameException, AlreadyInGameException, NotBoundException, InterruptedException {
+    public void testCreateGame() throws RemoteException, ExistentNicknameException, IllegalNicknameException, NonExistentNicknameException, AlreadyInGameException, NotBoundException, InterruptedException {
         LobbyServer ls=new LobbyServer();
         RmiClientInterface rmiClient = new RmiClient("The one who tests", null, "localhost", ServerConstants.RMI_PORT);
         //Let's use a banned word first

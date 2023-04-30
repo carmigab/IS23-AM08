@@ -7,11 +7,11 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- * This interface contains the methods that can be called on the client at the start of the application
+ * This interface contains the methods that can be called by the client on the Lobby Server
  */
 public interface RMILobbyServerInterface extends Remote {
 
-    public boolean chooseNickname(String nickname) throws RemoteException, ExistentNicknameExcepiton, IllegalNicknameException;
+    public boolean chooseNickname(String nickname) throws RemoteException, ExistentNicknameException, IllegalNicknameException;
 
     public String createGame(Integer numPlayers, String nickname, RmiClientInterface client) throws RemoteException, AlreadyInGameException, NonExistentNicknameException;
 

@@ -9,6 +9,9 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
+/**
+ * This interface contains the methods that can be called by the client on the MatchServer
+ */
 public interface RmiServerInterface extends Remote {
     public void makeMove(List<Position> pos, int col, String nickname) throws RemoteException, InvalidNicknameException, InvalidMoveException, GameEndedException;
 

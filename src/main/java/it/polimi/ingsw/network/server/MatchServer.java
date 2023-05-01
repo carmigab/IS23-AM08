@@ -14,36 +14,59 @@ import it.polimi.ingsw.network.server.constants.ServerConstants;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class MatchServer extends UnicastRemoteObject implements RmiServerInterface {
-
-    // This list represents also the playing order
+    /**
+     * This attribute is a list of the players nicknames
+     */
     private List<String> nicknamesList = new ArrayList<>();
-
+    /**
+     * This attribute is a list of clientHandlers
+     */
     private List<ClientHandler> clientsList = new ArrayList<>();
+    /**
+     * This attribute represents the number of player slots
+     */
     private int numPlayers;
+    /**
+     * This attribute represents the state of the game
+     */
     private State state;
-
+    /**
+     * This attribute is the game controller
+     */
     private GameController gameController;
-
+    /**
+     * This attribute is the lobby server
+     */
     private LobbyServer lobby;
-
+    /**
+     * This attribute represents the model to be loaded
+     */
     private GameModel gameToLoad;
+    /**
+     * This attribute is true if there is a game to load
+     */
     private boolean toLoadGame;
-
+    /**
+     * This attribute is true if the server has to ping the clients
+     */
     private boolean toPing = true;
-    private boolean clientsDisconnected = false;
-
+    /**
+     * This attribute is true when clients have to be disconnected
+     */
+    private boolean disconnectingClients = false;
+    /**
+     * Set this attribute to true to mute the server
+     */
     private boolean mute = false;
 
 
-
-
     /**
-     * Constructor of the RmiServer class
-     * @param numPlayers
+     * Constructor of the MatchServer class
+     * @param numPlayers: number of player slots
+     * @param lobby: lobby server
      * @throws RemoteException
      */
     public MatchServer(int numPlayers, LobbyServer lobby) throws RemoteException {
@@ -57,28 +80,28 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
     }
 
     /**
-     * Constructor of the rmiServer class from a pre-existing gameModel
+     * Constructor of the MatchServer class from a pre-existing gameModel
      * @param gameModel: the model to load
+     * @param lobby: lobby server
      * @throws RemoteException
      */
     public MatchServer(GameModel gameModel, LobbyServer lobby) throws RemoteException{
         super();
-        // infers the numPlayers from playerList
         this.lobby = lobby;
+        this.gameToLoad = gameModel;
+        // infers the numPlayers from playerList
         this.numPlayers = gameModel.getPlayerListCopy().size();
         this.toLoadGame = true;
-        this.gameToLoad = gameModel;
-
 
         if(!mute) System.out.println("MS: New server for "+numPlayers+" players has been created from pre-existing model");
         this.state = State.WAITINGFORPLAYERS;
     }
 
     /**
-     * This method let the current player make a move
-     * @param pos
-     * @param col
-     * @param nickname
+     * This method lets the current player make a move
+     * @param pos: list of tile positions
+     * @param col: column
+     * @param nickname: nickname of the player making the move
      * @throws RemoteException
      * @throws InvalidNicknameException
      * @throws InvalidMoveException
@@ -102,7 +125,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
 
     /**
      * This method checks if a player is the currentPlayer
-     * @param nickname
+     * @param nickname: nickname of the player
      * @return true if the player with nickname 'nickname' is the current player
      */
     private boolean isMyTurn(String nickname){
@@ -117,12 +140,11 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
         return currPlayer == nicknamesList.indexOf(nickname);
     }
 
-
     /**
-     * This method lets the lobbyServer add a player and his client
-     * and starts the game is no player slots are left
-     * @param nickname
-     * @param client
+     * This method lets the lobbyServer add a player
+     * and starts the game if no player slots are left
+     * @param nickname: nickname of the player
+     * @param client: a ClientHandler object
      */
     public void addPlayer(String nickname, ClientHandler client){
         nicknamesList.add(nickname);
@@ -185,9 +207,9 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
     }
 
     /**
-     * This method updates the server with the new information from the model
-     * @param newState
-     * @param newInfo
+     * This method updates the server with the new game information from the model
+     * @param newState: the new state
+     * @param newInfo: the new gameInfo
      */
     public void update(State newState, GameInfo newInfo){
         this.state = newState;
@@ -195,13 +217,13 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
     }
 
     /**
-     * This method updates the clients
-      * @param newState
-     * @param newInfo
+     * This method updates all the clients with the new information
+     * @param newState: the new state
+     * @param newInfo: the new gameInfo
      */
     private synchronized void updateClients(State newState, GameInfo newInfo){
         // If the disconnection iter has begun we need to stop the clients from receiving updates
-        if(!this.clientsDisconnected) {
+        if(!this.disconnectingClients) {
             if(!mute) System.out.println("MS: Updating clients with newGameInfo and newState");
 
             // This updates the clients
@@ -209,21 +231,18 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
                 for (ClientHandler client : clientsList)
                     client.update(newState, newInfo);
             } catch (RemoteException | TimeOutException e) {
-                // This flag is needed to stop the program to go on a loop
-                if(!mute) System.out.println("MS: Remote exception from client.update");
+                if(!mute) System.out.println("MS: Exception from client.update");
                 //e.printStackTrace();
                 this.gracefulDisconnection();
             }
 
-
-
+            // If we reached the end of a game we enter here
             if (this.state == State.ENDGAME){
                 if(!mute) System.out.println("MS: The game has ended");
-                // Here we tell the thread to stop
                 if(!mute) System.out.println("MS: Terminating Ping Thread");
                 this.toPing = false;
-                // Here we notify to the lobby to free the player nicknames
                 if(!mute) System.out.println("MS: Freeing used nicknames");
+                // Here we notify to the lobby to free the player nicknames
                 this.lobby.removePlayersFromLobby(nicknamesList);
                 // Here we empty the clients list
                 this.clientsList.clear();
@@ -232,35 +251,34 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
     }
 
     /**
-     * This method signal the clients that someone has crashed
+     * This method handles the disconnection of one of the clients
      */
     public synchronized void  gracefulDisconnection() {
-        if (!clientsDisconnected) {
+        if (!disconnectingClients) {
             if(!mute) System.out.println("MS: A client lost connection");
             if(!mute) System.out.println("MS: Disconnecting all clients...");
             // Beginning of disconnection iter
-            this.clientsDisconnected = true;
+            this.disconnectingClients = true;
 
-            // Here we tell the thread to stop
             if(!mute) System.out.println("MS: Terminating Ping Thread");
+            // Here we tell the thread to stop
             this.toPing = false;
 
-            // This updates the clients
+            // This updates the clients with the disconnection info
             try {
                 for (ClientHandler client : clientsList)
                     client.update(State.GRACEFULDISCONNECTION, null);
             } catch (RemoteException | TimeOutException e) {
-                //System.out.println("Remote Exception");
+                // we ignore errors here
             }
-
 
             if(!mute) System.out.println("MS: Initialized graceful disconnection for all clients");
 
-            // Here we end the current game
             if(!mute) System.out.println("MS: Forcing gameOver");
+            // Here we end the current game
             if (this.gameController != null) this.gameController.forceGameOver();
-            // Here we notify to the lobby to free those nicknames
             if(!mute) System.out.println("MS: Freeing used nicknames");
+            // Here we notify to the lobby to free those nicknames
             this.lobby.removePlayersFromLobby(nicknamesList);
             // Here we empty the clients list
             this.clientsList.clear();
@@ -272,16 +290,14 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
      */
     private void pingClients() throws RemoteException, TimeOutException {
         //System.out.println("checking if RmiClient clients are alive...");
-
-        // This updates the clients
         for (ClientHandler client : clientsList)
             client.isAlive();
     }
 
 
     /**
-     * This method lets a client message to someone specific
-     * @param message
+     * This method lets a client message someone specific
+     * @param message: the message to send
      * @param speaker : the one who sends the message
      * @param receiver : the one that is supposed to receive the message
      * @throws RemoteException
@@ -291,16 +307,15 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
         if(!mute) System.out.println("MS: "+Thread.currentThread() + ": received '" + messageToSend + "'");
         if(!mute) System.out.println("MS: Sending message only to: '"+receiver+"'");
 
-
-        if(!clientsDisconnected) {
-            // This updates the clients
+        if(!disconnectingClients) {
+            // This sends the message
             try {
                 for (ClientHandler client : clientsList) {
                     if (client.name().equals(receiver)) client.receiveMessage(messageToSend);
                     else if (client.name().equals(speaker)) client.receiveMessage(messageToSend);
                 }
             } catch (RemoteException | TimeOutException e) {
-                if(!mute) System.out.println("MS: Remote exception from client.receiveMessage in private chat");
+                if(!mute) System.out.println("MS: Exception from client.receiveMessage in private chat");
                 this.gracefulDisconnection();
             }
         }
@@ -308,8 +323,8 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
 
     /**
      * This method lets a client broadcast a message
-     * @param message
-     * @param speaker : the one who sends the message
+     * @param message: the message to send
+     * @param speaker: the one who sends the message
      * @throws RemoteException
      */
     public void messageAll(String message, String speaker) throws RemoteException {
@@ -317,14 +332,13 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
         if(!mute) System.out.println("MS: "+Thread.currentThread() + ": received '" + messageToSend + "'");
         if(!mute) System.out.println("MS: Sending message to all clients");
 
-
-        if(!clientsDisconnected) {
-            // This updates the rmi clients
+        if(!disconnectingClients) {
+            // This sends the message
             try {
                 for (ClientHandler client : clientsList)
                     client.receiveMessage(messageToSend);
             } catch (RemoteException | TimeOutException e) {
-                if(!mute) System.out.println("MS: Remote exception from client.receiveMessage in public chat");
+                if(!mute) System.out.println("MS: Exception from client.receiveMessage in public chat");
                 this.gracefulDisconnection();
             }
         }

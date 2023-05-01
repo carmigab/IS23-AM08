@@ -16,6 +16,9 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents the server that manages a game
+ */
 public class MatchServer extends UnicastRemoteObject implements RmiServerInterface {
     /**
      * This attribute is a list of the players nicknames

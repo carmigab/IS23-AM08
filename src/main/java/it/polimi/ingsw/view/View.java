@@ -80,7 +80,7 @@ public abstract class View {
                 iWantToPlay = askIfWantToPlayAgain();
             }
         }
-        close("Thank you to have played with us, bye bye");
+        close("The session has ended\nThank you for playing with us!");
     }
 
     /**

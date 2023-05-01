@@ -19,29 +19,60 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.rmi.RemoteException;
 
+/**
+ * This class manages all the inbound and outgoing communication between the client and the server
+ */
 public class TcpClientHandler implements Runnable {
+    /**
+     * This attribute represents the socket
+     */
     Socket socket;
+    /**
+     * This attribute represents the lobby server
+     */
     LobbyServer lobbyServer;
+    /**
+     * This attribute represents the match server
+     */
     MatchServer matchServer;
-
+    /**
+     * This attribute represents the nickname of the player
+     */
     String nickname;
-
+    /**
+     * This attribute represents the objectOutputStream
+     */
     ObjectOutputStream objectOutputStream;
+    /**
+     * This attribute represents the objectInputStream
+     */
     ObjectInputStream objectInputStream;
-
+    /**
+     * This flag is true if the tcpClientHandler is listening for messages
+     */
     boolean listeningForMessages = true;
+    /**
+     * This flag is true if the tcpClientHandler is online
+     */
     boolean tcpClientHandlerOnline = true;
-
-    // flag to mute the clientHandler
+    /**
+     * Set this flag to true to mute the tcpClientHandler
+     */
     private boolean mute = true;
 
-
+    /**
+     * This is the constructor
+     * @param socket: the socket
+     * @param lobbyServer: the lobby server
+     */
     TcpClientHandler(Socket socket, LobbyServer lobbyServer) {
         this.socket = socket;
         this.lobbyServer = lobbyServer;
     }
 
-
+    /**
+     * This is the run method that overrides run() from Runnable
+     */
     @Override
     public void run() {
         // Setting a timeout, client must keep heartbeat
@@ -61,17 +92,18 @@ public class TcpClientHandler implements Runnable {
             this.disconnection();
         }
 
-
-        // Thread to receive messages from server
+        // Creating a thread to receive messages from server
         this.createInboundMessagesThread();
-
-
     }
 
+    /**
+     * This method creates a thread that listens for inbound messages
+     */
     private void createInboundMessagesThread(){
         if(!mute) System.out.println("CH["+nickname+"]: New MessagesListener Thread starting");
         if(!mute) System.out.println("CH["+nickname+"]: Opening Input Streams");
         Thread t = new Thread(() -> {
+            // opening the input streams
             try {
                 this.objectInputStream  = new ObjectInputStream(socket.getInputStream());
             } catch (IOException e) {
@@ -79,12 +111,10 @@ public class TcpClientHandler implements Runnable {
                 this.disconnection();
             }
 
-
             while(listeningForMessages){
                 try {
                     Message message = (Message) objectInputStream.readObject();
                     this.manageInboundTcpMessages(message);
-
                 } catch (SocketTimeoutException e) {
                     if(!mute) System.out.println("CH["+nickname+"]: SocketTimeoutException from InboundMessagesThread");
                     // e.printStackTrace();
@@ -106,15 +136,16 @@ public class TcpClientHandler implements Runnable {
                     }
                 }
             }
-
         });
         t.start();
-
     }
 
+    /**
+     * This method manages an inbound message
+     * @param message: the inbound message
+     */
     private void manageInboundTcpMessages(Message message){
-        if (!message.toString().equals("PingClientMessage"))
-            if(!mute) System.out.println("CH["+nickname+"]: Received a "+message.toString()+" from "+message.sender());
+        if(!mute) System.out.println("CH["+nickname+"]: Received a "+message.toString()+" from "+message.sender());
         try {
             // asynchronous messages
             if (message instanceof ChatAllMessage) {
@@ -122,11 +153,13 @@ public class TcpClientHandler implements Runnable {
                 this.matchServer.messageAll(m.getChatMessage(), m.sender());
                 sendTcpMessage(new ChatAllResponse("Server"));
             }
+
             else if (message instanceof ChatSomeoneMessage) {
                 ChatSomeoneMessage m = (ChatSomeoneMessage) message;
                 this.matchServer.messageSomeone(m.getChatMessage(), m.sender(), m.getReceiver());
                 sendTcpMessage(new ChatSomeoneResponse("Server"));
             }
+
             else if (message instanceof ChooseNicknameMessage) {
                 ChooseNicknameMessage m = (ChooseNicknameMessage) message;
                 boolean response;
@@ -174,6 +207,7 @@ public class TcpClientHandler implements Runnable {
                 }
                 sendTcpMessage(new JoinGameResponse("Server", noGamesAvailable, nonExistentNickname, alreadyInGame));
             }
+
             else if (message instanceof MakeMoveMessage) {
                 MakeMoveMessage m = (MakeMoveMessage) message;
                 boolean invalidNickname = false;
@@ -190,6 +224,7 @@ public class TcpClientHandler implements Runnable {
                 }
                 sendTcpMessage(new MakeMoveResponse("Server", invalidMove, invalidNickname, gameEnded));
             }
+
             else if (message instanceof IsServerAliveMessage)
                 this.sendTcpMessage(new IsServerAliveResponse("Server"));
 
@@ -199,11 +234,13 @@ public class TcpClientHandler implements Runnable {
         }
     }
 
-
+    /**
+     * This method sends a message to the client
+     * @param message: the message to be sent
+     */
     private void sendTcpMessage(Message message){
         if (tcpClientHandlerOnline) {
-            if (!message.toString().equals("PingClientResponse"))
-                if(!mute) System.out.println("CH["+nickname+"]: Sending " + message.toString() + " to the client socket");
+            if(!mute) System.out.println("CH["+nickname+"]: Sending " + message.toString() + " to the client socket");
             try {
                 this.objectOutputStream.writeObject(message);
                 this.objectOutputStream.flush();
@@ -213,42 +250,66 @@ public class TcpClientHandler implements Runnable {
                 this.disconnection();
             }
         }
-
     }
 
-
+    /**
+     * This method is called by the matchServer and sends a message to update the client with the
+     * new state and new game info
+     * @param newState: the new state
+     * @param newInfo: the new game info
+     * @throws TimeOutException
+     */
     public void update(State newState, GameInfo newInfo) throws TimeOutException {
         this.sendTcpMessage(new UpdateMessage("Server", newState, newInfo));
     }
 
-    // the client must keep the hearthbeat!!! not the server
+    /**
+     * This method throws and exception if the client is not online
+     * @throws TimeOutException
+     */
     public void isAlive() throws TimeOutException {
         if (!tcpClientHandlerOnline) throw new TimeOutException();
     }
 
-
-    public void receiveMessage(String message) throws TimeOutException{
-        this.sendTcpMessage(new ChatReceiveMessage("Server", message));
+    /**
+     * This method sends a chat message to the client
+     * @param chatMessage: the chat message
+     * @throws TimeOutException
+     */
+    public void receiveMessage(String chatMessage) throws TimeOutException{
+        this.sendTcpMessage(new ChatReceiveMessage("Server", chatMessage));
     }
 
-
-
+    /**
+     * This method sets the match server
+     * @param matchServer: the match server
+     */
     public void setMatchServer(MatchServer matchServer){
         this.matchServer = matchServer;
     }
 
+    /**
+     * This method sets the nickname of the player
+     * @param nickname: the nickname
+     */
     private void setNickname(String nickname){
         this.nickname = nickname;
     }
 
+    /**
+     * This method is called by the matchServer and returns the nickname of the player
+     * @return the nickname of the player
+     */
     public String name() {
         return this.nickname;
     }
 
+    /**
+     * This method manages the disconnection of the client
+     */
     private synchronized void disconnection(){
         if (tcpClientHandlerOnline){
             if(!mute) System.out.println("CH["+nickname+"]: initializing disconnection");
-
             // ending the listening thread
             this.listeningForMessages = false;
 
@@ -259,7 +320,7 @@ public class TcpClientHandler implements Runnable {
                 if(!mute) System.out.println("CH["+nickname+"]: error while closing socket");
             }
 
-            // changing the flag to the correct value
+            // client is now offline
             this.tcpClientHandlerOnline = false;
         }
     }

@@ -21,9 +21,7 @@ import it.polimi.ingsw.network.server.exceptions.NonExistentNicknameException;
 import java.io.*;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -106,60 +104,96 @@ public class CLI extends View{
      * This method is called by display to print the shelf of the other players
      */
     private void printOtherPlayersShelf() {
+        System.out.println();
+        StringBuilder names = new StringBuilder();
+        List<StringBuilder> shelves = new ArrayList<>();
+        for (int i = 0; i < CLIConstants.SHELF_REPRESENTATION_DIMENSION; i++) {
+            shelves.add(new StringBuilder());
+        }
+        StringBuilder commonGoalPoints = new StringBuilder();
+
         printMessage("Other players' shelf:", AnsiEscapeCodes.GAME_MESSAGE);
+
         for (PlayerInfo playerInfo : gameInfo.getPlayerInfosList()) {
             if (!playerInfo.getNickname().equals(this.myNickname)) {
-                printMessage(playerInfo.getNickname() + "'s shelf:", AnsiEscapeCodes.GAME_MESSAGE);
-                printBoardOrShelf(AppConstants.ROWS_NUMBER, AppConstants.COLS_NUMBER, playerInfo.getShelf(), null);
-                printMessage("   Common Goal Points: " + playerInfo.getComGoalPoints()[0] + "," + playerInfo.getComGoalPoints()[1], AnsiEscapeCodes.GAME_MESSAGE);
+                names.append(playerInfo.getNickname());
+                names.append(" ".repeat(Math.max(0, CLIConstants.MAX_NICKNAME_LENGTH - playerInfo.getNickname().length())));
+
+                //printBoardOrShelf(AppConstants.ROWS_NUMBER, AppConstants.COLS_NUMBER, playerInfo.getShelf(), null);
+                for (int i = 0; i < CLIConstants.SHELF_REPRESENTATION_DIMENSION; i++) {
+                    shelves.get(i).append(createBoardOrShelf(AppConstants.ROWS_NUMBER, AppConstants.COLS_NUMBER, playerInfo.getShelf(), null).get(i))
+                            .append("   ");
+                }
+
+                String commonGoalPointsString = "   Common Goal Points: " + playerInfo.getComGoalPoints()[0] + "," + playerInfo.getComGoalPoints()[1];
+                commonGoalPoints.append(commonGoalPointsString).append(" ".repeat(Math.max(0, CLIConstants.MAX_NICKNAME_LENGTH - commonGoalPointsString.length())));
             }
         }
+
+        System.out.println(names);
+        for (StringBuilder line: shelves) {
+            System.out.println(line);
+        }
+        System.out.println(commonGoalPoints);
     }
 
     /**
      * This method is called by display to print the board
      */
     private void printBoard() {
+        System.out.println();
         printMessage("Board:", AnsiEscapeCodes.GAME_MESSAGE);
-        printBoardOrShelf(AppConstants.BOARD_DIMENSION, AppConstants.BOARD_DIMENSION, gameInfo.getGameBoard(), null);
+
+        //printBoardOrShelf(AppConstants.BOARD_DIMENSION, AppConstants.BOARD_DIMENSION, gameInfo.getGameBoard(), null);
+        for (StringBuilder line: createBoardOrShelf(AppConstants.BOARD_DIMENSION, AppConstants.BOARD_DIMENSION, gameInfo.getGameBoard(), null)) {
+            System.out.println(line);
+        }
     }
 
     /**
      * This method is called by display to print the shelf of the current player
      */
     private void printMyShelf() {
+        System.out.println();
         for (PlayerInfo playerInfo : gameInfo.getPlayerInfosList()) {
             if (playerInfo.getNickname().equals(this.myNickname)) {
                 printMessage("My shelf:", AnsiEscapeCodes.GAME_MESSAGE);
-                printBoardOrShelf(AppConstants.ROWS_NUMBER, AppConstants.COLS_NUMBER, playerInfo.getShelf(), playerInfo.getPersonalGoal());
-                String toPrint="   Common Goal Points: | ";
-                for(Integer i: this.gameInfo.getCommonGoalsStack()){
-                    toPrint+= i +" | ";
+
+                //printBoardOrShelf(AppConstants.ROWS_NUMBER, AppConstants.COLS_NUMBER, playerInfo.getShelf(), playerInfo.getPersonalGoal());
+                for (StringBuilder line: createBoardOrShelf(AppConstants.ROWS_NUMBER, AppConstants.COLS_NUMBER, playerInfo.getShelf(), playerInfo.getPersonalGoal())) {
+                    System.out.println(line);
                 }
-                printMessage(toPrint, AnsiEscapeCodes.GAME_MESSAGE);
+
+                StringBuilder toPrint= new StringBuilder("   Common Goal Points: | ");
+                for(Integer i: playerInfo.getComGoalPoints()){
+                    toPrint.append(i).append(" | ");
+                }
+                printMessage(toPrint.toString(), AnsiEscapeCodes.GAME_MESSAGE);
                 return;
             }
         }
     }
 
     /**
-     * This method is called to print the board or a shelf
-     * @param xMax the number of rows
-     * @param yMax the number of columns
+     * This method create the strings that represent the board or the shelf to be printed
+     * @param yMax the number of rows
+     * @param xMax the number of columns
+     * @param boardOrShelf the board or the shelf to be printed
+     * @param personalGoal the personal goal of the player (might be null, in that case the board is printed)
+     * @return the strings that represent the board or the shelf to be printed
      */
-    private void printBoardOrShelf(int yMax, int xMax, Tile[][] boardOrShelf, List<SingleGoal> personalGoal) {
-        StringBuilder lineBuilder = new StringBuilder();
+    private List<StringBuilder> createBoardOrShelf (int yMax, int xMax, Tile[][] boardOrShelf, List<SingleGoal> personalGoal) {
+        List<StringBuilder> result = new ArrayList<>();
 
-        lineBuilder.append("   ");
-        for (int i = 0; i < xMax; i++) {
-            lineBuilder.append(" ").append(i).append(" ");
-        }
-        System.out.println(lineBuilder);
+        result.addAll(createHeaderOrFooter(xMax, true));
 
+        StringBuilder lineBuilder;
         String toPrint;
         for (int i = 0; i < yMax; i++) {
             lineBuilder = new StringBuilder();
             lineBuilder.append(" ").append(i).append(" ");
+            lineBuilder.append(xMax == AppConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
+                    .append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
             for (int j = 0; j < xMax; j++) {
                 toPrint = "   ";
                 if (personalGoal != null) {
@@ -171,17 +205,72 @@ public class CLI extends View{
                     }
                 }
                 lineBuilder.append(tileColorToAnsiCode(boardOrShelf[i][j].getColor(), true)).append(toPrint).append(AnsiEscapeCodes.ENDING_CODE.getCode());
+                lineBuilder.append(xMax == AppConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
+                        .append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
             }
             lineBuilder.append(" ").append(i).append(" ");
-            System.out.println(lineBuilder);
+            result.add(lineBuilder);
         }
 
-        lineBuilder = new StringBuilder();
-        lineBuilder.append("   ");
-        for (int i = 0; i < xMax; i++) {
-            lineBuilder.append(" ").append(i).append(" ");
+        result.addAll(createHeaderOrFooter(xMax, false));
+
+        return result;
+    }
+
+    /**
+     * This method is called to create the header or the footer of the board or a shelf
+     * @param xMax the number of rows
+     * @param isHeader true if the header is to be created, false if the footer is to be created
+     * @return a list of StringBuilders containing the header or the footer
+     */
+    private List<StringBuilder> createHeaderOrFooter(int xMax, boolean isHeader) {
+        List<StringBuilder> result = new ArrayList<>();
+        if (isHeader) {
+            result.add(createIndexes(xMax));
+            result.add(createFirstOrLastRow(xMax));
         }
-        System.out.println(lineBuilder);
+        else {
+            result.add(createFirstOrLastRow(xMax));
+            result.add(createIndexes(xMax));
+        }
+
+        return result;
+    }
+
+    /**
+     * This method is called to create the first or last row of the board or a shelf
+     * @param xMax the number of rows
+     * @return a StringBuilder containing the first or last row
+     */
+    private StringBuilder createFirstOrLastRow(int xMax) {
+        StringBuilder result = new StringBuilder();
+
+        result.append("   ").append(xMax == AppConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
+                .append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
+        for (int i = 0; i < xMax; i++) {
+            result.append(xMax == AppConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
+                    .append("    ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
+        }
+
+        result.append("   ");
+        return result;
+    }
+
+    /**
+     * This method is called to create the indexes of the board or a shelf
+     * @param xMax the number of rows
+     * @return a StringBuilder containing the indexes
+     */
+    private StringBuilder createIndexes(int xMax) {
+        StringBuilder result = new StringBuilder();
+
+        result.append("   ");
+        for (int i = 0; i < xMax; i++) {
+            result.append(" ");
+            result.append(" ").append(i).append(" ");
+        }
+        result.append("    ");
+        return result;
     }
 
     /**
@@ -210,6 +299,12 @@ public class CLI extends View{
         for(int i=0;i<this.gameInfo.getCommonGoalsCreated().size();i++){
             printMessage(i+") " + getGoalDescription(this.gameInfo.getCommonGoalsCreated().get(i)), AnsiEscapeCodes.GAME_MESSAGE);
         }
+        StringBuilder lineBuilder = new StringBuilder();
+        lineBuilder.append("   Common goals points: | ");
+        for(Integer i: this.gameInfo.getCommonGoalsStack()){
+            lineBuilder.append(i).append(" | ");
+        }
+        printMessage(lineBuilder.toString(), AnsiEscapeCodes.GAME_MESSAGE);
     }
 
     /**

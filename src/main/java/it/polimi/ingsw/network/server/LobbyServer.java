@@ -279,7 +279,10 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     public boolean chooseNickname(String nickname) throws RemoteException, ExistentNicknameException, IllegalNicknameException {
         synchronized (lockChooseNickName) {
             if(!mute) System.out.println("LS: Someone is choosing the nickname "+nickname+"...");
-            if (this.banList.stream().anyMatch(nickname::matches)) throw new IllegalNicknameException();
+            if (this.banList.stream().anyMatch(nickname::matches)
+                    //TODO
+                    //|| nickname.length()>=CLIConstants.MAX_LENGTH
+            ) throw new IllegalNicknameException();
             if (!this.nicknamesPool.add(nickname)) throw new ExistentNicknameException();
             return true;
         }

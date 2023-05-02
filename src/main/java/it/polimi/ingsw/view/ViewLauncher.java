@@ -18,12 +18,17 @@ public class ViewLauncher {
         }
 
         switch (input.toLowerCase()) {
-            case "cli" -> view = new CLI();
-            // case "gui" -> view = new GUI();
-            default -> view = new CLI();
+            case "cli" -> {
+                view = new CLI();
+                new Thread(view::getUserInput).start();
+                new Thread(view::checkForShutdown).start();
+            }
+             case "gui" -> Launcher.main(new String[1]);
+            default -> {
+                view = new CLI();
+                new Thread(view::getUserInput).start();
+                new Thread(view::checkForShutdown).start();
+            }
         }
-
-        new Thread(view::getUserInput).start();
-        new Thread(view::checkForShutdown).start();
     }
 }

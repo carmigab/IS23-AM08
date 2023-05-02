@@ -8,9 +8,7 @@ import it.polimi.ingsw.network.server.constants.ServerConstants;
 import it.polimi.ingsw.view.CLI;
 import it.polimi.ingsw.view.View;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
@@ -20,7 +18,7 @@ import java.rmi.RemoteException;
 
 public class HelloController extends View{
     @FXML
-    private TextField connectionType;
+    private ChoiceBox<String> connectionType;
     @FXML
     private TextField serverIP;
     @FXML
@@ -40,14 +38,19 @@ public class HelloController extends View{
 
     }
 
+    @FXML
+    public void initialize() {
+        connectionType.getItems().removeAll(connectionType.getItems());
+        connectionType.getItems().addAll("rmi", "tcp");
+        connectionType.getSelectionModel().select("rmi");
+    }
 
     @FXML
     protected void onConnectButtonClick(){
-        String input=connectionType.getText().trim();
+        String input=connectionType.getValue().trim();
         String ip=serverIP.getText().trim();
         String port=serverPort.getText().trim();
         this.errorLabel.setText("");
-        if(!input.matches("rmi|tcp|RMI|TCP")) {this.errorLabel.setText("Set a valid connection type");return;}
         String zeroTo255 ="(\\d{1,2}|(0|1)\\d{2}|2[0-4]\\d|25[0-5])";
         String regexIP="|localhost|"+zeroTo255 + "\\." + zeroTo255 + "\\." + zeroTo255 + "\\." + zeroTo255;
         if(!ip.matches(regexIP)) {this.errorLabel.setText("Set a valid ip");return;}
@@ -56,7 +59,7 @@ public class HelloController extends View{
         this.connectionLabel.setText("Trying to connect");
         int intPort=ServerConstants.RMI_PORT;
 
-        if (input.equalsIgnoreCase("rmi")) {
+        if (input.equals("rmi")) {
             try {
                 if(port.equals("default") || port.equals("")) intPort= ServerConstants.RMI_PORT;
                 else intPort=Integer.valueOf(port);

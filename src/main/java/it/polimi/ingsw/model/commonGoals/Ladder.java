@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.commonGoals;
 
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.model.constants.AppConstants;
 
 /**
  * This class implements the twelve common goal: ladder in the tile
@@ -27,7 +27,7 @@ public class Ladder extends CommonGoal {
             if(x.getTile(new Position(startingCol,startingRow)).isEmpty()){
                 //change column position
                 startingRow--;
-                startingCol= AppConstants.COLS_NUMBER-1;
+                startingCol= ModelConstants.COLS_NUMBER-1;
                 if(x.getTile(new Position(startingCol,startingRow)).isEmpty()){
                     //if empty too then go next row
                     startingRow++;
@@ -43,14 +43,14 @@ public class Ladder extends CommonGoal {
         if(startingCol==0){
             //save the starting row
             //move to the right
-            for(int i=startingCol;i<AppConstants.COLS_NUMBER-1;i++,j++){
+            for(int i = startingCol; i< ModelConstants.COLS_NUMBER-1; i++,j++){
                 //for every column if the one to the right of i is not empty then the column is not done
                 if(!x.getTile(new Position(i+1,j)).isEmpty()) return false;
                 //and we also need to check that the current position is not empty
                 if(x.getTile(new Position(i,j)).isEmpty()) return false;
             }
             //if everything passed correctly then it means that only the last row has to be checked, so we need to control the last bit on the bottom right
-            return !x.getTile(new Position(AppConstants.COLS_NUMBER - 1, j)).isEmpty();
+            return !x.getTile(new Position(ModelConstants.COLS_NUMBER - 1, j)).isEmpty();
         }
         //do the same but mirrored
         for(int i=startingCol;i>0;i--,j++){

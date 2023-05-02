@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model.commonGoals;
 
 import com.google.gson.annotations.Expose;
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.TileColor;
-import it.polimi.ingsw.model.constants.AppConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +48,8 @@ public class SingleOccurrenceOfGivenShape extends CommonGoal{
         List<Position> shiftingShape;
         List<Position> shiftingShapeSymmetric;
 
-        for (int i = 0; i <= AppConstants.ROWS_NUMBER - shapeYSize; i++) {
-            for (int j = 0; j <= AppConstants.COLS_NUMBER - shapeXSize; j++) {
+        for (int i = 0; i <= ModelConstants.ROWS_NUMBER - shapeYSize; i++) {
+            for (int j = 0; j <= ModelConstants.COLS_NUMBER - shapeXSize; j++) {
                 shiftingShape = new ArrayList<>();
                 shiftingShapeSymmetric = new ArrayList<>();
 
@@ -57,7 +57,7 @@ public class SingleOccurrenceOfGivenShape extends CommonGoal{
                 for (Position position : shape) {
                     shiftingShape.add(new Position(position.x() + j, position.y() + i));
 
-                    if (!isSymmetric) shiftingShapeSymmetric.add(new Position(AppConstants.COLS_NUMBER - 1 - position.x() - j, position.y() + i));
+                    if (!isSymmetric) shiftingShapeSymmetric.add(new Position(ModelConstants.COLS_NUMBER - 1 - position.x() - j, position.y() + i));
                 }
 
                 if (sameColor(shiftingShape, shelf) || sameColor(shiftingShapeSymmetric, shelf)) return true;

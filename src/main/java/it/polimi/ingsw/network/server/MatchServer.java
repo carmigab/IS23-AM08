@@ -9,7 +9,7 @@ import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.network.client.exceptions.TimeOutException;
-import it.polimi.ingsw.network.server.constants.ServerConstants;
+import it.polimi.ingsw.constants.ServerConstants;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

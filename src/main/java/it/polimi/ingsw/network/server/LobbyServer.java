@@ -1,12 +1,13 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.network.client.RmiClientInterface;
 import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
-import it.polimi.ingsw.network.server.constants.ServerConstants;
+import it.polimi.ingsw.constants.ServerConstants;
 import it.polimi.ingsw.network.server.exceptions.*;
 import it.polimi.ingsw.utilities.UtilityFunctions;
+import it.polimi.ingsw.constants.ViewConstants;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -144,15 +145,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @return a LobbyServerConfig object
      */
     private LobbyServerConfig loadInitialConfig() {
-        /*
-        try {
-            Reader r= new FileReader(ServerConstants.SERVER_INITIAL_CONFIG);
-            return JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(r, LobbyServerConfig.class);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        */
-        return JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(UtilityFunctions.getReaderFromFileNameRelativePath("lobbyServerInitialConfig.json", this.getClass()),LobbyServerConfig.class);
+        return JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(UtilityFunctions.getReaderFromFileNameRelativePath(ServerConstants.SERVER_INITIAL_CONFIG_FILENAME, this.getClass()),LobbyServerConfig.class);
     }
 
     /**
@@ -160,15 +153,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @return list of banned words
      */
     private List<String> loadBanList(){
-        /*
-        try {
-            Reader r= new FileReader(ServerConstants.SERVER_BAN_LIST);
-            return JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(r, ArrayList.class);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        */
-        return JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(UtilityFunctions.getReaderFromFileNameRelativePath("lobbyServerBanList.json", this.getClass()),ArrayList.class);
+        return JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(UtilityFunctions.getReaderFromFileNameRelativePath(ServerConstants.SERVER_BAN_LIST_FILENAME, this.getClass()),ArrayList.class);
     }
 
 
@@ -180,7 +165,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         try {
 
             if(!mute) System.out.println("LS: Initializing server...");
-            if(!mute) System.out.println("LS: Cleaning the directory "+ AppConstants.PATH_SAVED_MATCHES+" ...");
+            if(!mute) System.out.println("LS: Cleaning the directory "+ ModelConstants.PATH_SAVED_MATCHES+" ...");
             this.cleanMatchDirectory();
             if(!mute) System.out.println("LS: Cleaning done...");
             this.loadPreviousGames();
@@ -240,9 +225,9 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * This method loads all games currently saved in the directory "savedMatches" and removes the ones which are ended already
      */
     private void cleanMatchDirectory(){
-        Arrays.stream(Objects.requireNonNull(new File(AppConstants.PATH_SAVED_MATCHES).list()))
+        Arrays.stream(Objects.requireNonNull(new File(ModelConstants.PATH_SAVED_MATCHES).list()))
                 .filter(match -> {
-                    try (FileReader fr = new FileReader(AppConstants.PATH_SAVED_MATCHES+match)){
+                    try (FileReader fr = new FileReader(ModelConstants.PATH_SAVED_MATCHES+match)){
                         return JsonWithExposeSingleton.getJsonWithExposeSingleton()
                                 .fromJson(fr, GameModel.class)
                                 .isGameOver();
@@ -254,14 +239,14 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
                         return false;
                     }
                 })
-                .forEach((match) -> new File(AppConstants.PATH_SAVED_MATCHES+match).delete());
+                .forEach((match) -> new File(ModelConstants.PATH_SAVED_MATCHES+match).delete());
     }
 
     /**
      * This method loads pre-existing games
      */
     private void loadPreviousGames(){
-        Arrays.stream(Objects.requireNonNull(new File(AppConstants.PATH_SAVED_MATCHES).list()))
+        Arrays.stream(Objects.requireNonNull(new File(ModelConstants.PATH_SAVED_MATCHES).list()))
                 .map(fileName-> fileName.substring(0,fileName.length()-ServerConstants.JSON_EXTENSION.length()))
                 .flatMap(fileName -> Arrays.stream(fileName.split(ServerConstants.REGEX)))
                 .forEach(playerName -> this.potentialPlayers.put(playerName, Optional.empty()));
@@ -279,10 +264,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     public boolean chooseNickname(String nickname) throws RemoteException, ExistentNicknameException, IllegalNicknameException {
         synchronized (lockChooseNickName) {
             if(!mute) System.out.println("LS: Someone is choosing the nickname "+nickname+"...");
-            if (this.banList.stream().anyMatch(nickname::matches)
-                    //TODO
-                    //|| nickname.length()>=CLIConstants.MAX_LENGTH
-            ) throw new IllegalNicknameException();
+            if (this.banList.stream().anyMatch(nickname::matches) || nickname.length()>= ViewConstants.MAX_NICKNAME_LENGTH) throw new IllegalNicknameException();
             if (!this.nicknamesPool.add(nickname)) throw new ExistentNicknameException();
             return true;
         }
@@ -397,14 +379,14 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             this.nicknamesInGame.add(nickname);
 
             //load filename
-            String fileName = Arrays.stream(Objects.requireNonNull(new File(AppConstants.PATH_SAVED_MATCHES).list()))
+            String fileName = Arrays.stream(Objects.requireNonNull(new File(ModelConstants.PATH_SAVED_MATCHES).list()))
                     .filter(file -> file.contains(nickname+ServerConstants.REGEX))
                     .findFirst()
                     .orElse("LS: shouldneverenterhere");
 
             try {
                 //create a game with the GameModel as parameter
-                GameModel gm = new GameModel(JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(new FileReader(AppConstants.PATH_SAVED_MATCHES + fileName), GameModel.class));
+                GameModel gm = new GameModel(JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(new FileReader(ModelConstants.PATH_SAVED_MATCHES + fileName), GameModel.class));
                 MatchServer rs = new MatchServer(gm, this);
                 this.serverList.add(rs);
                 String gameName = this.config.getStartingName() + (this.serverList.size());

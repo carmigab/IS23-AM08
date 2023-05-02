@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.commonGoals;
 
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.model.constants.AppConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +29,8 @@ public class TwoSquares extends CommonGoal {
         List<Position> group;
 
         // foreach tile in shelf look if its part of a group and return the group dimension
-        for (int i = 0; i < AppConstants.ROWS_NUMBER - 1; i++) {
-            for (int j = 0; j < AppConstants.COLS_NUMBER - 1; j++) {
+        for (int i = 0; i < ModelConstants.ROWS_NUMBER - 1; i++) {
+            for (int j = 0; j < ModelConstants.COLS_NUMBER - 1; j++) {
                 group = findGroupContainingGivenPosition(copy, new Position(j, i));
 
                 groupNum += group.size() >= 4 ? (containSquare(group) ? 1 : 0) : 0;

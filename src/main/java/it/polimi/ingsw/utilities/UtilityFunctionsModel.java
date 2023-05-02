@@ -1,16 +1,11 @@
 package it.polimi.ingsw.utilities;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.model.commonGoals.*;
-import it.polimi.ingsw.model.constants.AppConstants;
+import it.polimi.ingsw.constants.ModelConstants;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.Reader;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,12 +81,12 @@ public class UtilityFunctionsModel {
         List<Position> adjacentPositions = new ArrayList<>();
 
         // if the extracted position is in the last column do not execute this part
-        if (position.x() < (selectBoardOrShelf ? (AppConstants.BOARD_DIMENSION - 1) : (AppConstants.COLS_NUMBER - 1))) {
+        if (position.x() < (selectBoardOrShelf ? (ModelConstants.BOARD_DIMENSION - 1) : (ModelConstants.COLS_NUMBER - 1))) {
             adjacentPositions.add(new Position(position.x() + 1, position.y()));
         }
 
         // if the extracted position is in the last row do not execute this part
-        if (position.y() < (selectBoardOrShelf ? (AppConstants.BOARD_DIMENSION - 1) : (AppConstants.ROWS_NUMBER - 1))) {
+        if (position.y() < (selectBoardOrShelf ? (ModelConstants.BOARD_DIMENSION - 1) : (ModelConstants.ROWS_NUMBER - 1))) {
             adjacentPositions.add(new Position(position.x(), position.y() + 1));
         }
 
@@ -156,7 +151,7 @@ public class UtilityFunctionsModel {
         int rowIdx = 0;
 
         // starting from the top row, go down until finds a not empty cell
-        while(rowIdx < AppConstants.ROWS_NUMBER && myShelf[rowIdx][col].isEmpty()) {
+        while(rowIdx < ModelConstants.ROWS_NUMBER && myShelf[rowIdx][col].isEmpty()) {
             rowIdx++;
             result++;
         }

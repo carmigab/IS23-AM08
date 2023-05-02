@@ -12,13 +12,12 @@ import it.polimi.ingsw.network.messages.clientMessages.*;
 import it.polimi.ingsw.network.messages.serverMessages.*;
 import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.network.server.exceptions.NonExistentNicknameException;
-import it.polimi.ingsw.network.server.constants.ServerConstants;
+import it.polimi.ingsw.constants.ServerConstants;
 import it.polimi.ingsw.network.server.exceptions.NoGamesAvailableException;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.view.View;
 
 import java.io.*;
-import java.rmi.RemoteException;
 import java.util.List;
 
 import java.net.*;

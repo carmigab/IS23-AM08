@@ -1,11 +1,11 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.PlayerInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.utilities.UtilityFunctionsModel;
 
 import java.util.ArrayList;
@@ -152,8 +152,8 @@ public abstract class View {
         if(this.gameInfo.getGameBoard()[pos.x()] [pos.y()].isEmpty() || this.gameInfo.getGameBoard()[pos.x()] [pos.y()].isInvalid()){
             return false;
         }
-        if(pos.x() < 0 || pos.x() >=AppConstants.BOARD_DIMENSION) return false;
-        if(pos.y() < 0 || pos.y() >=AppConstants.BOARD_DIMENSION) return false;
+        if(pos.x() < 0 || pos.x() >= ModelConstants.BOARD_DIMENSION) return false;
+        if(pos.y() < 0 || pos.y() >= ModelConstants.BOARD_DIMENSION) return false;
         return UtilityFunctionsModel.hasFreeAdjacent(this.gameInfo.getGameBoard(), pos);
     }
 
@@ -193,7 +193,7 @@ public abstract class View {
 
 
     protected boolean checkColumn(int col, int numTiles){
-        if(col < 0 || col >= AppConstants.COLS_NUMBER) return false;
+        if(col < 0 || col >= ModelConstants.COLS_NUMBER) return false;
         List<PlayerInfo>  player = this.gameInfo.getPlayerInfosList();
         for(int i=0; i<player.size();i++){
             if(player.get(i).getNickname().equals(gameInfo.getCurrentPlayerNickname())){

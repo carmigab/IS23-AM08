@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model.commonGoals;
 
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.model.constants.AppConstants;
 
 /**
  * This class implements the sixth common goal: 8 cards of the same color anywhere in the library
@@ -18,11 +18,11 @@ public class EightTilesOfTheSameColor extends CommonGoal {
     @Override
     public boolean evaluate(Shelf library) {
         // store the number of card of each color in the board
-        int[] colorCounters = new int[AppConstants.TOTAL_COLORS];
+        int[] colorCounters = new int[ModelConstants.TOTAL_COLORS];
 
         // for each card check if it's empty and if not add 1 to the corresponding color counter
-        for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
-            for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
+        for (int i = 0; i < ModelConstants.ROWS_NUMBER; i++) {
+            for (int j = 0; j < ModelConstants.COLS_NUMBER; j++) {
                 Tile card = library.getTile(new Position(j, i));
 
                 if (!card.isEmpty() && !card.isInvalid()) {

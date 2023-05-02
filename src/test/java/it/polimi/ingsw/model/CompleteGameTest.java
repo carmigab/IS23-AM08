@@ -3,10 +3,10 @@ package it.polimi.ingsw.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.UtilityTestFunctions;
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
-import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.utilities.UtilityFunctionsModel;
 import org.junit.jupiter.api.Disabled;
@@ -39,7 +39,7 @@ class CompleteGameTest {
 
         List<String> players=new ArrayList<>(2);
         players.add("MatteCenz"); players.add("GabriCarr");
-        String file = AppConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(players);
+        String file = ModelConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(players);
         GameModel savedModel;
 
         List<String> actions = json.fromJson(UtilityTestFunctions.getReaderFromFileNameResourcesPath("completeGameTest/CompleteGameTestActions.json", this.getClass()), ArrayList.class);

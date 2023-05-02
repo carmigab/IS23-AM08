@@ -1,14 +1,9 @@
 package it.polimi.ingsw.model.commonGoals;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.model.constants.AppConstants;
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.utilities.UtilityFunctions;
-import it.polimi.ingsw.utilities.UtilityFunctionsModel;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.Reader;
 
 public class CommonGoalFactory {
 
@@ -21,13 +16,13 @@ public class CommonGoalFactory {
         Gson jsonLoader = JsonWithExposeSingleton.getJsonWithExposeSingleton();
 
         // creating configuration from json file for common goal 1 and 2
-        NGroupsOfSizeMConfiguration nGroupsOfSizeMConfiguration = jsonLoader.fromJson(UtilityFunctions.getReaderFromFileNameRelativePath(AppConstants.FILE_CONFIG_NGROUPOFSIZEM, CommonGoalFactory.class), NGroupsOfSizeMConfiguration.class);
+        NGroupsOfSizeMConfiguration nGroupsOfSizeMConfiguration = jsonLoader.fromJson(UtilityFunctions.getReaderFromFileNameRelativePath(ModelConstants.FILE_CONFIG_NGROUPOFSIZEM, CommonGoalFactory.class), NGroupsOfSizeMConfiguration.class);
 
         // creating configuration from json file for common goal 5, 8, 9 and 10
-        NLinesOfAtMostMDifferentColorsConfiguration nLinesOfAtMostMDifferentColorsConfiguration = jsonLoader.fromJson(UtilityFunctions.getReaderFromFileNameRelativePath(AppConstants.FILE_CONFIG_NLINESOFATMOSTMDIFFERENTCOLORS, CommonGoalFactory.class), NLinesOfAtMostMDifferentColorsConfiguration.class);
+        NLinesOfAtMostMDifferentColorsConfiguration nLinesOfAtMostMDifferentColorsConfiguration = jsonLoader.fromJson(UtilityFunctions.getReaderFromFileNameRelativePath(ModelConstants.FILE_CONFIG_NLINESOFATMOSTMDIFFERENTCOLORS, CommonGoalFactory.class), NLinesOfAtMostMDifferentColorsConfiguration.class);
 
         // creating configuration from json file for common goal 3, 7 and 11
-        SingleOccurrenceOfGivenShapeConfiguration singleOccurrenceOfGivenShapeConfiguration = jsonLoader.fromJson(UtilityFunctions.getReaderFromFileNameRelativePath(AppConstants.FILE_CONFIG_SINGLEOCCURRENCEOFGIVENSHAPE, CommonGoalFactory.class), SingleOccurrenceOfGivenShapeConfiguration.class);
+        SingleOccurrenceOfGivenShapeConfiguration singleOccurrenceOfGivenShapeConfiguration = jsonLoader.fromJson(UtilityFunctions.getReaderFromFileNameRelativePath(ModelConstants.FILE_CONFIG_SINGLEOCCURRENCEOFGIVENSHAPE, CommonGoalFactory.class), SingleOccurrenceOfGivenShapeConfiguration.class);
 
         CommonGoal commonGoal;
 

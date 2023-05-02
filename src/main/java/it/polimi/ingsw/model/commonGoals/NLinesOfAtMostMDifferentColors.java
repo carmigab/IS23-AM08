@@ -1,11 +1,11 @@
 package it.polimi.ingsw.model.commonGoals;
 
 import com.google.gson.annotations.Expose;
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
-import it.polimi.ingsw.model.constants.AppConstants;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -43,8 +43,8 @@ public class NLinesOfAtMostMDifferentColors extends CommonGoal{
     @Override
     public boolean evaluate(Shelf shelf) {
         int result = 0;
-        int jMax = isColumn ? AppConstants.COLS_NUMBER : AppConstants.ROWS_NUMBER;
-        int iMax = !isColumn ? AppConstants.COLS_NUMBER : AppConstants.ROWS_NUMBER;
+        int jMax = isColumn ? ModelConstants.COLS_NUMBER : ModelConstants.ROWS_NUMBER;
+        int iMax = !isColumn ? ModelConstants.COLS_NUMBER : ModelConstants.ROWS_NUMBER;
 
         // used to store the colors found in a line so far
         Set<TileColor> differentColors;
@@ -85,7 +85,7 @@ public class NLinesOfAtMostMDifferentColors extends CommonGoal{
      * @return true if the given line is full
      */
     private boolean isLineFull(Shelf shelf, int line, boolean isColumn) {
-        int iMax = isColumn ? AppConstants.ROWS_NUMBER : AppConstants.COLS_NUMBER;
+        int iMax = isColumn ? ModelConstants.ROWS_NUMBER : ModelConstants.COLS_NUMBER;
         for (int i = 0; i < iMax; i++) {
             if (shelf.getTile(new Position(isColumn ? line : i, !isColumn ? line : i)).isEmpty()) return false;
         }

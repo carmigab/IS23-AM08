@@ -1,9 +1,9 @@
-package it.polimi.ingsw.model.constants;
+package it.polimi.ingsw.constants;
 
 /**
  * This class is used to store all the constant values needed by the classes of the game model
  */
-public class AppConstants {
+public class ModelConstants {
     /**
      * shelf rows and cols number
      */

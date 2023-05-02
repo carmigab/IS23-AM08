@@ -5,13 +5,8 @@ import it.polimi.ingsw.UtilityTestFunctions;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
-import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
 import org.junit.jupiter.api.Test;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.Reader;
 
 import static org.junit.jupiter.api.Assertions.*;
 

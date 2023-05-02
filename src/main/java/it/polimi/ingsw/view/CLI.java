@@ -106,6 +106,7 @@ public class CLI extends View{
      * This method is called by display to print the shelf of the other players
      */
     private void printOtherPlayersShelf() {
+        System.out.println();
         printMessage("Other players' shelf:", AnsiEscapeCodes.GAME_MESSAGE);
         for (PlayerInfo playerInfo : gameInfo.getPlayerInfosList()) {
             if (!playerInfo.getNickname().equals(this.myNickname)) {
@@ -120,6 +121,7 @@ public class CLI extends View{
      * This method is called by display to print the board
      */
     private void printBoard() {
+        System.out.println();
         printMessage("Board:", AnsiEscapeCodes.GAME_MESSAGE);
         printBoardOrShelf(AppConstants.BOARD_DIMENSION, AppConstants.BOARD_DIMENSION, gameInfo.getGameBoard(), null);
     }
@@ -128,15 +130,16 @@ public class CLI extends View{
      * This method is called by display to print the shelf of the current player
      */
     private void printMyShelf() {
+        System.out.println();
         for (PlayerInfo playerInfo : gameInfo.getPlayerInfosList()) {
             if (playerInfo.getNickname().equals(this.myNickname)) {
                 printMessage("My shelf:", AnsiEscapeCodes.GAME_MESSAGE);
                 printBoardOrShelf(AppConstants.ROWS_NUMBER, AppConstants.COLS_NUMBER, playerInfo.getShelf(), playerInfo.getPersonalGoal());
-                String toPrint="   Common Goal Points: | ";
-                for(Integer i: this.gameInfo.getCommonGoalsStack()){
-                    toPrint+= i +" | ";
+                StringBuilder toPrint= new StringBuilder("   Common Goal Points: | ");
+                for(Integer i: playerInfo.getComGoalPoints()){
+                    toPrint.append(i).append(" | ");
                 }
-                printMessage(toPrint, AnsiEscapeCodes.GAME_MESSAGE);
+                printMessage(toPrint.toString(), AnsiEscapeCodes.GAME_MESSAGE);
                 return;
             }
         }
@@ -147,19 +150,17 @@ public class CLI extends View{
      * @param xMax the number of rows
      * @param yMax the number of columns
      */
+    //TODO: add horizontal lines
     private void printBoardOrShelf(int yMax, int xMax, Tile[][] boardOrShelf, List<SingleGoal> personalGoal) {
-        StringBuilder lineBuilder = new StringBuilder();
+        printHedearOrFooter(xMax, true);
 
-        lineBuilder.append("   ");
-        for (int i = 0; i < xMax; i++) {
-            lineBuilder.append(" ").append(i).append(" ");
-        }
-        System.out.println(lineBuilder);
-
+        StringBuilder lineBuilder;
         String toPrint;
         for (int i = 0; i < yMax; i++) {
             lineBuilder = new StringBuilder();
             lineBuilder.append(" ").append(i).append(" ");
+            lineBuilder.append(xMax == AppConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
+                    .append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
             for (int j = 0; j < xMax; j++) {
                 toPrint = "   ";
                 if (personalGoal != null) {
@@ -171,15 +172,56 @@ public class CLI extends View{
                     }
                 }
                 lineBuilder.append(tileColorToAnsiCode(boardOrShelf[i][j].getColor(), true)).append(toPrint).append(AnsiEscapeCodes.ENDING_CODE.getCode());
+                lineBuilder.append(xMax == AppConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
+                        .append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
             }
             lineBuilder.append(" ").append(i).append(" ");
             System.out.println(lineBuilder);
         }
 
-        lineBuilder = new StringBuilder();
+        printHedearOrFooter(xMax, false);
+    }
+
+    /**
+     * This method is called to print the header or the footer of the board or a shelf
+     * @param xMax the number of columns
+     */
+    private void printHedearOrFooter(int xMax, boolean isHeader) {
+        if (isHeader) {
+            printIndexes(xMax);
+            printFirstOrLastRow(xMax);
+        }
+        else {
+            printFirstOrLastRow(xMax);
+            printIndexes(xMax);
+        }
+    }
+
+    /**
+     * This method is called to print the horizontal indexes of the board or a shelf
+     * @param xMax the number of columns
+     */
+    private void printIndexes(int xMax) {
+        StringBuilder lineBuilder = new StringBuilder();
         lineBuilder.append("   ");
         for (int i = 0; i < xMax; i++) {
+            lineBuilder.append(" ");
             lineBuilder.append(" ").append(i).append(" ");
+        }
+        System.out.println(lineBuilder);
+    }
+
+    /**
+     * This method is called to print the first or the last row of the board or a shelf
+     * @param xMax the number of columns
+     */
+    private void printFirstOrLastRow(int xMax) {
+        StringBuilder lineBuilder = new StringBuilder();
+        lineBuilder.append("   ").append(xMax == AppConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
+                .append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
+        for (int i = 0; i < xMax; i++) {
+            lineBuilder.append(xMax == AppConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
+                    .append("    ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
         }
         System.out.println(lineBuilder);
     }
@@ -210,6 +252,12 @@ public class CLI extends View{
         for(int i=0;i<this.gameInfo.getCommonGoalsCreated().size();i++){
             printMessage(i+") " + getGoalDescription(this.gameInfo.getCommonGoalsCreated().get(i)), AnsiEscapeCodes.GAME_MESSAGE);
         }
+        StringBuilder lineBuilder = new StringBuilder();
+        lineBuilder.append("   Common goals points: | ");
+        for(Integer i: this.gameInfo.getCommonGoalsStack()){
+            lineBuilder.append(i).append(" | ");
+        }
+        printMessage(lineBuilder.toString(), AnsiEscapeCodes.GAME_MESSAGE);
     }
 
     /**

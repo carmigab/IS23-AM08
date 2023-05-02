@@ -13,6 +13,8 @@ public enum AnsiEscapeCodes {
     CYAN_BACKGROUND("\u001B[48;2;66;237;231m"),
     GREEN_BACKGROUND("\u001B[48;2;27;186;9m"),
     EMPTY_BACKGROUND("\u001B[48;2;105;105;105m"),
+    SHELF_BACKGROUND("\u001B[48;2;161;97;37m"),
+    BOARD_BACKGROUND("\u001B[48;2;235;150;70m"),
 
     // text colors
     DEFAULT_TEXT("\u001B[38;2;48;48;48m"),

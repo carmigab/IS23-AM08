@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.utilities.UtilityFunctionsModel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -156,6 +157,21 @@ public abstract class View {
         return UtilityFunctionsModel.hasFreeAdjacent(this.gameInfo.getGameBoard(), pos);
     }
 
+    /**
+     * this method return all the position adjacent to the position passed by parameter
+     * @param pos position we want to check adjacent
+     * @return the list of the position adjacent to pos
+     */
+
+    protected List<Position> getAdj(Position pos){
+        List<Position> result = new ArrayList<>();
+        result.add(new Position(pos.x(), pos.y()+1));
+        result.add(new Position(pos.x(), pos.y()-1));
+        result.add(new Position(pos.x()+1, pos.y()));
+        result.add(new Position(pos.x()-1, pos.y()));
+        return result;
+    }
+
 
 
     /**
@@ -176,7 +192,7 @@ public abstract class View {
      */
 
 
-    protected boolean CheckColumn(int col, int numTiles){
+    protected boolean checkColumn(int col, int numTiles){
         if(col < 0 || col >= AppConstants.COLS_NUMBER) return false;
         List<PlayerInfo>  player = this.gameInfo.getPlayerInfosList();
         for(int i=0; i<player.size();i++){

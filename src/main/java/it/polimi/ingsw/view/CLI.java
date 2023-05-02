@@ -279,6 +279,8 @@ public class CLI extends View{
     //TODO: change implementation to match changes in parseCommand
     private void parseMoveCommand() {
         List<Position> positions = new ArrayList<>();
+        String input;
+        String answer = "y";
         int column;
         synchronized (displayLock) {
             if (!isMyTurn()) {
@@ -286,18 +288,38 @@ public class CLI extends View{
                 return;
             }
 
-            printMessage("Select a the tiles you want to pick (x1,y1 x2,y2 x3,y3) ", AnsiEscapeCodes.INFO_MESSAGE);
-            String input = this.retryInput("^[0-9]+,[0-9]+$|^[0-9]+,[0-9]+ [0-9]+,[0-9]+$|^[0-9]+,[0-9]+ [0-9]+,[0-9]+ [0-9]+,[0-9]+$");
-
-            for (String position : input.split(" ")) {
-                positions.add(new Position(Integer.parseInt(position.split(",")[0]), Integer.parseInt(position.split(",")[1])));
+            while(positions.size() < 3 && answer.equals("y")){
+                printMessage("Select the tile you want to pick (x,y)", AnsiEscapeCodes.INFO_MESSAGE);
+                input = this.retryInput("^[0-9]+,[0-9]+$");
+                while(!checkSinglePosition(new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3))))){
+                    printMessage("Position not correct: please select another tile", AnsiEscapeCodes.ERROR_MESSAGE);
+                    input = this.retryInput("^[0-9]+,[0-9]+$");
+                }
+                List<Position> adj = getAdj(new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3))));
+                List<Position> validAdj = reduceAdjacent(adj);
+                positions.add(new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3))));
+                printMessage("Do you want to select another tile? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
+                answer = this.retryInput("y|n");
             }
 
+
+
+
+            //for (String position : input.split(" ")) {
+              //  positions.add(new Position(Integer.parseInt(position.split(",")[0]), Integer.parseInt(position.split(",")[1])));
+            //}
+
+
             printMessage("Select the column were you want to place the tiles ", AnsiEscapeCodes.INFO_MESSAGE);
-
             input = this.retryInput("^[0-"+(AppConstants.COLS_NUMBER-1)+"]+$");
-
             column = Integer.parseInt(input);
+            while(!checkColumn(column, positions.size())){
+                printMessage("Column not correct: please select another column", AnsiEscapeCodes.ERROR_MESSAGE);
+                input = this.retryInput("^[0-"+(AppConstants.COLS_NUMBER-1)+"]+$");
+                column = Integer.parseInt(input);
+            }
+
+
         }
 
             try {

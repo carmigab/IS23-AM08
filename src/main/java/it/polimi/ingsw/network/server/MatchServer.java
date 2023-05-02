@@ -305,6 +305,42 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
     }
 
     /**
+     * This method handles the disconnection of one of the clients
+     */
+    public synchronized void  killMatchServer() {
+        if (!disconnectingClients) {
+            if(!mute) System.out.println("MS: Match Server was killed");
+            // Beginning of disconnection iter
+            this.disconnectingClients = true;
+
+            if(!mute) System.out.println("MS: Terminating Ping Thread");
+            // Here we tell the thread to stop
+            this.toPing = false;
+
+            // This updates the clients with the disconnection info
+            try {
+                synchronized (clientsList) {
+                    for (ClientHandler client : clientsList)
+                        client.update(State.GAMEABORTED, null);
+                }
+            } catch (RemoteException | TimeOutException e) {
+                // we ignore errors here
+            }
+
+            if(!mute) System.out.println("MS: Initialized graceful disconnection for all clients");
+
+            if(!mute) System.out.println("MS: Forcing gameOver");
+            // Here we end the current game
+            if (this.gameController != null) this.gameController.forceGameOver();
+            if(!mute) System.out.println("MS: Freeing used nicknames");
+            // Here we notify to the lobby to free those nicknames
+            this.lobby.removePlayersFromLobby(nicknamesList);
+            // Here we empty the clients list
+            synchronized (clientsList) {this.clientsList.clear();}
+        }
+    }
+
+    /**
      * This method check if the clients are alive
      */
     private void pingClients() throws RemoteException, TimeOutException {

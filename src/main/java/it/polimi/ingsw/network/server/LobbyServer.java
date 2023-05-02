@@ -310,6 +310,14 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      */
     private String createGameTcpRmi(Integer numPlayers, String nickname, ClientHandler client) throws RemoteException, AlreadyInGameException, NonExistentNicknameException {
         synchronized (lockCreateGame) {
+            // This code kills pre-existing games
+            if (this.potentialPlayers.containsKey(nickname)){
+                if(!mute) System.out.println("LS: Killing a MatchServer...");
+                String toReturn=this.potentialPlayers.get(nickname).orElseGet(()->this.recoverGame(nickname));
+                // here we manage the client
+                this.serverList.get(this.serverInformation.indexOf(toReturn)).killMatchServer();
+            }
+
             if(!mute) System.out.println("LS: Creating new game...");
             this.checkCredentialsIntegrity(nickname);
             this.nicknamesInGame.add(nickname);

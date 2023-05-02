@@ -51,6 +51,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * This attribute is a lock useful for synchronization
      */
     private Object lock = new Lock();
+    /**
+     * If this flag is true the client is online
+     */
+    private boolean isClientOnline = true;
 
     /**
      * If this flag is true the client has to ping the server
@@ -229,12 +233,9 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
             synchronized (lock) {
                 while (toPing) {
                     try {
-                        System.out.println("--- PING ---");
+                        if (!mute && !essential) System.out.println("PING");
                         this.pingServer();
-                        System.out.println("--- Wait after ping ---");
                         lock.wait(ServerConstants.PING_TIME);
-
-
                     } catch (InterruptedException e) {
                         if (!mute && !essential) System.out.println("Interrupted exception from PingThread");
                         this.gracefulDisconnection(true);
@@ -311,20 +312,23 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      */
     private void pingServer() throws RemoteException {
         this.matchServer.isAlive();
+        if (!mute && !essential) System.out.println("PONG");
     }
 
     /**
      * This method manages the disconnection by setting toPing to false and updating the view
      * @param connectionError: boolean that indicates if an error occurred
      */
-    private void gracefulDisconnection(boolean connectionError) {
-        System.out.println("--- In graceful disconnection ---");
-        if (connectionError && !mute && essential) System.out.println("Connection error");
-        if (!connectionError && !mute) System.out.println("Game Aborted");
-        if (!mute) System.out.println("Initializing graceful disconnection");
-        if (!mute && !essential) System.out.println("Terminating Ping Thread");
-        this.toPing = false;
-        view.update(State.GRACEFULDISCONNECTION, null);
+    private synchronized void gracefulDisconnection(boolean connectionError) {
+        if (isClientOnline) {
+            if (connectionError && !mute && essential) System.out.println("Connection error");
+            if (!connectionError && !mute) System.out.println("Game Aborted");
+            if (!mute) System.out.println("Initializing graceful disconnection");
+            if (!mute && !essential) System.out.println("Terminating Ping Thread");
+            this.toPing = false;
+            this.isClientOnline = false;
+            view.update(State.GRACEFULDISCONNECTION, null);
+        }
     }
 
 }

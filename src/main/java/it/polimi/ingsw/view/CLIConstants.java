@@ -9,5 +9,5 @@ public class CLIConstants {
      */
     public static final int MAX_NICKNAME_LENGTH = 30;
 
-    public static final int SHELF_REPRESENTATION_DIMENSION = 10;
+    public static final int SHELF_REPRESENTATION_DIMENSION = 15;
 }

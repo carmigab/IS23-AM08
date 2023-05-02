@@ -59,6 +59,7 @@ public class AppConstants {
     public static String FILE_CONFIG_NLINESOFATMOSTMDIFFERENTCOLORS = "commonGoals5and8and9and10.json";
     public static String FILE_CONFIG_SINGLEOCCURRENCEOFGIVENSHAPE = "commonGoals3and7and11.json";
 
+    //public static String PATH_SAVED_MATCHES = "/home/matteo/Desktop/PROGETTO_IDS/src/main/resources/savedMatches/";
     public static String PATH_SAVED_MATCHES = "src/main/resources/savedMatches/";
 
 }

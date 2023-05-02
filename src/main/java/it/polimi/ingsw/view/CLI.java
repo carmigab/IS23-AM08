@@ -274,7 +274,7 @@ public class CLI extends View{
     }
 
     /**
-     * This method is called by parseCommand to parse a move command
+     * This method is called by parseCommand to parse a move command, also check the move
      */
     //TODO: change implementation to match changes in parseCommand
     private void parseMoveCommand() {

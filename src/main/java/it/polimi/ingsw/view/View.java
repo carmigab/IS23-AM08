@@ -160,7 +160,7 @@ public abstract class View {
     /**
      * this method return all the position adjacent to the position passed by parameter
      * @param pos position we want to check adjacent
-     * @return the list of the position adjacent to pos
+     * @return the list of the position adjacent to pos passed by parameter
      */
 
     protected List<Position> getAdj(Position pos){

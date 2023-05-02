@@ -229,8 +229,11 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
             synchronized (lock) {
                 while (toPing) {
                     try {
+                        System.out.println("--- PING ---");
                         this.pingServer();
+                        System.out.println("--- Wait after ping ---");
                         lock.wait(ServerConstants.PING_TIME);
+
 
                     } catch (InterruptedException e) {
                         if (!mute && !essential) System.out.println("Interrupted exception from PingThread");
@@ -315,6 +318,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @param connectionError: boolean that indicates if an error occurred
      */
     private void gracefulDisconnection(boolean connectionError) {
+        System.out.println("--- In graceful disconnection ---");
         if (connectionError && !mute && essential) System.out.println("Connection error");
         if (!connectionError && !mute) System.out.println("Game Aborted");
         if (!mute) System.out.println("Initializing graceful disconnection");

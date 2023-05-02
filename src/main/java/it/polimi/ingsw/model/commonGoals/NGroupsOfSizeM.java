@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model.commonGoals;
 
 import com.google.gson.annotations.Expose;
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Tile;
-import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.utilities.UtilityFunctionsModel;
 
 /**
@@ -41,8 +41,8 @@ public class NGroupsOfSizeM extends CommonGoal{
         int groupNum = 0;
 
         // foreach tile in shelf look if its part of a group and return the group dimension
-        for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
-            for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
+        for (int i = 0; i < ModelConstants.ROWS_NUMBER; i++) {
+            for (int j = 0; j < ModelConstants.COLS_NUMBER; j++) {
                 // select the current tile
                 Tile c = copy.getTile(new Position(j, i));
 

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.annotations.Expose;
-import it.polimi.ingsw.model.constants.AppConstants;
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.utilities.UtilityFunctionsModel;
 
 import java.io.Serializable;
@@ -24,10 +24,10 @@ public class Shelf implements Serializable {
      * tiles (see Tile class for details on what empty tile means)
      */
     public Shelf() {
-        myShelf = new Tile[AppConstants.ROWS_NUMBER][AppConstants.COLS_NUMBER];
+        myShelf = new Tile[ModelConstants.ROWS_NUMBER][ModelConstants.COLS_NUMBER];
 
-        for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
-            for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
+        for (int i = 0; i < ModelConstants.ROWS_NUMBER; i++) {
+            for (int j = 0; j < ModelConstants.COLS_NUMBER; j++) {
                 myShelf[i][j] = new Tile(TileColor.EMPTY, 0);
             }
         }
@@ -48,10 +48,10 @@ public class Shelf implements Serializable {
      * @return a copy of myShelf
      */
     public Tile[][] getCopy() {
-        Tile[][] myShelfCopy = new Tile[AppConstants.ROWS_NUMBER][AppConstants.COLS_NUMBER];
+        Tile[][] myShelfCopy = new Tile[ModelConstants.ROWS_NUMBER][ModelConstants.COLS_NUMBER];
 
-        for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
-            for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
+        for (int i = 0; i < ModelConstants.ROWS_NUMBER; i++) {
+            for (int j = 0; j < ModelConstants.COLS_NUMBER; j++) {
                 myShelfCopy[i][j] = new Tile(this.myShelf[i][j]);
             }
         }
@@ -66,8 +66,8 @@ public class Shelf implements Serializable {
     public Shelf getShelfCopy() {
         Shelf myShelfCopy = new Shelf();
 
-        for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
-            for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
+        for (int i = 0; i < ModelConstants.ROWS_NUMBER; i++) {
+            for (int j = 0; j < ModelConstants.COLS_NUMBER; j++) {
                 myShelfCopy.myShelf[i][j] = new Tile(this.myShelf[i][j]);
             }
         }
@@ -88,7 +88,7 @@ public class Shelf implements Serializable {
      */
     public void add(Tile tile, Integer column) {
         // rowToInsertInIdx set to the bottom row
-        int rowToInsertInIdx = AppConstants.ROWS_NUMBER - 1;
+        int rowToInsertInIdx = ModelConstants.ROWS_NUMBER - 1;
 
         // decrement the row idx till it reach an empty cell
         while(!myShelf[rowToInsertInIdx][column].isEmpty()) rowToInsertInIdx--;
@@ -103,8 +103,8 @@ public class Shelf implements Serializable {
      * @return boolean
      */
     public boolean isFull() {
-        for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
-            for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
+        for (int i = 0; i < ModelConstants.ROWS_NUMBER; i++) {
+            for (int j = 0; j < ModelConstants.COLS_NUMBER; j++) {
                 if (myShelf[i][j].isEmpty()) return false;
             }
         }
@@ -173,8 +173,8 @@ public class Shelf implements Serializable {
         ArrayList<Integer> components = new ArrayList<>();
 
         // Adds all the positions that don't have an empty tile to the list
-        for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
-            for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
+        for (int i = 0; i < ModelConstants.ROWS_NUMBER; i++) {
+            for (int j = 0; j < ModelConstants.COLS_NUMBER; j++) {
                 posToExplore.addLast(new Position(j, i));
             }
         }
@@ -201,8 +201,8 @@ public class Shelf implements Serializable {
     public boolean equals(Object obj) {
         if(!(obj instanceof Shelf shelf)) return false;
 
-        for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
-            for (int j = 0; j < AppConstants.COLS_NUMBER; j++) {
+        for (int i = 0; i < ModelConstants.ROWS_NUMBER; i++) {
+            for (int j = 0; j < ModelConstants.COLS_NUMBER; j++) {
                 if (!this.myShelf[i][j].equals(shelf.myShelf[i][j])) return false;
             }
         }

@@ -1,11 +1,8 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.annotations.Expose;
-import it.polimi.ingsw.App;
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.gameInfo.PlayerInfo;
-import it.polimi.ingsw.model.constants.AppConstants;
-
-import java.io.Serializable;
 
 /**
  * this class represents a generic player of the match
@@ -71,7 +68,7 @@ public class PlayerState {
     public PlayerState(String name, PersonalGoal personalGoal){
         this.nickname = name;
         this.personalGoal = personalGoal;
-        this.CGPoints = new int[AppConstants.TOTAL_CG_PER_GAME];
+        this.CGPoints = new int[ModelConstants.TOTAL_CG_PER_GAME];
 
         // Initialization
         this.myShelf = new Shelf();
@@ -81,7 +78,7 @@ public class PlayerState {
         this.groupPoints = 0;
         this.firstPoint = 0;
 
-        this.comGoalDone = new boolean[AppConstants.TOTAL_CG_PER_GAME];      // Initialized to false
+        this.comGoalDone = new boolean[ModelConstants.TOTAL_CG_PER_GAME];      // Initialized to false
     }
 
     /**

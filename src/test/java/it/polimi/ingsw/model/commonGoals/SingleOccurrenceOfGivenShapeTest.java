@@ -2,16 +2,12 @@ package it.polimi.ingsw.model.commonGoals;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.UtilityTestFunctions;
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
-import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
 import org.junit.jupiter.api.Test;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.Reader;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,7 +41,7 @@ class SingleOccurrenceOfGivenShapeTest {
         shelf.add(cardBlue, 0);
         assertFalse(singleOccurrenceOfGivenShape.evaluate(shelf));
         // 2
-        for (int i = 0; i < AppConstants.ROWS_NUMBER - 1; i++) {
+        for (int i = 0; i < ModelConstants.ROWS_NUMBER - 1; i++) {
             shelf.add(cardBlue, 0);
         }
         assertFalse(singleOccurrenceOfGivenShape.evaluate(shelf));
@@ -54,7 +50,7 @@ class SingleOccurrenceOfGivenShapeTest {
         assertFalse(singleOccurrenceOfGivenShape.evaluate(shelf));
 
         // fil the fourth corner and check if evaluate return true
-        for (int i = 0; i < AppConstants.ROWS_NUMBER - 1; i++) {
+        for (int i = 0; i < ModelConstants.ROWS_NUMBER - 1; i++) {
             shelf.add(cardBlue, 4);
         }
         assertTrue(singleOccurrenceOfGivenShape.evaluate(shelf));
@@ -76,8 +72,8 @@ class SingleOccurrenceOfGivenShapeTest {
 
         // fill the library to create the first possible diagonal
         shelf = new Shelf();
-        for (int i = 0; i < AppConstants.COLS_NUMBER; i++) {
-            for (int j = 0; j < AppConstants.ROWS_NUMBER - i; j++) {
+        for (int i = 0; i < ModelConstants.COLS_NUMBER; i++) {
+            for (int j = 0; j < ModelConstants.ROWS_NUMBER - i; j++) {
                 shelf.add(cardBlue, i);
             }
         }
@@ -85,8 +81,8 @@ class SingleOccurrenceOfGivenShapeTest {
 
         // fill the library to create the second possible diagonal
         shelf = new Shelf();
-        for (int i = 0; i < AppConstants.COLS_NUMBER; i++) {
-            for (int j = 0; j < AppConstants.ROWS_NUMBER - 1 - i; j++) {
+        for (int i = 0; i < ModelConstants.COLS_NUMBER; i++) {
+            for (int j = 0; j < ModelConstants.ROWS_NUMBER - 1 - i; j++) {
                 shelf.add(cardBlue, i);
             }
         }
@@ -94,7 +90,7 @@ class SingleOccurrenceOfGivenShapeTest {
 
         // fill the library to create the third possible diagonal
         shelf = new Shelf();
-        for (int i = 0; i < AppConstants.COLS_NUMBER; i++) {
+        for (int i = 0; i < ModelConstants.COLS_NUMBER; i++) {
             for (int j = 0; j < i + 1; j++) {
                 shelf.add(cardBlue, i);
             }
@@ -103,7 +99,7 @@ class SingleOccurrenceOfGivenShapeTest {
 
         // fill the library to create the fourth possible diagonal
         shelf = new Shelf();
-        for (int i = 0; i < AppConstants.COLS_NUMBER; i++) {
+        for (int i = 0; i < ModelConstants.COLS_NUMBER; i++) {
             for (int j = 0; j < i + 2; j++) {
                 shelf.add(cardBlue, i);
             }

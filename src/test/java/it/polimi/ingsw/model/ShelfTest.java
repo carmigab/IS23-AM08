@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.constants.AppConstants;
+import it.polimi.ingsw.constants.ModelConstants;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,7 +26,7 @@ public class ShelfTest {
     void addAndGetCard() {
         Tile c = new Tile(TileColor.CYAN, 0);
         lib.add(c, 4);
-        //assertEquals(lib.getCard(new Position(AppConstants.ROWS_NUMBER - 1, 4)), c);
+        //assertEquals(lib.getCard(new Position(ModelConstants.ROWS_NUMBER - 1, 4)), c);
     }
 
 
@@ -36,8 +36,8 @@ public class ShelfTest {
     @org.junit.jupiter.api.Test
     void isFull() {
         Tile c = new Tile(TileColor.CYAN, 0);
-        for (int i = 0; i < AppConstants.COLS_NUMBER; i++) {
-            for (int j = 0; j < AppConstants.ROWS_NUMBER; j++) {
+        for (int i = 0; i < ModelConstants.COLS_NUMBER; i++) {
+            for (int j = 0; j < ModelConstants.ROWS_NUMBER; j++) {
                 lib.add(c, i);
             }
         }
@@ -50,8 +50,8 @@ public class ShelfTest {
     @org.junit.jupiter.api.Test
     void getFreeSpaces() {
         Tile c = new Tile(TileColor.CYAN, 0);
-        for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
-            assertEquals(lib.getFreeSpaces(0), AppConstants.ROWS_NUMBER - i);
+        for (int i = 0; i < ModelConstants.ROWS_NUMBER; i++) {
+            assertEquals(lib.getFreeSpaces(0), ModelConstants.ROWS_NUMBER - i);
             lib.add(c, 0);
         }
         assertEquals(lib.getFreeSpaces(0), 0);

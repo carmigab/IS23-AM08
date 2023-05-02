@@ -5,13 +5,9 @@ import it.polimi.ingsw.UtilityTestFunctions;
 import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
-import it.polimi.ingsw.model.constants.AppConstants;
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
 import org.junit.jupiter.api.Test;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.Reader;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -75,7 +71,7 @@ class NLinesOfAtMostMDifferentColorsTest {
         assertFalse(nLinesOfAtMostMDifferentColors.evaluate(shelf));
 
         // fill the forth column correctly and assert the result is true
-        for (int i = 0; i < AppConstants.ROWS_NUMBER; i++) {
+        for (int i = 0; i < ModelConstants.ROWS_NUMBER; i++) {
             shelf.add(cardViolet, 1);
         }
         assertTrue(nLinesOfAtMostMDifferentColors.evaluate(shelf));
@@ -118,13 +114,13 @@ class NLinesOfAtMostMDifferentColorsTest {
         assertFalse(nLinesOfAtMostMDifferentColors.evaluate(shelf));
 
         // fill the forth row correctly and assert the result is still false
-        for (int i = 0; i < AppConstants.COLS_NUMBER; i++) {
+        for (int i = 0; i < ModelConstants.COLS_NUMBER; i++) {
             shelf.add(cardBlue, i);
         }
         assertFalse(nLinesOfAtMostMDifferentColors.evaluate(shelf));
 
         // fill the fifth color to have 4 valid rows and assert true
-        for (int i = 0; i < AppConstants.COLS_NUMBER; i++) {
+        for (int i = 0; i < ModelConstants.COLS_NUMBER; i++) {
             shelf.add(cardViolet, i);
         }
         assertTrue(nLinesOfAtMostMDifferentColors.evaluate(shelf));

@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import it.polimi.ingsw.model.constants.BoardConstants;
+import it.polimi.ingsw.constants.BoardConstants;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesAtStartFillBoardException;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesToFillBoardException;
 import org.junit.jupiter.api.Test;

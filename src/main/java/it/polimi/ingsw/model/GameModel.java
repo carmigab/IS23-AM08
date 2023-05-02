@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model;
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.gameInfo.PlayerInfo;
 import it.polimi.ingsw.model.commonGoals.*;
-import it.polimi.ingsw.model.constants.AppConstants;
-import it.polimi.ingsw.model.constants.BoardConstants;
+import it.polimi.ingsw.constants.BoardConstants;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesAtStartFillBoardException;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesToFillBoardException;
 import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
@@ -81,7 +81,7 @@ public class GameModel {
     public GameModel(int numPlayers, List<String> nicknames){
         this.numPlayers = numPlayers;
         this.playerList = new ArrayList<>(this.numPlayers);
-        this.commonGoalsCreated = new ArrayList<>(AppConstants.TOTAL_CG_PER_GAME);
+        this.commonGoalsCreated = new ArrayList<>(ModelConstants.TOTAL_CG_PER_GAME);
         this.gameBoard = GameBoard.createGameBoard(numPlayers, getRandomCommonGoals());
         this.currentPlayer = 0;
         this.isLastTurn = false;
@@ -119,14 +119,14 @@ public class GameModel {
     private void initializePlayers(List<String> nicknames){
 
         Gson jsonLoader= JsonWithExposeSingleton.getJsonWithExposeSingleton();
-        PersonalGoalsConfiguration poc = jsonLoader.fromJson(UtilityFunctions.getReaderFromFileNameRelativePath(AppConstants.FILE_CONFIG_PERSONALGOAL, this.getClass()), PersonalGoalsConfiguration.class);
+        PersonalGoalsConfiguration poc = jsonLoader.fromJson(UtilityFunctions.getReaderFromFileNameRelativePath(ModelConstants.FILE_CONFIG_PERSONALGOAL, this.getClass()), PersonalGoalsConfiguration.class);
 
         Set<Integer> extractedPersonalGoals = new HashSet<>();
         Random r = RandomSingleton.getRandomSingleton();
-        int random = r.nextInt(AppConstants.TOTAL_GOALS);;
+        int random = r.nextInt(ModelConstants.TOTAL_GOALS);;
         for(String s: nicknames){
             while (extractedPersonalGoals.contains(random)) {
-                random = r.nextInt(AppConstants.TOTAL_GOALS);
+                random = r.nextInt(ModelConstants.TOTAL_GOALS);
             }
             playerList.add(new PlayerState(s, poc.getPersonalGoalAtIndex(random)));
             extractedPersonalGoals.add(random);
@@ -140,7 +140,7 @@ public class GameModel {
      * @param nicks list of the names of the players
      */
     private void initializePersistencyFile(List<String> nicks){
-        this.fileName=AppConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(nicks);
+        this.fileName= ModelConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(nicks);
         saveCurrentState();
     }
 
@@ -166,9 +166,9 @@ public class GameModel {
      */
     private List<Integer> getRandomCommonGoals(){
         Random r = RandomSingleton.getRandomSingleton();
-        List<Integer> pool = new ArrayList<>(AppConstants.TOTAL_GOALS);
-        for(int i = 0; i<AppConstants.TOTAL_GOALS; i++) pool.add(i);
-        for(int i=0; i<AppConstants.TOTAL_CG_PER_GAME;){
+        List<Integer> pool = new ArrayList<>(ModelConstants.TOTAL_GOALS);
+        for(int i = 0; i< ModelConstants.TOTAL_GOALS; i++) pool.add(i);
+        for(int i=0; i< ModelConstants.TOTAL_CG_PER_GAME;){
             Integer candidate = r.nextInt(pool.size());
             if(!this.commonGoalsCreated.contains(candidate)) {
                 this.commonGoalsCreated.add(candidate);
@@ -199,7 +199,7 @@ public class GameModel {
      * @return true if the move is valid, false if the move isn't valid
      */
     public boolean checkValidMove(List<Position> pos){
-        if(pos.size() > AppConstants.MAX_NUM_OF_MOVES || pos.isEmpty()) return false;
+        if(pos.size() > ModelConstants.MAX_NUM_OF_MOVES || pos.isEmpty()) return false;
         for(Position p : pos){
             if(!this.gameBoard.positionOccupied(p)) return false;
             if(p.x()>= BoardConstants.BOARD_DIMENSION || p.y() >= BoardConstants.BOARD_DIMENSION) return false;
@@ -224,7 +224,7 @@ public class GameModel {
         //also at the end we have to check that the first and the last are in a line (have a distance of exactly 4)
         //now 4 is the constant which depends on the lenght of the total array, for now i will leave it hard coded
 
-        if(pos.size()> AppConstants.MAX_NUM_OF_MOVES-1) if(UtilityFunctionsModel.distanceSquared(copyPos.get(0),copyPos.get(copyPos.size()-1)) != 4) return false;
+        if(pos.size()> ModelConstants.MAX_NUM_OF_MOVES-1) if(UtilityFunctionsModel.distanceSquared(copyPos.get(0),copyPos.get(copyPos.size()-1)) != 4) return false;
 
         /*
         for(int i=0;i<pos.size()-1;i++) {
@@ -257,7 +257,7 @@ public class GameModel {
      * @return true if there is space in the column, false if there isn't space in the column
      */
     public boolean checkValidColumn(int col, int numTiles){
-        if(col >= AppConstants.COLS_NUMBER) return false;
+        if(col >= ModelConstants.COLS_NUMBER) return false;
         return this.playerList.get(this.currentPlayer).getShelf().getFreeSpaces(col) >= numTiles;
     }
 
@@ -282,7 +282,7 @@ public class GameModel {
         currP.evaluateGroupPoints();
 
         // Evaluate common goals
-        for(int i=0; i<AppConstants.TOTAL_CG_PER_GAME; i++) {
+        for(int i = 0; i< ModelConstants.TOTAL_CG_PER_GAME; i++) {
             if (!currP.isCGDone(i)) {
                 commonGoal = gameBoard.getCommonGoal(i);
                 if (commonGoal.evaluate(currP.getShelf())) {
@@ -466,7 +466,7 @@ public class GameModel {
      * @return a copy of the common goals created
      */
     public List<Integer> getCommonGoalsCreatedCopy(){
-        List<Integer> toReturn = new ArrayList<>(AppConstants.TOTAL_CG_PER_GAME);
+        List<Integer> toReturn = new ArrayList<>(ModelConstants.TOTAL_CG_PER_GAME);
         for(Integer cg: this.commonGoalsCreated){
             toReturn.add(Integer.valueOf(cg));
         }

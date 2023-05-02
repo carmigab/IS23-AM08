@@ -3,9 +3,8 @@ package it.polimi.ingsw.network;
 import it.polimi.ingsw.dummies.FakeView;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.RmiClient;
-import it.polimi.ingsw.network.client.TcpClient;
 import it.polimi.ingsw.network.server.LobbyServer;
-import it.polimi.ingsw.network.server.constants.ServerConstants;
+import it.polimi.ingsw.constants.ServerConstants;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

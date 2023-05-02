@@ -1,9 +1,9 @@
-package it.polimi.ingsw.network.server.constants;
+package it.polimi.ingsw.constants;
 
 public class ServerConstants {
 
-    public static final String SERVER_INITIAL_CONFIG="src/main/config/server/lobbyServerInitialConfig.json";
-    public static final String SERVER_BAN_LIST="src/main/config/server/lobbyServerBanList.json";
+    public static final String SERVER_INITIAL_CONFIG_FILENAME="lobbyServerInitialConfig.json";
+    public static final String SERVER_BAN_LIST_FILENAME="lobbyServerBanList.json";
     public static final Integer RMI_PORT = 42069;
     public static final Integer TCP_PORT = 42070;
     public static final Integer PING_TIME = 5000;

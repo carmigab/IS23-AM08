@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.constants.ViewConstants;
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.network.client.RmiClient;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
@@ -9,11 +11,10 @@ import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.SingleGoal;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
-import it.polimi.ingsw.model.constants.AppConstants;
 import it.polimi.ingsw.network.client.TcpClient;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.network.client.exceptions.GameEndedException;
-import it.polimi.ingsw.network.server.constants.ServerConstants;
+import it.polimi.ingsw.constants.ServerConstants;
 import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.network.server.exceptions.NoGamesAvailableException;
 import it.polimi.ingsw.network.server.exceptions.NonExistentNicknameException;
@@ -107,7 +108,7 @@ public class CLI extends View{
         System.out.println();
         StringBuilder names = new StringBuilder();
         List<StringBuilder> shelves = new ArrayList<>();
-        for (int i = 0; i < CLIConstants.SHELF_REPRESENTATION_DIMENSION; i++) {
+        for (int i = 0; i < ViewConstants.SHELF_REPRESENTATION_DIMENSION; i++) {
             shelves.add(new StringBuilder());
         }
         StringBuilder commonGoalPoints = new StringBuilder();
@@ -117,16 +118,16 @@ public class CLI extends View{
         for (PlayerInfo playerInfo : gameInfo.getPlayerInfosList()) {
             if (!playerInfo.getNickname().equals(this.myNickname)) {
                 names.append(playerInfo.getNickname());
-                names.append(" ".repeat(Math.max(0, CLIConstants.MAX_NICKNAME_LENGTH - playerInfo.getNickname().length())));
+                names.append(" ".repeat(Math.max(0, ViewConstants.MAX_NICKNAME_LENGTH - playerInfo.getNickname().length())));
 
-                //printBoardOrShelf(AppConstants.ROWS_NUMBER, AppConstants.COLS_NUMBER, playerInfo.getShelf(), null);
-                for (int i = 0; i < CLIConstants.SHELF_REPRESENTATION_DIMENSION; i++) {
-                    shelves.get(i).append(createBoardOrShelf(AppConstants.ROWS_NUMBER, AppConstants.COLS_NUMBER, playerInfo.getShelf(), null).get(i))
+                //printBoardOrShelf(ModelConstants.ROWS_NUMBER, ModelConstants.COLS_NUMBER, playerInfo.getShelf(), null);
+                for (int i = 0; i < ViewConstants.SHELF_REPRESENTATION_DIMENSION; i++) {
+                    shelves.get(i).append(createBoardOrShelf(ModelConstants.ROWS_NUMBER, ModelConstants.COLS_NUMBER, playerInfo.getShelf(), null).get(i))
                             .append("   ");
                 }
 
                 String commonGoalPointsString = "   Common Goal Points: " + playerInfo.getComGoalPoints()[0] + "," + playerInfo.getComGoalPoints()[1];
-                commonGoalPoints.append(commonGoalPointsString).append(" ".repeat(Math.max(0, CLIConstants.MAX_NICKNAME_LENGTH - commonGoalPointsString.length())));
+                commonGoalPoints.append(commonGoalPointsString).append(" ".repeat(Math.max(0, ViewConstants.MAX_NICKNAME_LENGTH - commonGoalPointsString.length())));
             }
         }
 
@@ -144,8 +145,8 @@ public class CLI extends View{
         System.out.println();
         printMessage("Board:", AnsiEscapeCodes.GAME_MESSAGE);
 
-        //printBoardOrShelf(AppConstants.BOARD_DIMENSION, AppConstants.BOARD_DIMENSION, gameInfo.getGameBoard(), null);
-        for (StringBuilder line: createBoardOrShelf(AppConstants.BOARD_DIMENSION, AppConstants.BOARD_DIMENSION, gameInfo.getGameBoard(), null)) {
+        //printBoardOrShelf(ModelConstants.BOARD_DIMENSION, ModelConstants.BOARD_DIMENSION, gameInfo.getGameBoard(), null);
+        for (StringBuilder line: createBoardOrShelf(ModelConstants.BOARD_DIMENSION, ModelConstants.BOARD_DIMENSION, gameInfo.getGameBoard(), null)) {
             System.out.println(line);
         }
     }
@@ -159,8 +160,8 @@ public class CLI extends View{
             if (playerInfo.getNickname().equals(this.myNickname)) {
                 printMessage("My shelf:", AnsiEscapeCodes.GAME_MESSAGE);
 
-                //printBoardOrShelf(AppConstants.ROWS_NUMBER, AppConstants.COLS_NUMBER, playerInfo.getShelf(), playerInfo.getPersonalGoal());
-                for (StringBuilder line: createBoardOrShelf(AppConstants.ROWS_NUMBER, AppConstants.COLS_NUMBER, playerInfo.getShelf(), playerInfo.getPersonalGoal())) {
+                //printBoardOrShelf(ModelConstants.ROWS_NUMBER, ModelConstants.COLS_NUMBER, playerInfo.getShelf(), playerInfo.getPersonalGoal());
+                for (StringBuilder line: createBoardOrShelf(ModelConstants.ROWS_NUMBER, ModelConstants.COLS_NUMBER, playerInfo.getShelf(), playerInfo.getPersonalGoal())) {
                     System.out.println(line);
                 }
 
@@ -192,7 +193,7 @@ public class CLI extends View{
         for (int i = 0; i < yMax; i++) {
             lineBuilder = new StringBuilder();
             lineBuilder.append(" ").append(i).append(" ");
-            lineBuilder.append(xMax == AppConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
+            lineBuilder.append(xMax == ModelConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
                     .append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
             for (int j = 0; j < xMax; j++) {
                 toPrint = "   ";
@@ -205,7 +206,7 @@ public class CLI extends View{
                     }
                 }
                 lineBuilder.append(tileColorToAnsiCode(boardOrShelf[i][j].getColor(), true)).append(toPrint).append(AnsiEscapeCodes.ENDING_CODE.getCode());
-                lineBuilder.append(xMax == AppConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
+                lineBuilder.append(xMax == ModelConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
                         .append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
             }
             lineBuilder.append(" ").append(i).append(" ");
@@ -245,10 +246,10 @@ public class CLI extends View{
     private StringBuilder createFirstOrLastRow(int xMax) {
         StringBuilder result = new StringBuilder();
 
-        result.append("   ").append(xMax == AppConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
+        result.append("   ").append(xMax == ModelConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
                 .append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
         for (int i = 0; i < xMax; i++) {
-            result.append(xMax == AppConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
+            result.append(xMax == ModelConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
                     .append("    ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
         }
 
@@ -385,16 +386,16 @@ public class CLI extends View{
 
             while(positions.size() < 3 && answer.equals("y")){
                 printMessage("Select the tile you want to pick (x,y)", AnsiEscapeCodes.INFO_MESSAGE);
-                input = this.retryInput("^[0-9]+,[0-9]+$");
+                input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
                 while(!checkSinglePosition(new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3))))){
                     printMessage("Position not correct: please select another tile", AnsiEscapeCodes.ERROR_MESSAGE);
-                    input = this.retryInput("^[0-9]+,[0-9]+$");
+                    input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
                 }
                 List<Position> adj = getAdj(new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3))));
                 List<Position> validAdj = reduceAdjacent(adj);
                 positions.add(new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3))));
                 printMessage("Do you want to select another tile? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
-                answer = this.retryInput("y|n");
+                answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);
             }
 
 
@@ -405,12 +406,12 @@ public class CLI extends View{
             //}
 
 
-            printMessage("Select the column were you want to place the tiles ", AnsiEscapeCodes.INFO_MESSAGE);
-            input = this.retryInput("^[0-"+(AppConstants.COLS_NUMBER-1)+"]+$");
+            printMessage("Select the column where you want to place the tiles ", AnsiEscapeCodes.INFO_MESSAGE);
+            input = this.retryInput(ViewConstants.REGEX_INPUT_COLUMN);
             column = Integer.parseInt(input);
             while(!checkColumn(column, positions.size())){
                 printMessage("Column not correct: please select another column", AnsiEscapeCodes.ERROR_MESSAGE);
-                input = this.retryInput("^[0-"+(AppConstants.COLS_NUMBER-1)+"]+$");
+                input = this.retryInput(ViewConstants.REGEX_INPUT_COLUMN);
                 column = Integer.parseInt(input);
             }
 
@@ -450,7 +451,7 @@ public class CLI extends View{
                             Thread.sleep(100);
                         }
                         String input = bufferedReader.readLine();
-                        while (!input.matches("^[A-Za-z0-9+_.-]+ : (.+)$")) {
+                        while (!input.matches(ViewConstants.REGEX_INPUT_CHAT_MESSAGE)) {
                             printMessage("Invalid message format, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
                             while (!bufferedReader.ready()) {
                                 Thread.sleep(100);
@@ -483,10 +484,8 @@ public class CLI extends View{
             try {
                 getInput.join(10000);
                 if(getInput.isAlive()) {
-                    printMessage("ancora vivo", AnsiEscapeCodes.ERROR_MESSAGE);
                     getInput.interrupt();
                 }
-                else printMessage("finito", AnsiEscapeCodes.GAME_MESSAGE);
             } catch (InterruptedException ignored) {
 
             }
@@ -520,7 +519,7 @@ public class CLI extends View{
                             Thread.sleep(100);
                         }
                         String input = bufferedReader.readLine();
-                        while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n")) {
+                        while (!input.matches(ViewConstants.REGEX_INPUT_YES_OR_NO)) {
                             printMessage("Invalid input, please try again", AnsiEscapeCodes.ERROR_MESSAGE);
                             while (!bufferedReader.ready()) {
                                 Thread.sleep(100);
@@ -573,19 +572,17 @@ public class CLI extends View{
     // ask for connection type using println, 1 for RMI, 2 for Socket, ask again if the input is not valid
     public void chooseConnectionType() {
         printMessage("Insert ip of the server", AnsiEscapeCodes.INFO_MESSAGE);
-        //https://www.geeksforgeeks.org/how-to-validate-an-ip-address-using-regular-expressions-in-java/
-        String zeroTo255 ="(\\d{1,2}|(0|1)\\d{2}|2[0-4]\\d|25[0-5])";
-        String regexIP="|localhost|"+zeroTo255 + "\\." + zeroTo255 + "\\." + zeroTo255 + "\\." + zeroTo255;
-        String ip=this.retryInput(regexIP);
+
+        String ip=this.retryInput(ViewConstants.REGEX_INPUT_IP);
         if(ip.equals("")) ip="localhost";
 
         printMessage("Insert port of the server (or <default> for automatic detection)", AnsiEscapeCodes.INFO_MESSAGE);
-        String port=this.retryInput("|default|\\d+");
+        String port=this.retryInput(ViewConstants.REGEX_INPUT_PORT);
         Integer intPort= ServerConstants.RMI_PORT;
 
 
         printMessage("Choose connection type (rmi/tcp)", AnsiEscapeCodes.INFO_MESSAGE);
-        String input = this.retryInput("rmi|RMI|tcp|TCP");
+        String input = this.retryInput(ViewConstants.REGEX_INPUT_CONNECTION_TYPE);
 
         if (input.equalsIgnoreCase("rmi")) {
             try {
@@ -643,7 +640,7 @@ public class CLI extends View{
 
             if (input.equals("c")) {
                 printMessage("Please insert the number of players ", AnsiEscapeCodes.INFO_MESSAGE);
-                String playersNumber =this.retryInput("[2-4]");
+                String playersNumber =this.retryInput(ViewConstants.REGEX_INPUT_INTERVAL_OF_PLAYERS);
 
                 try {
                     client.createGame(Integer.parseInt(playersNumber));
@@ -679,8 +676,8 @@ public class CLI extends View{
     @Override
     public boolean askIfWantToPlayAgain() {
         printMessage("Do you want to play again? (y/n) ", AnsiEscapeCodes.INFO_MESSAGE);
-        String input = this.retryInput("y|n");
-        return input.equals("y");
+        String input = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);
+        return input.equalsIgnoreCase("y");
     }
 
     /**

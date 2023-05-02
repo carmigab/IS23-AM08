@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.UtilityTestFunctions;
-import it.polimi.ingsw.model.constants.AppConstants;
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.utilities.UtilityFunctionsModel;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ class GameModelTest {
     public void testLoadFromFile() throws FileNotFoundException {
         List<String> players=new ArrayList<>(4);
         players.add("MatteCenz"); players.add("GabriCarr"); players.add("GabriCarm"); players.add("AleCappe");
-        String file= AppConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(players);
+        String file= ModelConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(players);
         Gson json=new GsonBuilder().setPrettyPrinting().create();
         GameModel gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
         //System.out.println(json.toJson(gm));
@@ -55,7 +55,7 @@ class GameModelTest {
         gm.makeMove(pos, 0);
         assertFalse(gm.getGameBoard().positionOccupied(p));
 
-        Position p1 = new Position(0, AppConstants.ROWS_NUMBER - 1);
+        Position p1 = new Position(0, ModelConstants.ROWS_NUMBER - 1);
         assertEquals(TileColor.VIOLET, gm.getPlayer().getShelf().getTile(p1).getColor());
         assertEquals(2, gm.getPlayer().getShelf().getTile(p1).getSprite());
 
@@ -72,13 +72,13 @@ class GameModelTest {
         assertFalse(gm.getGameBoard().positionOccupied(p2));
         assertFalse(gm.getGameBoard().positionOccupied(p3));
         assertFalse(gm.getGameBoard().positionOccupied(p4));
-        Position p5 = new Position(0, AppConstants.ROWS_NUMBER - 1);
+        Position p5 = new Position(0, ModelConstants.ROWS_NUMBER - 1);
         assertEquals(TileColor.VIOLET, gm.getPlayer().getShelf().getTile(p5).getColor());
         assertEquals(2, gm.getPlayer().getShelf().getTile(p5).getSprite());
-        Position p6 = new Position(0, AppConstants.ROWS_NUMBER - 2);
+        Position p6 = new Position(0, ModelConstants.ROWS_NUMBER - 2);
         assertEquals(TileColor.CYAN, gm.getPlayer().getShelf().getTile(p6).getColor());
         assertEquals(1, gm.getPlayer().getShelf().getTile(p6).getSprite());
-        Position p7 = new Position(0, AppConstants.ROWS_NUMBER - 3);
+        Position p7 = new Position(0, ModelConstants.ROWS_NUMBER - 3);
         assertEquals(TileColor.CYAN, gm.getPlayer().getShelf().getTile(p7).getColor());
         assertEquals(1, gm.getPlayer().getShelf().getTile(p7).getSprite());
     }
@@ -149,7 +149,7 @@ class GameModelTest {
     public void getCurrentPlayer() throws FileNotFoundException {
         List<String> players=new ArrayList<>(4);
         players.add("MatteCenz"); players.add("GabriCarr"); players.add("GabriCarm"); players.add("AleCappe");
-        String file= AppConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(players);
+        String file= ModelConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(players);
         Gson json=new GsonBuilder().setPrettyPrinting().create();
         GameModel gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
 
@@ -164,7 +164,7 @@ class GameModelTest {
     public void getPlayer() throws FileNotFoundException {
         List<String> players=new ArrayList<>(4);
         players.add("MatteCenz"); players.add("GabriCarr"); players.add("GabriCarm"); players.add("AleCappe");
-        String file= AppConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(players);
+        String file= ModelConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(players);
         Gson json=new GsonBuilder().setPrettyPrinting().create();
         GameModel gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
         PlayerState p = gm.getPlayer();

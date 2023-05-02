@@ -11,4 +11,6 @@ module AM08 {
     opens it.polimi.ingsw.network.client to java.rmi;
     opens it.polimi.ingsw.view to javafx.fxml;
     exports it.polimi.ingsw.view;
+    exports it.polimi.ingsw.constants;
+    opens it.polimi.ingsw.constants to javafx.fxml;
 }

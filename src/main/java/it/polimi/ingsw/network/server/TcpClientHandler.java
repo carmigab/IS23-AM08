@@ -10,7 +10,7 @@ import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.clientMessages.*;
 import it.polimi.ingsw.network.messages.clientMessages.ChatSomeoneMessage;
 import it.polimi.ingsw.network.messages.serverMessages.*;
-import it.polimi.ingsw.network.server.constants.ServerConstants;
+import it.polimi.ingsw.constants.ServerConstants;
 import it.polimi.ingsw.network.server.exceptions.*;
 
 import java.io.*;

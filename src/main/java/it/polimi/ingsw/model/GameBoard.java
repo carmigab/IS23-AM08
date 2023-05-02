@@ -2,8 +2,8 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.model.commonGoals.*;
-import it.polimi.ingsw.model.constants.AppConstants;
-import it.polimi.ingsw.model.constants.BoardConstants;
+import it.polimi.ingsw.constants.ModelConstants;
+import it.polimi.ingsw.constants.BoardConstants;
 import com.google.gson.Gson;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesAtStartFillBoardException;
 import it.polimi.ingsw.model.exceptions.NoMoreTilesToFillBoardException;
@@ -12,9 +12,6 @@ import it.polimi.ingsw.utilities.RandomSingleton;
 import it.polimi.ingsw.utilities.UtilityFunctions;
 import it.polimi.ingsw.utilities.UtilityFunctionsModel;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -111,6 +108,7 @@ public final class GameBoard {
                 TileColor.YELLOW,
                 TileColor.VIOLET
         };
+
         Random r= RandomSingleton.getRandomSingleton();
         for(int j=0; j<BoardConstants.TOTAL_COLORS;j++){
             for(int i = 0; i<BoardConstants.TOTAL_TILES_PER_COLOR; i++){
@@ -279,8 +277,8 @@ public final class GameBoard {
     public boolean equals(Object obj) {
         if(!(obj instanceof GameBoard gameBoard)) return false;
 
-        for (int i = 0; i < AppConstants.BOARD_DIMENSION; i++) {
-            for (int j = 0; j < AppConstants.BOARD_DIMENSION; j++) {
+        for (int i = 0; i < ModelConstants.BOARD_DIMENSION; i++) {
+            for (int j = 0; j < ModelConstants.BOARD_DIMENSION; j++) {
                 if (!this.myGameBoard[i][j].equals(gameBoard.myGameBoard[i][j])) return false;
             }
         }

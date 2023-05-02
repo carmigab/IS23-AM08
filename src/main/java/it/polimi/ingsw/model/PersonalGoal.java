@@ -1,10 +1,8 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.annotations.Expose;
-import it.polimi.ingsw.App;
-import it.polimi.ingsw.model.constants.AppConstants;
+import it.polimi.ingsw.constants.ModelConstants;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,13 +29,13 @@ public class PersonalGoal {
      * @param points array of poins assigned for the completion of the objective
      */
     public PersonalGoal(SingleGoal[] s, int[] points){
-        this.personalGoal =new ArrayList<>(AppConstants.TOTAL_POINTS_FOR_PG);
+        this.personalGoal =new ArrayList<>(ModelConstants.TOTAL_POINTS_FOR_PG);
 
-        for(int i=0;i<AppConstants.TOTAL_POINTS_FOR_PG;i++){
+        for(int i = 0; i< ModelConstants.TOTAL_POINTS_FOR_PG; i++){
             this.personalGoal.add(new SingleGoal(s[i].getPosition(),s[i].getColor()));
         }
 
-        this.pointsForCompletion=new ArrayList<>(AppConstants.TOTAL_POINTS_FOR_PG);
+        this.pointsForCompletion=new ArrayList<>(ModelConstants.TOTAL_POINTS_FOR_PG);
         for (int point : points) this.pointsForCompletion.add(point);
     }
 
@@ -73,7 +71,7 @@ public class PersonalGoal {
      */
     public List<SingleGoal> getCopy(){
         List<SingleGoal> sgCopy = new ArrayList<>(this.personalGoal.size());
-        for(int i=0;i<AppConstants.TOTAL_POINTS_FOR_PG;i++){
+        for(int i = 0; i< ModelConstants.TOTAL_POINTS_FOR_PG; i++){
             sgCopy.add(this.personalGoal.get(i));
         }
         return sgCopy;

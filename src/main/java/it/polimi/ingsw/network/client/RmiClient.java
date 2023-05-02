@@ -85,8 +85,14 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         this.view = fV;
         this.nickname = nickname;
 
+        // with this command we set a timeout for a rmi method invocation
+        int timeout = ServerConstants.PING_TIME + ServerConstants.TCP_WAIT_TIME + 1000;
+        System.getProperties().setProperty("sun.rmi.transport.tcp.responseTimeout", String.valueOf(timeout));
+
         //System.setProperty("java.rmi.server.hostname", "192.168.43.54");
         this.connectToLobbyServer(ipToConnect, lobbyPort);
+
+
     }
 
     /**

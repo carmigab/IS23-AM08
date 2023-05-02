@@ -13,18 +13,7 @@ import java.util.Objects;
 
 public class HelloApplication extends Application {
     public static void main(String[] args) {
-        for(String arg: args){
-            System.out.println(arg);
-        }
-        if(args.length>0){
-            String param0 = args[0];
-            if(param0.equals("--server sium")){
-                runAsServer();
-            }
-        }
-        else{
-            launch();
-        }
+        launch();
     }
     static void runAsServer(){
         System.out.println("Server started...adios!");

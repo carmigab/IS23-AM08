@@ -214,7 +214,7 @@ public class CLI extends View{
 
             if (i != yMax - 1) {
                 lineBuilder = new StringBuilder();
-                result.add(lineBuilder.append("   ").append(xMax == AppConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
+                result.add(lineBuilder.append("   ").append(xMax == ModelConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
                         .append(" ".repeat(Math.max(0, (xMax + 1) * 4 + 1 - 4)))
                         .append(AnsiEscapeCodes.ENDING_CODE.getCode())
                         .append("   "));

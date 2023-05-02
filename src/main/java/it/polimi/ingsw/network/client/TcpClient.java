@@ -126,7 +126,7 @@ public class TcpClient implements Client{
             this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             if (!mute && !essential) System.out.println("Failed opening Output Streams");
-            this.gracefulDisconnection();
+            this.gracefulDisconnection(true);
             throw new ConnectionError();
         }
 
@@ -135,7 +135,7 @@ public class TcpClient implements Client{
             this.socket.setSoTimeout(ServerConstants.PING_TIME+ServerConstants.TCP_WAIT_TIME+1000);
         } catch (SocketException e) {
             if(!mute) System.out.println("SocketException from setSoTimeout");
-            this.gracefulDisconnection();
+            this.gracefulDisconnection(true);
         }
 
         // Thread to receive messages from server
@@ -157,7 +157,7 @@ public class TcpClient implements Client{
                 this.objectInputStream  = new ObjectInputStream(socket.getInputStream());
             } catch (IOException e) {
                 if (!mute && !essential) System.out.println("Failed opening Input Streams");
-                this.gracefulDisconnection();
+                this.gracefulDisconnection(true);
             }
 
             while(listeningForMessages){
@@ -168,18 +168,18 @@ public class TcpClient implements Client{
                 } catch (SocketTimeoutException e ) {
                     if (listeningForMessages) {
                         if (!mute && !essential) System.out.println("SocketTimeout Exception InboundMessagesThread");
-                        this.gracefulDisconnection();
+                        this.gracefulDisconnection(true);
                     }
                 } catch (IOException e) {
                     if (listeningForMessages){
                         if (!mute && !essential) System.out.println("IOException from InboundMessagesThread");
                         // e.printStackTrace();
-                        this.gracefulDisconnection();
+                        this.gracefulDisconnection(true);
                     }
                 } catch (ClassNotFoundException e) {
                     if (listeningForMessages){
                         if (!mute && !essential) System.out.println("ClassNotFoundException from InboundMessagesThread");
-                        this.gracefulDisconnection();
+                        this.gracefulDisconnection(true);
                     }
                 }
             }
@@ -204,10 +204,10 @@ public class TcpClient implements Client{
                         pingThreadLock.wait(ServerConstants.PING_TIME);
                     } catch (InterruptedException e) {
                         if (!mute && !essential) System.out.println("Interrupted exception from PingThread");
-                        this.gracefulDisconnection();
+                        this.gracefulDisconnection(true);
                     } catch (ConnectionError e) {
                         if (!mute && !essential) System.out.println("Connection error from PingThread");
-                        this.gracefulDisconnection();
+                        this.gracefulDisconnection(true);
                     }
                 }
 
@@ -244,7 +244,7 @@ public class TcpClient implements Client{
                 }
             } catch (InterruptedException e) {
                 if (!mute && !essential) System.out.println("Interrupted Exception from manageTcpConversation");
-                this.gracefulDisconnection();
+                this.gracefulDisconnection(true);
             }
 
 
@@ -260,11 +260,11 @@ public class TcpClient implements Client{
         }
          catch (ConnectionError e) {
             if (!mute && !essential) System.out.println("Connection error from "+ message.toString());
-            this.gracefulDisconnection();
+            this.gracefulDisconnection(true);
             throw new ConnectionError();
         } catch (InterruptedException e) {
             if (!mute && !essential) System.out.println("Interrupted Exception from "+ message.toString());
-            this.gracefulDisconnection();
+            this.gracefulDisconnection(true);
             throw new ConnectionError();
         }
     }
@@ -315,7 +315,7 @@ public class TcpClient implements Client{
             //this.objectOutputStream.reset();
         } catch (IOException e) {
             if (!mute && !essential) System.out.println("An error occurred while trying to send a message to the server");
-            this.gracefulDisconnection();
+            this.gracefulDisconnection(true);
         }
     }
 
@@ -455,7 +455,8 @@ public class TcpClient implements Client{
      * @param newInfo : the new info for the view
      */
     private void update(State newState, GameInfo newInfo){
-        if (newState == State.GRACEFULDISCONNECTION) this.gracefulDisconnection();
+        if (newState == State.GRACEFULDISCONNECTION) this.gracefulDisconnection(true);
+        else if (newState == State.GAMEABORTED) this.gracefulDisconnection(false);
         else this.view.update(newState, newInfo);
     }
 
@@ -470,10 +471,12 @@ public class TcpClient implements Client{
     /**
      * This method manages the disconnection by setting the flags toPing, listeningForMessages, isClientOnline to false,
      * closing the socket and updating the view
+     * @param connectionError: boolean that indicates if an error occurred
      */
-    private synchronized void gracefulDisconnection(){
+    private synchronized void gracefulDisconnection(boolean connectionError){
         if (isClientOnline) {
-            if (!mute && essential) System.out.println("Connection error");
+            if (connectionError && !mute && essential) System.out.println("Connection error");
+            else if (!connectionError && !mute) System.out.println("Game Aborted");
             if (!mute) System.out.println("Initializing graceful disconnection");
             if (!mute && !essential) System.out.println("Terminating Ping thread");
             this.toPing = false;

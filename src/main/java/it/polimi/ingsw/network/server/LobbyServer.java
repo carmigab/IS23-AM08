@@ -298,7 +298,6 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     }
 
     /**
-     * TODO: if a potential player decides to create a new game we need to kill the pre-existing game
      * This method lets you create a game, and it automatically puts it in the RMI registries
      * @param numPlayers number of players that the client has chosen
      * @param nickname   nickname of the player that calls the method

@@ -9,7 +9,7 @@ public class ViewConstants {
      */
     public static final int MAX_NICKNAME_LENGTH = 30;
 
-    public static final int SHELF_REPRESENTATION_DIMENSION = 10;
+    public static final int SHELF_REPRESENTATION_DIMENSION = 15;
 
     public static final String REGEX_INPUT_YES_OR_NO = "y|Y|n|N";
 

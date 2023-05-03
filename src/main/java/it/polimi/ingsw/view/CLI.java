@@ -201,7 +201,7 @@ public class CLI extends View{
                     for (SingleGoal singleGoal : personalGoal) {
                         if (singleGoal.getPosition().equals(new Position(j, i))) {
                             toPrint = tileColorToAnsiCode(singleGoal.getColor(), false)
-                                    + ((!singleGoal.getColor().equals(boardOrShelf[i][j].getColor()) && !boardOrShelf[i][j].isEmpty()) ? " ● " : " X ")
+                                    + (boardOrShelf[i][j].isEmpty() ? " ● " : boardOrShelf[i][j].getColor().equals(singleGoal.getColor()) ? " ● " : " X ")
                                     + AnsiEscapeCodes.ENDING_CODE.getCode();
                             break;
                         }

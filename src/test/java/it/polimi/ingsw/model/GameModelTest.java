@@ -56,8 +56,8 @@ class GameModelTest {
         assertFalse(gm.getGameBoard().positionOccupied(p));
 
         Position p1 = new Position(0, ModelConstants.ROWS_NUMBER - 1);
-        assertEquals(TileColor.VIOLET, gm.getPlayer().getShelf().getTile(p1).getColor());
-        assertEquals(2, gm.getPlayer().getShelf().getTile(p1).getSprite());
+        assertEquals(TileColor.VIOLET, gm.getCurrentPlayerState().getShelf().getTile(p1).getColor());
+        assertEquals(2, gm.getCurrentPlayerState().getShelf().getTile(p1).getSprite());
 
         // I test the method with 2 cards taken by the board
         gm=new GameModel(json.fromJson(UtilityTestFunctions.getReaderFromFileNameRelativePath("MatchTestMakeMove.json", this.getClass()), GameModel.class));
@@ -73,14 +73,14 @@ class GameModelTest {
         assertFalse(gm.getGameBoard().positionOccupied(p3));
         assertFalse(gm.getGameBoard().positionOccupied(p4));
         Position p5 = new Position(0, ModelConstants.ROWS_NUMBER - 1);
-        assertEquals(TileColor.VIOLET, gm.getPlayer().getShelf().getTile(p5).getColor());
-        assertEquals(2, gm.getPlayer().getShelf().getTile(p5).getSprite());
+        assertEquals(TileColor.VIOLET, gm.getCurrentPlayerState().getShelf().getTile(p5).getColor());
+        assertEquals(2, gm.getCurrentPlayerState().getShelf().getTile(p5).getSprite());
         Position p6 = new Position(0, ModelConstants.ROWS_NUMBER - 2);
-        assertEquals(TileColor.CYAN, gm.getPlayer().getShelf().getTile(p6).getColor());
-        assertEquals(1, gm.getPlayer().getShelf().getTile(p6).getSprite());
+        assertEquals(TileColor.CYAN, gm.getCurrentPlayerState().getShelf().getTile(p6).getColor());
+        assertEquals(1, gm.getCurrentPlayerState().getShelf().getTile(p6).getSprite());
         Position p7 = new Position(0, ModelConstants.ROWS_NUMBER - 3);
-        assertEquals(TileColor.CYAN, gm.getPlayer().getShelf().getTile(p7).getColor());
-        assertEquals(1, gm.getPlayer().getShelf().getTile(p7).getSprite());
+        assertEquals(TileColor.CYAN, gm.getCurrentPlayerState().getShelf().getTile(p7).getColor());
+        assertEquals(1, gm.getCurrentPlayerState().getShelf().getTile(p7).getSprite());
     }
 
     /**
@@ -167,7 +167,7 @@ class GameModelTest {
         String file= ModelConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(players);
         Gson json=new GsonBuilder().setPrettyPrinting().create();
         GameModel gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
-        PlayerState p = gm.getPlayer();
+        PlayerState p = gm.getCurrentPlayerState();
         assertEquals("MatteCenz", p.getNickname());
         assertEquals(0,p.getPoints());
         assertFalse(p.isCGDone(0));

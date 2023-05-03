@@ -56,7 +56,7 @@ public class GameController {
     }
 
     private boolean verifyPlayerNickname(String nick){
-        return nick.equals(this.model.getPlayer().getNickname());
+        return nick.equals(this.model.getCurrentPlayerState().getNickname());
     }
 
     private boolean evaluationMove(List<Position> pos, int col){

@@ -14,6 +14,8 @@ import it.polimi.ingsw.constants.ServerConstants;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -117,15 +119,15 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
      */
     public void makeMove(List<Position> pos, int col, String nickname) throws RemoteException, InvalidNicknameException, InvalidMoveException, GameEndedException {
         if (this.state == State.ENDGAME) throw new GameEndedException();
-        if(!isMyTurn(nickname)) {
-            if(!mute) System.out.println("MS: Illegal move: InvalidNicknameException");
-            throw new InvalidNicknameException();
-        }
+
         try {
             gameController.makeMove(pos, col, nickname);
         } catch (InvalidMoveException e){
             if(!mute) System.out.println("MS: Illegal move: InvalidMoveException");
             throw new InvalidMoveException();
+        } catch (InvalidNicknameException e) {
+            if(!mute) System.out.println("MS: Illegal move: InvalidNicknameException");
+            throw new InvalidNicknameException();
         }
 
         // Uncomment this line to test for endgame display in the cli
@@ -183,6 +185,8 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
     public void startGame(){
         if (!this.toLoadGame) {
             if(!mute) System.out.println("MS: Starting new game");
+            // Shuffling the players order
+            Collections.shuffle(nicknamesList);
             this.gameController = new GameController(nicknamesList, numPlayers, this);
         }
         else {

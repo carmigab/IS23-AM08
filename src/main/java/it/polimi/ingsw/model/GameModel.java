@@ -399,7 +399,7 @@ public class GameModel {
         observers.clear();
     }
 
-    public PlayerState getPlayer() {
+    public PlayerState getCurrentPlayerState() {
         return this.playerList.get(currentPlayer);
     }
 

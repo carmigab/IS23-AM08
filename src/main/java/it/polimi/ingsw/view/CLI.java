@@ -402,8 +402,11 @@ public class CLI extends View{
                 List<Position> adj = getAdj(new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3))));
                 List<Position> validAdj = reduceAdjacent(adj);
                 positions.add(new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3))));
-                printMessage("Do you want to select another tile? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
-                answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);
+                if(positions.size()<3) {
+                    printMessage("Do you want to select another tile? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
+                    answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);
+                }
+
             }
 
 

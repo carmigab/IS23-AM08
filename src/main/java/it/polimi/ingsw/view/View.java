@@ -149,7 +149,7 @@ public abstract class View {
      */
     //TODO: implementare
     protected boolean checkSinglePosition(Position pos){
-        if(this.gameInfo.getGameBoard()[pos.x()] [pos.y()].isEmpty() || this.gameInfo.getGameBoard()[pos.x()] [pos.y()].isInvalid()){
+        if(this.gameInfo.getGameBoard()[pos.y()] [pos.x()].isEmpty() || this.gameInfo.getGameBoard()[pos.y()] [pos.x()].isInvalid()){
             return false;
         }
         if(pos.x() < 0 || pos.x() >= ModelConstants.BOARD_DIMENSION) return false;

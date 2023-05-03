@@ -8,6 +8,9 @@ public class ViewLauncher {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+
+        System.out.println("ඞ");
+
         System.out.println("Select if you want to play with text or graphic interface (type cli/gui):");
         String input = scanner.nextLine();
         input = input.trim();

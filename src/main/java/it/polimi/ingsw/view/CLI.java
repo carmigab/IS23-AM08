@@ -200,7 +200,9 @@ public class CLI extends View{
                 if (personalGoal != null) {
                     for (SingleGoal singleGoal : personalGoal) {
                         if (singleGoal.getPosition().equals(new Position(j, i))) {
-                            toPrint = tileColorToAnsiCode(singleGoal.getColor(), false) + " ● " + AnsiEscapeCodes.ENDING_CODE.getCode();
+                            toPrint = tileColorToAnsiCode(singleGoal.getColor(), false)
+                                    + ((!singleGoal.getColor().equals(boardOrShelf[i][j].getColor()) && !boardOrShelf[i][j].isEmpty()) ? " ● " : " X ")
+                                    + AnsiEscapeCodes.ENDING_CODE.getCode();
                             break;
                         }
                     }

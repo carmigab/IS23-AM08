@@ -165,10 +165,10 @@ public abstract class View {
 
     protected List<Position> getAdj(Position pos){
         List<Position> result = new ArrayList<>();
-        result.add(new Position(pos.x(), pos.y()+1));
-        result.add(new Position(pos.x(), pos.y()-1));
-        result.add(new Position(pos.x()+1, pos.y()));
-        result.add(new Position(pos.x()-1, pos.y()));
+        if(pos.y()<ModelConstants.BOARD_DIMENSION-1) result.add(new Position(pos.x(), pos.y()+1));
+        if(pos.y()>0)                                result.add(new Position(pos.x(), pos.y()-1));
+        if(pos.x()<ModelConstants.BOARD_DIMENSION-1) result.add(new Position(pos.x()+1, pos.y()));
+        if(pos.x()>0)                                result.add(new Position(pos.x()-1, pos.y()));
         return result;
     }
 

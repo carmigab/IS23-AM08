@@ -398,13 +398,26 @@ public class CLI extends View{
             while(positions.size() < 3 && answer.equals("y")){
                 printMessage("Select the tile you want to pick (x,y)", AnsiEscapeCodes.INFO_MESSAGE);
                 input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
-                while(!checkSinglePosition(new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3))))){
-                    printMessage("Position not correct: please select another tile", AnsiEscapeCodes.ERROR_MESSAGE);
-                    input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
+                Position pos = new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3)));
+                int i = 0;
+                while((!checkSinglePosition(pos)) || i<positions.size()){
+                    if(!checkSinglePosition(pos)) {
+                        printMessage("Position not correct: please select another tile", AnsiEscapeCodes.ERROR_MESSAGE);
+                        input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
+                        pos = new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3)));
+                    }
+                    else if (positions.get(i).x() == pos.x() && positions.get(i).y() == pos.y()){
+                        i=0;
+                        printMessage("Tile already selected in previous moves: please select another tile", AnsiEscapeCodes.ERROR_MESSAGE);
+                        input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
+                        pos = new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3)));
+                    }
+                    else i++;
                 }
-                List<Position> adj = getAdj(new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3))));
-                List<Position> validAdj = reduceAdjacent(adj);
-                positions.add(new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3))));
+
+                //List<Position> adj = getAdj(new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3))));
+                //List<Position> validAdj = reduceAdjacent(adj);
+                positions.add(pos);
                 if(positions.size()<3) {
                     printMessage("Do you want to select another tile? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
                     answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);

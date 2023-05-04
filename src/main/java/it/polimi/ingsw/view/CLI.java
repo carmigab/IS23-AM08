@@ -400,13 +400,16 @@ public class CLI extends View{
                 input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
                 Position pos = new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3)));
                 int i = 0;
-                while((!checkSinglePosition(pos)) || i<positions.size()){
+                int error = 0;
+                while(((!checkSinglePosition(pos)) || i<positions.size()) && error < CLIConstants.MAX_NUMBER_OF_MOVE_ERROR){
                     if(!checkSinglePosition(pos)) {
+                        error++;
                         printMessage("Position not correct: please select another tile", AnsiEscapeCodes.ERROR_MESSAGE);
                         input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
                         pos = new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3)));
                     }
                     else if (positions.get(i).x() == pos.x() && positions.get(i).y() == pos.y()){
+                        error ++;
                         i=0;
                         printMessage("Tile already selected in previous moves: please select another tile", AnsiEscapeCodes.ERROR_MESSAGE);
                         input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
@@ -417,12 +420,17 @@ public class CLI extends View{
 
                 //List<Position> adj = getAdj(new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3))));
                 //List<Position> validAdj = reduceAdjacent(adj);
-                positions.add(pos);
-                if(positions.size()<3) {
-                    printMessage("Do you want to select another tile? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
+                if(error < CLIConstants.MAX_NUMBER_OF_MOVE_ERROR){
+                    positions.add(pos);
+                    if(positions.size()<3) {
+                        printMessage("Do you want to select another tile? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
+                        answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);
+                    }
+                }
+                else {
+                    printMessage("Too much errors : are you sure you want to select another tile? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
                     answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);
                 }
-
             }
 
 

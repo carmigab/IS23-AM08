@@ -10,4 +10,6 @@ public class CLIConstants {
     public static final int MAX_NICKNAME_LENGTH = 30;
 
     public static final int SHELF_REPRESENTATION_DIMENSION = 15;
+
+    public static final int MAX_NUMBER_OF_MOVE_ERROR = 4;
 }

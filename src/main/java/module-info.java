@@ -13,4 +13,6 @@ module AM08 {
     exports it.polimi.ingsw.view;
     exports it.polimi.ingsw.constants;
     opens it.polimi.ingsw.constants to javafx.fxml;
+    exports it.polimi.ingsw.launchers;
+    opens it.polimi.ingsw.launchers to com.google.gson, java.rmi, javafx.fxml;
 }

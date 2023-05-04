@@ -22,7 +22,7 @@ class LobbyServerTest {
 
     @Test
     public void testChooseNickNameAndConstructors() throws RemoteException, ExistentNicknameException, IllegalNicknameException, FileNotFoundException {
-        LobbyServer ls1= new LobbyServer();
+        LobbyServer ls1= new LobbyServer(new LobbyServerConfig(ServerConstants.RMI_PORT, ServerConstants.TCP_PORT, "dummy","gamedummy"));
 
         //create a player with a correct nickname
         assertTrue(ls1.chooseNickname("Gabri"));
@@ -31,23 +31,11 @@ class LobbyServerTest {
         //try a name from the ban list
         String bannedName="Matteo";
         assertThrows(IllegalNicknameException.class, ()-> ls1.chooseNickname(bannedName));
-
-        LobbyServer ls2= new LobbyServer(1234, "Ciao",2000,"Game");
-
-        assertTrue(ls2.chooseNickname("Gabri"));
-        assertThrows(ExistentNicknameException.class, ()-> ls2.chooseNickname("Gabri"));
-        assertThrows(IllegalNicknameException.class, ()-> ls2.chooseNickname(bannedName));
-
-        LobbyServer ls3= new LobbyServer(new LobbyServerConfig(1234, 1235, "Ciao",2000,"Game"));
-
-        assertTrue(ls3.chooseNickname("Gabri"));
-        assertThrows(ExistentNicknameException.class, ()-> ls3.chooseNickname("Gabri"));
-        assertThrows(IllegalNicknameException.class, ()-> ls3.chooseNickname(bannedName));
     }
 
     @Test
     public void testCorrectRegex() throws RemoteException, ExistentNicknameException, IllegalNicknameException {
-        LobbyServer ls=new LobbyServer();
+        LobbyServer ls=new LobbyServer(new LobbyServerConfig(ServerConstants.RMI_PORT, ServerConstants.TCP_PORT, "dummy","gamedummy"));
 
         // add a non banned name
         assertTrue(ls.chooseNickname("Gabriele"));
@@ -71,7 +59,7 @@ class LobbyServerTest {
     @Disabled
     @Test
     public void testCreateGame() throws RemoteException, ExistentNicknameException, IllegalNicknameException, NonExistentNicknameException, AlreadyInGameException, NotBoundException, InterruptedException {
-        LobbyServer ls=new LobbyServer();
+        LobbyServer ls=new LobbyServer(new LobbyServerConfig(ServerConstants.RMI_PORT, ServerConstants.TCP_PORT, "dummy","gamedummy"));
         RmiClientInterface rmiClient = new RmiClient("The one who tests", null, "localhost", ServerConstants.RMI_PORT);
         //Let's use a banned word first
         String nickname="all";

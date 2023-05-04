@@ -1,4 +1,4 @@
-package it.polimi.ingsw.dummies;
+package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;

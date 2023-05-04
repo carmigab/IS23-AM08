@@ -76,31 +76,11 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
 
 
     /**
-     * Constructor that loads the initial configuration of the server from file
-     * @throws RemoteException exception of RMI
-     */
-    public LobbyServer() throws RemoteException{
-        super();
-        this.config = loadInitialConfig();
-        this.nicknamesPool = new HashSet<>();
-        this.nicknamesInGame = new HashSet<>();
-        this.potentialPlayers = new HashMap<>();
-        this.serverList = new ArrayList<>();
-        this.serverInformation = new ArrayList<>();
-        this.banList = new ArrayList<>();
-        this.banList.addAll(loadBanList());
-        lockChooseNickName=new Object();
-        lockCreateGame=new Object();
-    }
-
-
-    /**
      * Constructor that loads the initial configuration from the object in input
      * @param config configuration of the server
      * @throws RemoteException
      */
     public LobbyServer(LobbyServerConfig config) throws RemoteException{
-        super();
         this.config = config;
         this.nicknamesPool = new HashSet<>();
         this.nicknamesInGame = new HashSet<>();
@@ -111,41 +91,6 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         this.banList.addAll(loadBanList());
         lockChooseNickName=new Object();
         lockCreateGame=new Object();
-    }
-
-
-    /**
-     * Constructor that receives in input the parameters and creates a configuration manually
-     * @param serverPort integer containing the information of the server port in RMI (the TCP will be automatically be +1)
-     * @param serverName string containing the information of the server name
-     * @param startingPort integer containing the information of the starting port
-     * @param startingName string containing the information of the starting name
-     * @throws RemoteException
-     */
-    public LobbyServer(int serverPort, String serverName, int startingPort, String startingName) throws RemoteException{
-        this(new LobbyServerConfig(serverPort, serverPort+1, serverName, startingPort, startingName));
-    }
-
-    /**
-     * Constructor that receives in input the parameters and creates a configuration manually
-     * @param serverPortRMI integer containing the information of the server port in RMI
-     * @param serverPortTCP integer containing the information of the server port in RMI
-     * @param serverName string containing the information of the server name
-     * @param startingPort integer containing the information of the starting port
-     * @param startingName string containing the information of the starting name
-     * @throws RemoteException
-     */
-    public LobbyServer(int serverPortRMI, int serverPortTCP, String serverName, int startingPort, String startingName) throws RemoteException{
-        this(new LobbyServerConfig(serverPortRMI, serverPortTCP, serverName, startingPort, startingName));
-    }
-
-
-    /**
-     * Method used for the loading of the initial configuration from the file saved in "config/server"
-     * @return a LobbyServerConfig object
-     */
-    private LobbyServerConfig loadInitialConfig() {
-        return JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(UtilityFunctions.getReaderFromFileNameRelativePath(ServerConstants.SERVER_INITIAL_CONFIG_FILENAME, this.getClass()),LobbyServerConfig.class);
     }
 
     /**

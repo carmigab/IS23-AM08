@@ -1,11 +1,11 @@
 package it.polimi.ingsw.network;
 
 
-import it.polimi.ingsw.dummies.FakeView;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.TcpClient;
 import it.polimi.ingsw.network.server.LobbyServer;
 import it.polimi.ingsw.constants.ServerConstants;
+import it.polimi.ingsw.network.server.LobbyServerConfig;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +19,7 @@ public class BasicTcpConnectivityTest {
     public void basicTcpClientServerConnectionTest(){
         boolean testSuccessful = true;
         try {
-            LobbyServer lobbyS = new LobbyServer();
+            LobbyServer lobbyS = new LobbyServer(new LobbyServerConfig(ServerConstants.RMI_PORT, ServerConstants.TCP_PORT, ServerConstants.LOBBY_SERVER,"gamedummy"));
             lobbyS.start();
 
             String nickname = "TheOneWhoTestsTcp";

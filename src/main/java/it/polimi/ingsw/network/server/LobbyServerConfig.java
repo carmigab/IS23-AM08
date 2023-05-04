@@ -2,10 +2,11 @@ package it.polimi.ingsw.network.server;
 
 import com.google.gson.annotations.Expose;
 
+import java.util.Optional;
+
 /**
  * This class contains all the information for the correct setup of the server
  * It can also be loaded from file
- * Note that it is immutable
  */
 public class LobbyServerConfig {
 
@@ -13,27 +14,28 @@ public class LobbyServerConfig {
      * Integer containing the port that the lobby server will be open on RMI
      */
     @Expose
-    private final Integer serverPortRMI;
+    private Integer serverPortRMI;
     /**
      * Integer containing the port that the lobby server will be open on TCP
      */
     @Expose
-    private final Integer serverPortTCP;
+    private Integer serverPortTCP;
     /**
      * String containing the server name that the client will refer to
      */
     @Expose
-    private final String serverName;
-    /**
-     * Integer containing the first port that can be used for the creation of a game
-     */
-    @Expose
-    private final Integer startingPort;
+    private String serverName;
     /**
      * String containing the prefix used for the creaton of the game (in the form of startingName+numberOfGames)
      */
     @Expose
-    private final String startingName;
+    private String startingName;
+
+    /**
+     * Empty constructor of the class
+     */
+    public LobbyServerConfig(){
+    }
 
 
     /**
@@ -41,14 +43,12 @@ public class LobbyServerConfig {
      * @param serverPortTCP integer containing the information of the server port
      * @param serverPortRMI integer containing the information of the server port
      * @param serverName string containing the information of the server name
-     * @param startingPort integer containing the information of the starting port
      * @param startingName string containing the information of the starting name
      */
-    public LobbyServerConfig( Integer serverPortRMI, Integer serverPortTCP, String serverName, Integer startingPort, String startingName){
+    public LobbyServerConfig( Integer serverPortRMI, Integer serverPortTCP, String serverName, String startingName){
         this.serverName=serverName;
         this.serverPortRMI=serverPortRMI;
-        this.serverPortTCP=serverPortRMI;
-        this.startingPort=startingPort;
+        this.serverPortTCP=serverPortTCP;
         this.startingName=startingName;
     }
 
@@ -75,13 +75,38 @@ public class LobbyServerConfig {
     }
 
     /**
-     * Getter of the starting port of the server
-     * @return an integer
+     * Getter fo the starting name of the games
+     * @return a string
      */
-    public Integer getStartingPort() {
-        return this.startingPort;
+    public String getStartingName(){ return this.startingName; }
+
+    /**
+     * Setter of the RMI server port
+     * @param serverPortRMI an integer
+     */
+    public void setServerPortRMI(Integer serverPortRMI){
+        this.serverPortRMI=serverPortRMI;
     }
-    public String getStartingName(){
-        return this.startingName;
+    /**
+     * Setter of the TCP server port
+     * @param serverPortTCP an integer
+     */
+    public void setServerPortTCP(Integer serverPortTCP) {
+        this.serverPortTCP = serverPortTCP;
+    }
+    /**
+     * Setter of the server name
+     * @param serverName a string
+     */
+    public void setServerName(String serverName) {
+        this.serverName = serverName;
+    }
+
+    /**
+     * Setter of the game name
+     * @param startingName a string
+     */
+    public void setStartingName(String startingName) {
+        this.startingName = startingName;
     }
 }

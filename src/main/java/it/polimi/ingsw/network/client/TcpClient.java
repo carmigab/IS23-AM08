@@ -111,7 +111,7 @@ public class TcpClient implements Client{
         while (true) {
             try {
                 this.socket = new Socket(serverIp, lobbyPort);
-                if (!mute) System.out.println("Tcp connection established");
+                if (!mute && !essential) System.out.println("Tcp connection established");
                 break;
             } catch (IOException e) {
                 if (!mute) System.out.println("Server not found");

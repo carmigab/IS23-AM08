@@ -103,7 +103,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     private void connectToLobbyServer(String ipToConnect, Integer lobbyPort) throws InterruptedException {
         while(true) {
             try {
-                if (!mute) System.out.println("Looking up the registry for LobbyServer at "+ipToConnect+":"+lobbyPort);
+                if (!mute && !essential) System.out.println("Looking up the registry for LobbyServer at "+ipToConnect+":"+lobbyPort);
                 // swap 'localhost' with the server ip when trying to connect with two different machines
                 this.lobbyRegistry = LocateRegistry.getRegistry(ipToConnect, lobbyPort);
                 this.lobbyServer = (RMILobbyServerInterface) this.lobbyRegistry.lookup(ServerConstants.LOBBY_SERVER);

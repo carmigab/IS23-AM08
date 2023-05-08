@@ -451,8 +451,23 @@ public class CLI extends View{
                 }
             }
 
-
-
+            answer = "n";
+            // display the chosen tiles and ask if the player wants to order them
+            while (answer.equalsIgnoreCase("n")) {
+                if (positions.size() > 1) {
+                    displayChosenTiles(positions, gameInfo.getGameBoard());
+                    printMessage("The tiles will be inserted the way you see them, from left to right. Do you want to change the order? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
+                    answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);
+                    if(answer.equals("y")){
+                        printMessage("Select the order of the tiles " + (positions.size() == 2 ? "(1,2)" : "(1,2,3)"), AnsiEscapeCodes.INFO_MESSAGE);
+                        input = this.retryInput(positions.size() == 2 ? ViewConstants.REGEX_INPUT_ORDER_2TILES : ViewConstants.REGEX_INPUT_ORDER_3TILES);
+                        positions = changeOrder(positions, input);
+                        displayChosenTiles(positions, gameInfo.getGameBoard());
+                        printMessage("This is the order you chose, are you sure? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
+                        answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);
+                    }
+                }
+            }
 
             //for (String position : input.split(" ")) {
               //  positions.add(new Position(Integer.parseInt(position.split(",")[0]), Integer.parseInt(position.split(",")[1])));
@@ -484,6 +499,38 @@ public class CLI extends View{
                 // this one needs to be managed better
                 printMessage("Error: game has already ended", AnsiEscapeCodes.ERROR_MESSAGE);
             }
+    }
+
+    /**
+     * This method is called by parseMoveCommand to order the selected tiles
+     * @param selectedTiles the tiles selected by the user
+     * @param input the order chosen by the user
+     * @return the ordered list of tiles
+     */
+    public List<Position> changeOrder(List<Position> selectedTiles, String input){
+        List<Position> newOrder = new ArrayList<>();
+        for (String positionIndex : input.split(",")) {
+            newOrder.add(selectedTiles.get(Integer.parseInt(positionIndex)-1));
+        }
+        return newOrder;
+    }
+
+    /**
+     * This method is called by parseMoveCommand to show to the user the selected tiles
+     * @param chosenTiles the tiles selected by the user
+     */
+    private void displayChosenTiles(List<Position> chosenTiles, Tile[][] board) {
+        printMessage("You have selected the following tiles: ", AnsiEscapeCodes.INFO_MESSAGE);
+        StringBuilder stringBuilder = new StringBuilder();
+        int i = 1;
+        for (Position position : chosenTiles) {
+            stringBuilder.append(tileColorToAnsiCode(board[position.y()][position.x()].getColor(), true))
+                    .append(" ").append(i).append(" ");
+            stringBuilder.append(AnsiEscapeCodes.DEFAULT_BACKGROUND.getCode()).append(" ");
+            i++;
+        }
+        stringBuilder.append(AnsiEscapeCodes.ENDING_CODE.getCode());
+        System.out.println(stringBuilder);
     }
 
     /**

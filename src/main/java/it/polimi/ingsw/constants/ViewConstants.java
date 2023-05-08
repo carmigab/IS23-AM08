@@ -27,4 +27,8 @@ public class ViewConstants {
     public static final String REGEX_INPUT_CONNECTION_TYPE = "rmi|RMI|tcp|TCP";
 
     public static final String REGEX_INPUT_INTERVAL_OF_PLAYERS = "[2-4]";
+
+    public static final String REGEX_INPUT_ORDER_2TILES = "^[1-3]+,[1-3]+$";
+
+    public static final String REGEX_INPUT_ORDER_3TILES = "^[1-3]+,[1-3]+,[1-3]+$";
 }

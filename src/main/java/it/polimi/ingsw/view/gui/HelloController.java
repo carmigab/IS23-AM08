@@ -1,16 +1,17 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.network.client.RmiClient;
 import it.polimi.ingsw.network.client.TcpClient;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.constants.ServerConstants;
+import it.polimi.ingsw.view.View;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-public class HelloController extends View{
+public class HelloController extends View {
     @FXML
     private ChoiceBox<String> connectionType;
     @FXML

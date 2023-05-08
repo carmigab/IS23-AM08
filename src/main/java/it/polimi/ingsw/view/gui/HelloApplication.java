@@ -1,13 +1,10 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.view.gui;
 
-import it.polimi.ingsw.view.HelloController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -22,13 +19,13 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_50x50px.png"))));
+        stage.setTitle("MYSHELFIE");
         FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("hello-view.fxml"));
         Scene scene=new Scene(fxmlLoader.load());
         scene.setOnKeyPressed((key)->{
             if(key.getCode().equals(KeyCode.ENTER)) ((HelloController)fxmlLoader.getController()).onConnectButtonClick();
         });
-        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("icon_50x50px.png"))));
-        stage.setTitle("MYSHELFIE");
         stage.setScene(scene);
         stage.show();
     }

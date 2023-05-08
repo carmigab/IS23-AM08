@@ -1,7 +1,7 @@
 package it.polimi.ingsw.computer;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.model.utilities.JsonWithExposeSingleton;
+import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileWriter;

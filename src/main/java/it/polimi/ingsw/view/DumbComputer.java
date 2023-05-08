@@ -8,7 +8,8 @@ import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.network.client.RmiClient;
 import it.polimi.ingsw.network.client.RmiClientInterface;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
-import it.polimi.ingsw.network.server.constants.ServerConstants;
+import it.polimi.ingsw.constants.ServerConstants;
+import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -78,7 +79,7 @@ public class DumbComputer extends View{
                                         Thread.sleep(300);
                                         this.client.makeMove(toSend, this.r.nextInt(5));
                                         done = true;
-                                    } catch (InvalidNicknameException | InvalidMoveException | ConnectionError | InterruptedException ignored) {
+                                    } catch (InvalidNicknameException | InvalidMoveException | ConnectionError | InterruptedException | GameEndedException ignored) {
                                     }
                                 }
                                 System.out.println(this.myNickname + ": Move done!");

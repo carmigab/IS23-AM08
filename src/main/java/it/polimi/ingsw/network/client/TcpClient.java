@@ -406,6 +406,11 @@ public class TcpClient implements Client{
         if (response.isAlreadyInGame()) throw new AlreadyInGameException();
     }
 
+    @Override
+    public void createGameWithComputer(int num) throws NonExistentNicknameException, AlreadyInGameException, ConnectionError {
+        //TODO
+    }
+
     /**
      * This method lets a player join a game
      * @throws NoGamesAvailableException

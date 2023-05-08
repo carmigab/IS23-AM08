@@ -193,6 +193,22 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         }
     }
 
+    @Override
+    public void createGameWithComputer(int num) throws NonExistentNicknameException, AlreadyInGameException, ConnectionError {
+        try {
+            String matchServerName = this.lobbyServer.createGameWithComputer(num, nickname, this);
+            this.connectToMatchServer(matchServerName);
+        } catch (RemoteException e) {
+            if (!mute && !essential) System.out.println("Remote exception from createGameWithComputer");
+            this.gracefulDisconnection(true);
+            throw new ConnectionError();
+        } catch (NotBoundException e) {
+            if (!mute && !essential) System.out.println("Trying to lock up an unbound registry");
+            this.gracefulDisconnection(true);
+            throw new ConnectionError();
+        }
+    }
+
     /**
      * This method lets a player join a game
      * @throws NoGamesAvailableException
@@ -223,7 +239,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @throws RemoteException
      * @throws NotBoundException
      */
-    private void connectToMatchServer(String matchServerName) throws RemoteException, NotBoundException {
+    public void connectToMatchServer(String matchServerName) throws RemoteException, NotBoundException {
         this.matchServer = (RmiServerInterface) this.lobbyRegistry.lookup(matchServerName);
 
         // new thread to ping server

@@ -451,9 +451,9 @@ public class CLI extends View{
                 }
             }
 
-            answer = "n";
+            answer = "y";
             // display the chosen tiles and ask if the player wants to order them
-            while (answer.equalsIgnoreCase("n")) {
+            while (!answer.equalsIgnoreCase("n")) {
                 if (positions.size() > 1) {
                     displayChosenTiles(positions, gameInfo.getGameBoard());
                     printMessage("The tiles will be inserted the way you see them, from left to right. Do you want to change the order? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);

@@ -586,6 +586,7 @@ public class CLI extends View{
                     getInput.interrupt();
                 }
             } catch (InterruptedException ignored) {
+                System.out.println("Interrupted exception from Chat");
 
             }
         }

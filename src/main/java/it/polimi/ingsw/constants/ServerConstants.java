@@ -6,7 +6,7 @@ public class ServerConstants {
     public static final String SERVER_BAN_LIST_FILENAME="lobbyServerBanList.json";
     public static final Integer RMI_PORT = 42069;
     public static final Integer TCP_PORT = 42070;
-    public static final Integer PING_TIME = 5000;
+    public static final Integer PING_TIME = 10000;
     public static final Integer TCP_WAIT_TIME = 1000;
     public static final Integer CLIENT_SLEEPING_TIME = 5000;
     public static final String LOBBY_SERVER = "LobbyServer";

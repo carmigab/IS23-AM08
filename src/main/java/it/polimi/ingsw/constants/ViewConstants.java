@@ -11,7 +11,7 @@ public class ViewConstants {
 
     public static final int SHELF_REPRESENTATION_DIMENSION = 15;
 
-    public static final int CHAT_TIMER = 10000;
+    public static final int CHAT_TIMER = 1000000;
 
     public static final String REGEX_INPUT_YES_OR_NO = "y|Y|n|N";
 

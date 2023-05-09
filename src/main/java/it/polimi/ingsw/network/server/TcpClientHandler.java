@@ -58,7 +58,7 @@ public class TcpClientHandler implements Runnable {
     /**
      * Set this flag to true to mute the tcpClientHandler
      */
-    private boolean mute = true;
+    private boolean mute = false;
 
     /**
      * This is the constructor
@@ -124,7 +124,7 @@ public class TcpClientHandler implements Runnable {
                 catch (IOException e) {
                     if (listeningForMessages){
                         if(!mute) System.out.println("CH["+nickname+"]: IOException from InboundMessagesThread");
-                        // e.printStackTrace();
+                        e.printStackTrace();
                         this.disconnection();
                         break;
                     }

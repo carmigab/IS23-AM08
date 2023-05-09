@@ -8,6 +8,7 @@ public class ServerConstants {
     public static final Integer TCP_PORT = 42070;
     public static final Integer PING_TIME = 5000;
     public static final Integer TCP_WAIT_TIME = 1000;
+    public static final Integer CLIENT_SLEEPING_TIME = 5000;
     public static final String LOBBY_SERVER = "LobbyServer";
     public static final String REGEX="_";
     public static final String JSON_EXTENSION="_.json";

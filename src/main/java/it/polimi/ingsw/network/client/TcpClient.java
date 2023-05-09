@@ -115,7 +115,7 @@ public class TcpClient implements Client{
                 break;
             } catch (IOException e) {
                 if (!mute) System.out.println("Server not found");
-                Thread.sleep(5000);
+                synchronized (pingLock){ pingLock.wait(5000);}
             }
         }
 

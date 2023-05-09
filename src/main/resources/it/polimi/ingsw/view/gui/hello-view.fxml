@@ -6,13 +6,13 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:id="container" alignment="TOP_CENTER" prefHeight="700.0" prefWidth="800.0" spacing="20.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.HelloController">
+<VBox fx:id="container" alignment="TOP_CENTER" prefHeight="700.0" prefWidth="800.0" spacing="20.0" stylesheets="@hello-style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.HelloController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
    <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
       <image>
-         <Image url="@box_noshadow_280x280.png" />
+         <Image url="@images/Publisher_material/Box_noshadow_280x280.png" />
       </image>
    </ImageView>
    <ChoiceBox fx:id="connectionType" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" />

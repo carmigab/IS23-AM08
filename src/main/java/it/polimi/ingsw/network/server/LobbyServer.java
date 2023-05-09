@@ -195,7 +195,6 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
                 .map(fileName-> fileName.substring(0,fileName.length()-ServerConstants.JSON_EXTENSION.length()))
                 .flatMap(fileName -> Arrays.stream(fileName.split(ServerConstants.REGEX)))
                 .forEach(playerName -> this.potentialPlayers.put(playerName, Optional.empty()));
-        //commento
     }
 
     /**

@@ -79,7 +79,7 @@ public class TcpClient implements Client{
     /**
      * If this flag is true the client prints only essential messages
      */
-    private boolean essential = true;
+    private boolean essential = false;
 
 
     /**

@@ -69,7 +69,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     /**
      * If this flag is true the client only prints essential messages
      */
-    private boolean essential = true;
+    private boolean essential = false;
 
 
     /**
@@ -86,7 +86,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         this.nickname = nickname;
 
         // with this command we set a timeout for a rmi method invocation
-        int timeout = ServerConstants.PING_TIME + ServerConstants.TCP_WAIT_TIME + 1000;
+        int timeout = ServerConstants.PING_TIME;
         System.getProperties().setProperty("sun.rmi.transport.tcp.responseTimeout", String.valueOf(timeout));
 
         //System.setProperty("java.rmi.server.hostname", "192.168.43.54");

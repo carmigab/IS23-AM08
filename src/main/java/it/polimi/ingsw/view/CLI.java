@@ -722,10 +722,11 @@ public class CLI extends View{
                 myNickname = scanner.nextLine();
             }
         } catch (ConnectionError e) {
-            //ignore
+            // ignore
         }
     }
 
+    // delete this line
     /**
      * This method is called by start to ask the player if he wants to create a new game or join an existing one
      */

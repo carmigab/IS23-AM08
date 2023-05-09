@@ -739,7 +739,7 @@ public class CLI extends View{
             String input = this.retryInput("c|j");
 
             if (input.equals("c")) {
-                printMessage("Choosebthe number of players ", AnsiEscapeCodes.INFO_MESSAGE);
+                printMessage("Choose the number of players ", AnsiEscapeCodes.INFO_MESSAGE);
                 String playersNumber =this.retryInput(ViewConstants.REGEX_INPUT_INTERVAL_OF_PLAYERS);
 
                 try {

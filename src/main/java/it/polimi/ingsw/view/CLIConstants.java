@@ -11,5 +11,5 @@ public class CLIConstants {
 
     public static final int SHELF_REPRESENTATION_DIMENSION = 15;
 
-    public static final int MAX_NUMBER_OF_ILLEGAL_MOVES = 1;
+    public static final int MAX_NUMBER_OF_ILLEGAL_MOVES = 4;
 }

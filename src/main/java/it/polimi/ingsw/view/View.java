@@ -148,7 +148,7 @@ public abstract class View {
      * position is in the board, if the tile isn't invalid or empty and if the tile has free adjacent
      */
     //TODO: implementare
-    protected boolean checkSinglePosition(Position pos){
+    private boolean checkSinglePosition(Position pos){
         if(this.gameInfo.getGameBoard()[pos.y()] [pos.x()].isEmpty() || this.gameInfo.getGameBoard()[pos.y()] [pos.x()].isInvalid()){
             return false;
         }
@@ -157,19 +157,46 @@ public abstract class View {
         return UtilityFunctionsModel.hasFreeAdjacent(this.gameInfo.getGameBoard(), pos);
     }
 
+
+    protected boolean checkValidPosition(List<Position> positions, Position pos)  {
+        return checkSinglePosition(pos) && getAdj(positions).contains(pos);
+    }
+
     /**
      * this method return all the position adjacent to the position passed by parameter
      * @param pos position we want to check adjacent
      * @return the list of the position adjacent to pos passed by parameter
      */
 
-    protected List<Position> getAdj(Position pos){
+    protected List<Position> getAdj(List<Position> pos){
         List<Position> result = new ArrayList<>();
-        if(pos.y()<ModelConstants.BOARD_DIMENSION-1) result.add(new Position(pos.x(), pos.y()+1));
-        if(pos.y()>0)                                result.add(new Position(pos.x(), pos.y()-1));
-        if(pos.x()<ModelConstants.BOARD_DIMENSION-1) result.add(new Position(pos.x()+1, pos.y()));
-        if(pos.x()>0)                                result.add(new Position(pos.x()-1, pos.y()));
-        return result;
+        if(pos.isEmpty()){
+            for (int i = 0; i < ModelConstants.BOARD_DIMENSION; i++) {
+                for (int j = 0; j < ModelConstants.BOARD_DIMENSION; j++) {
+                    result.add(new Position(i, j));
+                }
+            }
+        }
+        else if(pos.size() == 1){
+            for(Position p : pos){
+                result.add(new Position(p.x(), p.y()+1));
+                result.add(new Position(p.x(), p.y()-1));
+                result.add(new Position(p.x()+1, p.y()));
+                result.add(new Position(p.x()-1, p.y()));
+            }
+        }
+        else{
+            if(pos.get(0).x() == pos.get(1).x()){
+                result.add(new Position(pos.get(0).x(), Math.min(pos.get(0).y() - 1, pos.get(1).y() - 1)));
+                result.add(new Position(pos.get(0).x(), Math.max(pos.get(0).y() + 1, pos.get(1).y() + 1)));
+            }
+            else{
+                result.add(new Position(Math.min(pos.get(0).x() - 1, pos.get(1).x() - 1), pos.get(0).y()));
+                result.add(new Position(Math.max(pos.get(0).x() + 1, pos.get(1).x() + 1), pos.get(0).y()));
+            }
+        }
+
+        return reduceAdjacent(result);
     }
 
 
@@ -180,7 +207,7 @@ public abstract class View {
      * @param adj list of adjacent position
      * @return the list of adjacent position that are not empty or invalid
      */
-    protected List<Position> reduceAdjacent(List<Position> adj){
+    private List<Position> reduceAdjacent(List<Position> adj){
        return adj.stream().filter(pos -> checkSinglePosition(pos)).collect(Collectors.toList());
     }
 

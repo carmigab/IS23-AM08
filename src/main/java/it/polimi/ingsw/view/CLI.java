@@ -571,11 +571,12 @@ public class CLI extends View{
             getInput.start();
 
             try {
-                getInput.join(10000);
+                getInput.join(ViewConstants.CHAT_TIMER);
                 if(getInput.isAlive()) {
                     getInput.interrupt();
                 }
             } catch (InterruptedException ignored) {
+                System.out.println("Interrupted exception from Chat");
 
             }
         }
@@ -711,10 +712,11 @@ public class CLI extends View{
                 myNickname = scanner.nextLine();
             }
         } catch (ConnectionError e) {
-            //ignore
+            // ignore
         }
     }
 
+    // delete this line1
     /**
      * This method is called by start to ask the player if he wants to create a new game or join an existing one
      */

@@ -79,7 +79,7 @@ public class TcpClient implements Client{
     /**
      * If this flag is true the client prints only essential messages
      */
-    private boolean essential = true;
+    private boolean essential = false;
 
 
     /**
@@ -115,7 +115,7 @@ public class TcpClient implements Client{
                 break;
             } catch (IOException e) {
                 if (!mute) System.out.println("Server not found");
-                synchronized (pingLock){ pingLock.wait(5000);}
+                Thread.sleep(ServerConstants.CLIENT_SLEEPING_TIME);
             }
         }
 
@@ -236,7 +236,10 @@ public class TcpClient implements Client{
                         // Version 1: infinite wait
                         //while (lock.toWait()) lock.wait();
                         // Version 2: finite wait
+                        long time1 = System.currentTimeMillis();
                         lock.wait(ServerConstants.TCP_WAIT_TIME);
+                        long time2 = System.currentTimeMillis();
+                        if(!mute) System.out.println("Waited response for: "+ (time2-time1) + " ms");
 
                         manageTcpConversationLock.notifyAll();
                     }
@@ -273,14 +276,17 @@ public class TcpClient implements Client{
      * This method retrieves a message from a lock
      * @param lock: the lock
      * @return: the message
-     * @throws ConnectionError
+     * @throws ConnectionError: if the client is offline or
      */
     private Message retrieveMessageFromLock(Lock lock) throws ConnectionError {
         synchronized (lock) {
             Message newMessage = lock.getMessage();
             if (lock.isDisconnection()) throw new ConnectionError();
             // Version 2
-            if (newMessage == null) throw new ConnectionError();
+            if (newMessage == null) {
+                if (!mute) System.out.println("Failed to receive response");
+                throw new ConnectionError();
+            }
             lock.reset();
             return newMessage;
         }

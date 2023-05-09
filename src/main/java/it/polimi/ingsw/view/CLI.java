@@ -394,7 +394,7 @@ public class CLI extends View{
                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠻⠿⠿⠿⠿⠛⠉
                     """, AnsiEscapeCodes.INFO_MESSAGE);
             */
-            default -> printMessage("invalid command, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+            default -> printMessage("Invalid command, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
         }
     }
 
@@ -419,17 +419,17 @@ public class CLI extends View{
                 Position pos = new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3)));
                 int i = 0;
                 int error = 0;
-                while(((!checkSinglePosition(pos)) || i<positions.size()) && error < CLIConstants.MAX_NUMBER_OF_MOVE_ERROR){
+                while(((!checkSinglePosition(pos)) || i<positions.size()) && error < CLIConstants.MAX_NUMBER_OF_ILLEGAL_MOVES){
                     if(!checkSinglePosition(pos)) {
                         error++;
-                        printMessage("Position not correct: please select another tile", AnsiEscapeCodes.ERROR_MESSAGE);
+                        printMessage("Invalid position: please select another tile", AnsiEscapeCodes.ERROR_MESSAGE);
                         input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
                         pos = new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3)));
                     }
                     else if (positions.get(i).x() == pos.x() && positions.get(i).y() == pos.y()){
                         error ++;
                         i=0;
-                        printMessage("Tile already selected in previous moves: please select another tile", AnsiEscapeCodes.ERROR_MESSAGE);
+                        printMessage("Already chosen: please select another tile", AnsiEscapeCodes.ERROR_MESSAGE);
                         input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
                         pos = new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3)));
                     }
@@ -438,7 +438,7 @@ public class CLI extends View{
 
                 //List<Position> adj = getAdj(new Position(Integer.parseInt(input.substring(0,1)),Integer.parseInt(input.substring(2,3))));
                 //List<Position> validAdj = reduceAdjacent(adj);
-                if(error < CLIConstants.MAX_NUMBER_OF_MOVE_ERROR){
+                if(error < CLIConstants.MAX_NUMBER_OF_ILLEGAL_MOVES){
                     positions.add(pos);
                     if(positions.size()<3) {
                         printMessage("Do you want to select another tile? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
@@ -446,7 +446,7 @@ public class CLI extends View{
                     }
                 }
                 else {
-                    printMessage("Too much errors : are you sure you want to select another tile? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
+                    printMessage("Are you sure you want to select another tile? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
                     answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);
                 }
             }
@@ -478,7 +478,7 @@ public class CLI extends View{
             input = this.retryInput(ViewConstants.REGEX_INPUT_COLUMN);
             column = Integer.parseInt(input);
             while(!checkColumn(column, positions.size())){
-                printMessage("Column not correct: please select another column", AnsiEscapeCodes.ERROR_MESSAGE);
+                printMessage("Incorrect column: please select another column", AnsiEscapeCodes.ERROR_MESSAGE);
                 input = this.retryInput(ViewConstants.REGEX_INPUT_COLUMN);
                 column = Integer.parseInt(input);
             }
@@ -491,7 +491,7 @@ public class CLI extends View{
             } catch (InvalidNicknameException e) {
                 printMessage("Error: invalid nickname ", AnsiEscapeCodes.ERROR_MESSAGE);
             } catch (InvalidMoveException e) {
-                printMessage("Error: invalid move please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+                printMessage("Invalid move: please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
             } catch (ConnectionError e) {
                 // ignore
             } catch (GameEndedException e) {
@@ -570,7 +570,7 @@ public class CLI extends View{
                                 messageSent.set(true);
                             }
                             else {
-                                printMessage("This player does not exist, please type again your message: ", AnsiEscapeCodes.ERROR_MESSAGE);
+                                printMessage("This player does not exist, please type again: ", AnsiEscapeCodes.ERROR_MESSAGE);
                             }
                         }
                     } catch (Exception ignored) {
@@ -738,7 +738,7 @@ public class CLI extends View{
             String input = this.retryInput("c|j");
 
             if (input.equals("c")) {
-                printMessage("Please insert the number of players ", AnsiEscapeCodes.INFO_MESSAGE);
+                printMessage("Choose the number of players ", AnsiEscapeCodes.INFO_MESSAGE);
                 String playersNumber =this.retryInput(ViewConstants.REGEX_INPUT_INTERVAL_OF_PLAYERS);
 
                 try {

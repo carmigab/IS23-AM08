@@ -110,7 +110,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
                 break;
             } catch (Exception e) {
                 if (!mute) System.out.println("Registry not found");
-                Thread.sleep(5000);
+                synchronized (lock) { lock.wait(5000);}
             }
         }
     }

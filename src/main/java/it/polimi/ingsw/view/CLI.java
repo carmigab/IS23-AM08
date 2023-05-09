@@ -527,46 +527,47 @@ public class CLI extends View{
      */
     private void chatCommand() {
         synchronized (displayLock) {
-            AtomicBoolean messageSent = new AtomicBoolean(false);
+//            AtomicBoolean messageSent = new AtomicBoolean(false);
 
             // create and start thread to get input from the user
 //            Thread getInput = new Thread(() -> {
                 printMessage("To send a global message write 'all : message'", AnsiEscapeCodes.INFO_MESSAGE);
                 printMessage("To send a message to a specific player write 'player_name : message' ", AnsiEscapeCodes.INFO_MESSAGE);
 
-                while (!messageSent.get()) {
+//                while (!messageSent.get()) {
                     try {
-                        while (!bufferedReader.ready()) {
-                            Thread.sleep(100);
-                        }
-                        String input = bufferedReader.readLine();
-                        while (!input.matches(ViewConstants.REGEX_INPUT_CHAT_MESSAGE)) {
-                            printMessage("Invalid message format, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
-                            while (!bufferedReader.ready()) {
-                                Thread.sleep(100);
-                            }
-                            input = bufferedReader.readLine();
-                        }
+//                        while (!bufferedReader.ready()) {
+//                            Thread.sleep(100);
+//                        }
+//                        String input = bufferedReader.readLine();
+//                        while (!input.matches(ViewConstants.REGEX_INPUT_CHAT_MESSAGE)) {
+//                            printMessage("Invalid message format, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+//                            while (!bufferedReader.ready()) {
+//                                Thread.sleep(100);
+//                            }
+//                            input = bufferedReader.readLine();
+//                        }
+                        String input = this.retryInput(ViewConstants.REGEX_INPUT_CHAT_MESSAGE);
 
                         String receiverNickname = input.substring(0, input.indexOf(":")).trim();
                         String message = input.substring(input.indexOf(":") + 1).trim();
                         if (receiverNickname.equals("all")) {
                             client.messageAll(message);
-                            messageSent.set(true);
+//                            messageSent.set(true);
                         }
                         else {
                             if (checkExistingNickname(receiverNickname)) {
                                 client.messageSomeone(message, receiverNickname);
-                                messageSent.set(true);
+//                                messageSent.set(true);
                             }
                             else {
                                 printMessage("This player does not exist, please type again: ", AnsiEscapeCodes.ERROR_MESSAGE);
                             }
                         }
                     } catch (Exception ignored) {
-
+                        System.out.println("Exception: Kaboom");
                     }
-                }
+//                }
 //            });
 //            getInput.start();
 //

@@ -125,7 +125,11 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     public void update(State newState, GameInfo newInfo) throws RemoteException {
         if (newState == State.GRACEFULDISCONNECTION) this.gracefulDisconnection(true);
         else if (newState == State.GAMEABORTED) this.gracefulDisconnection(false);
-        else this.view.update(newState, newInfo);
+        else {
+            // we need to launch a new thread because rmi is not thread safe
+            Thread t = new Thread(()-> this.view.update(newState, newInfo));
+            t.start();
+        }
     }
 
     /**
@@ -309,7 +313,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @throws RemoteException
      */
     public void receiveMessage(String message) throws RemoteException {
-        this.view.displayChatMessage(message);
+        // we need to launch a new thread because rmi is not thread safe
+        Thread t = new Thread(()-> this.view.displayChatMessage(message));
+        t.start();
+
     }
 
     /**
@@ -333,7 +340,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
             if (!mute && !essential) System.out.println("Terminating Ping Thread");
             this.toPing = false;
             this.isClientOnline = false;
-            view.update(State.GRACEFULDISCONNECTION, null);
+            // we need to launch a new thread because rmi is not thread safe
+            Thread t = new Thread(()-> this.view.update(State.GRACEFULDISCONNECTION, null));
+            t.start();
+
         }
     }
 

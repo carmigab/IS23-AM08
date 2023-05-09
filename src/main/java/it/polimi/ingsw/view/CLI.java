@@ -453,8 +453,8 @@ public class CLI extends View{
 
             answer = "y";
             // display the chosen tiles and ask if the player wants to order them
-            while (!answer.equalsIgnoreCase("n")) {
-                if (positions.size() > 1) {
+            if (positions.size() > 1){
+                while (!answer.equalsIgnoreCase("n")) {
                     displayChosenTiles(positions, gameInfo.getGameBoard());
                     printMessage("The tiles will be inserted the way you see them, from left to right. Do you want to change the order? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
                     answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);
@@ -482,7 +482,6 @@ public class CLI extends View{
                 input = this.retryInput(ViewConstants.REGEX_INPUT_COLUMN);
                 column = Integer.parseInt(input);
             }
-
 
         }
 

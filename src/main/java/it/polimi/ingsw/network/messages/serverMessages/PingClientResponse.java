@@ -5,12 +5,12 @@ import it.polimi.ingsw.network.messages.Message;
 /**
  * The class represents the response to a IsServerAlive message
  */
-public class IsServerAliveResponse extends Message {
+public class PingClientResponse extends Message {
     /**
      * the constructor
      * @param sender: the one who sends the message
      */
-    public IsServerAliveResponse(String sender) {
+    public PingClientResponse(String sender) {
         super(sender);
         setMessageType("PingClientResponse");
     }

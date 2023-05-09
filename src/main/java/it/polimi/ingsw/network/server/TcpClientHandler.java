@@ -58,7 +58,7 @@ public class TcpClientHandler implements Runnable {
     /**
      * Set this flag to true to mute the tcpClientHandler
      */
-    private boolean mute = false;
+    private boolean mute = true;
 
     /**
      * This is the constructor
@@ -124,7 +124,7 @@ public class TcpClientHandler implements Runnable {
                 catch (IOException e) {
                     if (listeningForMessages){
                         if(!mute) System.out.println("CH["+nickname+"]: IOException from InboundMessagesThread");
-                        e.printStackTrace();
+                        //e.printStackTrace();
                         this.disconnection();
                         break;
                     }
@@ -151,13 +151,11 @@ public class TcpClientHandler implements Runnable {
             if (message instanceof ChatAllMessage) {
                 ChatAllMessage m = (ChatAllMessage) message;
                 this.matchServer.messageAll(m.getChatMessage(), m.sender());
-                sendTcpMessage(new ChatAllResponse("Server"));
             }
 
             else if (message instanceof ChatSomeoneMessage) {
                 ChatSomeoneMessage m = (ChatSomeoneMessage) message;
                 this.matchServer.messageSomeone(m.getChatMessage(), m.sender(), m.getReceiver());
-                sendTcpMessage(new ChatSomeoneResponse("Server"));
             }
 
             else if (message instanceof ChooseNicknameMessage) {
@@ -225,8 +223,9 @@ public class TcpClientHandler implements Runnable {
                 sendTcpMessage(new MakeMoveResponse("Server", invalidMove, invalidNickname, gameEnded));
             }
 
-            else if (message instanceof IsServerAliveMessage)
-                this.sendTcpMessage(new IsServerAliveResponse("Server"));
+            // The client keeps the heartbeat, the server sends back the ping
+            else if (message instanceof PingClientMessage);
+                this.sendTcpMessage(new PingClientResponse("Server"));
 
         } catch (RemoteException e) {
             if(!mute) System.out.println("CH["+nickname+"]: This remote exception shouldn't be here");

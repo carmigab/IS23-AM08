@@ -530,7 +530,7 @@ public class CLI extends View{
             AtomicBoolean messageSent = new AtomicBoolean(false);
 
             // create and start thread to get input from the user
-            Thread getInput = new Thread(() -> {
+//            Thread getInput = new Thread(() -> {
                 printMessage("To send a global message write 'all : message'", AnsiEscapeCodes.INFO_MESSAGE);
                 printMessage("To send a message to a specific player write 'player_name : message' ", AnsiEscapeCodes.INFO_MESSAGE);
 
@@ -567,18 +567,18 @@ public class CLI extends View{
 
                     }
                 }
-            });
-            getInput.start();
-
-            try {
-                getInput.join(ViewConstants.CHAT_TIMER);
-                if(getInput.isAlive()) {
-                    getInput.interrupt();
-                }
-            } catch (InterruptedException ignored) {
-                System.out.println("Interrupted exception from Chat");
-
-            }
+//            });
+//            getInput.start();
+//
+//            try {
+//                getInput.join(ViewConstants.CHAT_TIMER);
+//                if(getInput.isAlive()) {
+//                    getInput.interrupt();
+//                }
+//            } catch (InterruptedException ignored) {
+//                System.out.println("Interrupted exception from Chat");
+//
+//            }
         }
     }
 

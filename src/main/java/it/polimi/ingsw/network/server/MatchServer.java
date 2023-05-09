@@ -14,7 +14,6 @@ import it.polimi.ingsw.constants.ServerConstants;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -264,7 +263,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
                 this.toPing = false;
                 if(!mute) System.out.println("MS: Freeing used nicknames");
                 // Here we notify to the lobby to free the player nicknames
-                this.lobby.removePlayersFromLobby(nicknamesList);
+                this.lobby.removePlayersAndMatchServerFromLobby(nicknamesList, this);
                 // Here we empty the clients list
                 synchronized (clientsList) {this.clientsList.clear();}
             }
@@ -300,9 +299,11 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
             if(!mute) System.out.println("MS: Forcing gameOver");
             // Here we end the current game
             if (this.gameController != null) this.gameController.forceGameOver();
+            // Here we manage the case when a player crashes when the server is not full
+            if (this.getFreeSpaces() > 0) this.numPlayers = this.nicknamesList.size();
             if(!mute) System.out.println("MS: Freeing used nicknames");
             // Here we notify to the lobby to free those nicknames
-            this.lobby.removePlayersFromLobby(nicknamesList);
+            this.lobby.removePlayersAndMatchServerFromLobby(nicknamesList, this);
             // Here we empty the clients list
             synchronized (clientsList) {this.clientsList.clear();}
         }
@@ -338,7 +339,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
             if (this.gameController != null) this.gameController.forceGameOver();
             if(!mute) System.out.println("MS: Freeing used nicknames");
             // Here we notify to the lobby to free those nicknames
-            this.lobby.removePlayersFromLobby(nicknamesList);
+            this.lobby.removePlayersAndMatchServerFromLobby(nicknamesList, this);
             // Here we empty the clients list
             synchronized (clientsList) {this.clientsList.clear();}
         }

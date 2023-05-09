@@ -367,10 +367,13 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * from the current pool of players in game
      * @param playersList file name where the game was stored
      */
-    public void removePlayersFromLobby(List<String> playersList){
+    public void removePlayersAndMatchServerFromLobby(List<String> playersList, MatchServer match){
         playersList.forEach(this.nicknamesInGame::remove);
         playersList.forEach(this.nicknamesPool::remove);
         playersList.forEach(this.potentialPlayers::remove);
+
+        if(!mute) System.out.println("LS: Freeing a MatchServer...");
+        this.serverList.remove(match);
 
     }
 

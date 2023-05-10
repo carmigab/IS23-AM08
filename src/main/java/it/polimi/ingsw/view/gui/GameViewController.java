@@ -2,7 +2,9 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.gameInfo.GameInfo;
+import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.utilities.UtilityFunctions;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
@@ -10,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.*;
@@ -31,18 +34,27 @@ public class GameViewController implements Initializable{
     @FXML
     private Canvas gameBoardCanvas;
     /**
+     * This attribute stores the container where all the scene is set
+     */
+    @FXML
+    private VBox container;
+    /**
      * Game info of the current position
      */
-    private GameInfo currentInfo;
+    private GameInfo gameInfo;
 
     /**
-     * Percentual offset between the edge of the game board and the first tile
+     * Percentage offset between the edge of the game board and the first tile
      */
     private final Double tileGameBoardOffset=0.045;
     /**
-     * Percentual offset between two tiles (only one side)
+     * Percentage offset between two tiles (only one side)
      */
     private final Double tileGameBoardDistance=this.tileGameBoardOffset/3;
+    /**
+     * Percantage ratio between the container dimensions (the smaller one) and the size of the game board
+     */
+    private final Double gameBoardPredefinedRatio = 0.5;
     /**
      * Width dimension of the tile
      */
@@ -57,9 +69,6 @@ public class GameViewController implements Initializable{
      */
     private List<ImageView> tilesOnGameBoard;
 
-    private void display(){
-
-    }
 
     /**
      * Method that is called when the fxml file is loaded
@@ -69,18 +78,15 @@ public class GameViewController implements Initializable{
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.currentInfo=null;
+        this.gameInfo=null;
 
+        //Create the array of tiles
         this.tilesOnGameBoard=new ArrayList<>();
 
+        //Add the game board to the anchor pane
         this.anchorPane.getChildren().add(this.gameBoard);
 
-        this.calculateCurrentTileDimension();
-
-        //we start at once the offset and once the distance between the tiles
-        double xoff=this.gameBoard.getFitWidth()*(this.tileGameBoardOffset+this.tileGameBoardDistance);
-        double yoff=this.gameBoard.getFitHeight()*(this.tileGameBoardOffset+this.tileGameBoardDistance);
-
+        //Create all the tiles
         for(int i=0; i< ModelConstants.BOARD_DIMENSION;i++) {
             for (int j = 0; j < ModelConstants.BOARD_DIMENSION; j++) {
                 ImageView image = new ImageView();
@@ -88,7 +94,44 @@ public class GameViewController implements Initializable{
                 this.anchorPane.getChildren().add(image);
                 this.tilesOnGameBoard.add(image);
                 image.setVisible(true);
-                image.setImage(new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath("images/item_tiles/Cornici1.1.png", this.getClass())));
+            }
+        }
+
+        //add the canvas to the anchor pane
+        this.anchorPane.getChildren().add(this.gameBoardCanvas);
+        //set it to the top of the stack, so it can be clicked
+        this.gameBoardCanvas.toFront();
+
+        this.drawGameBoard();
+
+        this.display();
+
+        //Prepare the listener of the resize event
+        ChangeListener<Number> onDimensionsChange = (observable, oldValue, newValue) ->
+                {
+                    this.setGameBoardDimensions(Math.min(container.getWidth(), container.getHeight())*this.gameBoardPredefinedRatio);
+                    this.drawGameBoard();
+                };
+
+        //Add the listeners
+        this.container.widthProperty().addListener(onDimensionsChange);
+        this.container.heightProperty().addListener(onDimensionsChange);
+    }
+
+    /**
+     * This method draws the game board in the scene based on its current dimensions
+     * Every tile is also scaled proportionally
+     */
+    private void drawGameBoard(){
+        this.calculateCurrentTileDimension();
+
+        //we start at once the offset and once the distance between the tiles
+        double xoff=this.gameBoard.getFitWidth()* (this.tileGameBoardOffset+this.tileGameBoardDistance);
+        double yoff=this.gameBoard.getFitHeight()*(this.tileGameBoardOffset+this.tileGameBoardDistance);
+
+        for(int i=0; i< ModelConstants.BOARD_DIMENSION;i++) {
+            for (int j = 0; j < ModelConstants.BOARD_DIMENSION; j++) {
+                ImageView image = this.tilesOnGameBoard.get(i*ModelConstants.BOARD_DIMENSION+j);
                 //set the dimensions
                 image.setFitHeight(this.tileY);
                 image.setFitWidth(this.tileX);
@@ -96,7 +139,7 @@ public class GameViewController implements Initializable{
                 image.setLayoutX(xoff);
                 image.setLayoutY(yoff);
                 //increase the x offset by the dimension and two distances between tiles
-                xoff += this.tileX + this.gameBoard.getFitHeight()*this.tileGameBoardDistance*2;
+                xoff += this.tileX + this.gameBoard.getFitWidth()*this.tileGameBoardDistance*2;
             }
             //reset x
             xoff = this.gameBoard.getFitWidth()*(this.tileGameBoardOffset+this.tileGameBoardDistance);
@@ -107,12 +150,50 @@ public class GameViewController implements Initializable{
         //resize the canvas to match the game board
         this.gameBoardCanvas.setWidth (this.gameBoard.getFitWidth() );
         this.gameBoardCanvas.setHeight(this.gameBoard.getFitHeight());
-        //add the canvas to the pane
-        this.anchorPane.getChildren().add(this.gameBoardCanvas);
-        //set it to the top of the stack so it can be clicked
-        this.gameBoardCanvas.toFront();
+    }
 
-        this.display();
+    /**
+     * This method resizes the game board to a square which length is passed in input
+     * @param dim length of the dimenison of the game board
+     */
+    private void setGameBoardDimensions(Double dim){
+        this.gameBoard.setFitWidth(dim);
+        this.gameBoard.setFitHeight(dim);
+    }
+
+    /**
+     * This method takes the current information from the game and draws it in the container
+     */
+    private void display(){
+        if(gameInfo == null) return;
+
+        for(int i=0; i<ModelConstants.BOARD_DIMENSION;i++){
+            for(int j=0;j<ModelConstants.BOARD_DIMENSION;j++){
+                ImageView image = this.tilesOnGameBoard.get(i*ModelConstants.BOARD_DIMENSION+j);
+                this.setImageFromTileDescription(this.tilesOnGameBoard.get(i*ModelConstants.BOARD_DIMENSION+j),this.gameInfo.getGameBoard()[i][j]);
+            }
+        }
+    }
+
+    /**
+     * This method is a utility that helps to set an image to its tile descriptor
+     * @param image image to be modified
+     * @param tile corresponding tile
+     */
+    private void setImageFromTileDescription(ImageView image, Tile tile){
+        String imageToLoad="images/item_tiles/";
+        switch (tile.getColor()){
+            case BLUE    -> imageToLoad +="Cornici1."+tile.getSprite();
+            case GREEN   -> imageToLoad +="Gatti1."  +tile.getSprite();
+            case VIOLET  -> imageToLoad +="Piante1." +tile.getSprite();
+            case WHITE   -> imageToLoad +="Libri1."  +tile.getSprite();
+            case CYAN    -> imageToLoad +="Trofei1." +tile.getSprite();
+            case YELLOW  -> imageToLoad +="Giochi1." +tile.getSprite();
+            case EMPTY   -> imageToLoad +="easteregg";
+            case INVALID -> {return;}
+        }
+        imageToLoad+=".png";
+        image.setImage(new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath(imageToLoad, this.getClass())));
     }
 
     /**
@@ -123,7 +204,7 @@ public class GameViewController implements Initializable{
 
         this.getTileOnGameBoardFromPosition(event.getX(), event.getY()).ifPresent(
                 imageView -> imageView.setImage(
-                        new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath("images/easteregg.png", this.getClass()))));
+                        new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath("images/item_tiles/easteregg.png", this.getClass()))));
 
     }
     /**
@@ -132,10 +213,11 @@ public class GameViewController implements Initializable{
      */
     public void onGameBoardCanvasHover(MouseEvent event){
 
+        /*
         this.getTileOnGameBoardFromPosition(event.getX(), event.getY()).ifPresent(
                 imageView -> imageView.setImage(
-                        new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath("images/easteregg2.png", this.getClass()))));
-
+                        new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath("images/item_tiles/easteregg2.png", this.getClass()))));
+        */
     }
 
     /**

@@ -531,8 +531,8 @@ public class CLI extends View{
 
             // create and start thread to get input from the user
 //            Thread getInput = new Thread(() -> {
-                printMessage("To send a global message write 'all : message'", AnsiEscapeCodes.INFO_MESSAGE);
-                printMessage("To send a message to a specific player write 'player_name : message' ", AnsiEscapeCodes.INFO_MESSAGE);
+                printMessage("To send a global message write 'all: message'", AnsiEscapeCodes.INFO_MESSAGE);
+                printMessage("To send a message to a specific player write 'player_name: message' ", AnsiEscapeCodes.INFO_MESSAGE);
 
 //                while (!messageSent.get()) {
                     try {

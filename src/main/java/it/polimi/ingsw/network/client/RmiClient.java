@@ -21,6 +21,9 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
+/**
+ * This class represents a client that uses the rmi connection protocol
+ */
 public class RmiClient extends UnicastRemoteObject implements Client, RmiClientInterface{
     /**
      * This attribute represents the nickname of the player
@@ -69,7 +72,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     /**
      * If this flag is true the client only prints essential messages
      */
-    private boolean essential = false;
+    private boolean essential = true;
 
 
     /**

@@ -19,7 +19,7 @@ public class ViewConstants {
 
     public static final String REGEX_INPUT_COLUMN = "^[0-"+(ModelConstants.COLS_NUMBER-1)+"]+$";
 
-    public static final String REGEX_INPUT_CHAT_MESSAGE = "^[A-Za-z0-9+_.-]+ : (.+)$";
+    public static final String REGEX_INPUT_CHAT_MESSAGE = "^[A-Za-z0-9+_.-]+: (.+)$";
 
     //https://www.geeksforgeeks.org/how-to-validate-an-ip-address-using-regular-expressions-in-java/
     public static final String REGEX_INPUT_IP = "|localhost|(\\d{1,2}|(0|1)\\d{2}|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|(0|1)\\d{2}|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|(0|1)\\d{2}|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|(0|1)\\d{2}|2[0-4]\\d|25[0-5])";

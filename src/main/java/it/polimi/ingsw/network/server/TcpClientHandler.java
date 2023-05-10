@@ -58,7 +58,7 @@ public class TcpClientHandler implements Runnable {
     /**
      * Set this flag to true to mute the tcpClientHandler
      */
-    private boolean mute = false;
+    private boolean mute = true;
 
     /**
      * This is the constructor

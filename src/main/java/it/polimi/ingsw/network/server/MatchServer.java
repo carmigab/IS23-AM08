@@ -379,7 +379,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
     public void messageSomeone(String message, String speaker, String receiver) throws RemoteException{
         String messageToSend = speaker + "[Privately]: " + message;
         if(!mute) System.out.println("MS: "+Thread.currentThread() + ": received '" + messageToSend + "'");
-        if(!mute) System.out.println("MS: Sending message only to: '"+receiver+"'");
+        if(!mute) System.out.println("MS: Sending a chat message only to: '"+receiver+"'");
 
         if(!serverOffline) {
             // This sends the message
@@ -406,7 +406,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
     public void messageAll(String message, String speaker) throws RemoteException {
         String messageToSend = speaker + ": " + message;
         if(!mute) System.out.println("MS: "+Thread.currentThread() + ": received '" + messageToSend + "'");
-        if(!mute) System.out.println("MS: Sending message to all clients");
+        if(!mute) System.out.println("MS: Sending a chat message to all clients");
 
         if(!serverOffline) {
             // This sends the message

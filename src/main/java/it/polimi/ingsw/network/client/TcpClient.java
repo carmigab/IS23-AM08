@@ -22,6 +22,9 @@ import java.util.List;
 
 import java.net.*;
 
+/**
+ * This class represents a client that uses the tcp connection protocol
+ */
 public class TcpClient implements Client{
     /**
      * This attribute is the nickname of the player
@@ -79,7 +82,7 @@ public class TcpClient implements Client{
     /**
      * If this flag is true the client prints only essential messages
      */
-    private boolean essential = false;
+    private boolean essential = true;
 
 
     /**

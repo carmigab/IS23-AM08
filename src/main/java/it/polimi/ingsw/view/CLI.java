@@ -102,6 +102,25 @@ public class CLI extends View{
     }
 
     /**
+     * This method is called by getUserInput to welcome the player
+     */
+    @Override
+    protected void welcome() {
+        printMessage("Welcome to: ", AnsiEscapeCodes.INFO_MESSAGE);
+        List<String> title = new ArrayList<>();
+        title.add(" ____    ____             ______   __             __     ___  _         ");
+        title.add("  |   \\/   |    _   __  | (___ \\_| | |--.  .---.  | | _| |_  __  .---.  ");
+        title.add("  | |\\  /| |   [ \\ [  ]  _.____`.  | .-. |/ /__\\\\ | |'-| |-'[  |/ /__\\\\ ");
+        title.add(" _| |_\\/_| |_   \\ '/ /  | \\____) | | | | || \\__., | |  | |   | || \\__., ");
+        title.add("|_____||_____|[\\_:  /    \\______.'[___]|__]'.__.'[___][___] [___]'.__.' ");
+        title.add("               \\__.'                                                    ");
+
+        for (String line : title) {
+            System.out.println(line);
+        }
+    }
+
+    /**
      * This method is called by display to print the shelf of the other players
      */
     private void printOtherPlayersShelf() {
@@ -405,6 +424,7 @@ public class CLI extends View{
                     ⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀
                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠻⠿⠿⠿⠿⠛⠉
                     """, AnsiEscapeCodes.INFO_MESSAGE);
+            case "/rickroll" -> {
             */
             default -> printMessage("Invalid command, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
         }

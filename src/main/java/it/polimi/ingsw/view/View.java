@@ -64,6 +64,7 @@ public abstract class View {
         chooseConnectionType();
         askNickname();
         while (iWantToPlay) {
+            welcome();
             createOrJoinGame();
             waitForGameStart();
             String command;
@@ -83,6 +84,11 @@ public abstract class View {
         }
         close("The session has ended\nThank you for playing with us!");
     }
+
+    /**
+     * This method is called by getUserInput to welcome the player
+     */
+    protected abstract void welcome();
 
     /**
      * This method is called by getUserInput to wait for other players to join the game

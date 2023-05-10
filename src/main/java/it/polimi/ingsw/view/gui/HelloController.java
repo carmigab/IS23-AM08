@@ -102,6 +102,14 @@ public class HelloController extends View {
 
     }
 
+    /**
+     * This method is called by getUserInput to welcome the player
+     */
+    @Override
+    protected void welcome() {
+
+    }
+
     @Override
     protected void waitForGameStart() {
 

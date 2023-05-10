@@ -193,30 +193,36 @@ public class CLI extends View{
         for (int i = 0; i < yMax; i++) {
             lineBuilder = new StringBuilder();
             lineBuilder.append(" ").append(i).append(" ");
-            lineBuilder.append(xMax == ModelConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
+            lineBuilder.append(xMax == ModelConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BORDER_BACKGROUND.getCode())
                     .append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
             for (int j = 0; j < xMax; j++) {
                 toPrint = "   ";
                 if (personalGoal != null) {
                     for (SingleGoal singleGoal : personalGoal) {
                         if (singleGoal.getPosition().equals(new Position(j, i))) {
-                            toPrint = tileColorToAnsiCode(singleGoal.getColor(), false)
+                            toPrint = tileColorToAnsiCode(singleGoal.getColor(), false, i, j)
                                     + (boardOrShelf[i][j].isEmpty() ? " ● " : boardOrShelf[i][j].getColor().equals(singleGoal.getColor()) ? " ● " : " X ")
                                     + AnsiEscapeCodes.ENDING_CODE.getCode();
                             break;
                         }
                     }
                 }
-                lineBuilder.append(tileColorToAnsiCode(boardOrShelf[i][j].getColor(), true)).append(toPrint).append(AnsiEscapeCodes.ENDING_CODE.getCode());
-                lineBuilder.append(xMax == ModelConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
+                lineBuilder.append(tileColorToAnsiCode(boardOrShelf[i][j].getColor(), true, i, j)).append(toPrint).append(AnsiEscapeCodes.ENDING_CODE.getCode());
+                if (xMax == ModelConstants.COLS_NUMBER) {
+                    lineBuilder.append(AnsiEscapeCodes.SHELF_BACKGROUND.getCode())
+                            .append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
+                }
+            }
+            if (xMax != ModelConstants.COLS_NUMBER) {
+                lineBuilder.append(AnsiEscapeCodes.BOARD_BORDER_BACKGROUND.getCode())
                         .append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
             }
             lineBuilder.append(" ").append(i).append(" ");
             result.add(lineBuilder);
 
-            if (i != yMax - 1) {
+            if (i != yMax - 1 && xMax == ModelConstants.COLS_NUMBER) {
                 lineBuilder = new StringBuilder();
-                result.add(lineBuilder.append("   ").append(xMax == ModelConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
+                result.add(lineBuilder.append("   ").append(AnsiEscapeCodes.SHELF_BACKGROUND.getCode())
                         .append(" ".repeat(Math.max(0, (xMax + 1) * 4 + 1 - 4)))
                         .append(AnsiEscapeCodes.ENDING_CODE.getCode())
                         .append("   "));
@@ -256,12 +262,14 @@ public class CLI extends View{
     private StringBuilder createFirstOrLastRow(int xMax) {
         StringBuilder result = new StringBuilder();
 
-        result.append("   ").append(xMax == ModelConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
+        result.append("   ").append(xMax == ModelConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BORDER_BACKGROUND.getCode())
                 .append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
         for (int i = 0; i < xMax; i++) {
-            result.append(xMax == ModelConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BACKGROUND.getCode())
-                    .append("    ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
+            result.append(xMax == ModelConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BORDER_BACKGROUND.getCode())
+                    .append(xMax == ModelConstants.COLS_NUMBER ? "    " : "   ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
         }
+
+        if (xMax != ModelConstants.COLS_NUMBER) result.append(AnsiEscapeCodes.BOARD_BORDER_BACKGROUND.getCode()).append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
 
         result.append("   ");
         return result;
@@ -275,12 +283,14 @@ public class CLI extends View{
     private StringBuilder createIndexes(int xMax) {
         StringBuilder result = new StringBuilder();
 
-        result.append("   ");
-        for (int i = 0; i < xMax; i++) {
-            result.append(" ");
-            result.append(" ").append(i).append(" ");
-        }
         result.append("    ");
+        for (int i = 0; i < xMax; i++) {
+            if (xMax != ModelConstants.COLS_NUMBER)
+                result.append(" ").append(i).append(" ");
+            else
+                result.append(" ").append(i).append("  ");
+        }
+        result.append("   ");
         return result;
     }
 
@@ -289,7 +299,7 @@ public class CLI extends View{
      * @param color the color to convert
      * @return the ANSI escape code
      */
-    private String tileColorToAnsiCode(TileColor color, boolean isBackground) {
+    private String tileColorToAnsiCode(TileColor color, boolean isBackground, int i, int j) {
         return switch (color) {
             case WHITE -> isBackground ? AnsiEscapeCodes.WHITE_BACKGROUND.getCode() : AnsiEscapeCodes.WHITE_TEXT.getCode();
             case BLUE -> isBackground ? AnsiEscapeCodes.BLUE_BACKGROUND.getCode() : AnsiEscapeCodes.BLUE_TEXT.getCode();
@@ -298,7 +308,9 @@ public class CLI extends View{
             case CYAN -> isBackground ? AnsiEscapeCodes.CYAN_BACKGROUND.getCode() : AnsiEscapeCodes.CYAN_TEXT.getCode();
             case GREEN -> isBackground ? AnsiEscapeCodes.GREEN_BACKGROUND.getCode() : AnsiEscapeCodes.GREEN_TEXT.getCode();
             case EMPTY -> isBackground ? AnsiEscapeCodes.EMPTY_BACKGROUND.getCode() : AnsiEscapeCodes.EMPTY_TEXT.getCode();
-            default -> isBackground ? AnsiEscapeCodes.DEFAULT_BACKGROUND.getCode() : AnsiEscapeCodes.DEFAULT_TEXT.getCode();
+            default -> isBackground ?
+                    (i + j) % 2 == 0 ? AnsiEscapeCodes.DEFAULT_EVEN_BACKGROUND.getCode() : AnsiEscapeCodes.DEFAULT_ODD_BACKGROUND.getCode() :
+                    AnsiEscapeCodes.DEFAULT_TEXT.getCode();
         };
     }
 
@@ -513,9 +525,9 @@ public class CLI extends View{
         StringBuilder stringBuilder = new StringBuilder();
         int i = 1;
         for (Position position : chosenTiles) {
-            stringBuilder.append(tileColorToAnsiCode(board[position.y()][position.x()].getColor(), true))
+            stringBuilder.append(tileColorToAnsiCode(board[position.y()][position.x()].getColor(), true, 0, 0))
                     .append(" ").append(i).append(" ");
-            stringBuilder.append(AnsiEscapeCodes.DEFAULT_BACKGROUND.getCode()).append(" ");
+            stringBuilder.append(AnsiEscapeCodes.DEFAULT_ODD_BACKGROUND.getCode()).append(" ");
             i++;
         }
         stringBuilder.append(AnsiEscapeCodes.ENDING_CODE.getCode());

@@ -8,16 +8,20 @@ import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.*;
 
 public class GameViewController implements Initializable{
+    @FXML
+    private GridPane gridPane;
     /**
      * This attribute stores the image information of the game board
      */
@@ -44,6 +48,20 @@ public class GameViewController implements Initializable{
      */
     @FXML
     private VBox container;
+    /*
+    @FXML
+    private Slider tcoxl;
+    @FXML
+    private Slider tcoxr;
+    @FXML
+    private Slider tcoyu;
+    @FXML
+    private Slider tcoyd;
+    @FXML
+    private Slider tcodx;
+    @FXML
+    private Slider tcody;
+    */
     /**
      * Game info of the current position
      */
@@ -64,9 +82,11 @@ public class GameViewController implements Initializable{
         this.gameInfo=null;
 
         //Create the array of tiles
-        this.gameBoard=new ClickableComponent(this.gameBoardImage, this.gameBoardAnchorPane, this.gameBoardCanvas, ModelConstants.BOARD_DIMENSION, ModelConstants.BOARD_DIMENSION);
+        this.gameBoard=new ClickableComponent(this.gameBoardImage, this.gameBoardAnchorPane, this.gameBoardCanvas, ModelConstants.BOARD_DIMENSION, ModelConstants.BOARD_DIMENSION,
+                0.045, 0.045, 0.045, 0.045, 0.015, 0.015, 0.5);
         //Create the array of tiles
-        this.myShelf=new ClickableComponent(this.myShelfImage, this.myShelfAnchorPane, this.myShelfCanvas, ModelConstants.ROWS_NUMBER, ModelConstants.COLS_NUMBER);
+        this.myShelf=new ClickableComponent(this.myShelfImage, this.myShelfAnchorPane, this.myShelfCanvas, ModelConstants.ROWS_NUMBER, ModelConstants.COLS_NUMBER,
+                0.097, 0.097, 0.054, 0.11, 0.027, 0.019, 0.4);
 
         this.gameBoard.draw();
         this.myShelf.draw();
@@ -85,6 +105,62 @@ public class GameViewController implements Initializable{
         //Add the listeners
         this.container.widthProperty().addListener(onDimensionsChange);
         this.container.heightProperty().addListener(onDimensionsChange);
+
+        //node, column, row, colspan, rowspan
+        this.gridPane.add(this.gameBoardAnchorPane, 0,0, 1, 1);
+        this.gridPane.add(this.myShelfAnchorPane, 1,0);
+
+        /*
+        tcoxl.valueProperty().addListener((
+                     observableValue,
+                    oldValue,
+                    newValue) ->{
+            System.out.println("tcoxl: "+newValue.doubleValue());
+            myShelf.setTileComponentOffsetXLeft(newValue.doubleValue());
+            myShelf.draw();
+                });
+        tcoxr.valueProperty().addListener((
+                observableValue,
+                oldValue,
+                newValue) ->{
+            System.out.println("tcoxr: "+newValue.doubleValue());
+            myShelf.setTileComponentOffsetXRight(newValue.doubleValue());
+            myShelf.draw();
+        });
+        tcoyu.valueProperty().addListener((
+                observableValue,
+                oldValue,
+                newValue) ->{
+            System.out.println("tcoyu: "+newValue.doubleValue());
+            myShelf.setTileComponentOffsetYUp(newValue.doubleValue());
+            myShelf.draw();
+        });
+        tcoyd.valueProperty().addListener((
+                observableValue,
+                oldValue,
+                newValue) ->{
+            System.out.println("tcoyd: "+newValue.doubleValue());
+            myShelf.setTileComponentOffsetYDown(newValue.doubleValue());
+            myShelf.draw();
+        });
+        tcodx.valueProperty().addListener((
+                observableValue,
+                oldValue,
+                newValue) ->{
+            System.out.println("tcodx: "+newValue.doubleValue());
+            myShelf.setTileComponentDistanceX(newValue.doubleValue());
+            myShelf.draw();
+        });
+        tcody.valueProperty().addListener((
+                observableValue,
+                oldValue,
+                newValue) ->{
+            System.out.println("tcody: "+newValue.doubleValue());
+            myShelf.setTileComponentDistanceY(newValue.doubleValue());
+            myShelf.draw();
+        });
+         */
+
     }
 
     /**
@@ -131,6 +207,17 @@ public class GameViewController implements Initializable{
     public void onGameBoardCanvasClick(MouseEvent event){
 
         this.gameBoard.getTileOnComponentFromPosition(event.getX(), event.getY()).ifPresent(
+                imageView -> imageView.setImage(
+                        new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath("images/item_tiles/easteregg.png", this.getClass()))));
+
+    }
+    /**
+     * Method that is called whenever the mouse is clicked on the game board canvas
+     * @param event mouse event
+     */
+    public void onMyShelfCanvasClick(MouseEvent event){
+
+        this.myShelf.getTileOnComponentFromPosition(event.getX(), event.getY()).ifPresent(
                 imageView -> imageView.setImage(
                         new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath("images/item_tiles/easteregg.png", this.getClass()))));
 

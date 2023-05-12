@@ -6,6 +6,14 @@
 
 <VBox fx:id="container" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@hello-style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.GameViewController">
    <children>
+      <GridPane fx:id="gridPane">
+        <columnConstraints>
+          <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+        </rowConstraints>
+      </GridPane>
       <AnchorPane fx:id="gameBoardAnchorPane" prefHeight="200.0" prefWidth="200.0" />
       <Canvas fx:id="gameBoardCanvas" height="200.0" onMouseClicked="#onGameBoardCanvasClick" onMouseMoved="#onGameBoardCanvasHover" width="200.0" />
       <ImageView fx:id="gameBoardImage" fitHeight="1000.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
@@ -14,11 +22,17 @@
          </image>
       </ImageView>
       <AnchorPane fx:id="myShelfAnchorPane" prefHeight="200.0" prefWidth="200.0" />
-      <Canvas fx:id="myShelfCanvas" height="200.0" width="200.0" />
+      <Canvas fx:id="myShelfCanvas" height="200.0" onMouseClicked="#onMyShelfCanvasClick" width="200.0" />
       <ImageView fx:id="myShelfImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/boards/bookshelf_orth.png" />
          </image>
       </ImageView>
+      <!--Slider fx:id="tcoxl" blockIncrement="0.005" max="0.3" min="1.0E-4" />
+      <Slider fx:id="tcoxr" blockIncrement="0.005" layoutX="10.0" layoutY="1128.0" max="0.3" min="1.0E-4" />
+      <Slider fx:id="tcoyu" blockIncrement="0.005" layoutX="10.0" layoutY="1135.0" max="0.3" min="1.0E-4" />
+      <Slider fx:id="tcoyd" blockIncrement="0.005" layoutX="10.0" layoutY="1142.0" max="0.3" min="1.0E-4" />
+      <Slider fx:id="tcodx" blockIncrement="0.005" layoutX="10.0" layoutY="1149.0" max="0.3" min="1.0E-4" />
+      <Slider fx:id="tcody" blockIncrement="0.005" layoutX="10.0" layoutY="1156.0" max="0.3" min="1.0E-4" /-->
    </children>
 </VBox>

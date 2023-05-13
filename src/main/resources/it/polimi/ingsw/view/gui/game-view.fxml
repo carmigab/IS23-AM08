@@ -28,6 +28,24 @@
             <Image url="@images/boards/bookshelf_orth.png" />
          </image>
       </ImageView>
+      <AnchorPane fx:id="commonGoal1AnchorPane" prefHeight="200.0" prefWidth="200.0" />
+      <Canvas fx:id="commonGoal1Canvas" height="200.0" width="200.0" />
+      <ImageView fx:id="commonGoal1Image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/common_goal_cards/1.jpg" />
+         </image></ImageView>
+       <AnchorPane fx:id="commonGoal2AnchorPane" prefHeight="200.0" prefWidth="200.0" />
+       <Canvas fx:id="commonGoal2Canvas" height="200.0" width="200.0" />
+       <ImageView fx:id="commonGoal2Image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+           <image>
+               <Image url="@images/common_goal_cards/2.jpg" />
+           </image></ImageView>
+       <AnchorPane fx:id="personalGoalAnchorPane" prefHeight="200.0" prefWidth="200.0" />
+       <Canvas fx:id="personalGoalCanvas" height="200.0" width="200.0" />
+       <ImageView fx:id="personalGoalImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+           <image>
+               <Image url="@images/personal_goal_cards/front_EMPTY.jpg" />
+           </image></ImageView>
       <!--Slider fx:id="tcoxl" blockIncrement="0.005" max="0.3" min="1.0E-4" />
       <Slider fx:id="tcoxr" blockIncrement="0.005" layoutX="10.0" layoutY="1128.0" max="0.3" min="1.0E-4" />
       <Slider fx:id="tcoyu" blockIncrement="0.005" layoutX="10.0" layoutY="1135.0" max="0.3" min="1.0E-4" />

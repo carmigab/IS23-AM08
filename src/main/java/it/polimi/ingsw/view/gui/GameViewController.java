@@ -38,6 +38,24 @@ public class GameViewController implements Initializable{
     private AnchorPane myShelfAnchorPane;
     @FXML
     private Canvas myShelfCanvas;
+    @FXML
+    private ImageView commonGoal1Image;
+    @FXML
+    private AnchorPane commonGoal1AnchorPane;
+    @FXML
+    private Canvas commonGoal1Canvas;
+    @FXML
+    private ImageView commonGoal2Image;
+    @FXML
+    private AnchorPane commonGoal2AnchorPane;
+    @FXML
+    private Canvas commonGoal2Canvas;
+    @FXML
+    private ImageView personalGoalImage;
+    @FXML
+    private AnchorPane personalGoalAnchorPane;
+    @FXML
+    private Canvas personalGoalCanvas;
     /**
      * This attribute stores the canvas put on top of the game board used for the recognition of the mouse interactions
      */
@@ -69,6 +87,9 @@ public class GameViewController implements Initializable{
 
     private ClickableComponent gameBoard;
     private ClickableComponent myShelf;
+    private ClickableComponent commonGoal1;
+    private ClickableComponent commonGoal2;
+    private ClickableComponent personalGoal;
 
 
     /**
@@ -88,8 +109,19 @@ public class GameViewController implements Initializable{
         this.myShelf=new ClickableComponent(this.myShelfImage, this.myShelfAnchorPane, this.myShelfCanvas, ModelConstants.ROWS_NUMBER, ModelConstants.COLS_NUMBER,
                 0.097, 0.097, 0.054, 0.11, 0.027, 0.019, 0.4);
 
+        this.commonGoal1=new ClickableComponent(this.commonGoal1Image, this.commonGoal1AnchorPane, this.commonGoal1Canvas, 1, 1,
+                0.097, 0.097, 0.054, 0.11, 0.027, 0.019, 0.2);
+        this.commonGoal2=new ClickableComponent(this.commonGoal2Image, this.commonGoal2AnchorPane, this.commonGoal2Canvas, 1, 1,
+                0.097, 0.097, 0.054, 0.11, 0.027, 0.019, 0.2);
+        this.personalGoal=new ClickableComponent(this.personalGoalImage, this.personalGoalAnchorPane, this.personalGoalCanvas, 1, 1,
+                0.097, 0.097, 0.054, 0.11, 0.027, 0.019, 0.3);
+
+
         this.gameBoard.draw();
         this.myShelf.draw();
+        this.commonGoal1.draw();
+        this.commonGoal2.draw();
+        this.personalGoal.draw();
 
         this.display();
 
@@ -98,8 +130,14 @@ public class GameViewController implements Initializable{
                 {
                     this.gameBoard.setComponentDimensions(Math.min(container.getWidth(), container.getHeight()));
                     this.myShelf.setComponentDimensions(Math.min(container.getWidth(), container.getHeight()));
+                    this.commonGoal1.setComponentDimensions(Math.min(container.getWidth(), container.getHeight()));
+                    this.commonGoal2.setComponentDimensions(Math.min(container.getWidth(), container.getHeight()));
+                    this.personalGoal.setComponentDimensions(Math.min(container.getWidth(), container.getHeight()));
                     this.gameBoard.draw();
                     this.myShelf.draw();
+                    this.commonGoal1.draw();
+                    this.commonGoal2.draw();
+                    this.personalGoal.draw();
                 };
 
         //Add the listeners
@@ -107,8 +145,11 @@ public class GameViewController implements Initializable{
         this.container.heightProperty().addListener(onDimensionsChange);
 
         //node, column, row, colspan, rowspan
-        this.gridPane.add(this.gameBoardAnchorPane, 0,0, 1, 1);
-        this.gridPane.add(this.myShelfAnchorPane, 1,0);
+        this.gridPane.add(this.gameBoardAnchorPane   , 0, 0, 1, 2);
+        this.gridPane.add(this.myShelfAnchorPane     , 1, 0, 1, 2);
+        this.gridPane.add(this.commonGoal1AnchorPane , 0, 2, 1, 1);
+        this.gridPane.add(this.commonGoal2AnchorPane , 0, 3, 1, 1);
+        this.gridPane.add(this.personalGoalAnchorPane, 2, 0, 1, 1);
 
         /*
         tcoxl.valueProperty().addListener((

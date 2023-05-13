@@ -177,6 +177,14 @@ public class   ClickableComponent {
                 .findFirst();
     }
 
+    public void setComponentImage(Image image){
+        this.componentImage.setImage(image);
+    }
+
+    public void setComponentSavedImageFromCoordinates(Image image, int x, int y){
+        this.componentSavedImages.get(x*this.componentSavedImagesY+y).setImage(image);
+    }
+
     /*
     public void setTileComponentOffsetXLeft(Double tileComponentOffsetXLeft) {
         this.tileComponentOffsetXLeft = tileComponentOffsetXLeft;

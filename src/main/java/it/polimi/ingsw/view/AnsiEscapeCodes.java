@@ -26,6 +26,8 @@ public enum AnsiEscapeCodes {
     CYAN_TEXT("\u001B[38;2;66;237;231m"),
     GREEN_TEXT("\u001B[38;2;27;186;9m"),
     EMPTY_TEXT("\u001B[38;2;105;105;105m"),
+    BOARD_BORDER_TEXT("\u001B[38;2;112;68;25m"),
+    SHELF_TEXT("\u001B[38;2;84;59;31m"),
 
     // messages colors
     ERROR_MESSAGE("\u001B[38;2;252;53;53m"),

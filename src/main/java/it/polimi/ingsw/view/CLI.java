@@ -212,7 +212,8 @@ public class CLI extends View{
         for (int i = 0; i < yMax; i++) {
             lineBuilder = new StringBuilder();
             lineBuilder.append(" ").append(i).append(" ");
-            lineBuilder.append(xMax == ModelConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BORDER_BACKGROUND.getCode())
+            lineBuilder.append(xMax == ModelConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : 
+                            AnsiEscapeCodes.BOARD_BORDER_BACKGROUND.getCode())
                     .append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
             for (int j = 0; j < xMax; j++) {
                 toPrint = "   ";

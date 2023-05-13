@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ClickableComponent {
+public class   ClickableComponent {
 
     private final ImageView componentImage;
     private final AnchorPane componentAnchorPane;
@@ -21,22 +21,43 @@ public class ClickableComponent {
     private Double tileX;
     private Double tileY;
     /**
-     * Percentage offset between the edge of the game board and the first tile
+     * Percentage offset between the edge of the game board and the first tile on the left
      */
-    private Double tileComponentOffset=0.045;
+    private Double tileComponentOffsetXLeft=0.045;
     /**
-     * Percentage offset between two tiles (only one side)
+     * Percentage offset between the edge of the game board and the first tile on the right
      */
-    private Double tileComponentDistance=this.tileComponentOffset/3;
+    private Double tileComponentOffsetXRight=0.045;
+    /**
+     * Percentage offset between the edge of the game board and the first tile from the top
+     */
+    private Double tileComponentOffsetYUp=0.045;
+    /**
+     * Percentage offset between the edge of the game board and the first tile from the bottom
+     */
+    private Double tileComponentOffsetYDown=0.045;
+    /**
+     * Percentage offset between two tiles in the x direciton
+     */
+    private Double tileComponentDistanceX=this.tileComponentOffsetXLeft/3;
+    /**
+     * Percentage offset between two tiles in the y direction
+     */
+    private Double tileComponentDistanceY=this.tileComponentOffsetYUp/3;
     /**
      * Percantage ratio between the container dimensions (the smaller one) and the size of the game board
      */
     private Double componentPredefinedRatio = 0.5;
 
-    public ClickableComponent(ImageView componentImage, AnchorPane componentAnchorPane, Canvas componentCanvas, Integer componentSavedImagesX, Integer componentSavedImagesY, Double tileComponentOffset, Double tileComponentDistance, Double componentPredefinedRatio){
+
+    public ClickableComponent(ImageView componentImage, AnchorPane componentAnchorPane, Canvas componentCanvas, Integer componentSavedImagesX, Integer componentSavedImagesY, Double tileComponentOffsetXLeft, Double tileComponentOffsetXRight, Double tileComponentOffsetYUp, Double tileComponentOffsetYDown, Double tileComponentDistanceX, Double tileComponentDistanceY, Double componentPredefinedRatio){
         this(componentImage, componentAnchorPane, componentCanvas, componentSavedImagesX, componentSavedImagesY);
-        this.tileComponentOffset=tileComponentOffset;
-        this.tileComponentDistance=tileComponentDistance;
+        this.tileComponentOffsetXLeft=tileComponentOffsetXLeft;
+        this.tileComponentOffsetXRight=tileComponentOffsetXRight;
+        this.tileComponentOffsetYUp=tileComponentOffsetYUp;
+        this.tileComponentOffsetYDown=tileComponentOffsetYDown;
+        this.tileComponentDistanceX=tileComponentDistanceX;
+        this.tileComponentDistanceY=tileComponentDistanceY;
         this.componentPredefinedRatio=componentPredefinedRatio;
     }
 
@@ -79,8 +100,8 @@ public class ClickableComponent {
         this.calculateCurrentTileDimension();
 
         //we start at once the offset and once the distance between the tiles
-        double xoff=this.componentImage.getFitWidth()* (this.tileComponentOffset+this.tileComponentDistance);
-        double yoff=this.componentImage.getFitHeight()*(this.tileComponentOffset+this.tileComponentDistance);
+        double xoff=this.componentImage.getFitWidth()* (this.tileComponentOffsetXLeft+this.tileComponentDistanceX);
+        double yoff=this.componentImage.getFitHeight()*(this.tileComponentOffsetYUp+this.tileComponentDistanceY);
 
         for(int i = 0; i< this.componentSavedImagesX; i++) {
             for (int j = 0; j < this.componentSavedImagesY; j++) {
@@ -92,17 +113,21 @@ public class ClickableComponent {
                 image.setLayoutX(xoff);
                 image.setLayoutY(yoff);
                 //increase the x offset by the dimension and two distances between tiles
-                xoff += this.tileX + this.componentImage.getFitWidth()*this.tileComponentDistance*2;
+                xoff += this.tileX + this.componentImage.getFitWidth()*this.tileComponentDistanceX*2;
             }
             //reset x
-            xoff = this.componentImage.getFitWidth()*(this.tileComponentOffset+this.tileComponentDistance);
+            xoff = this.componentImage.getFitWidth()*(this.tileComponentOffsetXLeft+this.tileComponentDistanceX);
             //increase the y offset the same way
-            yoff += this.tileY + this.componentImage.getFitHeight()*this.tileComponentDistance*2;
+            yoff += this.tileY + this.componentImage.getFitHeight()*this.tileComponentDistanceY*2;
         }
 
         //resize the canvas to match the game board
-        this.componentCanvas.setWidth (this.componentImage.getFitWidth() );
-        this.componentCanvas.setHeight(this.componentImage.getFitHeight());
+        this.componentCanvas.setLayoutX(this.componentImage.getFitWidth() *this.tileComponentOffsetXLeft);
+        this.componentCanvas.setLayoutY(this.componentImage.getFitHeight()*this.tileComponentOffsetYUp);
+
+        this.componentCanvas.setWidth (this.componentImage.getFitWidth() *(1-(this.tileComponentOffsetXLeft+this.tileComponentOffsetXRight)));
+        this.componentCanvas.setHeight(this.componentImage.getFitHeight()*(1-(this.tileComponentOffsetYUp+this.tileComponentOffsetYDown)));
+
     }
 
     /**
@@ -120,8 +145,8 @@ public class ClickableComponent {
      * x = y - 2d -> (factor l) x = l * ((1 - 2o%) / n - 2d%)
      */
     private void calculateCurrentTileDimension(){
-        this.tileX=this.componentImage.getFitWidth() *((1-2*this.tileComponentOffset)/this.componentSavedImagesY-2*this.tileComponentDistance);
-        this.tileY=this.componentImage.getFitHeight()*((1-2*this.tileComponentOffset)/this.componentSavedImagesY-2*this.tileComponentDistance);
+        this.tileX=this.componentImage.getFitWidth() *((1-(this.tileComponentOffsetXLeft+this.tileComponentOffsetXRight))/this.componentSavedImagesY-2*this.tileComponentDistanceX);
+        this.tileY=this.componentImage.getFitHeight()*((1-(this.tileComponentOffsetYUp+this.tileComponentOffsetYDown))/this.componentSavedImagesX-2*this.tileComponentDistanceY);
     }
 
     /**
@@ -142,9 +167,39 @@ public class ClickableComponent {
      */
     public Optional<ImageView> getTileOnComponentFromPosition(double x, double y){
 
+        //The values are relative to the canvas size, so we need to adapt them to our needs
+        Double realX=x+this.tileComponentOffsetXLeft*this.componentImage.getFitWidth() ;
+        Double realY=y+this.tileComponentOffsetYUp*this.componentImage.getFitHeight();
+
         return this.componentSavedImages.stream()
-                .filter(imageView -> x >= imageView.getLayoutX() && x <= imageView.getLayoutX()+imageView.getFitWidth() &&
-                        y >= imageView.getLayoutY() && y <= imageView.getLayoutY()+imageView.getFitHeight() )
+                .filter(imageView -> realX >= imageView.getLayoutX() && realX <= imageView.getLayoutX()+imageView.getFitWidth() &&
+                        realY >= imageView.getLayoutY() && realY <= imageView.getLayoutY()+imageView.getFitHeight() )
                 .findFirst();
     }
+
+    /*
+    public void setTileComponentOffsetXLeft(Double tileComponentOffsetXLeft) {
+        this.tileComponentOffsetXLeft = tileComponentOffsetXLeft;
+    }
+
+    public void setTileComponentOffsetXRight(Double tileComponentOffsetXRight) {
+        this.tileComponentOffsetXRight = tileComponentOffsetXRight;
+    }
+
+    public void setTileComponentOffsetYUp(Double tileComponentOffsetYUp) {
+        this.tileComponentOffsetYUp = tileComponentOffsetYUp;
+    }
+
+    public void setTileComponentOffsetYDown(Double tileComponentOffsetYDown) {
+        this.tileComponentOffsetYDown = tileComponentOffsetYDown;
+    }
+
+    public void setTileComponentDistanceX(Double tileComponentDistanceX) {
+        this.tileComponentDistanceX = tileComponentDistanceX;
+    }
+
+    public void setTileComponentDistanceY(Double tileComponentDistanceY) {
+        this.tileComponentDistanceY = tileComponentDistanceY;
+    }
+    */
 }

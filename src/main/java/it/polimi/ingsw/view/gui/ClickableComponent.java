@@ -186,6 +186,7 @@ public class   ClickableComponent {
     }
 
     /*
+
     public void setTileComponentOffsetXLeft(Double tileComponentOffsetXLeft) {
         this.tileComponentOffsetXLeft = tileComponentOffsetXLeft;
     }

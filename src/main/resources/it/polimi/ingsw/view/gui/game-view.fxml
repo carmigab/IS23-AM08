@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="container" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@hello-style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.GameViewController">
+<VBox fx:id="gameContainer" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@hello-style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GameViewController">
    <children>
       <GridPane fx:id="gridPane">
         <columnConstraints>
@@ -46,11 +47,12 @@
            <image>
                <Image url="@images/personal_goal_cards/front_EMPTY.jpg" />
            </image></ImageView>
-      <!--Slider fx:id="tcoxl" blockIncrement="0.005" max="0.3" min="1.0E-4" />
-      <Slider fx:id="tcoxr" blockIncrement="0.005" layoutX="10.0" layoutY="1128.0" max="0.3" min="1.0E-4" />
-      <Slider fx:id="tcoyu" blockIncrement="0.005" layoutX="10.0" layoutY="1135.0" max="0.3" min="1.0E-4" />
-      <Slider fx:id="tcoyd" blockIncrement="0.005" layoutX="10.0" layoutY="1142.0" max="0.3" min="1.0E-4" />
-      <Slider fx:id="tcodx" blockIncrement="0.005" layoutX="10.0" layoutY="1149.0" max="0.3" min="1.0E-4" />
-      <Slider fx:id="tcody" blockIncrement="0.005" layoutX="10.0" layoutY="1156.0" max="0.3" min="1.0E-4" /-->
+      <Button fx:id="randomMoveButton" mnemonicParsing="false" onAction="#onRandomMoveButtonClick" text="Button" />
+      <!--Slider fx:id="tcoxl" blockIncrement="0.005" max="0.7" min="1.0E-4" />
+      <Slider fx:id="tcoxr" blockIncrement="0.01" layoutX="10.0" layoutY="1128.0" max="0.7" min="1.0E-4" />
+      <Slider fx:id="tcoyu" blockIncrement="0.01" layoutX="10.0" layoutY="1135.0" max="0.7" min="1.0E-4" />
+      <Slider fx:id="tcoyd" blockIncrement="0.01" layoutX="10.0" layoutY="1142.0" max="0.7" min="1.0E-4" />
+      <Slider fx:id="tcodx" blockIncrement="0.01" layoutX="10.0" layoutY="1149.0" max="0.7" min="1.0E-4" />
+      <Slider fx:id="tcody" blockIncrement="0.01" layoutX="10.0" layoutY="1156.0" max="0.7" min="1.0E-4" /-->
    </children>
 </VBox>

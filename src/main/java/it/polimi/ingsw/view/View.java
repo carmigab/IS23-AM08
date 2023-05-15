@@ -261,4 +261,10 @@ public abstract class View {
     protected abstract void notifyClose(String message);
 
     public abstract void displayChatMessage(String message);
+
+    protected GameViewController controller;
+
+    public void setGameViewController(GameViewController controller){
+        this.controller=controller;
+    }
 }

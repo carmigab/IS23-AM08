@@ -2,19 +2,13 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:id="container" alignment="TOP_CENTER" prefHeight="700.0" prefWidth="800.0" spacing="20.0" stylesheets="@hello-style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.HelloController">
+<VBox fx:id="container" alignment="TOP_CENTER" prefHeight="700.0" prefWidth="800.0" spacing="20.0" stylesheets="@hello-style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.HelloController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-   <ImageView fitHeight="140.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@images/Publisher_material/Box_noshadow_280x280.png" />
-      </image>
-   </ImageView>
    <ChoiceBox fx:id="connectionType" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" />
    <TextField fx:id="serverIP" alignment="TOP_CENTER" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" promptText="Ip of the server">
       <font>
@@ -52,4 +46,9 @@
          <Font name="Comic Sans MS" size="12.0" />
       </font>
    </Button>
+   <Button fx:id="joinButton" mnemonicParsing="false" onAction="#onJoinButtonClick" text="Join" visible="false" />
+   <Button fx:id="createButton" mnemonicParsing="false" onAction="#onCreateButtonClick" text="Create" visible="false" />
+   <Label fx:id="numPlayersLabel" text="Insert number of players" visible="false" />
+   <ChoiceBox fx:id="numPlayers" prefWidth="150.0" visible="false" />
+   <Button fx:id="goButton" mnemonicParsing="false" onAction="#onGoButtonClick" text="Go" visible="false" />
 </VBox>

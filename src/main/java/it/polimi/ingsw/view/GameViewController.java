@@ -298,11 +298,11 @@ public class GameViewController implements Initializable{
      */
     public void onGameBoardCanvasClick(MouseEvent event){
 
-        /*
+
         this.gameBoard.getTileOnComponentFromPosition(event.getX(), event.getY()).ifPresent(
                 imageView -> imageView.setImage(
                         new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath("gui/images/item_tiles/easteregg.png", this.getClass()))));
-         */
+
     }
     /**
      * Method that is called whenever the mouse is clicked on the game board canvas

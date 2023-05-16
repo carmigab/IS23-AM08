@@ -52,6 +52,11 @@ public class CLI extends View{
      */
     private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
+    /**
+     * Flag to toggle shelf and board borders on and off
+     */
+    private boolean borders = true;
+
 
     /**
      * This method is called by getUserInput to wait for other players to join the game
@@ -234,7 +239,7 @@ public class CLI extends View{
         String toPrint;
 
         lineBuilder.append(" ").append(i).append(" ");
-        lineBuilder.append(createVerticalBorder(xMax));
+        if (borders) lineBuilder.append(createVerticalBorder(xMax));
         for (int j = 0; j < xMax; j++) {
             toPrint = checkIfIsPersonalGoal(personalGoal, i, j, boardOrShelf);
 
@@ -246,7 +251,7 @@ public class CLI extends View{
         }
 
 //        if (xMax != ModelConstants.COLS_NUMBER) {
-            lineBuilder.append(createVerticalBorder(xMax));
+        if (borders) lineBuilder.append(createVerticalBorder(xMax));
 //        }
         lineBuilder.append(" ").append(i).append(" ");
 
@@ -284,10 +289,10 @@ public class CLI extends View{
         List<StringBuilder> result = new ArrayList<>();
         if (isHeader) {
             result.add(createIndexes(xMax));
-            result.add(createFirstOrLastRow(xMax));
+            if (borders) result.add(createFirstOrLastRow(xMax));
         }
         else {
-            result.add(createFirstOrLastRow(xMax));
+            if (borders) result.add(createFirstOrLastRow(xMax));
             result.add(createIndexes(xMax));
         }
 
@@ -522,7 +527,7 @@ public class CLI extends View{
 
             try {
                 client.makeMove(positions, column);
-                printMessage("Move sent ", AnsiEscapeCodes.INFO_MESSAGE);
+//                printMessage("Move sent ", AnsiEscapeCodes.INFO_MESSAGE);
             } catch (InvalidNicknameException e) {
                 printMessage("Error: invalid nickname ", AnsiEscapeCodes.ERROR_MESSAGE);
             } catch (InvalidMoveException e) {

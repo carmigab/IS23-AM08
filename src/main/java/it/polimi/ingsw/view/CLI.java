@@ -234,34 +234,42 @@ public class CLI extends View{
         String toPrint;
 
         lineBuilder.append(" ").append(i).append(" ");
-        lineBuilder.append(xMax == ModelConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() :
-                        AnsiEscapeCodes.BOARD_BORDER_BACKGROUND.getCode())
-                .append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
+        lineBuilder.append(createVerticalBorder(xMax));
         for (int j = 0; j < xMax; j++) {
-            toPrint = "   ";
-            if (personalGoal != null) {
-                for (SingleGoal singleGoal : personalGoal) {
-                    if (singleGoal.getPosition().equals(new Position(j, i))) {
-                        toPrint = tileColorToAnsiCode(singleGoal.getColor(), false, i, j)
-                                + (boardOrShelf[i][j].isEmpty() ? " ● " : boardOrShelf[i][j].getColor().equals(singleGoal.getColor()) ? " ● " : " X ")
-                                + AnsiEscapeCodes.ENDING_CODE.getCode();
-                        break;
-                    }
-                }
-            }
+            toPrint = checkIfIsPersonalGoal(personalGoal, i, j, boardOrShelf);
+
             lineBuilder.append(tileColorToAnsiCode(boardOrShelf[i][j].getColor(), true, i, j)).append(toPrint).append(AnsiEscapeCodes.ENDING_CODE.getCode());
+
             if (xMax == ModelConstants.COLS_NUMBER) {
-                lineBuilder.append(AnsiEscapeCodes.SHELF_BACKGROUND.getCode())
-                        .append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
+                lineBuilder.append(createVerticalBorder(xMax));
             }
         }
+
         if (xMax != ModelConstants.COLS_NUMBER) {
-            lineBuilder.append(AnsiEscapeCodes.BOARD_BORDER_BACKGROUND.getCode())
-                    .append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
+            lineBuilder.append(createVerticalBorder(xMax));
         }
         lineBuilder.append(" ").append(i).append(" ");
 
         return lineBuilder;
+    }
+
+    private String createVerticalBorder(int xMax) {
+        return (xMax == ModelConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() :
+                AnsiEscapeCodes.BOARD_BORDER_BACKGROUND.getCode()) + " " + AnsiEscapeCodes.ENDING_CODE.getCode();
+    }
+
+    private String checkIfIsPersonalGoal(List<SingleGoal> personalGoal, int i, int j, Tile[][] boardOrShelf) {
+        if (personalGoal != null) {
+            for (SingleGoal singleGoal : personalGoal) {
+                if (singleGoal.getPosition().equals(new Position(j, i))) {
+                    return tileColorToAnsiCode(singleGoal.getColor(), false, i, j)
+                            + (boardOrShelf[i][j].isEmpty() ? " ● " : boardOrShelf[i][j].getColor().equals(singleGoal.getColor()) ? " ● " : " X ")
+                            + AnsiEscapeCodes.ENDING_CODE.getCode();
+                }
+            }
+        }
+
+        return "   ";
     }
 
     /**

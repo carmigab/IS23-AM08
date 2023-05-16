@@ -17,6 +17,9 @@ public enum AnsiEscapeCodes {
     SHELF_BACKGROUND("\u001B[48;2;112;68;25m"),
     BOARD_BORDER_BACKGROUND("\u001B[48;2;84;59;31m"),
 
+    EMPTY_SHELF_EVEN("\u001B[48;2;112;68;25m"),
+    EMPTY_SHELF_ODD("\u001B[48;2;116;72;30m"),
+
     // text colors
     DEFAULT_TEXT("\u001B[38;2;48;48;48m"),
     WHITE_TEXT("\u001B[38;2;255;255;255m"),

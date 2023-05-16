@@ -9,7 +9,7 @@ public class ViewConstants {
      */
     public static final int MAX_NICKNAME_LENGTH = 30;
 
-    public static final int SHELF_REPRESENTATION_DIMENSION = 15;
+    public static final int SHELF_REPRESENTATION_DIMENSION = 10;
 
     public static final int CHAT_TIMER = 1000000;
 

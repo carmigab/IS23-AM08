@@ -1,4 +1,4 @@
-package it.polimi.ingsw.computer;
+package it.polimi.ingsw.computer.neuralNetwork;
 
 import com.google.gson.annotations.Expose;
 

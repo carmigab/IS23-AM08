@@ -1,11 +1,9 @@
-package it.polimi.ingsw.computer;
+package it.polimi.ingsw.computer.neuralNetwork;
 
 import java.util.*;
 
 import it.polimi.ingsw.model.Shelf;
-import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
-import org.jetbrains.annotations.NotNull;
 
 public class TrainingModel {
 

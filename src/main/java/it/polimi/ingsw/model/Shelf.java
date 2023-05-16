@@ -41,6 +41,10 @@ public class Shelf implements Serializable {
         this.myShelf = myShelf.getCopy();
     }
 
+    public Shelf(Tile[][] shelf) {
+        this.myShelf = shelf;
+    }
+
 
     /**
      * This method return a copy of the array of tile of the shelf

@@ -1,13 +1,9 @@
 package it.polimi.ingsw.computer;
 
-import com.google.gson.Gson;
-import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
+import it.polimi.ingsw.computer.neuralNetwork.SimplifiedNeuralNetwork;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
-import java.net.Inet4Address;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;

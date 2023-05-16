@@ -46,7 +46,7 @@ to decide what to put in input (and consequentially in output).
 Then some days ago i think i found a very pretty solution:
 
 to understand the idea we have to ask ourselves: what has to see the neural network?  
-Well, for sure the current state of the personal shelf, and at least all the possible moves in the position  
+Well, for sure the current gameStateRepresentation of the personal shelf, and at least all the possible moves in the position  
 So... why not put them in the input then ? (for personal and common goals we need to do a deeper think)  
 But, how can we encode the information of the move (YELLOW,YELLOW, BLUE) and all its permutations?  
 I mean, how many different moves could there possibly even be out there?  
@@ -90,7 +90,7 @@ So we could do two mappings and insert them into the NN input.
 But for understanding in which NN they should go we need to think a bit.  
 
 If we have them in the first one, it means that the computer will learn to prefer  
-a column based on the current state of the library and the objectives.
+a column based on the current gameStateRepresentation of the library and the objectives.
 
 On the other hand, in the second one it will learn which move is best based on  
 the same properties.

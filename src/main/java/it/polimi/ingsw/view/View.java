@@ -49,6 +49,7 @@ public abstract class View {
     public void update(State newState, GameInfo newGameInfo) {
         this.currentState = newState;
         this.gameInfo = newGameInfo;
+        this.checkForShutdown();
         display();
     }
 
@@ -98,17 +99,17 @@ public abstract class View {
     /**
      * This method is launched in a new thread to check if the client has crashed
      */
-    public synchronized void checkForShutdown() {
-        while (true) {
-            if (currentState != null && currentState.equals(State.GRACEFULDISCONNECTION)) {
-                close("One player has crashed, the game will be closed");
+    public void checkForShutdown() {
+        //while (true) {
+            if (currentState.equals(State.GRACEFULDISCONNECTION)) {
+                close("One player has crashed, the game will be closed...\nThank you for playing with us!");
             }
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
+           // try {
+             //   wait();
+         //   } catch (InterruptedException e) {
+           //     throw new RuntimeException(e);
+          //  }
+        //}
     }
 
     /**

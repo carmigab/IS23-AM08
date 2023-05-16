@@ -27,13 +27,13 @@ public class ViewLauncher {
             case "cli" -> {
                 view = new CLI();
                 new Thread(view::getUserInput).start();
-                new Thread(view::checkForShutdown).start();
+//                new Thread(view::checkForShutdown).start();
             }
              case "gui" -> GUILauncher.main(new String[1]);
             default -> {
                 view = new CLI();
                 new Thread(view::getUserInput).start();
-                new Thread(view::checkForShutdown).start();
+//                new Thread(view::checkForShutdown).start();
             }
         }
     }

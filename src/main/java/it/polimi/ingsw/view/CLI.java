@@ -825,9 +825,9 @@ public class CLI extends View{
     @Override
     protected void notifyClose(String message) {
         printMessage(message, AnsiEscapeCodes.INFO_MESSAGE);
-        try {
-            wait(3000);
-        } catch (InterruptedException ignored) { }
+//        try {
+//            wait(3000);
+//        } catch (InterruptedException ignored) { }
     }
 
     /**

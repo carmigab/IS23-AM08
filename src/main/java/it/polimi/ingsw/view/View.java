@@ -156,23 +156,31 @@ public abstract class View {
      */
     //TODO: implementare
     private boolean checkSinglePosition(Position pos){
+        if(pos.x() < 0 || pos.x() >= ModelConstants.BOARD_DIMENSION) return false;
+        if(pos.y() < 0 || pos.y() >= ModelConstants.BOARD_DIMENSION) return false;
         if(this.gameInfo.getGameBoard()[pos.y()] [pos.x()].isEmpty() || this.gameInfo.getGameBoard()[pos.y()] [pos.x()].isInvalid()){
             return false;
         }
-        if(pos.x() < 0 || pos.x() >= ModelConstants.BOARD_DIMENSION) return false;
-        if(pos.y() < 0 || pos.y() >= ModelConstants.BOARD_DIMENSION) return false;
         return UtilityFunctionsModel.hasFreeAdjacent(this.gameInfo.getGameBoard(), pos);
     }
 
+    /**
+     * this method is used to check if the position is valid : it calls method checkSinglePosition and getAdj on list
+     * positions : if checkSinglePosition returns true and getAdj(positions) contains pos, return true
+     *
+     * @param positions list of positions already choose by the player
+     * @param pos new position chosen by the player
+     * @return true if checkSinglePosition returns true and getAdj called on list positions contains pos
+     */
 
     protected boolean checkValidPosition(List<Position> positions, Position pos)  {
         return checkSinglePosition(pos) && getAdj(positions).contains(pos);
     }
 
     /**
-     * this method return all the position adjacent to the position passed by parameter
-     * @param pos position we want to check adjacent
-     * @return the list of the position adjacent to pos passed by parameter
+     * this method return the list of the Position the player can choose after the previous moves
+     * @param pos list of positions already chosen by the player
+     * @return the list of the Position the player can choose after the previous moves
      */
 
     protected List<Position> getAdj(List<Position> pos){
@@ -209,10 +217,10 @@ public abstract class View {
 
 
     /**
-     * this method receive the List of the position adjacent to a specific position and return the List of the
-     * adjacent positions that are not empty or invalid
-     * @param adj list of adjacent position
-     * @return the list of adjacent position that are not empty or invalid
+     * this method receive the List of the next position the player can choose after the previous moves and return the
+     * List of the next positions that are not empty or invalid
+     * @param adj list of the next position the player can choose after the previous moves
+     * @return the list the next position the player can choose after the previous moves that are not empty or invalid
      */
     private List<Position> reduceAdjacent(List<Position> adj){
        return adj.stream().filter(pos -> checkSinglePosition(pos)).collect(Collectors.toList());

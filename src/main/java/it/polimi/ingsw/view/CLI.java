@@ -425,26 +425,33 @@ public class CLI extends View{
      */
     @Override
     protected void parseCommand(String command) {
-        if (command == null) {
-            return;
-        }
-
-        switch (command.trim()) {
-            case "/help" -> {
-                printMessage("Command list:", AnsiEscapeCodes.INFO_MESSAGE);
-                printMessage("/help: show this list", AnsiEscapeCodes.INFO_MESSAGE);
-                printMessage("/move: move a tile", AnsiEscapeCodes.INFO_MESSAGE);
-                printMessage("/chat: send a message to the chat", AnsiEscapeCodes.INFO_MESSAGE);
-                printMessage("/exit: exit the game", AnsiEscapeCodes.INFO_MESSAGE);
+        try{
+            if (command == null) {
+                return;
             }
-            case "/move" -> parseMoveCommand();
-            case "/chat" -> chatCommand();
-            case "/exit" -> confirmExit();
 
-            case "/shrek"-> shrek();
-            case "/rickroll" -> rickroll();
+            switch (command.trim()) {
+                case "/help" -> {
+                    printMessage("Command list:", AnsiEscapeCodes.INFO_MESSAGE);
+                    printMessage("/help: show this list", AnsiEscapeCodes.INFO_MESSAGE);
+                    printMessage("/move: move a tile", AnsiEscapeCodes.INFO_MESSAGE);
+                    printMessage("/chat: send a message to the chat", AnsiEscapeCodes.INFO_MESSAGE);
+                    printMessage("/exit: exit the game", AnsiEscapeCodes.INFO_MESSAGE);
+                }
+                case "/move" -> parseMoveCommand();
+                case "/chat" -> chatCommand();
+                case "/exit" -> confirmExit();
 
-            default -> printMessage("Invalid command, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+                case "/shrek"-> shrek();
+                case "/rickroll" -> rickroll();
+
+                default -> printMessage("Invalid command, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+            }
+        } catch (Exception e){
+            // comment this line out when deploying the game
+            e.printStackTrace();
+            printMessage("Error while parsing the command", AnsiEscapeCodes.ERROR_MESSAGE);
+
         }
     }
 
@@ -467,19 +474,20 @@ public class CLI extends View{
                 printMessage("Select the tile you want to pick (x,y)", AnsiEscapeCodes.INFO_MESSAGE);
                 input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
                 Position pos = new Position(Integer.parseInt(input.substring(0, 1)), Integer.parseInt(input.substring(2, 3)));
-                while (((!checkValidPosition(positions, pos)) || positions.contains(pos))){
+               if (((!checkValidPosition(positions, pos)) || positions.contains(pos))){
                     if (!checkValidPosition(positions, pos)) {
-                        printMessage("Invalid position: please select another tile", AnsiEscapeCodes.ERROR_MESSAGE);
-                        input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
-                        pos = new Position(Integer.parseInt(input.substring(0, 1)), Integer.parseInt(input.substring(2, 3)));
+                        printMessage("Invalid position", AnsiEscapeCodes.ERROR_MESSAGE);
+//                        input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
+//                        pos = new Position(Integer.parseInt(input.substring(0, 1)), Integer.parseInt(input.substring(2, 3)));
                     } else {
-                        printMessage("Already chosen: please select another tile", AnsiEscapeCodes.ERROR_MESSAGE);
-                        input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
-                        pos = new Position(Integer.parseInt(input.substring(0, 1)), Integer.parseInt(input.substring(2, 3)));
+                        printMessage("Already chosen", AnsiEscapeCodes.ERROR_MESSAGE);
+//                        input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
+//                        pos = new Position(Integer.parseInt(input.substring(0, 1)), Integer.parseInt(input.substring(2, 3)));
                     }
                 }
-                positions.add(pos);
-                if (positions.size() < 3) {
+               else positions.add(pos);
+
+               if (positions.size() < 3) {
                     if(!getAdj(positions).isEmpty()){
                         printMessage("Do you want to select another tile? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
                         answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);

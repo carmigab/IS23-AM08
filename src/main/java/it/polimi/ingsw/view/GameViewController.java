@@ -20,7 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -65,6 +65,12 @@ public class GameViewController implements Initializable{
     private AnchorPane personalGoalAnchorPane;
     @FXML
     private Canvas personalGoalCanvas;
+    @FXML
+    private ImageView moveListImage;
+    @FXML
+    private AnchorPane moveListAnchorPane;
+    @FXML
+    private Canvas moveListCanvas;
     /**
      * This attribute stores the canvas put on top of the game board used for the recognition of the mouse interactions
      */
@@ -75,8 +81,7 @@ public class GameViewController implements Initializable{
      */
     @FXML
     private VBox gameContainer;
-    @FXML
-    private Button randomMoveButton;
+
 
     /*
     @FXML
@@ -94,11 +99,15 @@ public class GameViewController implements Initializable{
     */
 
 
+
     private ClickableComponent gameBoard;
     private ClickableComponent myShelf;
     private ClickableComponent commonGoal1;
     private ClickableComponent commonGoal2;
     private ClickableComponent personalGoal;
+    private ClickableComponent moveList;
+
+    private List<Position> positionsList;
 
     private View guiView;
 
@@ -116,6 +125,8 @@ public class GameViewController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        this.positionsList=new ArrayList<>(ModelConstants.MAX_NUM_OF_MOVES);
+
         //Create the array of tiles
         this.gameBoard=new ClickableComponent(this.gameBoardImage, this.gameBoardAnchorPane, this.gameBoardCanvas, ModelConstants.BOARD_DIMENSION, ModelConstants.BOARD_DIMENSION,
                 0.045, 0.045, 0.045, 0.045, 0.0, 0.0, 0.5);
@@ -129,6 +140,8 @@ public class GameViewController implements Initializable{
                 0.42, 0.0, 0.0, 0.36, 0.13, 0.17, 0.2);
         this.personalGoal=new ClickableComponent(this.personalGoalImage, this.personalGoalAnchorPane, this.personalGoalCanvas, 1, 1,
                 0.097, 0.097, 0.054, 0.11, 0.027, 0.019, 0.3);
+        this.moveList=new ClickableComponent(this.moveListImage, this.moveListAnchorPane, this.moveListCanvas, 1, ModelConstants.MAX_NUM_OF_MOVES,
+                0.052, 0.115, 0.068, 0.627, 0.015, 0.013, 0.3);
 
 
         this.gameBoard.draw();
@@ -136,6 +149,7 @@ public class GameViewController implements Initializable{
         this.commonGoal1.draw();
         this.commonGoal2.draw();
         this.personalGoal.draw();
+        this.moveList.draw();
 
         //Prepare the listener of the resize event
         ChangeListener<Number> onDimensionsChange = (observable, oldValue, newValue) ->
@@ -145,11 +159,13 @@ public class GameViewController implements Initializable{
                     this.commonGoal1.setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
                     this.commonGoal2.setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
                     this.personalGoal.setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
+                    this.moveList.setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
                     this.gameBoard.draw();
                     this.myShelf.draw();
                     this.commonGoal1.draw();
                     this.commonGoal2.draw();
                     this.personalGoal.draw();
+                    this.moveList.draw();
                 };
 
         //Add the listeners
@@ -162,7 +178,7 @@ public class GameViewController implements Initializable{
         this.gridPane.add(this.commonGoal1AnchorPane , 0, 2, 1, 1);
         this.gridPane.add(this.commonGoal2AnchorPane , 0, 3, 1, 1);
         this.gridPane.add(this.personalGoalAnchorPane, 2, 0, 1, 1);
-        this.gridPane.add(this.randomMoveButton      , 2, 2, 1, 1);
+        this.gridPane.add(this.moveListAnchorPane    , 2, 2, 1, 1);
 
         this.gridPane.setHgap(20);
         this.gridPane.setVgap(20);
@@ -173,50 +189,51 @@ public class GameViewController implements Initializable{
                     oldValue,
                     newValue) ->{
             System.out.println("tcoxl: "+newValue.doubleValue());
-            commonGoal1.setTileComponentOffsetXLeft(newValue.doubleValue());
-            commonGoal1.draw();
+            moveList.setTileComponentOffsetXLeft(newValue.doubleValue());
+            moveList.draw();
                 });
         tcoxr.valueProperty().addListener((
                 observableValue,
                 oldValue,
                 newValue) ->{
             System.out.println("tcoxr: "+newValue.doubleValue());
-            commonGoal1.setTileComponentOffsetXRight(newValue.doubleValue());
-            commonGoal1.draw();
+            moveList.setTileComponentOffsetXRight(newValue.doubleValue());
+            moveList.draw();
         });
         tcoyu.valueProperty().addListener((
                 observableValue,
                 oldValue,
                 newValue) ->{
             System.out.println("tcoyu: "+newValue.doubleValue());
-            commonGoal1.setTileComponentOffsetYUp(newValue.doubleValue());
-            commonGoal1.draw();
+            moveList.setTileComponentOffsetYUp(newValue.doubleValue());
+            moveList.draw();
         });
         tcoyd.valueProperty().addListener((
                 observableValue,
                 oldValue,
                 newValue) ->{
             System.out.println("tcoyd: "+newValue.doubleValue());
-            commonGoal1.setTileComponentOffsetYDown(newValue.doubleValue());
-            commonGoal1.draw();
+            moveList.setTileComponentOffsetYDown(newValue.doubleValue());
+            moveList.draw();
         });
         tcodx.valueProperty().addListener((
                 observableValue,
                 oldValue,
                 newValue) ->{
             System.out.println("tcodx: "+newValue.doubleValue());
-            commonGoal1.setTileComponentDistanceX(newValue.doubleValue());
-            commonGoal1.draw();
+            moveList.setTileComponentDistanceX(newValue.doubleValue());
+            moveList.draw();
         });
         tcody.valueProperty().addListener((
                 observableValue,
                 oldValue,
                 newValue) ->{
             System.out.println("tcody: "+newValue.doubleValue());
-            commonGoal1.setTileComponentDistanceY(newValue.doubleValue());
-            commonGoal1.draw();
+            moveList.setTileComponentDistanceY(newValue.doubleValue());
+            moveList.draw();
         });
-        */
+         */
+
 
     }
 
@@ -235,8 +252,8 @@ public class GameViewController implements Initializable{
                 Optional<Image> image=this.getImageFromTileDescription(this.guiView.gameInfo.getGameBoard()[i][j]);
                 int x=i;
                 int y=j;
-                image.ifPresentOrElse((smth)->this.gameBoard.setComponentSavedImageFromCoordinates(image.get(), x, y),
-                        ()->this.gameBoard.setComponentSavedImageFromCoordinates(null, x, y));
+                image.ifPresentOrElse((smth)->this.gameBoard.setComponentSavedImageFromPositions(image.get(), x, y),
+                        ()->this.gameBoard.setComponentSavedImageFromPositions(null, x, y));
             }
         }
 
@@ -247,8 +264,8 @@ public class GameViewController implements Initializable{
                         Optional<Image> image=this.getImageFromTileDescription(playerInfo.getShelf()[i][j]);
                         int x=i;
                         int y=j;
-                        image.ifPresentOrElse((smth)->this.myShelf.setComponentSavedImageFromCoordinates(image.get(), x, y),
-                                ()->this.myShelf.setComponentSavedImageFromCoordinates(null, x, y));
+                        image.ifPresentOrElse((smth)->this.myShelf.setComponentSavedImageFromPositions(image.get(), x, y),
+                                ()->this.myShelf.setComponentSavedImageFromPositions(null, x, y));
                     }
                 }
             }
@@ -257,9 +274,13 @@ public class GameViewController implements Initializable{
         this.commonGoal1.setComponentImage(this.getImageFromCommonGoalDescription(this.guiView.gameInfo.getCommonGoalsCreated().get(0)));
         this.commonGoal2.setComponentImage(this.getImageFromCommonGoalDescription(this.guiView.gameInfo.getCommonGoalsCreated().get(1)));
 
-        this.commonGoal1.setComponentSavedImageFromCoordinates(this.getImageFromCommonGoalPoints(this.guiView.gameInfo.getCommonGoalsStack().get(0)),0,0);
-        this.commonGoal2.setComponentSavedImageFromCoordinates(this.getImageFromCommonGoalPoints(this.guiView.gameInfo.getCommonGoalsStack().get(1)),0,0);
+        this.commonGoal1.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(this.guiView.gameInfo.getCommonGoalsStack().get(0)),0,0);
+        this.commonGoal2.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(this.guiView.gameInfo.getCommonGoalsStack().get(1)),0,0);
 
+        this.positionsList.clear();
+        for(int i=0;i<ModelConstants.MAX_NUM_OF_MOVES;i++){
+            this.moveList.setComponentSavedImageFromPositions(null, 0, i);
+        }
     }
 
     /**
@@ -329,33 +350,61 @@ public class GameViewController implements Initializable{
         */
     }
 
+    private final DataFormat dft=new DataFormat("gameBoardPosition");
+
     @FXML
-    protected void onRandomMoveButtonClick(){
-        if (this.guiView.isMyTurn()) {
-            boolean done = false;
-            Random r=new Random();
-            while (!done) {
-                int numOfTilesSelected = r.nextInt(3) + 1;
-                List<Position> toSend = new ArrayList<>(numOfTilesSelected);
-                Position start=new Position(r.nextInt(9), r.nextInt(9));
-                toSend.add(start);
-                if(r.nextDouble()<0.3){
-                    int random=r.nextInt(4);
-                    switch (random) {
-                        case 0 -> toSend.add(new Position(start.x() + 1, start.y()));
-                        case 1 -> toSend.add(new Position(start.x(), start.y() + 1));
-                        case 2 -> toSend.add(new Position(start.x() - 1, start.y()));
-                        case 3 -> toSend.add(new Position(start.x(), start.y() - 1));
-                    }
-                }
-                try {
-                    this.guiView.client.makeMove(toSend, r.nextInt(5));
-                    done = true;
-                } catch (InvalidNicknameException | InvalidMoveException | ConnectionError | GameEndedException e) {
-                    System.out.println("some exception captured");
-                }
-            }
-        }
+    protected void onGameBoardCanvasDragDetected(MouseEvent event){
+        if(!this.guiView.isMyTurn()) return;
+        Optional<ImageView> imagePressed = gameBoard.getTileOnComponentFromPosition(event.getX(), event.getY());
+
+        Optional<Position> positionPressed = gameBoard.getPositionOfSavedImageFromCoordinates(event.getX(), event.getY());
+
+
+        imagePressed.ifPresent((imageView)->{
+            Dragboard db=imageView.startDragAndDrop(TransferMode.COPY_OR_MOVE);
+            ClipboardContent content = new ClipboardContent();
+            //content.putImage(scaledImage);
+            content.putImage(imageView.getImage());
+            content.putString("image moved");
+            content.put(this.dft, positionPressed.get());
+            db.setContent(content);
+            event.consume();
+        });
     }
 
+    @FXML
+    protected void onMoveListCanvasDragDropped(DragEvent event){
+        if(!this.guiView.isMyTurn()) return;
+        Optional<Position> index=this.moveList.getPositionOfSavedImageFromCoordinates(event.getX(),event.getY());
+        if(index.isEmpty()){
+            event.setDropCompleted(true);
+            event.consume();
+            return;
+        }
+        Dragboard db=event.getDragboard();
+        if(db.hasImage()) {
+            moveList.setComponentSavedImageFromCoordinates(db.getImage(), event.getX(), event.getY());
+            Position movePosition = (Position)db.getContent(this.dft);
+
+            this.positionsList.add(index.get().x(), movePosition);
+
+            event.setDropCompleted(true);
+        }
+        else event.setDropCompleted(false);
+        event.consume();
+    }
+
+    @FXML
+    protected void onMoveListCanvasDragOver(DragEvent event){
+        if(!this.guiView.isMyTurn()) return;
+        if(event.getDragboard().hasImage()) event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+        event.consume();
+    }
+
+    private Image scaleImage(Image source, double targetWidth, double targetHeight) {
+        ImageView imageView = new ImageView(source);
+        imageView.setFitWidth(targetWidth);
+        imageView.setFitHeight(targetHeight);
+        return imageView.snapshot(null, null);
+    }
 }

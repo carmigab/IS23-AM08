@@ -1,6 +1,8 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.constants.ModelConstants;
+import it.polimi.ingsw.model.Position;
+import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -167,26 +169,43 @@ public class   ClickableComponent {
      */
     public Optional<ImageView> getTileOnComponentFromPosition(double x, double y){
 
+        Optional<Position> position=this.getPositionOfSavedImageFromCoordinates(x,y);
+
+        return position.map(value -> this.componentSavedImages.get(value.y() * this.componentSavedImagesY + value.x()));
+    }
+
+    public Optional<Position> getPositionOfSavedImageFromCoordinates(double x, double y){
+
         //The values are relative to the canvas size, so we need to adapt them to our needs
-        Double realX=x+this.tileComponentOffsetXLeft*this.componentImage.getFitWidth() ;
+        Double realX=x+this.tileComponentOffsetXLeft*this.componentImage.getFitWidth();
         Double realY=y+this.tileComponentOffsetYUp*this.componentImage.getFitHeight();
 
         return this.componentSavedImages.stream()
                 .filter(imageView -> realX >= imageView.getLayoutX() && realX <= imageView.getLayoutX()+imageView.getFitWidth() &&
                         realY >= imageView.getLayoutY() && realY <= imageView.getLayoutY()+imageView.getFitHeight() )
-                .findFirst();
+                .map(imageView ->
+                        new Position(   Double.valueOf((imageView.getLayoutX()+imageView.getFitWidth()/2)/(this.componentImage.getFitWidth()/this.componentSavedImagesY)).intValue(),
+                                Double.valueOf((imageView.getLayoutY()+imageView.getFitHeight()/2)/(this.componentImage.getFitHeight()/this.componentSavedImagesX)).intValue())
+                ).findFirst();
     }
+
 
     public void setComponentImage(Image image){
         this.componentImage.setImage(image);
     }
 
-    public void setComponentSavedImageFromCoordinates(Image image, int x, int y){
+    public void setComponentSavedImageFromPositions(Image image, int x, int y){
         this.componentSavedImages.get(x*this.componentSavedImagesY+y).setImage(image);
     }
 
-    /*
 
+    public void setComponentSavedImageFromCoordinates(Image image, double x, double y){
+        Optional<ImageView> imageView =this.getTileOnComponentFromPosition(x,y);
+        imageView.ifPresent( (imageView1)-> imageView1.setImage(image));
+    }
+
+
+    /*
     public void setTileComponentOffsetXLeft(Double tileComponentOffsetXLeft) {
         this.tileComponentOffsetXLeft = tileComponentOffsetXLeft;
     }
@@ -210,5 +229,6 @@ public class   ClickableComponent {
     public void setTileComponentDistanceY(Double tileComponentDistanceY) {
         this.tileComponentDistanceY = tileComponentDistanceY;
     }
-    */
+     */
+
 }

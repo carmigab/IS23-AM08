@@ -26,7 +26,7 @@ public class App
             if(startCommands.containsKey(args[0])) startCommands.get(args[0]).run();
 
         }
-        else System.out.println("You need to start with an argument. Use --help for more information.");
+        else ViewLauncher.main(args);
 
     }
 }

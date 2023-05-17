@@ -425,26 +425,33 @@ public class CLI extends View{
      */
     @Override
     protected void parseCommand(String command) {
-        if (command == null) {
-            return;
-        }
-
-        switch (command.trim()) {
-            case "/help" -> {
-                printMessage("Command list:", AnsiEscapeCodes.INFO_MESSAGE);
-                printMessage("/help: show this list", AnsiEscapeCodes.INFO_MESSAGE);
-                printMessage("/move: move a tile", AnsiEscapeCodes.INFO_MESSAGE);
-                printMessage("/chat: send a message to the chat", AnsiEscapeCodes.INFO_MESSAGE);
-                printMessage("/exit: exit the game", AnsiEscapeCodes.INFO_MESSAGE);
+        try{
+            if (command == null) {
+                return;
             }
-            case "/move" -> parseMoveCommand();
-            case "/chat" -> chatCommand();
-            case "/exit" -> confirmExit();
 
-            case "/shrek"-> shrek();
-            case "/rickroll" -> rickroll();
+            switch (command.trim()) {
+                case "/help" -> {
+                    printMessage("Command list:", AnsiEscapeCodes.INFO_MESSAGE);
+                    printMessage("/help: show this list", AnsiEscapeCodes.INFO_MESSAGE);
+                    printMessage("/move: move a tile", AnsiEscapeCodes.INFO_MESSAGE);
+                    printMessage("/chat: send a message to the chat", AnsiEscapeCodes.INFO_MESSAGE);
+                    printMessage("/exit: exit the game", AnsiEscapeCodes.INFO_MESSAGE);
+                }
+                case "/move" -> parseMoveCommand();
+                case "/chat" -> chatCommand();
+                case "/exit" -> confirmExit();
 
-            default -> printMessage("Invalid command, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+                case "/shrek"-> shrek();
+                case "/rickroll" -> rickroll();
+
+                default -> printMessage("Invalid command, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+            }
+        } catch (Exception e){
+            // comment this line out when deploying the game
+            e.printStackTrace();
+            printMessage("Error while parsing the command", AnsiEscapeCodes.ERROR_MESSAGE);
+
         }
     }
 

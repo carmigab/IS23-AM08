@@ -474,19 +474,20 @@ public class CLI extends View{
                 printMessage("Select the tile you want to pick (x,y)", AnsiEscapeCodes.INFO_MESSAGE);
                 input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
                 Position pos = new Position(Integer.parseInt(input.substring(0, 1)), Integer.parseInt(input.substring(2, 3)));
-                while (((!checkValidPosition(positions, pos)) || positions.contains(pos))){
+               if (((!checkValidPosition(positions, pos)) || positions.contains(pos))){
                     if (!checkValidPosition(positions, pos)) {
-                        printMessage("Invalid position: please select another tile", AnsiEscapeCodes.ERROR_MESSAGE);
-                        input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
-                        pos = new Position(Integer.parseInt(input.substring(0, 1)), Integer.parseInt(input.substring(2, 3)));
+                        printMessage("Invalid position", AnsiEscapeCodes.ERROR_MESSAGE);
+//                        input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
+//                        pos = new Position(Integer.parseInt(input.substring(0, 1)), Integer.parseInt(input.substring(2, 3)));
                     } else {
-                        printMessage("Already chosen: please select another tile", AnsiEscapeCodes.ERROR_MESSAGE);
-                        input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
-                        pos = new Position(Integer.parseInt(input.substring(0, 1)), Integer.parseInt(input.substring(2, 3)));
+                        printMessage("Already chosen", AnsiEscapeCodes.ERROR_MESSAGE);
+//                        input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
+//                        pos = new Position(Integer.parseInt(input.substring(0, 1)), Integer.parseInt(input.substring(2, 3)));
                     }
                 }
-                positions.add(pos);
-                if (positions.size() < 3) {
+               else positions.add(pos);
+
+               if (positions.size() < 3) {
                     if(!getAdj(positions).isEmpty()){
                         printMessage("Do you want to select another tile? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
                         answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);

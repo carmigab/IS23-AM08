@@ -699,33 +699,51 @@ public class CLI extends View{
 
         printMessage("Insert port of the server (or <default> for automatic detection)", AnsiEscapeCodes.INFO_MESSAGE);
         String port=this.retryInput(ViewConstants.REGEX_INPUT_PORT);
-        Integer intPort= ServerConstants.RMI_PORT;
-
 
         printMessage("Choose connection type (rmi/tcp)", AnsiEscapeCodes.INFO_MESSAGE);
         String input = this.retryInput(ViewConstants.REGEX_INPUT_CONNECTION_TYPE);
 
         if (input.equalsIgnoreCase("rmi")) {
-            try {
-                if(port.equals("default") || port.equals("")) intPort=ServerConstants.RMI_PORT;
-                else intPort=Integer.valueOf(port);
-                client = new RmiClient(myNickname, this, ip, intPort);
-            } catch (RemoteException | NotBoundException | InterruptedException e) {
-                printMessage("error while connecting to the server", AnsiEscapeCodes.ERROR_MESSAGE);
-                close("Client closing, try again later");
-            }
+            startRmiConnection(ip, port);
         }
         else {
-            try {
-                if (port.equals("default") || port.equals("")) intPort = ServerConstants.TCP_PORT;
-                else intPort = Integer.valueOf(port);
-                client = new TcpClient(myNickname, this, ip, intPort);
-            } catch (InterruptedException e) {
-                printMessage("error while connecting to the server", AnsiEscapeCodes.ERROR_MESSAGE);
-                close("Client closing, try again later");
-            } catch (ConnectionError e) {
-                //ignore?
-            }
+            startTcpConnection(ip, port);
+        }
+    }
+
+    /**
+     * This method establish a rmi connection with the server with the given ip and port
+     * @param ip server ip address
+     * @param port sever port
+     */
+    private void startTcpConnection(String ip, String port) {
+        int intPort;
+        try {
+            if (port.equals("default") || port.equals("")) intPort = ServerConstants.TCP_PORT;
+            else intPort = Integer.parseInt(port);
+            client = new TcpClient(myNickname, this, ip, intPort);
+        } catch (InterruptedException e) {
+            printMessage("error while connecting to the server", AnsiEscapeCodes.ERROR_MESSAGE);
+            close("Client closing, try again later");
+        } catch (ConnectionError e) {
+            //ignore?
+        }
+    }
+
+    /**
+     * This method establish a tcp connection with the server with the given ip and port
+     * @param ip server ip address
+     * @param port sever port
+     */
+    private void startRmiConnection(String ip, String port) {
+        int intPort;
+        try {
+            if(port.equals("default") || port.equals("")) intPort=ServerConstants.RMI_PORT;
+            else intPort= Integer.parseInt(port);
+            client = new RmiClient(myNickname, this, ip, intPort);
+        } catch (RemoteException | NotBoundException | InterruptedException e) {
+            printMessage("error while connecting to the server", AnsiEscapeCodes.ERROR_MESSAGE);
+            close("Client closing, try again later");
         }
     }
 

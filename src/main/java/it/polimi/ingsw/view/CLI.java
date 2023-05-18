@@ -622,59 +622,28 @@ public class CLI extends View{
      */
     private void chatCommand() {
         synchronized (displayLock) {
-//            AtomicBoolean messageSent = new AtomicBoolean(false);
+            printMessage("To send a global message write 'all: message'", AnsiEscapeCodes.INFO_MESSAGE);
+            printMessage("To send a message to a specific player write 'player_name: message' ", AnsiEscapeCodes.INFO_MESSAGE);
 
-            // create and start thread to get input from the user
-//            Thread getInput = new Thread(() -> {
-                printMessage("To send a global message write 'all: message'", AnsiEscapeCodes.INFO_MESSAGE);
-                printMessage("To send a message to a specific player write 'player_name: message' ", AnsiEscapeCodes.INFO_MESSAGE);
+            try {
+                String input = this.retryInput(ViewConstants.REGEX_INPUT_CHAT_MESSAGE);
 
-//                while (!messageSent.get()) {
-                    try {
-//                        while (!bufferedReader.ready()) {
-//                            Thread.sleep(100);
-//                        }
-//                        String input = bufferedReader.readLine();
-//                        while (!input.matches(ViewConstants.REGEX_INPUT_CHAT_MESSAGE)) {
-//                            printMessage("Invalid message format, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
-//                            while (!bufferedReader.ready()) {
-//                                Thread.sleep(100);
-//                            }
-//                            input = bufferedReader.readLine();
-//                        }
-                        String input = this.retryInput(ViewConstants.REGEX_INPUT_CHAT_MESSAGE);
-
-                        String receiverNickname = input.substring(0, input.indexOf(":")).trim();
-                        String message = input.substring(input.indexOf(":") + 1).trim();
-                        if (receiverNickname.equals("all")) {
-                            client.messageAll(message);
-//                            messageSent.set(true);
-                        }
-                        else {
-                            if (checkExistingNickname(receiverNickname)) {
-                                client.messageSomeone(message, receiverNickname);
-//                                messageSent.set(true);
-                            }
-                            else {
-                                printMessage("This player does not exist, please type again: ", AnsiEscapeCodes.ERROR_MESSAGE);
-                            }
-                        }
-                    } catch (Exception ignored) {
-                        System.out.println("Exception: Kaboom");
+                String receiverNickname = input.substring(0, input.indexOf(":")).trim();
+                String message = input.substring(input.indexOf(":") + 1).trim();
+                if (receiverNickname.equals("all")) {
+                    client.messageAll(message);
+                }
+                else {
+                    if (checkExistingNickname(receiverNickname)) {
+                        client.messageSomeone(message, receiverNickname);
                     }
-//                }
-//            });
-//            getInput.start();
-//
-//            try {
-//                getInput.join(ViewConstants.CHAT_TIMER);
-//                if(getInput.isAlive()) {
-//                    getInput.interrupt();
-//                }
-//            } catch (InterruptedException ignored) {
-//                System.out.println("Interrupted exception from Chat");
-//
-//            }
+                    else {
+                        printMessage("This player does not exist, please type again: ", AnsiEscapeCodes.ERROR_MESSAGE);
+                    }
+                }
+            } catch (Exception ignored) {
+                System.out.println("Exception: Kaboom");
+            }
         }
     }
 
@@ -692,52 +661,18 @@ public class CLI extends View{
      */
     private void confirmExit() {
         synchronized (displayLock) {
-
-            AtomicBoolean messageSent = new AtomicBoolean(false);
-
-            // create and start thread to get input from the user
-            Thread getInput = new Thread(() -> {
-                printMessage("Are you sure you want to exit? (y/n) ", AnsiEscapeCodes.INFO_MESSAGE);
-
-                while (!messageSent.get()) {
-                    try {
-                        while (!bufferedReader.ready()) {
-                            Thread.sleep(100);
-                        }
-                        String input = bufferedReader.readLine();
-                        while (!input.matches(ViewConstants.REGEX_INPUT_YES_OR_NO)) {
-                            printMessage("Invalid input, please try again", AnsiEscapeCodes.ERROR_MESSAGE);
-                            while (!bufferedReader.ready()) {
-                                Thread.sleep(100);
-                            }
-                            input = bufferedReader.readLine();
-                            input = input.trim();
-                        }
-
-                        if (input.equalsIgnoreCase("y")) {
-                            close("Client closing, bye bye!");
-                            messageSent.set(true);
-                        }
-                        else {
-                            printMessage("Returning to game ", AnsiEscapeCodes.INFO_MESSAGE);
-                            messageSent.set(true);
-                        }
-                    } catch (Exception ignored) {
-
-                    }
-                }
-            });
-            getInput.start();
+            printMessage("Are you sure you want to exit? (y/n) ", AnsiEscapeCodes.INFO_MESSAGE);
 
             try {
-                getInput.join(10000);
-                if(getInput.isAlive()) {
-                    printMessage("ancora vivo", AnsiEscapeCodes.ERROR_MESSAGE);
-                    getInput.interrupt();
+                String input = retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);
+                if (input.equalsIgnoreCase("y")) {
+                    close("Client closing, bye bye!");
                 }
-                else printMessage("finito", AnsiEscapeCodes.GAME_MESSAGE);
-            } catch (InterruptedException ignored) {
-
+                else {
+                    printMessage("Returning to game ", AnsiEscapeCodes.INFO_MESSAGE);
+                }
+            } catch (Exception ignored) {
+                System.out.println("Exception: Kaboom");
             }
         }
     }

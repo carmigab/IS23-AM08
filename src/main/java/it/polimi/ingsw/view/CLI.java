@@ -170,6 +170,7 @@ public class CLI extends View{
                     System.out.println(line);
                 }
 
+                printCommonGoalsPoints(Arrays.asList(playerInfo.getComGoalPoints()[0], playerInfo.getComGoalPoints()[1]));
                 StringBuilder toPrint= new StringBuilder("   Common Goal Points: | ");
                 for(Integer i: playerInfo.getComGoalPoints()){
                     toPrint.append(i).append(" | ");
@@ -355,9 +356,13 @@ public class CLI extends View{
         for(int i=0;i<this.gameInfo.getCommonGoalsCreated().size();i++){
             printMessage(i+") " + getGoalDescription(this.gameInfo.getCommonGoalsCreated().get(i)), AnsiEscapeCodes.GAME_MESSAGE);
         }
+        printCommonGoalsPoints(this.gameInfo.getCommonGoalsStack());
+    }
+
+    private void printCommonGoalsPoints(Iterable<Integer> iterable) {
         StringBuilder lineBuilder = new StringBuilder();
         lineBuilder.append("   Common goals points: | ");
-        for(Integer i: this.gameInfo.getCommonGoalsStack()){
+        for(Integer i: iterable){
             lineBuilder.append(i).append(" | ");
         }
         printMessage(lineBuilder.toString(), AnsiEscapeCodes.GAME_MESSAGE);

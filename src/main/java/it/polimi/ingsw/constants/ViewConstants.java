@@ -9,6 +9,8 @@ public class ViewConstants {
      */
     public static final int MAX_NICKNAME_LENGTH = 30;
 
+    public static final boolean ENABLE_BOARD_AND_SHELF_BORDER = true;
+
     public static final int SHELF_REPRESENTATION_DIMENSION = 8;
 
     public static final int CHAT_TIMER = 1000000;

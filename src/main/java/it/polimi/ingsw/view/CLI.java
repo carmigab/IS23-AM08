@@ -458,94 +458,131 @@ public class CLI extends View{
     /**
      * This method is called by parseCommand to parse a move command, also check the move
      */
-    //TODO: change implementation to match changes in parseCommand
     private void parseMoveCommand() {
         List<Position> positions = new ArrayList<>();
-        String input;
-        String answer = "y";
         int column;
+
         synchronized (displayLock) {
             if (!isMyTurn()) {
                 printMessage("Error: please wait for your turn ", AnsiEscapeCodes.ERROR_MESSAGE);
                 return;
             }
 
-            while (positions.size() < 3 && answer.equalsIgnoreCase("y")) {
-                printMessage("Select the tile you want to pick (x,y)", AnsiEscapeCodes.INFO_MESSAGE);
-                input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
-                Position pos = new Position(Integer.parseInt(input.substring(0, 1)), Integer.parseInt(input.substring(2, 3)));
-               if (((!checkValidPosition(positions, pos)) || positions.contains(pos))){
-                    if (!checkValidPosition(positions, pos)) {
-                        printMessage("Invalid position", AnsiEscapeCodes.ERROR_MESSAGE);
-//                        input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
-//                        pos = new Position(Integer.parseInt(input.substring(0, 1)), Integer.parseInt(input.substring(2, 3)));
-                    } else {
-                        printMessage("Already chosen", AnsiEscapeCodes.ERROR_MESSAGE);
-//                        input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
-//                        pos = new Position(Integer.parseInt(input.substring(0, 1)), Integer.parseInt(input.substring(2, 3)));
-                    }
-                }
-               else positions.add(pos);
+            askForTiles(positions);
 
-               if (positions.size() < 3) {
-                    if(!getAdj(positions).isEmpty()){
-                        printMessage("Do you want to select another tile? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
-                        answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);
-                    }
-                    else{
-                        printMessage("You can't select another tiles : no more moves avaliable", AnsiEscapeCodes.INFO_MESSAGE);
-                        answer = "n";
-                    }
-                }
+            // display the chosen tiles and ask if the player wants to order them
+            if (positions.size() > 1) {
+                askToChangeOrder(positions);
             }
 
-
-        answer = "y";
-        // display the chosen tiles and ask if the player wants to order them
-        if (positions.size() > 1) {
-            while (!answer.equalsIgnoreCase("n")) {
-                displayChosenTiles(positions, gameInfo.getGameBoard());
-                printMessage("The tiles will be inserted the way you see them, from left to right. Do you want to change the order? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
-                answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);
-                if (answer.equals("y")) {
-                    printMessage("Select the order of the tiles " + (positions.size() == 2 ? "(1,2)" : "(1,2,3)"), AnsiEscapeCodes.INFO_MESSAGE);
-                    input = this.retryInput(positions.size() == 2 ? ViewConstants.REGEX_INPUT_ORDER_2TILES : ViewConstants.REGEX_INPUT_ORDER_3TILES);
-                    positions = changeOrder(positions, input);
-                    displayChosenTiles(positions, gameInfo.getGameBoard());
-                    printMessage("Do you want to change the order again? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
-                    answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);
-                }
-            }
+            column = askColumn(positions);
         }
 
-            //for (String position : input.split(" ")) {
-            //  positions.add(new Position(Integer.parseInt(position.split(",")[0]), Integer.parseInt(position.split(",")[1])));
-            //}
+        move(positions, column);
+    }
 
+    /**
+     * This method is used to send the move to the server and to handle exceptions id any occurs
+     * @param positions the list of selected positions
+     * @param column the selected column
+     */
+    private void move(List<Position> positions, int column) {
+        try {
+            client.makeMove(positions, column);
+//                printMessage("Move sent ", AnsiEscapeCodes.INFO_MESSAGE);
+        } catch (InvalidNicknameException e) {
+            printMessage("Error: invalid nickname ", AnsiEscapeCodes.ERROR_MESSAGE);
+        } catch (InvalidMoveException e) {
+            printMessage("Invalid move: please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+        } catch (ConnectionError e) {
+            // ignore
+        } catch (GameEndedException e) {
+            // this one needs to be managed better
+            printMessage("Error: game has already ended", AnsiEscapeCodes.ERROR_MESSAGE);
+        }
+    }
 
-            printMessage("Select the column where you want to place the tiles ", AnsiEscapeCodes.INFO_MESSAGE);
+    /**
+     * This method is used to ask the player in which column she wants to insert the selected tiles
+     * @param positions the list of selected positions
+     * @return the integer representing the selected column
+     */
+    private int askColumn(List<Position> positions) {
+        int column;
+        String input;
+
+        printMessage("Select the column where you want to place the tiles ", AnsiEscapeCodes.INFO_MESSAGE);
+        input = this.retryInput(ViewConstants.REGEX_INPUT_COLUMN);
+        column = Integer.parseInt(input);
+        while (!checkColumn(column, positions.size())) {
+            printMessage("Incorrect column: please select another column", AnsiEscapeCodes.ERROR_MESSAGE);
             input = this.retryInput(ViewConstants.REGEX_INPUT_COLUMN);
             column = Integer.parseInt(input);
-            while (!checkColumn(column, positions.size())) {
-                printMessage("Incorrect column: please select another column", AnsiEscapeCodes.ERROR_MESSAGE);
-                input = this.retryInput(ViewConstants.REGEX_INPUT_COLUMN);
-                column = Integer.parseInt(input);
+        }
+
+        return column;
+    }
+
+    /**
+     * This method is used to ask if the player wants to change the order of the selected tiles
+     * @param positions the list of selected positions
+     */
+    private void askToChangeOrder(List<Position> positions) {
+        String answer = "y";
+        String input;
+
+        while (!answer.equalsIgnoreCase("n")) {
+            displayChosenTiles(positions, gameInfo.getGameBoard());
+            printMessage("The tiles will be inserted the way you see them, from left to right. Do you want to change the order? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
+            answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);
+            if (answer.equals("y")) {
+                printMessage("Select the order of the tiles " + (positions.size() == 2 ? "(1,2)" : "(1,2,3)"), AnsiEscapeCodes.INFO_MESSAGE);
+                input = this.retryInput(positions.size() == 2 ? ViewConstants.REGEX_INPUT_ORDER_2TILES : ViewConstants.REGEX_INPUT_ORDER_3TILES);
+                positions = changeOrder(positions, input);
+                displayChosenTiles(positions, gameInfo.getGameBoard());
+                printMessage("Do you want to change the order again? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
+                answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);
+            }
+        }
+    }
+
+    /**
+     * This method is used to ask the player to select the tiles she wants to pick
+     * @param positions the list in which the selected positions will be inserted
+     */
+    private void askForTiles(List<Position> positions) {
+        String input;
+        String answer = "y";
+
+        while (positions.size() < 3 && answer.equalsIgnoreCase("y")) {
+            printMessage("Select the tile you want to pick (x,y)", AnsiEscapeCodes.INFO_MESSAGE);
+            input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
+            Position pos = new Position(Integer.parseInt(input.substring(0, 1)), Integer.parseInt(input.substring(2, 3)));
+            if (((!checkValidPosition(positions, pos)) || positions.contains(pos))){
+                if (!checkValidPosition(positions, pos)) {
+                    printMessage("Invalid position", AnsiEscapeCodes.ERROR_MESSAGE);
+//                        input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
+//                        pos = new Position(Integer.parseInt(input.substring(0, 1)), Integer.parseInt(input.substring(2, 3)));
+                } else {
+                    printMessage("Already chosen", AnsiEscapeCodes.ERROR_MESSAGE);
+//                        input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
+//                        pos = new Position(Integer.parseInt(input.substring(0, 1)), Integer.parseInt(input.substring(2, 3)));
+                }
+            }
+            else positions.add(pos);
+
+            if (positions.size() < 3) {
+                if(!getAdj(positions).isEmpty()){
+                    printMessage("Do you want to select another tile? (y/n)", AnsiEscapeCodes.INFO_MESSAGE);
+                    answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);
+                }
+                else{
+                    printMessage("You can't select another tiles : no more moves avaliable", AnsiEscapeCodes.INFO_MESSAGE);
+                    answer = "n";
+                }
             }
         }
 
-            try {
-                client.makeMove(positions, column);
-//                printMessage("Move sent ", AnsiEscapeCodes.INFO_MESSAGE);
-            } catch (InvalidNicknameException e) {
-                printMessage("Error: invalid nickname ", AnsiEscapeCodes.ERROR_MESSAGE);
-            } catch (InvalidMoveException e) {
-                printMessage("Invalid move: please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
-            } catch (ConnectionError e) {
-                // ignore
-            } catch (GameEndedException e) {
-                // this one needs to be managed better
-                printMessage("Error: game has already ended", AnsiEscapeCodes.ERROR_MESSAGE);
-            }
     }
 
     /**

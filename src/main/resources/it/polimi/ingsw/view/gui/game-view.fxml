@@ -33,13 +33,13 @@
       <Canvas fx:id="commonGoal1Canvas" height="200.0" width="200.0" />
       <ImageView fx:id="commonGoal1Image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@images/common_goal_cards/1.jpg" />
+            <Image url="@images/common_goal_cards/4.jpg" />
          </image></ImageView>
        <AnchorPane fx:id="commonGoal2AnchorPane" prefHeight="200.0" prefWidth="200.0" />
        <Canvas fx:id="commonGoal2Canvas" height="200.0" width="200.0" />
        <ImageView fx:id="commonGoal2Image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
            <image>
-               <Image url="@images/common_goal_cards/2.jpg" />
+               <Image url="@images/common_goal_cards/9.jpg" />
            </image></ImageView>
        <AnchorPane fx:id="personalGoalAnchorPane" prefHeight="200.0" prefWidth="200.0" />
        <Canvas fx:id="personalGoalCanvas" height="200.0" width="200.0" />

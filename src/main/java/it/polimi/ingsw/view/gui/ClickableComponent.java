@@ -204,6 +204,10 @@ public class   ClickableComponent {
         imageView.ifPresent( (imageView1)-> imageView1.setImage(image));
     }
 
+    public AnchorPane getComponentAnchorPane(){
+        return this.componentAnchorPane;
+    }
+
 
     /*
     public void setTileComponentOffsetXLeft(Double tileComponentOffsetXLeft) {

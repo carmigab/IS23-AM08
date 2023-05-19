@@ -106,6 +106,7 @@ public class GameViewController implements Initializable{
     private ClickableComponent commonGoal2;
     private ClickableComponent personalGoal;
     private ClickableComponent moveList;
+    private List<ClickableComponent> otherShelf;
 
     private List<Position> positionsList;
 
@@ -126,6 +127,7 @@ public class GameViewController implements Initializable{
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         this.positionsList=new ArrayList<>(ModelConstants.MAX_NUM_OF_MOVES);
+        this.otherShelf   =new ArrayList<>(ModelConstants.MAX_PLAYERS-1);
 
         //Create the array of tiles
         this.gameBoard=new ClickableComponent(this.gameBoardImage, this.gameBoardAnchorPane, this.gameBoardCanvas, ModelConstants.BOARD_DIMENSION, ModelConstants.BOARD_DIMENSION,
@@ -143,6 +145,14 @@ public class GameViewController implements Initializable{
         this.moveList=new ClickableComponent(this.moveListImage, this.moveListAnchorPane, this.moveListCanvas, 1, ModelConstants.MAX_NUM_OF_MOVES,
                 0.052, 0.115, 0.068, 0.627, 0.015, 0.013, 0.3);
 
+        for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++){
+            ImageView imageView=new ImageView();
+            imageView.setImage(new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath("gui/images/boards/bookshelf_orth.png", this.getClass())));
+            this.otherShelf.add(new ClickableComponent(imageView, new AnchorPane(), new Canvas(), ModelConstants.ROWS_NUMBER, ModelConstants.COLS_NUMBER,
+                    0.097, 0.097, 0.054, 0.11, 0.027, 0.019, 0.2));
+        }
+
+
 
         this.gameBoard.draw();
         this.myShelf.draw();
@@ -150,6 +160,7 @@ public class GameViewController implements Initializable{
         this.commonGoal2.draw();
         this.personalGoal.draw();
         this.moveList.draw();
+        for(ClickableComponent clickableComponent: this.otherShelf) clickableComponent.draw();
 
         //Prepare the listener of the resize event
         ChangeListener<Number> onDimensionsChange = (observable, oldValue, newValue) ->
@@ -160,12 +171,14 @@ public class GameViewController implements Initializable{
                     this.commonGoal2.setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
                     this.personalGoal.setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
                     this.moveList.setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
+                    for(ClickableComponent clickableComponent: this.otherShelf) clickableComponent.setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
                     this.gameBoard.draw();
                     this.myShelf.draw();
                     this.commonGoal1.draw();
                     this.commonGoal2.draw();
                     this.personalGoal.draw();
                     this.moveList.draw();
+                    for(ClickableComponent clickableComponent: this.otherShelf) clickableComponent.draw();
                 };
 
         //Add the listeners
@@ -178,7 +191,9 @@ public class GameViewController implements Initializable{
         this.gridPane.add(this.commonGoal1AnchorPane , 0, 2, 1, 1);
         this.gridPane.add(this.commonGoal2AnchorPane , 0, 3, 1, 1);
         this.gridPane.add(this.personalGoalAnchorPane, 2, 0, 1, 1);
-        this.gridPane.add(this.moveListAnchorPane    , 2, 2, 1, 1);
+        this.gridPane.add(this.moveListAnchorPane    , 1, 2, 1, 1);
+        for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
+            this.gridPane.add(this.otherShelf.get(i).getComponentAnchorPane(), 3, i, 1, 1);
 
         this.gridPane.setHgap(20);
         this.gridPane.setVgap(20);
@@ -246,7 +261,6 @@ public class GameViewController implements Initializable{
 
         if(this.guiView.gameInfo == null) return;
 
-
         for(int i=0; i<ModelConstants.BOARD_DIMENSION;i++){
             for(int j=0;j<ModelConstants.BOARD_DIMENSION;j++){
                 Optional<Image> image=this.getImageFromTileDescription(this.guiView.gameInfo.getGameBoard()[i][j]);
@@ -280,6 +294,29 @@ public class GameViewController implements Initializable{
         this.positionsList.clear();
         for(int i=0;i<ModelConstants.MAX_NUM_OF_MOVES;i++){
             this.moveList.setComponentSavedImageFromPositions(null, 0, i);
+        }
+
+        for(int i=0; i<this.guiView.gameInfo.getPlayerInfosList().size();i++){
+            PlayerInfo playerInfo=this.guiView.gameInfo.getPlayerInfosList().get(i);
+            if(!playerInfo.getNickname().equals(this.guiView.myNickname)){
+                for(int j=0; j<ModelConstants.ROWS_NUMBER;j++){
+                    for(int k=0; k<ModelConstants.COLS_NUMBER;k++){
+                        Optional<Image> image=this.getImageFromTileDescription(playerInfo.getShelf()[j][k]);
+                        int x=j;
+                        int y=k;
+                        int z=i;
+                        image.ifPresentOrElse((smth)->this.otherShelf.get(z).setComponentSavedImageFromPositions(image.get(), x, y),
+                                ()->this.otherShelf.get(z).setComponentSavedImageFromPositions(null, x, y));
+                    }
+                }
+            }
+            else i++;
+        }
+
+        System.out.println(ModelConstants.MAX_PLAYERS+" "+this.guiView.gameInfo.getPlayerInfosList().size());
+
+        for(int i=ModelConstants.MAX_PLAYERS-2; i>this.guiView.gameInfo.getPlayerInfosList().size()-2;i--){
+            this.otherShelf.get(i).setComponentImage(null);
         }
     }
 
@@ -319,11 +356,11 @@ public class GameViewController implements Initializable{
      */
     public void onGameBoardCanvasClick(MouseEvent event){
 
-
+        /*
         this.gameBoard.getTileOnComponentFromPosition(event.getX(), event.getY()).ifPresent(
                 imageView -> imageView.setImage(
                         new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath("gui/images/item_tiles/easteregg.png", this.getClass()))));
-
+         */
     }
     /**
      * Method that is called whenever the mouse is clicked on the game board canvas

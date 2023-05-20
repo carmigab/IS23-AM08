@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -71,6 +72,8 @@ public class GameViewController implements Initializable{
     private AnchorPane moveListAnchorPane;
     @FXML
     private Canvas moveListCanvas;
+    @FXML
+    private Label errorLabel;
     /**
      * This attribute stores the canvas put on top of the game board used for the recognition of the mouse interactions
      */
@@ -192,6 +195,7 @@ public class GameViewController implements Initializable{
         this.gridPane.add(this.commonGoal2AnchorPane , 0, 3, 1, 1);
         this.gridPane.add(this.personalGoalAnchorPane, 2, 0, 1, 1);
         this.gridPane.add(this.moveListAnchorPane    , 1, 2, 1, 1);
+        this.gridPane.add(this.errorLabel            , 1, 3, 1, 1);
         for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
             this.gridPane.add(this.otherShelf.get(i).getComponentAnchorPane(), 3, i, 1, 1);
 
@@ -261,6 +265,10 @@ public class GameViewController implements Initializable{
 
         if(this.guiView.gameInfo == null) return;
 
+        //TODO
+        //if(this.guiView.isMyTurn()) this.errorLabel.setText("YOUR TURN");
+        //else this.errorLabel.setText("DO NOT MOVE");
+
         for(int i=0; i<ModelConstants.BOARD_DIMENSION;i++){
             for(int j=0;j<ModelConstants.BOARD_DIMENSION;j++){
                 Optional<Image> image=this.getImageFromTileDescription(this.guiView.gameInfo.getGameBoard()[i][j]);
@@ -313,7 +321,6 @@ public class GameViewController implements Initializable{
             else i++;
         }
 
-        System.out.println(ModelConstants.MAX_PLAYERS+" "+this.guiView.gameInfo.getPlayerInfosList().size());
 
         for(int i=ModelConstants.MAX_PLAYERS-2; i>this.guiView.gameInfo.getPlayerInfosList().size()-2;i--){
             this.otherShelf.get(i).setComponentImage(null);
@@ -368,11 +375,25 @@ public class GameViewController implements Initializable{
      */
     public void onMyShelfCanvasClick(MouseEvent event){
 
-        /*
-        this.myShelf.getTileOnComponentFromPosition(event.getX(), event.getY()).ifPresent(
-                imageView -> imageView.setImage(
-                        new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath("gui/images/item_tiles/easteregg.png", this.getClass()))));
-         */
+        if(!this.guiView.isMyTurn()) return;
+
+        Optional<Integer> columnSelected = this.myShelf.getColumnOfsavedImageFromCoordinates(event.getX(),event.getY());
+
+        if(columnSelected.isPresent()){
+
+            try {
+                this.guiView.client.makeMove(this.positionsList, columnSelected.get());
+            } catch (InvalidMoveException e) {
+                this.errorLabel.setText("INVALID MOVE");
+            } catch (InvalidNicknameException e) {
+                this.errorLabel.setText("INVALID NICKNAME");
+            } catch (ConnectionError e) {
+                this.errorLabel.setText("CONNECTION ERROR");
+            } catch (GameEndedException e) {
+                this.errorLabel.setText("GAME ENDED");
+            }
+
+        }
     }
     /**
      * Method that is called whenever the mouse is hovered/moved on the game board canvas
@@ -437,6 +458,20 @@ public class GameViewController implements Initializable{
         if(event.getDragboard().hasImage()) event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
         event.consume();
     }
+
+    @FXML
+    protected void onMoveListCanvasClick(MouseEvent event){
+        if(!this.guiView.isMyTurn()) return;
+
+        Optional<Position> index=this.moveList.getPositionOfSavedImageFromCoordinates(event.getX(),event.getY());
+        if(index.isEmpty()) return;
+
+        this.moveList.setComponentSavedImageFromCoordinates(null, event.getX(), event.getY());
+        //TODO fix
+        this.positionsList.remove(index.get().x());
+
+    }
+
 
     private Image scaleImage(Image source, double targetWidth, double targetHeight) {
         ImageView imageView = new ImageView(source);

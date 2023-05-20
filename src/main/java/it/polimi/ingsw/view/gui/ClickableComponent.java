@@ -189,6 +189,19 @@ public class   ClickableComponent {
                 ).findFirst();
     }
 
+    public Optional<Integer> getColumnOfsavedImageFromCoordinates(double x, double y){
+        //The values are relative to the canvas size, so we need to adapt them to our needs
+        Double realX=x+this.tileComponentOffsetXLeft*this.componentImage.getFitWidth();
+        Double realY=y+this.tileComponentOffsetYUp*this.componentImage.getFitHeight();
+
+        return this.componentSavedImages.stream()
+                .filter(imageView -> realX >= imageView.getLayoutX() && realX <= imageView.getLayoutX()+imageView.getFitWidth() &&
+                        realY >= imageView.getLayoutY() && realY <= imageView.getLayoutY()+imageView.getFitHeight() )
+                .map(imageView ->
+                        (int)((imageView.getLayoutX()+imageView.getFitWidth()/2)/(this.componentImage.getFitWidth()/this.componentSavedImagesY))
+                        ).findFirst();
+    }
+
 
     public void setComponentImage(Image image){
         this.componentImage.setImage(image);

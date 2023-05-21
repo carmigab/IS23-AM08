@@ -765,7 +765,7 @@ public class CLI extends View{
                 gameSelected = createNewGame();
             }
             else if (input.equals("com")){
-                gameSelected = createGameWithBot()
+                gameSelected = createGameWithBot();
             }
             else {
                 gameSelected = joinExistingGame();

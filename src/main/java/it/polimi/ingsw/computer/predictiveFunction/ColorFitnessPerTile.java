@@ -3,6 +3,7 @@ package it.polimi.ingsw.computer.predictiveFunction;
 import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.Shelf;
+import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.utilities.UtilityFunctionsModel;
 
@@ -14,14 +15,14 @@ public class ColorFitnessPerTile {
     private final HashMap<TileColor , Integer>[][] colorFitnessPerTile;
 
     public ColorFitnessPerTile() {
-        initialize();
         colorFitnessPerTile = new HashMap[ModelConstants.ROWS_NUMBER][ModelConstants.COLS_NUMBER];
+        initialize();
     }
 
     private void initialize() {
         for (int i = 0; i < ModelConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < ModelConstants.COLS_NUMBER; j++) {
-                colorFitnessPerTile[i][j] = new HashMap<>();
+                colorFitnessPerTile[i][j] = new HashMap<TileColor, Integer>();
 
                 for (TileColor tileColor : TileColor.values()) {
                     colorFitnessPerTile[i][j].put(tileColor, 0);
@@ -89,5 +90,30 @@ public class ColorFitnessPerTile {
 
     private int computeCoefficient(int manhattanDistance, int groupSize) {
         return (1 / manhattanDistance) * (groupSize < 6 ? groupSize : 0) / 6;
+    }
+
+    public int evaluateAction(Action action, Tile[][] shelf) {
+        int result = 0;
+
+        for (TileColor tileColor : action.getTiles()) {
+            result += colorFitnessPerTile[findFirstFreeSpaceInGivenColumn(action.getColumn(), shelf)][action.getColumn()].get(tileColor);
+
+            for (TileColor tileColor1 : TileColor.values()) {
+                if (tileColor1 != tileColor) {
+                    result -= colorFitnessPerTile[findFirstFreeSpaceInGivenColumn(action.getColumn(), shelf)][action.getColumn()].get(tileColor1);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    public int findFirstFreeSpaceInGivenColumn(int column, Tile[][] shelf) {
+        int result = ModelConstants.ROWS_NUMBER - 1;
+        while(result >= 0 && !shelf[result][column].isEmpty()) {
+            result--;
+        }
+
+        return result;
     }
 }

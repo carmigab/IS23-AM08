@@ -223,7 +223,7 @@ public abstract class View {
      * @return the list the next position the player can choose after the previous moves that are not empty or invalid
      */
     private List<Position> reduceAdjacent(List<Position> adj){
-       return adj.stream().filter(pos -> checkSinglePosition(pos)).collect(Collectors.toList());
+       return adj.stream().filter(this::checkSinglePosition).collect(Collectors.toList());
     }
 
     /**
@@ -242,10 +242,6 @@ public abstract class View {
         }
         return false;
     }
-
-
-
-
 
     /**
      * This method is called by start to ask the player if he wants to play again

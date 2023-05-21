@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.computer.predictiveFunction.BotLogic;
 import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.network.client.RmiClientInterface;
 import it.polimi.ingsw.model.GameModel;
@@ -506,7 +507,9 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             for (int i = 0; i < numPlayers - 1; i++) {
                 String comName="COM"+(i+1);
                 if(!mute) System.out.println("LS: Adding "+comName+"...");
-                DumbComputer com=new DumbComputer(i+1,comName, gameName);
+//                DumbComputer com=new DumbComputer(i+1,comName, gameName);
+
+                BotLogic com=new BotLogic(comName, gameName);
                 ClientHandler c2=new ClientHandler(com.getRMIClientInterface());
                 rs.addPlayer(comName, c2);
                 c2.setMatchServer(rs);

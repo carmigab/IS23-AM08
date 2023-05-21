@@ -1,23 +1,25 @@
 package it.polimi.ingsw.computer.predictiveFunction;
 
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.constants.ServerConstants;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.PlayerInfo;
 import it.polimi.ingsw.gameInfo.State;
+import it.polimi.ingsw.model.Move;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.Tile;
-import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.network.client.RmiClient;
+import it.polimi.ingsw.network.client.RmiClientInterface;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.view.View;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class BotLogic extends View {
 
@@ -27,10 +29,13 @@ public class BotLogic extends View {
 
     private ColorFitnessPerTile colorFitnessPerTile;
 
-    public BotLogic(String myNickname, String gameName, GameInfo gameInfo, State state) {
+    private Map<Move, Action> moveActionMap;
+
+    public BotLogic(String myNickname, String gameName/*, GameInfo gameInfo, State state*/) {
         this.myNickname = myNickname;
-        this.gameInfo = gameInfo;
-        this.currentState = state;
+        this.moveActionMap = new HashMap<>();
+//        this.gameInfo = gameInfo;
+//        this.currentState = state;
 
         try {
             this.client = new RmiClient(this.myNickname, this, "localhost", ServerConstants.RMI_PORT);
@@ -39,16 +44,16 @@ public class BotLogic extends View {
             System.out.println("bot unable to connect to server");
         }
 
-        Tile[][] shelf = gameInfo.getPlayerInfosList().stream()
-                .filter(playerInfo -> playerInfo.getNickname().equals(myNickname))
-                .map(PlayerInfo::getShelf)
-                .findFirst()
-                .orElseThrow();
+//        Tile[][] shelf = gameInfo.getPlayerInfosList().stream()
+//                .filter(playerInfo -> playerInfo.getNickname().equals(myNickname))
+//                .map(PlayerInfo::getShelf)
+//                .findFirst()
+//                .orElseThrow();
 
-        gameStateRepresentation = new GameStateRepresentation(gameInfo.getGameBoard(), shelf);
+//        gameStateRepresentation = new GameStateRepresentation(gameInfo.getGameBoard(), shelf);
 
         colorFitnessPerTile = new ColorFitnessPerTile();
-        colorFitnessPerTile.updateColorFitnessPerTile(gameStateRepresentation);
+//        colorFitnessPerTile.updateColorFitnessPerTile(gameStateRepresentation);
     }
 
     @Override
@@ -73,28 +78,119 @@ public class BotLogic extends View {
         if (isMyTurn()) {
             Action action = getBestAction();
 
-            List<Position> selectedTiles = mapActionToPositions(action);
+            Move move = mapActionToMove(action);
 
             try {
-                client.makeMove(selectedTiles, action.getColumn());
+                client.makeMove(move.positions(), move.column());
             } catch (InvalidNicknameException | InvalidMoveException | ConnectionError | GameEndedException e) {
                 System.out.println("bot unable to make move");
             }
         }
     }
 
-    private List<Position> mapActionToPositions(Action action) {
-        return null;
+    private Action mapMoveToAction(Move move) {
+        List<Position> positions = move.positions();
+
+        List<TileColor> tileColors = positions.stream().
+                map(position -> gameStateRepresentation.getBoard()[position.x()][position.y()].getColor())
+                .toList();
+
+        Action action = new Action(tileColors, move.column());
+
+        moveActionMap.put(move, action);
+
+        return action;
+    }
+
+    private Move mapActionToMove(Action action) {
+        return moveActionMap.entrySet().stream()
+                .filter(entry -> entry.getValue().equals(action))
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElseThrow();
     }
 
     private Action getBestAction() {
+        Action bestAction = null;
         Set<Action> availableActions = getAvailableActions();
+        int maxFitness = Integer.MIN_VALUE;
 
-        return null;
+        for (Action action: availableActions) {
+            if (colorFitnessPerTile.evaluateAction(action, gameStateRepresentation.getShelf()) > maxFitness) {
+                maxFitness = colorFitnessPerTile.evaluateAction(action, gameStateRepresentation.getShelf());
+                bestAction = action;
+            }
+        }
+
+        return bestAction;
     }
 
     private Set<Action> getAvailableActions() {
-        return null;
+        Set<Action> availableActions = new HashSet<>();
+
+        List<Position> availablePositions = getAdj(new ArrayList<>());
+
+        for (Position position: availablePositions) {
+            availableActions.addAll(getSingleTileActions(position));
+            availableActions.addAll(getDoubleTileActions(position));
+            availableActions.addAll(getTripleTileActions(position));
+        }
+
+        return availableActions;
+    }
+
+    private Collection<? extends Action> getSingleTileActions(Position position) {
+        List<Move> moves = new ArrayList<>();
+
+        for (int i = 0; i < ModelConstants.COLS_NUMBER; i++) {
+            if (checkColumn(i, 1)) {
+                moves.add(new Move(List.of(position), i));
+            }
+        }
+
+        return moves.stream()
+                .map(this::mapMoveToAction)
+                .toList();
+    }
+
+    private Collection<? extends Action> getDoubleTileActions(Position position) {
+        List<Move> moves = new ArrayList<>();
+
+        for (int i = 0; i < ModelConstants.COLS_NUMBER; i++) {
+            if (checkColumn(i, 2)) {
+                List<Position> adj = getAdj(List.of(position));
+
+                for (Position adjPosition: adj) {
+                    moves.add(new Move(List.of(position, adjPosition), i));
+                }
+            }
+        }
+
+        return moves.stream()
+                .map(this::mapMoveToAction)
+                .toList();
+    }
+
+    private Collection<? extends Action> getTripleTileActions(Position position) {
+        List<Move> moves = new ArrayList<>();
+
+        for (int i = 0; i < ModelConstants.COLS_NUMBER; i++) {
+            if (checkColumn(i, 3)) {
+                List<Position> adj = getAdj(List.of(position));
+
+                for (Position adjPosition: adj) {
+                    List<Position> adj2 = getAdj(List.of(adjPosition));
+
+                    for (Position adj2Position: adj2) {
+                        moves.add(new Move(List.of(position, adjPosition, adj2Position), i));
+                    }
+                }
+            }
+        }
+
+        return moves.stream()
+                .map(this::mapMoveToAction)
+                .toList();
     }
 
     /**
@@ -102,6 +198,14 @@ public class BotLogic extends View {
      */
     @Override
     protected void display() {
+
+    }
+
+    /**
+     * This method is called by getUserInput to welcome the player
+     */
+    @Override
+    protected void welcome() {
 
     }
 
@@ -180,5 +284,9 @@ public class BotLogic extends View {
     @Override
     public void displayChatMessage(String message) {
 
+    }
+
+    public RmiClientInterface getRMIClientInterface() {
+        return this.client;
     }
 }

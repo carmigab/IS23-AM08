@@ -1,5 +1,6 @@
 package it.polimi.ingsw.computer.predictiveFunction;
 
+import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,5 +38,16 @@ class ColorFitnessPerTileTest {
 
     @Test
     void findFirstFreeSpaceInGivenColumn() {
+        Tile[][] shelf = null;
+
+        try {
+            shelf = JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(new FileReader("src/test/resources/botTests/findFirstFreeSpaceTest.json"), Tile[][].class);
+        } catch (FileNotFoundException ignored) {
+
+        }
+
+        assertEquals(4, colorFitnessPerTile.findFirstFreeSpaceInGivenColumn(0, shelf));
+        assertEquals(5, colorFitnessPerTile.findFirstFreeSpaceInGivenColumn(1, shelf));
+        assertEquals(-1, colorFitnessPerTile.findFirstFreeSpaceInGivenColumn(2, shelf));
     }
 }

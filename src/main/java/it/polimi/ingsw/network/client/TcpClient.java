@@ -22,6 +22,9 @@ import java.util.List;
 
 import java.net.*;
 
+/**
+ * This class represents a client that uses the tcp connection protocol
+ */
 public class TcpClient implements Client{
     /**
      * This attribute is the nickname of the player
@@ -56,7 +59,7 @@ public class TcpClient implements Client{
     /**
      * This attribute is a lock on which the ping will synchronize
      */
-    private Lock pingLock = new Lock();
+    private Lock pingThreadLock = new Lock();
 
     /**
      * If this flag is true the client has to ping the server
@@ -115,7 +118,7 @@ public class TcpClient implements Client{
                 break;
             } catch (IOException e) {
                 if (!mute) System.out.println("Server not found");
-                Thread.sleep(5000);
+                Thread.sleep(ServerConstants.CLIENT_SLEEPING_TIME);
             }
         }
 
@@ -194,18 +197,16 @@ public class TcpClient implements Client{
      */
     private void createPingThread(){
         if (!mute && !essential) System.out.println("New Ping Thread starting");
+
+        // The client keeps the heartbeat
         Thread t = new Thread(() -> {
-            Lock pingThreadLock = new Lock();
             synchronized (pingThreadLock) {
                 while (toPing) {
                     try {
-                        this.manageTcpConversation(pingLock, new IsServerAliveMessage(this.nickname));
+                        this.sendTcpMessage(new PingClientMessage(this.nickname));
                         pingThreadLock.wait(ServerConstants.PING_TIME);
                     } catch (InterruptedException e) {
                         if (!mute && !essential) System.out.println("Interrupted exception from PingThread");
-                        this.gracefulDisconnection(true);
-                    } catch (ConnectionError e) {
-                        if (!mute && !essential) System.out.println("Connection error from PingThread");
                         this.gracefulDisconnection(true);
                     }
                 }
@@ -233,11 +234,17 @@ public class TcpClient implements Client{
                 synchronized (manageTcpConversationLock) {
                     synchronized (lock) {
                         this.sendTcpMessage(message);
-                        // Version 1: infinite wait
-                        //while (lock.toWait()) lock.wait();
-                        // Version 2: finite wait
-                        lock.wait(ServerConstants.TCP_WAIT_TIME);
+                        long time1 = System.currentTimeMillis();
 
+                        // Version 1: infinite wait
+                        while (lock.toWait()) lock.wait();
+                        // Version 2: finite wait
+                        //lock.wait(ServerConstants.TCP_WAIT_TIME);
+
+                        long time2 = System.currentTimeMillis();
+                        if(!mute && !essential) System.out.println("Waited response for: "+ (time2-time1) + " ms");
+
+                        manageTcpConversationLock.setToWait(false);
                         manageTcpConversationLock.notifyAll();
                     }
                 }
@@ -252,9 +259,15 @@ public class TcpClient implements Client{
         // Here we start the thread and release the lock
         try {
             synchronized (manageTcpConversationLock) {
-                t.start();
-                manageTcpConversationLock.wait();
-                return this.retrieveMessageFromLock(lock);
+                // we block the ping thread from sending new pings till the conversation ends
+                synchronized (pingThreadLock) {
+                    t.start();
+
+                    manageTcpConversationLock.setToWait(true);
+                    while (manageTcpConversationLock.toWait()) manageTcpConversationLock.wait();
+
+                    return this.retrieveMessageFromLock(lock);
+                }
             }
         }
          catch (ConnectionError e) {
@@ -273,14 +286,17 @@ public class TcpClient implements Client{
      * This method retrieves a message from a lock
      * @param lock: the lock
      * @return: the message
-     * @throws ConnectionError
+     * @throws ConnectionError: if the client is offline or
      */
     private Message retrieveMessageFromLock(Lock lock) throws ConnectionError {
         synchronized (lock) {
             Message newMessage = lock.getMessage();
             if (lock.isDisconnection()) throw new ConnectionError();
-            // Version 2
-            if (newMessage == null) throw new ConnectionError();
+            // Version 2 (works also with version 1)
+            if (newMessage == null) {
+                if (!mute) System.out.println("Failed to receive response");
+                throw new ConnectionError();
+            }
             lock.reset();
             return newMessage;
         }
@@ -327,11 +343,7 @@ public class TcpClient implements Client{
         //if (!message.toString().equals("PingClientResponse"))
             if (!mute && !essential) System.out.println("Received a "+message.toString()+" from "+message.sender());
         // synchronous messages
-        if (message instanceof ChatAllResponse)
-            notifyLockAndSetMessage(actionLock, message);
-        else if (message instanceof ChatSomeoneResponse)
-            notifyLockAndSetMessage(actionLock, message);
-        else if (message instanceof ChooseNicknameResponse)
+        if (message instanceof ChooseNicknameResponse)
             notifyLockAndSetMessage(actionLock, message);
         else if (message instanceof CreateGameResponse)
             notifyLockAndSetMessage(actionLock, message);
@@ -340,8 +352,8 @@ public class TcpClient implements Client{
         else if (message instanceof MakeMoveResponse)
             notifyLockAndSetMessage(actionLock, message);
         // The client keeps the heartbeat the server only responds
-        else if (message instanceof IsServerAliveResponse)
-            notifyLockAndSetMessage(pingLock, message);
+        else if (message instanceof PingClientResponse);
+            // do nothing
 
         // asynchronous messages
         else if (message instanceof ChatReceiveMessage){
@@ -425,8 +437,6 @@ public class TcpClient implements Client{
         if (response.isAlreadyInGame()) throw new AlreadyInGameException();
         if (response.isNoGamesAvailable()) throw new NoGamesAvailableException();
         if (response.isNonExistentNickname()) throw new NonExistentNicknameException();
-
-
     }
 
     /**
@@ -436,8 +446,7 @@ public class TcpClient implements Client{
      * @throws ConnectionError
      */
     public synchronized void messageSomeone(String chatMessage, String receiver) throws ConnectionError {
-        this.manageTcpConversation(actionLock,
-                new ChatSomeoneMessage(this.nickname, chatMessage, receiver));
+        this.sendTcpMessage(new ChatSomeoneMessage(this.nickname, chatMessage, receiver));
     }
 
     /**
@@ -446,8 +455,7 @@ public class TcpClient implements Client{
      * @throws ConnectionError
      */
     public synchronized void messageAll(String chatMessage) throws ConnectionError {
-        this.manageTcpConversation(actionLock,
-                new ChatAllMessage(this.nickname, chatMessage));
+        this.sendTcpMessage(new ChatAllMessage(this.nickname, chatMessage));
     }
 
 
@@ -498,10 +506,6 @@ public class TcpClient implements Client{
             synchronized (actionLock) {
                 this.actionLock.setDisconnection(true);
                 this.actionLock.notifyAll();
-            }
-            synchronized (pingLock) {
-                this.pingLock.setDisconnection(true);
-                this.pingLock.notifyAll();
             }
 
             view.update(State.GRACEFULDISCONNECTION, null);

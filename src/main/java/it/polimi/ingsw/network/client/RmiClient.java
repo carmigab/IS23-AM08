@@ -21,6 +21,9 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
+/**
+ * This class represents a client that uses the rmi connection protocol
+ */
 public class RmiClient extends UnicastRemoteObject implements Client, RmiClientInterface{
     /**
      * This attribute represents the nickname of the player
@@ -86,7 +89,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         this.nickname = nickname;
 
         // with this command we set a timeout for a rmi method invocation
-        int timeout = ServerConstants.PING_TIME + ServerConstants.TCP_WAIT_TIME + 1000;
+        int timeout = ServerConstants.PING_TIME;
         System.getProperties().setProperty("sun.rmi.transport.tcp.responseTimeout", String.valueOf(timeout));
 
         //System.setProperty("java.rmi.server.hostname", "192.168.43.54");
@@ -108,7 +111,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
                 break;
             } catch (Exception e) {
                 if (!mute) System.out.println("Registry not found");
-                Thread.sleep(5000);
+                Thread.sleep(ServerConstants.CLIENT_SLEEPING_TIME);
             }
         }
     }
@@ -123,7 +126,11 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     public void update(State newState, GameInfo newInfo) throws RemoteException {
         if (newState == State.GRACEFULDISCONNECTION) this.gracefulDisconnection(true);
         else if (newState == State.GAMEABORTED) this.gracefulDisconnection(false);
-        else this.view.update(newState, newInfo);
+        else {
+            // we need to launch a new thread because rmi is not thread safe
+            Thread t = new Thread(()-> this.view.update(newState, newInfo));
+            t.start();
+        }
     }
 
     /**
@@ -323,7 +330,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @throws RemoteException
      */
     public void receiveMessage(String message) throws RemoteException {
-        this.view.displayChatMessage(message);
+        // we need to launch a new thread because rmi is not thread safe
+        Thread t = new Thread(()-> this.view.displayChatMessage(message));
+        t.start();
+
     }
 
     /**
@@ -347,7 +357,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
             if (!mute && !essential) System.out.println("Terminating Ping Thread");
             this.toPing = false;
             this.isClientOnline = false;
-            view.update(State.GRACEFULDISCONNECTION, null);
+            // we need to launch a new thread because rmi is not thread safe
+            Thread t = new Thread(()-> this.view.update(State.GRACEFULDISCONNECTION, null));
+            t.start();
+
         }
     }
 

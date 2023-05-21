@@ -25,6 +25,14 @@ public class FakeView extends View {
     }
 
     /**
+     * This method is called by getUserInput to welcome the player
+     */
+    @Override
+    protected void welcome() {
+
+    }
+
+    /**
      * This method is called by getUserInput to wait for other players to join the game
      */
     @Override

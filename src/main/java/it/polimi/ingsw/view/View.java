@@ -49,6 +49,7 @@ public abstract class View {
     public void update(State newState, GameInfo newGameInfo) {
         this.currentState = newState;
         this.gameInfo = newGameInfo;
+        this.checkForShutdown();
         display();
     }
 
@@ -64,6 +65,7 @@ public abstract class View {
         chooseConnectionType();
         askNickname();
         while (iWantToPlay) {
+            welcome();
             createOrJoinGame();
             waitForGameStart();
             String command;
@@ -85,6 +87,11 @@ public abstract class View {
     }
 
     /**
+     * This method is called by getUserInput to welcome the player
+     */
+    protected abstract void welcome();
+
+    /**
      * This method is called by getUserInput to wait for other players to join the game
      */
     protected abstract void waitForGameStart();
@@ -92,17 +99,17 @@ public abstract class View {
     /**
      * This method is launched in a new thread to check if the client has crashed
      */
-    public synchronized void checkForShutdown() {
-        while (true) {
-            if (currentState != null && currentState.equals(State.GRACEFULDISCONNECTION)) {
-                close("One player has crashed, the game will be closed");
+    public void checkForShutdown() {
+        //while (true) {
+            if (currentState.equals(State.GRACEFULDISCONNECTION)) {
+                close("One player has crashed, the game will be closed...\nThank you for playing with us!");
             }
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
+           // try {
+             //   wait();
+         //   } catch (InterruptedException e) {
+           //     throw new RuntimeException(e);
+          //  }
+        //}
     }
 
     /**
@@ -148,38 +155,74 @@ public abstract class View {
      * position is in the board, if the tile isn't invalid or empty and if the tile has free adjacent
      */
     //TODO: implementare
-    protected boolean checkSinglePosition(Position pos){
+    private boolean checkSinglePosition(Position pos){
+        if(pos.x() < 0 || pos.x() >= ModelConstants.BOARD_DIMENSION) return false;
+        if(pos.y() < 0 || pos.y() >= ModelConstants.BOARD_DIMENSION) return false;
         if(this.gameInfo.getGameBoard()[pos.y()] [pos.x()].isEmpty() || this.gameInfo.getGameBoard()[pos.y()] [pos.x()].isInvalid()){
             return false;
         }
-        if(pos.x() < 0 || pos.x() >= ModelConstants.BOARD_DIMENSION) return false;
-        if(pos.y() < 0 || pos.y() >= ModelConstants.BOARD_DIMENSION) return false;
         return UtilityFunctionsModel.hasFreeAdjacent(this.gameInfo.getGameBoard(), pos);
     }
 
     /**
-     * this method return all the position adjacent to the position passed by parameter
-     * @param pos position we want to check adjacent
-     * @return the list of the position adjacent to pos passed by parameter
+     * this method is used to check if the position is valid : it calls method checkSinglePosition and getAdj on list
+     * positions : if checkSinglePosition returns true and getAdj(positions) contains pos, return true
+     *
+     * @param positions list of positions already choose by the player
+     * @param pos new position chosen by the player
+     * @return true if checkSinglePosition returns true and getAdj called on list positions contains pos
      */
-    protected List<Position> getAdj(Position pos){
+
+    protected boolean checkValidPosition(List<Position> positions, Position pos)  {
+        return checkSinglePosition(pos) && getAdj(positions).contains(pos);
+    }
+
+    /**
+     * this method return the list of the Position the player can choose after the previous moves
+     * @param pos list of positions already chosen by the player
+     * @return the list of the Position the player can choose after the previous moves
+     */
+
+    protected List<Position> getAdj(List<Position> pos){
         List<Position> result = new ArrayList<>();
-        if(pos.y()<ModelConstants.BOARD_DIMENSION-1) result.add(new Position(pos.x(), pos.y()+1));
-        if(pos.y()>0)                                result.add(new Position(pos.x(), pos.y()-1));
-        if(pos.x()<ModelConstants.BOARD_DIMENSION-1) result.add(new Position(pos.x()+1, pos.y()));
-        if(pos.x()>0)                                result.add(new Position(pos.x()-1, pos.y()));
-        return result;
+        if(pos.isEmpty()){
+            for (int i = 0; i < ModelConstants.BOARD_DIMENSION; i++) {
+                for (int j = 0; j < ModelConstants.BOARD_DIMENSION; j++) {
+                    result.add(new Position(i, j));
+                }
+            }
+        }
+        else if(pos.size() == 1){
+            for(Position p : pos){
+                result.add(new Position(p.x(), p.y()+1));
+                result.add(new Position(p.x(), p.y()-1));
+                result.add(new Position(p.x()+1, p.y()));
+                result.add(new Position(p.x()-1, p.y()));
+            }
+        }
+        else{
+            if(pos.get(0).x() == pos.get(1).x()){
+                result.add(new Position(pos.get(0).x(), Math.min(pos.get(0).y() - 1, pos.get(1).y() - 1)));
+                result.add(new Position(pos.get(0).x(), Math.max(pos.get(0).y() + 1, pos.get(1).y() + 1)));
+            }
+            else{
+                result.add(new Position(Math.min(pos.get(0).x() - 1, pos.get(1).x() - 1), pos.get(0).y()));
+                result.add(new Position(Math.max(pos.get(0).x() + 1, pos.get(1).x() + 1), pos.get(0).y()));
+            }
+        }
+
+        return reduceAdjacent(result);
     }
 
 
 
     /**
-     * this method receive the List of the position adjacent to a specific position and return the List of the
-     * adjacent positions that are not empty or invalid
-     * @param adj list of adjacent position
-     * @return the list of adjacent position that are not empty or invalid
+     * this method receive the List of the next position the player can choose after the previous moves and return the
+     * List of the next positions that are not empty or invalid
+     * @param adj list of the next position the player can choose after the previous moves
+     * @return the list the next position the player can choose after the previous moves that are not empty or invalid
      */
-    protected List<Position> reduceAdjacent(List<Position> adj){
+    private List<Position> reduceAdjacent(List<Position> adj){
        return adj.stream().filter(pos -> checkSinglePosition(pos)).collect(Collectors.toList());
     }
 
@@ -225,4 +268,10 @@ public abstract class View {
     protected abstract void notifyClose(String message);
 
     public abstract void displayChatMessage(String message);
+
+    protected GameViewController controller;
+
+    public void setGameViewController(GameViewController controller){
+        this.controller=controller;
+    }
 }

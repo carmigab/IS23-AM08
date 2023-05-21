@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox fx:id="container" alignment="TOP_CENTER" prefHeight="700.0" prefWidth="800.0" spacing="20.0" stylesheets="@hello-style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.HelloController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+   <ChoiceBox fx:id="connectionType" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" />
+   <TextField fx:id="serverIP" alignment="TOP_CENTER" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" promptText="Ip of the server">
+      <font>
+         <Font name="Comic Sans MS" size="12.0" />
+      </font>
+   </TextField>
+    <TextField fx:id="serverPort" alignment="CENTER" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" promptText="Port of the server">
+        <font>
+            <Font name="Comic Sans MS" size="12.0" />
+        </font></TextField>
+    <Button onAction="#onConnectButtonClick" text="Connect">
+        <font>
+            <Font name="Comic Sans MS" size="12.0" />
+        </font></Button>
+   <Label fx:id="errorLabel" alignment="CENTER" textAlignment="CENTER" textFill="RED">
+      <font>
+         <Font name="Comic Sans MS" size="16.0" />
+      </font></Label>
+   <Label fx:id="connectionLabel" alignment="CENTER" textAlignment="CENTER" textFill="#00a100">
+      <font>
+         <Font name="Comic Sans MS" size="16.0" />
+      </font></Label>
+   <Label fx:id="nicknameLabel" text="Insert your nickname: " visible="false">
+      <font>
+         <Font name="Comic Sans MS" size="16.0" />
+      </font>
+   </Label>
+   <TextField fx:id="nicknameTextField" maxWidth="220.0" minWidth="220.0" prefWidth="220.0" promptText="your nickname" visible="false">
+      <font>
+         <Font name="Comic Sans MS" size="16.0" />
+      </font>
+   </TextField>
+   <Button fx:id="nicknameButton" mnemonicParsing="false" onAction="#onInsertNameButtonClick" text="Insert" visible="false">
+      <font>
+         <Font name="Comic Sans MS" size="12.0" />
+      </font>
+   </Button>
+   <Button fx:id="joinButton" mnemonicParsing="false" onAction="#onJoinButtonClick" text="Join" visible="false" />
+   <Button fx:id="createButton" mnemonicParsing="false" onAction="#onCreateButtonClick" text="Create" visible="false" />
+   <Label fx:id="numPlayersLabel" text="Insert number of players" visible="false" />
+   <ChoiceBox fx:id="numPlayers" prefWidth="150.0" visible="false" />
+   <Button fx:id="goButton" mnemonicParsing="false" onAction="#onGoButtonClick" text="Go" visible="false" />
+</VBox>

@@ -4,13 +4,24 @@ import it.polimi.ingsw.network.client.RmiClient;
 import it.polimi.ingsw.network.client.TcpClient;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.constants.ServerConstants;
+import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
+import it.polimi.ingsw.network.server.exceptions.NoGamesAvailableException;
+import it.polimi.ingsw.network.server.exceptions.NonExistentNicknameException;
+import it.polimi.ingsw.view.View;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ResourceBundle;
 
-public class HelloController extends View{
+public class HelloController implements Initializable {
     @FXML
     private ChoiceBox<String> connectionType;
     @FXML
@@ -27,16 +38,40 @@ public class HelloController extends View{
     private TextField nicknameTextField;
     @FXML
     private Button nicknameButton;
+    @FXML
+    private Button joinButton;
+    @FXML
+    private Button createButton;
+    @FXML
+    private Label numPlayersLabel;
+    @FXML
+    private ChoiceBox<Integer> numPlayers;
+    @FXML
+    private Button goButton;
+
+    private View guiView;
+    private Stage stage;
 
     public HelloController(){
 
     }
 
-    @FXML
-    public void initialize() {
+    public void setGuiView(View guiView){
+        this.guiView=guiView;
+    }
+    public void setStage(Stage stage){
+        this.stage=stage;
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         connectionType.getItems().removeAll(connectionType.getItems());
         connectionType.getItems().addAll("rmi", "tcp");
         connectionType.getSelectionModel().select("rmi");
+
+        numPlayers.getItems().removeAll(numPlayers.getItems());
+        numPlayers.getItems().addAll(2,3,4);
+        numPlayers.getSelectionModel().select(2);
     }
 
     @FXML
@@ -57,7 +92,7 @@ public class HelloController extends View{
             try {
                 if(port.equals("default") || port.equals("")) intPort= ServerConstants.RMI_PORT;
                 else intPort=Integer.valueOf(port);
-                client = new RmiClient(myNickname, this, ip, intPort);
+                this.guiView.client = new RmiClient(this.guiView.myNickname, this.guiView, ip, intPort);
             } catch (RemoteException | NotBoundException | InterruptedException e) {
                 this.errorLabel.setText("error while connecting to the server");
             }
@@ -66,7 +101,7 @@ public class HelloController extends View{
             try {
                 if (port.equals("default") || port.equals("")) intPort = ServerConstants.TCP_PORT;
                 else intPort = Integer.valueOf(port);
-                client = new TcpClient(myNickname, this, ip, intPort);
+                this.guiView.client = new TcpClient(this.guiView.myNickname, this.guiView, ip, intPort);
             } catch (InterruptedException e) {
                 this.errorLabel.setText("error while connecting to the server");
             } catch (ConnectionError e) {
@@ -84,65 +119,69 @@ public class HelloController extends View{
         this.errorLabel.setText("");
         if(nickname.matches("")) {this.errorLabel.setText("Insert something"); return;}
         try {
-            if(!this.client.chooseNickname(nickname)) this.errorLabel.setText("Invalid name, try again");
+            if(!this.guiView.client.chooseNickname(nickname)) this.errorLabel.setText("Invalid name, try again");
             else {
-                this.myNickname=nickname;
+                this.guiView.myNickname=nickname;
                 this.nicknameLabel.setVisible(false);
                 this.nicknameTextField.setVisible(false);
                 this.nicknameButton.setVisible(false);
+                this.joinButton.setVisible(true);
+                this.createButton.setVisible(true);
             }
         } catch (ConnectionError e) {
             this.errorLabel.setText("Connection error");
         }
     }
 
-    @Override
-    protected void display() {
-
+    @FXML
+    protected void onJoinButtonClick(){
+        try {
+            this.changeScene();
+            this.guiView.client.joinGame();
+        } catch (NoGamesAvailableException e) {
+            this.errorLabel.setText("There are no games available");
+        } catch (NonExistentNicknameException e) {
+            this.errorLabel.setText("You did not put any nickname");
+        } catch (AlreadyInGameException e) {
+            this.errorLabel.setText("You are already in a game");
+        } catch (ConnectionError e) {
+            this.errorLabel.setText("Connection error");
+        }
     }
 
-    @Override
-    protected void waitForGameStart() {
-
+    @FXML
+    protected void onCreateButtonClick(){
+        this.numPlayersLabel.setVisible(true);
+        this.numPlayers.setVisible(true);
+        this.goButton.setVisible(true);
     }
 
-    @Override
-    protected String waitCommand() {
-        return null;
+    @FXML
+    protected void onGoButtonClick(){
+        try {
+            this.changeScene();
+            this.guiView.client.createGame(this.numPlayers.getValue());
+        } catch (NonExistentNicknameException e) {
+            this.errorLabel.setText("You did not put any nickname");
+        } catch (AlreadyInGameException e) {
+            this.errorLabel.setText("You are already in a game");
+        } catch (ConnectionError e) {
+            this.errorLabel.setText("Connection error");
+        }
     }
 
-    @Override
-    protected void parseCommand(String command) {
+    private void changeScene(){
+        FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("gui/game-view.fxml"));
+        try {
+            this.stage.setScene(new Scene(fxmlLoader.load()));
 
+            ((GameViewController)fxmlLoader.getController()).setGuiView(this.guiView);
+            this.guiView.setGameViewController(fxmlLoader.getController());
+
+            this.stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    @Override
-    protected void chooseConnectionType() {
-
-    }
-
-    @Override
-    protected void askNickname() {
-
-    }
-
-    @Override
-    protected void createOrJoinGame() {
-
-    }
-
-    @Override
-    protected boolean askIfWantToPlayAgain() {
-        return false;
-    }
-
-    @Override
-    protected void notifyClose(String message) {
-
-    }
-
-    @Override
-    public void displayChatMessage(String message) {
-
-    }
 }

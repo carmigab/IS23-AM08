@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="gameContainer" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@hello-style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GameViewController">
+   <children>
+      <GridPane fx:id="gridPane">
+        <columnConstraints>
+          <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+        </rowConstraints>
+      </GridPane>
+      <AnchorPane fx:id="gameBoardAnchorPane" prefHeight="200.0" prefWidth="200.0" />
+      <Canvas fx:id="gameBoardCanvas" height="200.0" onMouseClicked="#onGameBoardCanvasClick" onMouseMoved="#onGameBoardCanvasHover" onDragDetected="#onGameBoardCanvasDragDetected" width="200.0" />
+      <ImageView fx:id="gameBoardImage" fitHeight="1000.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/boards/livingroom.png" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="myShelfAnchorPane" prefHeight="200.0" prefWidth="200.0" />
+      <Canvas fx:id="myShelfCanvas" height="200.0" onMouseClicked="#onMyShelfCanvasClick" width="200.0" />
+      <ImageView fx:id="myShelfImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/boards/bookshelf_orth.png" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="commonGoal1AnchorPane" prefHeight="200.0" prefWidth="200.0" />
+      <Canvas fx:id="commonGoal1Canvas" height="200.0" width="200.0" />
+      <ImageView fx:id="commonGoal1Image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/common_goal_cards/4.jpg" />
+         </image></ImageView>
+       <AnchorPane fx:id="commonGoal2AnchorPane" prefHeight="200.0" prefWidth="200.0" />
+       <Canvas fx:id="commonGoal2Canvas" height="200.0" width="200.0" />
+       <ImageView fx:id="commonGoal2Image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+           <image>
+               <Image url="@images/common_goal_cards/9.jpg" />
+           </image></ImageView>
+       <AnchorPane fx:id="personalGoalAnchorPane" prefHeight="200.0" prefWidth="200.0" />
+       <Canvas fx:id="personalGoalCanvas" height="200.0" width="200.0" />
+       <ImageView fx:id="personalGoalImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+           <image>
+               <Image url="@images/personal_goal_cards/front_EMPTY.jpg" />
+           </image></ImageView>
+       <AnchorPane fx:id="moveListAnchorPane" prefHeight="200.0" prefWidth="200.0" />
+       <Canvas fx:id="moveListCanvas" height="200.0" width="200.0"  onDragDropped="#onMoveListCanvasDragDropped"  onDragOver="#onMoveListCanvasDragOver" />
+       <ImageView fx:id="moveListImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+           <image>
+               <Image url="@images/screenshot.png" />
+           </image></ImageView>
+      <!--Slider fx:id="tcoxl" blockIncrement="0.01" layoutX="10.0" layoutY="1114.0" max="0.7" min="1.0E-4" />
+      <Slider fx:id="tcoxr" blockIncrement="0.01" layoutX="10.0" layoutY="1121.0" max="0.7" min="1.0E-4" />
+      <Slider fx:id="tcoyu" blockIncrement="0.01" layoutX="10.0" layoutY="1128.0" max="0.7" min="1.0E-4" />
+      <Slider fx:id="tcoyd" blockIncrement="0.01" layoutX="10.0" layoutY="1135.0" max="0.7" min="1.0E-4" />
+      <Slider fx:id="tcodx" blockIncrement="0.01" layoutX="10.0" layoutY="1142.0" max="0.7" min="1.0E-4" />
+      <Slider fx:id="tcody" blockIncrement="0.01" layoutX="10.0" layoutY="1149.0" max="0.7" min="1.0E-4" /-->
+   </children>
+</VBox>

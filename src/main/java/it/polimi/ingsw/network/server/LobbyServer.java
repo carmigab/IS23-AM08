@@ -92,6 +92,11 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         this.banList.addAll(loadBanList());
         lockChooseNickName=new Object();
         lockCreateGame=new Object();
+
+        // with this command we set a timeout for a rmi method invocation
+        int timeout = ServerConstants.PING_TIME;
+        System.getProperties().setProperty("sun.rmi.transport.tcp.responseTimeout", String.valueOf(timeout));
+
     }
 
     /**
@@ -368,10 +373,13 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * from the current pool of players in game
      * @param playersList file name where the game was stored
      */
-    public void removePlayersFromLobby(List<String> playersList){
+    public void removePlayersAndMatchServerFromLobby(List<String> playersList, MatchServer match){
         playersList.forEach(this.nicknamesInGame::remove);
         playersList.forEach(this.nicknamesPool::remove);
         playersList.forEach(this.potentialPlayers::remove);
+
+//        if(!mute) System.out.println("LS: Freeing a MatchServer...");
+//        this.serverList.remove(match);
 
     }
 

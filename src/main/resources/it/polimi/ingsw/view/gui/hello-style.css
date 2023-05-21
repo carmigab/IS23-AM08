@@ -1,0 +1,12 @@
+#container{
+   -fx-background-image: url("images/misc/sfondo_parquet.jpg");
+   -fx-background-repeat: repeat;
+   -fx-background-size: 1920 1080;
+   -fx-background-position: center center;
+}
+#gameContainer{
+   -fx-background-image: url("images/misc/sfondo_parquet.jpg");
+   -fx-background-repeat: repeat;
+   -fx-background-size: 1920 1080;
+   -fx-background-position: center center;
+}

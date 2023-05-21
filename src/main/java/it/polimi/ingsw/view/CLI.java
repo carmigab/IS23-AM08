@@ -171,11 +171,6 @@ public class CLI extends View{
                 }
 
                 printCommonGoalsPoints(Arrays.asList(playerInfo.getComGoalPoints()[0], playerInfo.getComGoalPoints()[1]));
-                StringBuilder toPrint= new StringBuilder("   Common Goal Points: | ");
-                for(Integer i: playerInfo.getComGoalPoints()){
-                    toPrint.append(i).append(" | ");
-                }
-                printMessage(toPrint.toString(), AnsiEscapeCodes.GAME_MESSAGE);
                 return;
             }
         }
@@ -354,14 +349,18 @@ public class CLI extends View{
     private void printCommonGoals() {
         printMessage("Common goals:", AnsiEscapeCodes.GAME_MESSAGE);
         for(int i=0;i<this.gameInfo.getCommonGoalsCreated().size();i++){
-            printMessage(i+") " + getGoalDescription(this.gameInfo.getCommonGoalsCreated().get(i)), AnsiEscapeCodes.GAME_MESSAGE);
+            printMessage((i + 1) +") " + getGoalDescription(this.gameInfo.getCommonGoalsCreated().get(i)), AnsiEscapeCodes.GAME_MESSAGE);
         }
         printCommonGoalsPoints(this.gameInfo.getCommonGoalsStack());
     }
 
+    /**
+     * This method is called by printCommonGoals and printMyShelf to print the points of the common goals
+     * @param iterable the iterable containing the points
+     */
     private void printCommonGoalsPoints(Iterable<Integer> iterable) {
         StringBuilder lineBuilder = new StringBuilder();
-        lineBuilder.append("   Common goals points: | ");
+        lineBuilder.append("   Common Goals Points: | ");
         for(Integer i: iterable){
             lineBuilder.append(i).append(" | ");
         }

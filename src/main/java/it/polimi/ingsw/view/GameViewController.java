@@ -12,13 +12,12 @@ import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.utilities.UtilityFunctions;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.gui.ClickableComponent;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -74,6 +73,14 @@ public class GameViewController implements Initializable{
     private Canvas moveListCanvas;
     @FXML
     private Label errorLabel;
+    @FXML
+    private ScrollPane chatScrollPane;
+    @FXML
+    private Label chatLabel;
+    @FXML
+    private TextField chatTextField;
+    @FXML
+    private Button chatButton;
     /**
      * This attribute stores the canvas put on top of the game board used for the recognition of the mouse interactions
      */
@@ -111,7 +118,7 @@ public class GameViewController implements Initializable{
     private ClickableComponent moveList;
     private List<ClickableComponent> otherShelf;
 
-    private List<Position> positionsList;
+    private Map<Integer, Position> positionsList;
 
     private View guiView;
 
@@ -129,7 +136,7 @@ public class GameViewController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        this.positionsList=new ArrayList<>(ModelConstants.MAX_NUM_OF_MOVES);
+        this.positionsList=new HashMap<>();
         this.otherShelf   =new ArrayList<>(ModelConstants.MAX_PLAYERS-1);
 
         //Create the array of tiles
@@ -196,11 +203,14 @@ public class GameViewController implements Initializable{
         this.gridPane.add(this.personalGoalAnchorPane, 2, 0, 1, 1);
         this.gridPane.add(this.moveListAnchorPane    , 1, 2, 1, 1);
         this.gridPane.add(this.errorLabel            , 1, 3, 1, 1);
+        this.gridPane.add(this.chatScrollPane        , 2, 2, 1, 1);
         for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
             this.gridPane.add(this.otherShelf.get(i).getComponentAnchorPane(), 3, i, 1, 1);
 
         this.gridPane.setHgap(20);
         this.gridPane.setVgap(20);
+
+        this.chatLabel.setText("");
 
         /*
         tcoxl.valueProperty().addListener((
@@ -265,9 +275,9 @@ public class GameViewController implements Initializable{
 
         if(this.guiView.gameInfo == null) return;
 
-        //TODO
-        //if(this.guiView.isMyTurn()) this.errorLabel.setText("YOUR TURN");
-        //else this.errorLabel.setText("DO NOT MOVE");
+
+        if(this.guiView.isMyTurn()) Platform.runLater(()->this.errorLabel.setText("YOUR TURN"));
+        else Platform.runLater(()->this.errorLabel.setText("DO NOT MOVE"));
 
         for(int i=0; i<ModelConstants.BOARD_DIMENSION;i++){
             for(int j=0;j<ModelConstants.BOARD_DIMENSION;j++){
@@ -327,6 +337,10 @@ public class GameViewController implements Initializable{
         }
     }
 
+    public void displayMessage(String message){
+        Platform.runLater(()-> this.chatLabel.setText(this.chatLabel.getText()+"\n"+message));
+    }
+
     /**
      * This method is a utility that helps to set an image to its tile descriptor
      * @param tile corresponding tile
@@ -382,7 +396,8 @@ public class GameViewController implements Initializable{
         if(columnSelected.isPresent()){
 
             try {
-                this.guiView.client.makeMove(this.positionsList, columnSelected.get());
+                this.guiView.client.makeMove(new ArrayList<>(this.positionsList.values()), columnSelected.get());
+                this.errorLabel.setText("CORRECT MOVE");
             } catch (InvalidMoveException e) {
                 this.errorLabel.setText("INVALID MOVE");
             } catch (InvalidNicknameException e) {
@@ -444,7 +459,7 @@ public class GameViewController implements Initializable{
             moveList.setComponentSavedImageFromCoordinates(db.getImage(), event.getX(), event.getY());
             Position movePosition = (Position)db.getContent(this.dft);
 
-            this.positionsList.add(index.get().x(), movePosition);
+            this.positionsList.put(index.get().x(), movePosition);
 
             event.setDropCompleted(true);
         }
@@ -467,8 +482,20 @@ public class GameViewController implements Initializable{
         if(index.isEmpty()) return;
 
         this.moveList.setComponentSavedImageFromCoordinates(null, event.getX(), event.getY());
-        //TODO fix
+
         this.positionsList.remove(index.get().x());
+
+    }
+
+    @FXML
+    protected void onChatButtonMouseClick(){
+        if(this.chatTextField.getText().isEmpty()) return;
+
+        try {
+            this.guiView.client.messageAll(this.chatTextField.getText());
+        } catch (ConnectionError e) {
+            this.errorLabel.setText("CONNECTION ERROR");
+        }
 
     }
 

@@ -56,5 +56,7 @@ public class GUIView extends View{
     @Override
     public void displayChatMessage(String message) {
 
+        this.controller.displayMessage(message);
+
     }
 }

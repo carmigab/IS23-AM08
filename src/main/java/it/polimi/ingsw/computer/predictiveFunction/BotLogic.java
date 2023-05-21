@@ -15,8 +15,12 @@ import it.polimi.ingsw.network.client.RmiClient;
 import it.polimi.ingsw.network.client.RmiClientInterface;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.network.client.exceptions.GameEndedException;
+import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.view.View;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.*;

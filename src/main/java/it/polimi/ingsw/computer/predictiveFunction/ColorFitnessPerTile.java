@@ -12,17 +12,17 @@ import java.util.*;
 import static it.polimi.ingsw.utilities.UtilityFunctionsModel.getAdjacentPositions;
 
 public class ColorFitnessPerTile {
-    private final HashMap<TileColor , Integer>[][] colorFitnessPerTile;
+    private final Map<TileColor , Integer>[][] colorFitnessPerTile;
 
     public ColorFitnessPerTile() {
-        colorFitnessPerTile = new HashMap[ModelConstants.ROWS_NUMBER][ModelConstants.COLS_NUMBER];
+        colorFitnessPerTile = new Map[ModelConstants.ROWS_NUMBER][ModelConstants.COLS_NUMBER];
         initialize();
     }
 
     private void initialize() {
         for (int i = 0; i < ModelConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < ModelConstants.COLS_NUMBER; j++) {
-                colorFitnessPerTile[i][j] = new HashMap<TileColor, Integer>();
+                colorFitnessPerTile[i][j] = new HashMap<>();
 
                 for (TileColor tileColor : TileColor.values()) {
                     colorFitnessPerTile[i][j].put(tileColor, 0);

@@ -162,7 +162,6 @@ public abstract class View {
      * @param pos position we want to check adjacent
      * @return the list of the position adjacent to pos passed by parameter
      */
-
     protected List<Position> getAdj(Position pos){
         List<Position> result = new ArrayList<>();
         if(pos.y()<ModelConstants.BOARD_DIMENSION-1) result.add(new Position(pos.x(), pos.y()+1));
@@ -190,8 +189,6 @@ public abstract class View {
      * @param numTiles the number of tiles taken by the player
      * @return true if the column is valid, false if is not valid
      */
-
-
     protected boolean checkColumn(int col, int numTiles){
         if(col < 0 || col >= ModelConstants.COLS_NUMBER) return false;
         List<PlayerInfo>  player = this.gameInfo.getPlayerInfosList();

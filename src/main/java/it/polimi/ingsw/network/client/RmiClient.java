@@ -91,8 +91,6 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
 
         //System.setProperty("java.rmi.server.hostname", "192.168.43.54");
         this.connectToLobbyServer(ipToConnect, lobbyPort);
-
-
     }
 
     /**

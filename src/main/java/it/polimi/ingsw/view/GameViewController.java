@@ -440,16 +440,19 @@ public class GameViewController implements Initializable{
     }
 
     /**
-     * This method displays the correct image and stack values of each common goal TODO add case where common goals are completed
+     * This method displays the correct image and stack values of each common goal
      */
     private void displayCommonGoals(){
 
         this.commonGoal1.setComponentImage(this.getImageFromCommonGoalDescription(this.guiView.gameInfo.getCommonGoalsCreated().get(0)));
         this.commonGoal2.setComponentImage(this.getImageFromCommonGoalDescription(this.guiView.gameInfo.getCommonGoalsCreated().get(1)));
 
-        this.commonGoal1.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(this.guiView.gameInfo.getCommonGoalsStack().get(0)),0,0);
-        this.commonGoal2.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(this.guiView.gameInfo.getCommonGoalsStack().get(1)),0,0);
-
+        if(this.guiView.gameInfo.getCommonGoalsStack().get(0)!=0)
+            this.commonGoal1.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(this.guiView.gameInfo.getCommonGoalsStack().get(0)),0,0);
+        else this.commonGoal1.setComponentSavedImageFromPositions(null, 0, 0);
+        if(this.guiView.gameInfo.getCommonGoalsStack().get(1)!=0)
+            this.commonGoal2.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(this.guiView.gameInfo.getCommonGoalsStack().get(1)),0,0);
+        else this.commonGoal2.setComponentSavedImageFromPositions(null, 0, 0);
     }
 
     /**

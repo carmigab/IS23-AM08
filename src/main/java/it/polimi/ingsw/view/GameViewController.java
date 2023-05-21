@@ -248,6 +248,8 @@ public class GameViewController implements Initializable{
                     this.commonGoal2 .setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
                     this.personalGoal.setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
                     this.moveList    .setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
+                    this.chatScrollPane.setPrefViewportWidth (Math.min(gameContainer.getWidth(), gameContainer.getHeight())*0.2);
+                    this.chatScrollPane.setPrefViewportHeight(Math.min(gameContainer.getWidth(), gameContainer.getHeight())*0.2);
                     for(ClickableComponent clickableComponent: this.otherShelf) clickableComponent.setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
 
                     this.drawClickableComponents();
@@ -339,7 +341,7 @@ public class GameViewController implements Initializable{
             ImageView imageView=new ImageView();
             imageView.setImage(new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath("gui/images/boards/bookshelf_orth.png", this.getClass())));
             this.otherShelf.add(new ClickableComponent(imageView, new AnchorPane(), new Canvas(), ModelConstants.ROWS_NUMBER, ModelConstants.COLS_NUMBER,
-                    0.097, 0.097, 0.054, 0.11, 0.027, 0.019, 0.2));
+                    0.097, 0.097, 0.054, 0.11, 0.027, 0.019, 0.25));
         }
     }
 
@@ -467,7 +469,7 @@ public class GameViewController implements Initializable{
      */
     private void displayOtherShelf(){
 
-        for(int i=0; i<this.guiView.gameInfo.getPlayerInfosList().size();i++){
+        for(int i=0, l=0; i<this.guiView.gameInfo.getPlayerInfosList().size();i++,l++){
             PlayerInfo playerInfo=this.guiView.gameInfo.getPlayerInfosList().get(i);
             if(!playerInfo.getNickname().equals(this.guiView.myNickname)){
                 for(int j=0; j<ModelConstants.ROWS_NUMBER;j++){
@@ -475,13 +477,13 @@ public class GameViewController implements Initializable{
                         Optional<Image> image=this.getImageFromTileDescription(playerInfo.getShelf()[j][k]);
                         int x=j;
                         int y=k;
-                        int z=i;
+                        int z=l;
                         image.ifPresentOrElse((smth)->this.otherShelf.get(z).setComponentSavedImageFromPositions(image.get(), x, y),
                                 ()->this.otherShelf.get(z).setComponentSavedImageFromPositions(null, x, y));
                     }
                 }
             }
-            else i++;
+            else l--;
         }
 
         for(int i=ModelConstants.MAX_PLAYERS-2; i>this.guiView.gameInfo.getPlayerInfosList().size()-2;i--){
@@ -494,7 +496,7 @@ public class GameViewController implements Initializable{
      * @param message string received
      */
     public void displayMessage(String message){
-        Platform.runLater(()-> this.chatLabel.setText(this.chatLabel.getText()+"\n"+message));
+        Platform.runLater(()-> this.chatLabel.setText(this.chatLabel.getText()+message+"\n"));
     }
 
     /**

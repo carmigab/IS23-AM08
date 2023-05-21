@@ -51,6 +51,7 @@ public class HelloController implements Initializable {
 
     private View guiView;
     private Stage stage;
+    private Scene nextScene;
 
     public HelloController(){
 
@@ -72,6 +73,7 @@ public class HelloController implements Initializable {
         numPlayers.getItems().removeAll(numPlayers.getItems());
         numPlayers.getItems().addAll(2,3,4);
         numPlayers.getSelectionModel().select(2);
+
     }
 
     @FXML
@@ -111,6 +113,8 @@ public class HelloController implements Initializable {
         this.nicknameLabel.setVisible(true);
         this.nicknameTextField.setVisible(true);
         this.nicknameButton.setVisible(true);
+
+        this.loadNextScene();
     }
 
     @FXML
@@ -136,8 +140,8 @@ public class HelloController implements Initializable {
     @FXML
     protected void onJoinButtonClick(){
         try {
-            this.changeScene();
             this.guiView.client.joinGame();
+            this.changeScene();
         } catch (NoGamesAvailableException e) {
             this.errorLabel.setText("There are no games available");
         } catch (NonExistentNicknameException e) {
@@ -159,8 +163,8 @@ public class HelloController implements Initializable {
     @FXML
     protected void onGoButtonClick(){
         try {
-            this.changeScene();
             this.guiView.client.createGame(this.numPlayers.getValue());
+            this.changeScene();
         } catch (NonExistentNicknameException e) {
             this.errorLabel.setText("You did not put any nickname");
         } catch (AlreadyInGameException e) {
@@ -171,17 +175,22 @@ public class HelloController implements Initializable {
     }
 
     private void changeScene(){
-        FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("gui/game-view.fxml"));
-        try {
-            this.stage.setScene(new Scene(fxmlLoader.load()));
+        this.stage.setScene(this.nextScene);
+        this.stage.show();
+    }
 
+    private void loadNextScene(){
+        FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("gui/game-view.fxml"));
+
+        try {
+            this.nextScene=new Scene(fxmlLoader.load());
             ((GameViewController)fxmlLoader.getController()).setGuiView(this.guiView);
             this.guiView.setGameViewController(fxmlLoader.getController());
-
-            this.stage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
+
     }
+
 
 }

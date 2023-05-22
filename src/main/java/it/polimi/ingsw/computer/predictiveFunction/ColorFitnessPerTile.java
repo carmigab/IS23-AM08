@@ -6,13 +6,14 @@ import it.polimi.ingsw.model.Shelf;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.utilities.UtilityFunctionsModel;
+import javafx.geometry.Pos;
 
 import java.util.*;
 
 import static it.polimi.ingsw.utilities.UtilityFunctionsModel.getAdjacentPositions;
 
 public class ColorFitnessPerTile {
-    private final Map<TileColor , Integer>[][] colorFitnessPerTile;
+    private final Map<TileColor , Double>[][] colorFitnessPerTile;
 
     public ColorFitnessPerTile() {
         colorFitnessPerTile = new Map[ModelConstants.ROWS_NUMBER][ModelConstants.COLS_NUMBER];
@@ -25,27 +26,32 @@ public class ColorFitnessPerTile {
                 colorFitnessPerTile[i][j] = new HashMap<>();
 
                 for (TileColor tileColor : TileColor.values()) {
-                    colorFitnessPerTile[i][j].put(tileColor, 0);
+                    if (tileColor != TileColor.EMPTY && tileColor != TileColor.INVALID) {
+                        colorFitnessPerTile[i][j].put(tileColor, 0.0);
+                    }
                 }
             }
         }
     }
 
     public void updateColorFitnessPerTile(GameStateRepresentation gameStateRepresentation) {
-        int coefficient = 0;
-        int groupSize = 0;
-        Set<Position> tilesAtGivenManhattanDistance;
+        double coefficient;
+        int groupSize;
+        List<Position> tilesAtGivenManhattanDistance;
         for (int i = 0; i < ModelConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < ModelConstants.COLS_NUMBER; j++) {
                 if (!gameStateRepresentation.getShelf()[i][j].isEmpty()) {
-                    groupSize = UtilityFunctionsModel.findGroupSize(new Shelf(gameStateRepresentation.getShelf()), new Position(i, j));
+                    groupSize = UtilityFunctionsModel.findGroupSize(new Shelf(gameStateRepresentation.getShelf()), new Position(j, i));
 
-                    for (int k = 0; k < 9; k++) {
-                        tilesAtGivenManhattanDistance = getTilesAtGivenManhattanDistance(k, new Position(i, j), gameStateRepresentation);
+                    for (int k = 1; k < 9; k++) {
+                        tilesAtGivenManhattanDistance = getTilesAtGivenManhattanDistance(k, new Position(j, i), gameStateRepresentation);
                         coefficient = computeCoefficient(k, groupSize);
 
                         for (Position position : tilesAtGivenManhattanDistance) {
-                            colorFitnessPerTile[position.x()][position.y()].put(gameStateRepresentation.getShelf()[i][j].getColor(), coefficient);
+                            if (gameStateRepresentation.getShelf()[position.y()][position.x()].isEmpty()) {
+                                colorFitnessPerTile[position.y()][position.x()].put(gameStateRepresentation.getShelf()[i][j].getColor(),
+                                        colorFitnessPerTile[position.y()][position.x()].get(gameStateRepresentation.getShelf()[i][j].getColor()) + coefficient);
+                            }
                         }
                     }
                 }
@@ -53,33 +59,30 @@ public class ColorFitnessPerTile {
         }
     }
 
-    private Set<Position> getTilesAtGivenManhattanDistance(int manhattanDistance, Position position, GameStateRepresentation gameStateRepresentation) {
-        Set<Position> result = new HashSet<>();
-        Set<Position> alreadyVisited = new HashSet<>();
+    private List<Position> getTilesAtGivenManhattanDistance(int manhattanDistance, Position position, GameStateRepresentation gameStateRepresentation) {
+        List<Position> alreadyVisited = new ArrayList<>();
 
         alreadyVisited.add(position);
         for (int i = 0; i < manhattanDistance - 1; i++) {
-            alreadyVisited.addAll(getAdjacentPositionsOfGroup(alreadyVisited.stream().toList()));
-        }
-
-        for (Position position1 : alreadyVisited) {
-            if (gameStateRepresentation.getShelf()[position1.x()][position1.y()].isEmpty()) {
-                result.add(position1);
+            for (Position pos : getAdjacentPositionsOfGroup (alreadyVisited)) {
+                if (!alreadyVisited.contains(pos)) {
+                    alreadyVisited.add(pos);
+                }
             }
         }
 
-        return result;
+        return new ArrayList<>(getAdjacentPositionsOfGroup(alreadyVisited));
     }
 
-    private Set<Position> getAdjacentPositionsOfGroup(List<Position> positionsList) {
-        Set<Position> result = new HashSet<>();
+    private List<Position> getAdjacentPositionsOfGroup(List<Position> positionsList) {
+        List<Position> result = new ArrayList<>();
         List<Position> adjacentPositions;
 
         for (Position position : positionsList) {
             adjacentPositions = getAdjacentPositions(position, false);
 
             for (Position adjacentPosition : adjacentPositions) {
-                if (!positionsList.contains(adjacentPosition)) {
+                if (!positionsList.contains(adjacentPosition) && !result.contains(adjacentPosition)) {
                     result.add(adjacentPosition);
                 }
             }
@@ -88,12 +91,12 @@ public class ColorFitnessPerTile {
         return result;
     }
 
-    private int computeCoefficient(int manhattanDistance, int groupSize) {
-        return (1 / manhattanDistance) * (groupSize < 6 ? groupSize : 0) / 6;
+    public double computeCoefficient(int manhattanDistance, int groupSize) {
+        return ((1 / (double) manhattanDistance) * (groupSize < 6 ? (double) groupSize : 0)) / 6;
     }
 
-    public int evaluateAction(Action action, Tile[][] shelf) {
-        int result = 0;
+    public double evaluateAction(Action action, Tile[][] shelf) {
+        double result = 0;
 
         for (TileColor tileColor : action.getTiles()) {
             result += colorFitnessPerTile[findFirstFreeSpaceInGivenColumn(action.getColumn(), shelf)][action.getColumn()].get(tileColor);
@@ -115,5 +118,9 @@ public class ColorFitnessPerTile {
         }
 
         return result;
+    }
+
+    public Map<TileColor, Double>[][] getColorFitnessPerTile() {
+        return colorFitnessPerTile;
     }
 }

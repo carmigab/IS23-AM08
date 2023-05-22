@@ -7,20 +7,14 @@ import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.PlayerInfo;
 import it.polimi.ingsw.gameInfo.State;
-import it.polimi.ingsw.model.Move;
-import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.model.Tile;
-import it.polimi.ingsw.model.TileColor;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.RmiClient;
 import it.polimi.ingsw.network.client.RmiClientInterface;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.network.client.exceptions.GameEndedException;
-import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.view.View;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.nio.file.ClosedFileSystemException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.*;
@@ -35,11 +29,9 @@ public class BotLogic extends View {
 
     private Map<Move, Action> moveActionMap;
 
-    public BotLogic(String myNickname, String gameName/*, GameInfo gameInfo, State state*/) {
+    public BotLogic(String myNickname, String gameName) {
         this.myNickname = myNickname;
         this.moveActionMap = new HashMap<>();
-//        this.gameInfo = gameInfo;
-//        this.currentState = state;
 
         try {
             this.client = new RmiClient(this.myNickname, this, "localhost", ServerConstants.RMI_PORT);
@@ -48,16 +40,7 @@ public class BotLogic extends View {
             System.out.println("bot unable to connect to server");
         }
 
-//        Tile[][] shelf = gameInfo.getPlayerInfosList().stream()
-//                .filter(playerInfo -> playerInfo.getNickname().equals(myNickname))
-//                .map(PlayerInfo::getShelf)
-//                .findFirst()
-//                .orElseThrow();
-
-//        gameStateRepresentation = new GameStateRepresentation(gameInfo.getGameBoard(), shelf);
-
         colorFitnessPerTile = new ColorFitnessPerTile();
-//        colorFitnessPerTile.updateColorFitnessPerTile(gameStateRepresentation);
     }
 
     @Override
@@ -65,11 +48,22 @@ public class BotLogic extends View {
         this.currentState = newState;
         this.gameInfo = newGameInfo;
 
+        System.out.println("bot update");
+
         Tile[][] shelf = gameInfo.getPlayerInfosList().stream()
                 .filter(playerInfo -> playerInfo.getNickname().equals(myNickname))
                 .map(PlayerInfo::getShelf)
                 .findFirst()
                 .orElseThrow();
+
+        for (SingleGoal singleGoal: gameInfo.getPlayerInfosList().stream()
+                .filter(playerInfo -> playerInfo.getNickname().equals(myNickname))
+                .map(PlayerInfo::getPersonalGoal)
+                .findFirst()
+                .orElseThrow()) {
+
+            shelf[singleGoal.getPosition().y()][singleGoal.getPosition().x()] = new Tile(singleGoal.getColor(), 0);
+        }
 
         gameStateRepresentation = new GameStateRepresentation(gameInfo.getGameBoard(), shelf);
 
@@ -117,7 +111,7 @@ public class BotLogic extends View {
     private Action getBestAction() {
         Action bestAction = null;
         Set<Action> availableActions = getAvailableActions();
-        int maxFitness = Integer.MIN_VALUE;
+        double maxFitness = Double.MIN_VALUE;
 
         for (Action action: availableActions) {
             if (colorFitnessPerTile.evaluateAction(action, gameStateRepresentation.getShelf()) > maxFitness) {

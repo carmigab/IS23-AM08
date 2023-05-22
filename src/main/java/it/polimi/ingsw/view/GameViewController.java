@@ -145,10 +145,15 @@ public class GameViewController implements Initializable{
     @FXML
     private TextField chatTextField;
     /**
-     * This attribute stores the button used to sedn messages to the chat
+     * This attribute stores the button used to send messages to the chat
      */
     @FXML
     private Button chatButton;
+    /**
+     * This attribute stores the button used to refresh the page
+     */
+    @FXML
+    private Button refreshButton;
     /**
      * This attribute stores the container where all the scene is set
      */
@@ -371,6 +376,7 @@ public class GameViewController implements Initializable{
         this.gridPane.add(this.moveListAnchorPane    , 1, 2, 1, 1);
         this.gridPane.add(this.errorLabel            , 1, 3, 1, 1);
         this.gridPane.add(this.chatScrollPane        , 2, 2, 1, 1);
+        this.gridPane.add(this.refreshButton         , 2, 3, 1, 1);
         for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
             this.gridPane.add(this.otherShelf.get(i).getComponentAnchorPane(), 3, i, 1, 1);
 
@@ -614,8 +620,8 @@ public class GameViewController implements Initializable{
         imagePressed.ifPresent((imageView)->{
             Dragboard db=imageView.startDragAndDrop(TransferMode.COPY_OR_MOVE);
             ClipboardContent content = new ClipboardContent();
-            //content.putImage(scaledImage);
-            content.putImage(imageView.getImage());
+            content.putImage(this.scaleImage(imageView.getImage(), imageView.getFitWidth(), imageView.getFitHeight()));
+            //content.putImage(imageView.getImage());
             content.putString("image moved");
             content.put(this.dft, positionPressed.get());
             db.setContent(content);
@@ -651,8 +657,9 @@ public class GameViewController implements Initializable{
         }
         Dragboard db=event.getDragboard();
         if(db.hasImage()) {
-            moveList.setComponentSavedImageFromCoordinates(db.getImage(), event.getX(), event.getY());
             Position movePosition = (Position)db.getContent(this.dft);
+
+            moveList.setComponentSavedImageFromCoordinates(this.getImageFromTileDescription(this.guiView.gameInfo.getGameBoard()[movePosition.y()][movePosition.x()]).get(), event.getX(), event.getY());
 
             this.positionsList.put(index.get().x(), movePosition);
 
@@ -697,6 +704,16 @@ public class GameViewController implements Initializable{
     }
 
     /**
+     * This method is called whenever the refresh button is clicked.
+     * It displays all the information received again
+     */
+    @FXML
+    protected void onRefreshButtonMouseClick(){
+        Platform.runLater(this::drawClickableComponents);
+        Platform.runLater(this::display);
+    }
+
+    /**
      * This method takes an image and scales it to the desired size
      * @param source image to be scaled
      * @param targetWidth target width of the image
@@ -709,4 +726,5 @@ public class GameViewController implements Initializable{
         imageView.setFitHeight(targetHeight);
         return imageView.snapshot(null, null);
     }
+
 }

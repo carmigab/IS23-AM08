@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:id="gameContainer" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@hello-style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GameViewController">
+<VBox fx:id="gameContainer" alignment="CENTER_LEFT" maxHeight="700.0" maxWidth="1000.0" minHeight="700.0" minWidth="1000.0" prefHeight="700.0" prefWidth="1000.0" stylesheets="@hello-style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GameViewController">
    <children>
       <GridPane fx:id="gridPane">
         <columnConstraints>
@@ -73,6 +73,10 @@
             </AnchorPane>
         </content>
       </ScrollPane>
+       <Button fx:id="refreshButton" mnemonicParsing="false" onMouseClicked="#onRefreshButtonMouseClick" text="Refresh">
+           <font>
+               <Font name="Comic Sans MS" size="12.0" />
+           </font></Button>
       <!--Slider fx:id="tcoxl" blockIncrement="0.01" layoutX="10.0" layoutY="1114.0" max="0.7" min="1.0E-4" />
       <Slider fx:id="tcoxr" blockIncrement="0.01" layoutX="10.0" layoutY="1121.0" max="0.7" min="1.0E-4" />
       <Slider fx:id="tcoyu" blockIncrement="0.01" layoutX="10.0" layoutY="1128.0" max="0.7" min="1.0E-4" />

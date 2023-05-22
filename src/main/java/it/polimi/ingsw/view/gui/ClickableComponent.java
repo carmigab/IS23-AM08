@@ -294,6 +294,7 @@ public class   ClickableComponent {
      */
     public void setComponentSavedImageFromCoordinates(Image image, double x, double y){
         Optional<ImageView> imageView =this.getTileOnComponentFromPosition(x,y);
+
         imageView.ifPresent( (imageView1)-> imageView1.setImage(image));
     }
 

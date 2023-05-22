@@ -7,6 +7,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.util.Objects;
@@ -28,6 +30,12 @@ public class RealGUILauncher extends Application {
         FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("gui/hello-view.fxml"));
         Scene scene=new Scene(fxmlLoader.load());
         stage.setScene(scene);
+
+        stage.setResizable(false);
+
+        stage.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
+            if(KeyCode.F11.equals(keyEvent.getCode())) stage.setFullScreen(!stage.isFullScreen());
+        });
 
         this.guiView=new GUIView();
         ((HelloController)fxmlLoader.getController()).setGuiView(this.guiView);

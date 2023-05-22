@@ -234,13 +234,22 @@ public abstract class View {
      */
     protected boolean checkColumn(int col, int numTiles){
         if(col < 0 || col >= ModelConstants.COLS_NUMBER) return false;
-        List<PlayerInfo>  player = this.gameInfo.getPlayerInfosList();
-        for(int i=0; i<player.size();i++){
-            if(player.get(i).getNickname().equals(gameInfo.getCurrentPlayerNickname())){
-                return UtilityFunctionsModel.getFreeSpaces(this.gameInfo.getPlayerInfosList().get(i).getShelf(), col) >= numTiles;
-            }
-        }
-        return false;
+
+        List<PlayerInfo>  players = this.gameInfo.getPlayerInfosList();
+
+        return players.stream()
+                .filter(p -> p.getNickname().equals(gameInfo.getCurrentPlayerNickname()))
+                .map(p -> UtilityFunctionsModel.getFreeSpaces(p.getShelf(), col) >= numTiles)
+                .findFirst()
+                .orElse(false);
+
+//        List<PlayerInfo>  player = this.gameInfo.getPlayerInfosList();
+//        for(int i=0; i<player.size();i++){
+//            if(player.get(i).getNickname().equals(gameInfo.getCurrentPlayerNickname())){
+//                return UtilityFunctionsModel.getFreeSpaces(this.gameInfo.getPlayerInfosList().get(i).getShelf(), col) >= numTiles;
+//            }
+//        }
+//        return false;
     }
 
     /**

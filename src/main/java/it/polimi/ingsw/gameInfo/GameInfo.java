@@ -92,7 +92,7 @@ public class GameInfo implements Serializable {
      * @return the reference to the copied list of player states
      */
     public List<PlayerInfo> getPlayerInfosList() {
-        return playerInfosList;
+        return List.copyOf(playerInfosList);
     }
 
     /**

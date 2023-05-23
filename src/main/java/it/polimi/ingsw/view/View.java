@@ -34,7 +34,7 @@ public abstract class View {
     /**
      * the current state of the game
      */
-    protected State currentState;
+    protected State currentState = State.WAITINGFORPLAYERS;
 
     /**
      * if true the player wants to play

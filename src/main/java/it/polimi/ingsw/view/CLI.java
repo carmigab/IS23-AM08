@@ -803,7 +803,7 @@ public class CLI extends View{
             } catch (NonExistentNicknameException | AlreadyInGameException e) {
                 throw new RuntimeException(e);
             } catch (ConnectionError e) {
-                //ignore
+
             }
             return true;
 

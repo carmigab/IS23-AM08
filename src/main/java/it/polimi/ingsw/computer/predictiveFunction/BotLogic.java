@@ -90,7 +90,7 @@ public class BotLogic extends View {
         List<Position> positions = move.positions();
 
         List<TileColor> tileColors = positions.stream().
-                map(position -> gameStateRepresentation.getBoard()[position.x()][position.y()].getColor())
+                map(position -> gameStateRepresentation.getBoard()[position.y()][position.x()].getColor())
                 .toList();
 
         Action action = new Action(tileColors, move.column());

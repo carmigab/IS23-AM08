@@ -405,8 +405,6 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      */
     @Override
     public List<Lobby> getLobbies() throws NoGamesAvailableException {
-        if (serverList.size() == 0) throw new NoGamesAvailableException();
-
         List<Lobby> activeLobbies = new ArrayList<>();
 
         for (MatchServer matchServer : serverList) {
@@ -414,6 +412,9 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
                 activeLobbies.add(new Lobby(matchServer.getNumPlayers(), matchServer.getNicknamesList().size(), List.copyOf(matchServer.getNicknamesList())));
             }
         }
+
+        if(activeLobbies.isEmpty())
+            throw new NoGamesAvailableException();
 
         return activeLobbies;
     }

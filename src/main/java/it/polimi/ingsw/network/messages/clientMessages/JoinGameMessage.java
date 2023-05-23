@@ -6,12 +6,22 @@ import it.polimi.ingsw.network.messages.Message;
  * This class represents a message to join the game
  */
 public class JoinGameMessage extends Message {
+
+    private final int gameIndex;
+
     /**
      * constructor
-     * @param sender: the sender
+     *
+     * @param sender    : the sender
+     * @param gameIndex
      */
-    public JoinGameMessage(String sender) {
+    public JoinGameMessage(String sender, int gameIndex) {
         super(sender);
+        this.gameIndex = gameIndex;
         setMessageType("JoinGameMessage");
+    }
+
+    public int getGameIndex() {
+        return gameIndex;
     }
 }

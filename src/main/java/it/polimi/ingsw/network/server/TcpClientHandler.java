@@ -18,6 +18,8 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class manages all the inbound and outgoing communication between the client and the server
@@ -195,7 +197,7 @@ public class TcpClientHandler implements Runnable {
                 boolean nonExistentNickname = false;
                 boolean noGamesAvailable = false;
                 try {
-                    this.lobbyServer.joinGame(m.sender(), this);
+                    this.lobbyServer.joinGame(m.sender(), this, m.getGameIndex());
                 } catch (NoGamesAvailableException e) {
                     noGamesAvailable = true;
                 } catch (AlreadyInGameException e) {
@@ -223,8 +225,19 @@ public class TcpClientHandler implements Runnable {
                 sendTcpMessage(new MakeMoveResponse("Server", invalidMove, invalidNickname, gameEnded));
             }
 
+            else if (message instanceof GetLobbiesMessage) {
+                List<Lobby> lobbyList = null;
+                boolean noGamesAvailableException = false;
+                try {
+                    lobbyList = this.lobbyServer.getLobbies();
+                } catch (NoGamesAvailableException e) {
+                    noGamesAvailableException = true;
+                }
+                sendTcpMessage(new GetLobbiesResponse("Server", lobbyList, noGamesAvailableException));
+            }
+
             // The client keeps the heartbeat, the server sends back the ping
-            else if (message instanceof PingClientMessage);
+            else if (message instanceof PingClientMessage)
                 this.sendTcpMessage(new PingClientResponse("Server"));
 
         } catch (RemoteException e) {

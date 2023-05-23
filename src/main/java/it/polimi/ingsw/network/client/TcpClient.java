@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.network.messages.clientMessages.*;
 import it.polimi.ingsw.network.messages.serverMessages.*;
+import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.network.server.exceptions.NonExistentNicknameException;
 import it.polimi.ingsw.constants.ServerConstants;
@@ -49,17 +50,17 @@ public class TcpClient implements Client{
     /**
      * This attribute is the View
      */
-    private View view;
+    private final View view;
 
     /**
      * This attribute is a lock on which all the actions will synchronize
      */
-    private Lock actionLock = new Lock();
+    private final Lock actionLock = new Lock();
 
     /**
      * This attribute is a lock on which the ping will synchronize
      */
-    private Lock pingThreadLock = new Lock();
+    private final Lock pingThreadLock = new Lock();
 
     /**
      * If this flag is true the client has to ping the server
@@ -77,12 +78,12 @@ public class TcpClient implements Client{
     /**
      * If this flag is true the client is mute
      */
-    private boolean mute = false;
+    private final boolean mute = false;
 
     /**
      * If this flag is true the client prints only essential messages
      */
-    private boolean essential = true;
+    private final boolean essential = true;
 
 
     /**
@@ -425,9 +426,9 @@ public class TcpClient implements Client{
      * @throws AlreadyInGameException
      * @throws ConnectionError
      */
-    public synchronized void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError {
+    public synchronized void joinGame(int gameIndex) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError {
         JoinGameResponse response = (JoinGameResponse) this.manageTcpConversation(actionLock,
-                new JoinGameMessage(this.nickname));
+                new JoinGameMessage(this.nickname, gameIndex));
 
         if (response.isAlreadyInGame()) throw new AlreadyInGameException();
         if (response.isNoGamesAvailable()) throw new NoGamesAvailableException();
@@ -451,6 +452,21 @@ public class TcpClient implements Client{
      */
     public synchronized void messageAll(String chatMessage) throws ConnectionError {
         this.sendTcpMessage(new ChatAllMessage(this.nickname, chatMessage));
+    }
+
+    /**
+     * This method retrieve the active lobbies on the server
+     *
+     * @return the list of the active lobbies
+     */
+    @Override
+    public List<Lobby> getLobbies() throws ConnectionError, NoGamesAvailableException {
+        GetLobbiesResponse response = (GetLobbiesResponse) this.manageTcpConversation(actionLock,
+                new GetLobbiesMessage(this.nickname));
+
+        if (response.isNoGamesAvailableException()) throw new NoGamesAvailableException();
+
+        return response.getLobbyList();
     }
 
 

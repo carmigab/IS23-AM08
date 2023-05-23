@@ -15,6 +15,7 @@ import it.polimi.ingsw.network.client.TcpClient;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.constants.ServerConstants;
+import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.network.server.exceptions.NoGamesAvailableException;
 import it.polimi.ingsw.network.server.exceptions.NonExistentNicknameException;
@@ -776,19 +777,60 @@ public class CLI extends View{
      */
     private boolean joinExistingGame() {
         try {
+            List<Lobby> activeLobbies = client.getLobbies();
+
+            for (Lobby lobby : activeLobbies) {
+                printMessage(lobby.toString(), AnsiEscapeCodes.INFO_MESSAGE);
+            }
+
+            printMessage("Select the game you want to join (type the game number) or type 'r' to join a random game:", AnsiEscapeCodes.INFO_MESSAGE);
+            String input = retryInput(ViewConstants.REGEX_INPUT_JOIN_GAME);
+
+            if (input.equalsIgnoreCase("r")) {
+                try {
+                    Random random = new Random();
+                    client.joinGame(random.nextInt(activeLobbies.size()));
+                } catch (NonExistentNicknameException | AlreadyInGameException e) {
+                    throw new RuntimeException(e);
+                } catch (ConnectionError e) {
+                    //ignore
+                }
+                return true;
+            }
+
             try {
-                client.joinGame();
+                client.joinGame(Integer.parseInt(input));
             } catch (NonExistentNicknameException | AlreadyInGameException e) {
                 throw new RuntimeException(e);
             } catch (ConnectionError e) {
                 //ignore
             }
             return true;
+
         } catch (NoGamesAvailableException e) {
             printMessage("No games available, please create a new one ", AnsiEscapeCodes.ERROR_MESSAGE);
+        } catch (ConnectionError e) {
+            throw new RuntimeException(e);
         }
 
         return false;
+
+
+        //old version
+//        try {
+//            try {
+//                client.joinGame();
+//            } catch (NonExistentNicknameException | AlreadyInGameException e) {
+//                throw new RuntimeException(e);
+//            } catch (ConnectionError e) {
+//                //ignore
+//            }
+//            return true;
+//        } catch (NoGamesAvailableException e) {
+//            printMessage("No games available, please create a new one ", AnsiEscapeCodes.ERROR_MESSAGE);
+//        }
+//
+//        return false;
     }
 
     /**

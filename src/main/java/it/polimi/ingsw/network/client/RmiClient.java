@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.network.client.clientLocks.Lock;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.network.client.exceptions.GameEndedException;
+import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.network.server.RmiServerInterface;
 import it.polimi.ingsw.network.server.RMILobbyServerInterface;
 import it.polimi.ingsw.constants.ServerConstants;
@@ -19,6 +20,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -207,9 +209,9 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @throws AlreadyInGameException
      * @throws ConnectionError
      */
-    public void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError {
+    public void joinGame(int gameIndex) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError {
         try {
-            String matchServerName = this.lobbyServer.joinGame(nickname, this);
+            String matchServerName = this.lobbyServer.joinGame(nickname, this, gameIndex);
             this.connectToMatchServer(matchServerName);
         } catch (RemoteException e) {
             if (!mute && !essential) System.out.println("Remote exception from joinGame");
@@ -308,6 +310,26 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
             throw new ConnectionError();
         }
 
+    }
+
+    /**
+     * This method retrieve the active lobbies on the server
+     *
+     * @return the list of the active lobbies
+     */
+    @Override
+    public List<Lobby> getLobbies() throws NoGamesAvailableException, ConnectionError {
+        List<Lobby> activeLobbies = new ArrayList<>();
+
+        try {
+            lobbyServer.getLobbies();
+        } catch (RemoteException e) {
+            if (!mute && !essential) System.out.println("Remote exception from getLobbies");
+            this.gracefulDisconnection(true);
+            throw new ConnectionError();
+        }
+
+        return activeLobbies;
     }
 
     /**

@@ -140,7 +140,7 @@ public class HelloController implements Initializable {
     @FXML
     protected void onJoinButtonClick(){
         try {
-            this.guiView.client.joinGame();
+            this.guiView.client.joinGame(0);
             this.changeScene();
         } catch (NoGamesAvailableException e) {
             this.errorLabel.setText("There are no games available");

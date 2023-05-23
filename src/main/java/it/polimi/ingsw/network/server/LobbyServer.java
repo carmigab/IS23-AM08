@@ -280,7 +280,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws AlreadyInGameException       if the player is already in a different game
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
-    private String joinGameTcpRmi(String nickname, ClientHandler client) throws NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
+    private String joinGameTcpRmi(String nickname, ClientHandler client, int gameIndex) throws NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
         synchronized (lockCreateGame) {
             if (this.potentialPlayers.containsKey(nickname)) {
                 if(!mute) System.out.println("LS: Joining game recovered from persistance...");
@@ -395,8 +395,25 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
     @Override
-    public String joinGame(String nickname, RmiClientInterface rmiClient) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
-        return this.joinGameTcpRmi(nickname, new ClientHandler(rmiClient));
+    public String joinGame(String nickname, RmiClientInterface rmiClient, int gameIndex) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
+        return this.joinGameTcpRmi(nickname, new ClientHandler(rmiClient), gameIndex);
+    }
+
+    /**
+     * This method return the active lobbies
+     * @return the list of active lobbies
+     */
+    @Override
+    public List<Lobby> getLobbies() throws NoGamesAvailableException {
+        if (serverList.size() == 0) throw new NoGamesAvailableException();
+
+        List<Lobby> activeLobbies = new ArrayList<>();
+
+        for (MatchServer matchServer : serverList) {
+            activeLobbies.add(new Lobby(matchServer.getNumPlayers(), matchServer.getNicknamesList().size(), List.copyOf(matchServer.getNicknamesList())));
+        }
+
+        return activeLobbies;
     }
 
     /**
@@ -428,8 +445,8 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws AlreadyInGameException if the player is already in a different game
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
-    public String joinGame(String nickname, TcpClientHandler tcpClient) throws NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
-        return this.joinGameTcpRmi(nickname, new ClientHandler(tcpClient));
+    public String joinGame(String nickname, TcpClientHandler tcpClient, int gameIndex) throws NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
+        return this.joinGameTcpRmi(nickname, new ClientHandler(tcpClient), gameIndex);
     }
 
     /**

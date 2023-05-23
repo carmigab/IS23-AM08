@@ -102,7 +102,7 @@ public class ColorFitnessPerTile {
             result += colorFitnessPerTile[findFirstFreeSpaceInGivenColumn(action.getColumn(), shelf)][action.getColumn()].get(tileColor);
 
             for (TileColor tileColor1 : TileColor.values()) {
-                if (tileColor1 != tileColor) {
+                if (tileColor1 != tileColor && tileColor1!=TileColor.EMPTY && tileColor1!=TileColor.INVALID) {
                     result -= colorFitnessPerTile[findFirstFreeSpaceInGivenColumn(action.getColumn(), shelf)][action.getColumn()].get(tileColor1);
                 }
             }

@@ -9,6 +9,7 @@ import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.network.server.exceptions.NonExistentNicknameException;
 import it.polimi.ingsw.network.server.exceptions.NoGamesAvailableException;
+import it.polimi.ingsw.network.server.exceptions.WrongLobbyIndexException;
 
 import java.util.List;
 
@@ -55,7 +56,7 @@ public interface Client  {
      * @throws AlreadyInGameException
      * @throws ConnectionError
      */
-    public void joinGame(int gameIndex) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError;
+    public void joinGame(String gameIndex) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError, WrongLobbyIndexException;
 
     /**
      * This method has to be overridden in its subclasses, it tries to send a private message

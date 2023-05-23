@@ -7,6 +7,7 @@ import it.polimi.ingsw.constants.ServerConstants;
 import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.network.server.exceptions.NoGamesAvailableException;
 import it.polimi.ingsw.network.server.exceptions.NonExistentNicknameException;
+import it.polimi.ingsw.network.server.exceptions.WrongLobbyIndexException;
 import it.polimi.ingsw.view.View;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -140,7 +141,7 @@ public class HelloController implements Initializable {
     @FXML
     protected void onJoinButtonClick(){
         try {
-            this.guiView.client.joinGame(0);
+            this.guiView.client.joinGame("r");
             this.changeScene();
         } catch (NoGamesAvailableException e) {
             this.errorLabel.setText("There are no games available");
@@ -150,6 +151,8 @@ public class HelloController implements Initializable {
             this.errorLabel.setText("You are already in a game");
         } catch (ConnectionError e) {
             this.errorLabel.setText("Connection error");
+        } catch (WrongLobbyIndexException e) {
+            this.errorLabel.setText("Wrong lobby index");
         }
     }
 

@@ -190,6 +190,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
             // Shuffling the players order
             Collections.shuffle(nicknamesList);
             this.gameController = new GameController(nicknamesList, numPlayers, this);
+            lobby.removeFromLobbyMap(this);
         }
         else {
             if(!mute) System.out.println("MS: Starting a pre-existing game");

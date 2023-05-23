@@ -76,6 +76,9 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     private boolean mute = false;
 
 
+    private final Map<Lobby, MatchServer> lobbyMatchMap;
+
+
     /**
      * Constructor that loads the initial configuration from the object in input
      * @param config configuration of the server
@@ -90,6 +93,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         this.serverInformation = new ArrayList<>();
         this.banList = new ArrayList<>();
         this.banList.addAll(loadBanList());
+        this.lobbyMatchMap = new HashMap<>();
         lockChooseNickName=new Object();
         lockCreateGame=new Object();
 
@@ -257,6 +261,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             this.checkCredentialsIntegrity(nickname);
             this.nicknamesInGame.add(nickname);
             MatchServer rs = new MatchServer(numPlayers, this);
+            lobbyMatchMap.put(new Lobby(rs.getNumPlayers(), rs.getNicknamesList().size(), rs.getNicknamesList()), rs);
             // here we manage the client
             rs.addPlayer(nickname, client);
             client.setMatchServer(rs);
@@ -280,7 +285,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws AlreadyInGameException       if the player is already in a different game
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
-    private String joinGameTcpRmi(String nickname, ClientHandler client, int gameIndex) throws NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
+    private String joinGameTcpRmi(String nickname, ClientHandler client, String gameIndex) throws NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException, WrongLobbyIndexException {
         synchronized (lockCreateGame) {
             if (this.potentialPlayers.containsKey(nickname)) {
                 if(!mute) System.out.println("LS: Joining game recovered from persistance...");
@@ -293,30 +298,72 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
                 return toReturn;
             }
             this.checkCredentialsIntegrity(nickname);
-            int gameFound = 0;
-            String gameName;
 
-            while(gameFound < this.serverInformation.size()){
-                if(this.serverList.get(gameFound).getFreeSpaces()>0){
-                    if(!mute) System.out.println("LS: Joining game at random...");
+//            int gameFound = 0;
+//            String gameName;
+//
+//            while(gameFound < this.serverInformation.size()){
+//                if(this.serverList.get(gameFound).getFreeSpaces()>0){
+//                    if(!mute) System.out.println("LS: Joining game at random...");
+//
+//                    this.serverList.get(gameFound).addPlayer(nickname, client);
+//                    client.setMatchServer(this.serverList.get(gameFound));
+//
+//                    this.nicknamesInGame.add(nickname);
+//                    return this.serverInformation.get(gameFound);
+//                }
+//                gameFound++;
+//            }
+//
+//            if(gameFound == this.serverInformation.size())
+//                throw new NoGamesAvailableException();
 
-                    this.serverList.get(gameFound).addPlayer(nickname, client);
-                    client.setMatchServer(this.serverList.get(gameFound));
+            if (gameIndex.equalsIgnoreCase("r")) {
+                if(!mute) System.out.println("LS: Joining game at random...");
+                Random random = new Random();
+                Lobby lobby = lobbyMatchMap.keySet().stream().toList().get(random.nextInt(lobbyMatchMap.size()));
 
-                    this.nicknamesInGame.add(nickname);
-                    return this.serverInformation.get(gameFound);
+                return this.joinGameFromLobby(lobby, nickname, client);
+            }
+            else {
+                if(!mute) System.out.println("LS: Joining game at index...");
+                Lobby lobby;
+                try {
+                    lobby = lobbyMatchMap.keySet().stream().toList().get(Integer.parseInt(gameIndex));
+                } catch (Exception e) {
+                    throw new WrongLobbyIndexException();
                 }
-                gameFound++;
+
+                return this.joinGameFromLobby(lobby, nickname, client);
             }
 
-            if(gameFound == this.serverInformation.size())
-                throw new NoGamesAvailableException();
-
             //Should never arrive here
-            return null;
+//            return null;
         }
     }
 
+    /**
+     * This method lets you join a specific game
+     * @param lobby the lobby of the game you want to join
+     * @param nickname nickname of the player that calls the method
+     * @param client reference to the methods of the client that can be called by the server
+     * @return the information useful for the connection to the game
+     */
+    private String joinGameFromLobby(Lobby lobby, String nickname, ClientHandler client) {
+        this.lobbyMatchMap.get(lobby).addPlayer(nickname, client);
+        client.setMatchServer(this.lobbyMatchMap.get(lobby));
+
+        int gameFound = 0;
+        for (int i = 0; i < serverList.size(); i++) {
+            if (serverList.get(i).equals(this.lobbyMatchMap.get(lobby))) {
+                gameFound = i;
+                break;
+            }
+        }
+
+        this.nicknamesInGame.add(nickname);
+        return this.serverInformation.get(gameFound);
+    }
     /**
      * This method lets you recover a game from where it has been stopped
      * It takes the information from the file inferring it by your name
@@ -395,7 +442,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
     @Override
-    public String joinGame(String nickname, RmiClientInterface rmiClient, int gameIndex) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
+    public String joinGame(String nickname, RmiClientInterface rmiClient, String gameIndex) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException, WrongLobbyIndexException {
         return this.joinGameTcpRmi(nickname, new ClientHandler(rmiClient), gameIndex);
     }
 
@@ -448,7 +495,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws AlreadyInGameException if the player is already in a different game
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
-    public String joinGame(String nickname, TcpClientHandler tcpClient, int gameIndex) throws NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
+    public String joinGame(String nickname, TcpClientHandler tcpClient, String gameIndex) throws NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException, WrongLobbyIndexException {
         return this.joinGameTcpRmi(nickname, new ClientHandler(tcpClient), gameIndex);
     }
 
@@ -505,5 +552,13 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         t.start();
 
         if(!mute) System.out.println("LS: Tcp Server online...");
+    }
+
+    /**
+     * This method is called by match servers to remove themselves from the lobby map
+     * @param matchServer the match server to remove
+     */
+    public void removeFromLobbyMap(MatchServer matchServer) {
+        this.lobbyMatchMap.remove(lobbyMatchMap.keySet().stream().filter(key -> lobbyMatchMap.get(key).equals(matchServer)).findFirst().orElse(null));
     }
 }

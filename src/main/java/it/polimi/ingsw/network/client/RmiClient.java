@@ -20,7 +20,6 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -209,7 +208,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @throws AlreadyInGameException
      * @throws ConnectionError
      */
-    public void joinGame(int gameIndex) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError {
+    public void joinGame(String gameIndex) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError, WrongLobbyIndexException {
         try {
             String matchServerName = this.lobbyServer.joinGame(nickname, this, gameIndex);
             this.connectToMatchServer(matchServerName);

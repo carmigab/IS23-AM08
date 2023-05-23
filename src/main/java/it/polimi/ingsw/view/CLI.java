@@ -19,6 +19,7 @@ import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
 import it.polimi.ingsw.network.server.exceptions.NoGamesAvailableException;
 import it.polimi.ingsw.network.server.exceptions.NonExistentNicknameException;
+import it.polimi.ingsw.network.server.exceptions.WrongLobbyIndexException;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -787,20 +788,20 @@ public class CLI extends View{
             printMessage("Select the game you want to join (type the game number) or type 'r' to join a random game:", AnsiEscapeCodes.INFO_MESSAGE);
             String input = retryInput(ViewConstants.REGEX_INPUT_JOIN_GAME);
 
-            if (input.equalsIgnoreCase("r")) {
-                try {
-                    Random random = new Random();
-                    client.joinGame(random.nextInt(activeLobbies.size()));
-                } catch (NonExistentNicknameException | AlreadyInGameException e) {
-                    throw new RuntimeException(e);
-                } catch (ConnectionError e) {
-                    //ignore
-                }
-                return true;
-            }
+//            if (input.equalsIgnoreCase("r")) {
+//                try {
+//                    Random random = new Random();
+//                    client.joinGame(random.nextInt(activeLobbies.size()));
+//                } catch (NonExistentNicknameException | AlreadyInGameException e) {
+//                    throw new RuntimeException(e);
+//                } catch (ConnectionError e) {
+//                    //ignore
+//                }
+//                return true;
+//            }
 
             try {
-                client.joinGame(Integer.parseInt(input));
+                client.joinGame(input);
             } catch (NonExistentNicknameException | AlreadyInGameException e) {
                 throw new RuntimeException(e);
             } catch (ConnectionError e) {
@@ -812,6 +813,8 @@ public class CLI extends View{
             printMessage("No games available, please create a new one ", AnsiEscapeCodes.ERROR_MESSAGE);
         } catch (ConnectionError e) {
             throw new RuntimeException(e);
+        } catch (WrongLobbyIndexException e) {
+            printMessage("Wrong lobby index, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
         }
 
         return false;

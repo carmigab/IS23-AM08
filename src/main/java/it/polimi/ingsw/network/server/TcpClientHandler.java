@@ -146,7 +146,7 @@ public class TcpClientHandler implements Runnable {
      * This method manages an inbound message
      * @param message: the inbound message
      */
-    private void manageInboundTcpMessages(Message message){
+    private void manageInboundTcpMessages(Message message) {
         if(!mute) System.out.println("CH["+nickname+"]: Received a "+message.toString()+" from "+message.sender());
         try {
             // asynchronous messages
@@ -196,6 +196,7 @@ public class TcpClientHandler implements Runnable {
                 boolean alreadyInGame = false;
                 boolean nonExistentNickname = false;
                 boolean noGamesAvailable = false;
+                boolean wrongLobbyIndex = false;
                 try {
                     this.lobbyServer.joinGame(m.sender(), this, m.getGameIndex());
                 } catch (NoGamesAvailableException e) {
@@ -204,8 +205,10 @@ public class TcpClientHandler implements Runnable {
                     alreadyInGame = true;
                 } catch (NonExistentNicknameException e) {
                     nonExistentNickname = true;
+                } catch (WrongLobbyIndexException e) {
+                    wrongLobbyIndex = true;
                 }
-                sendTcpMessage(new JoinGameResponse("Server", noGamesAvailable, nonExistentNickname, alreadyInGame));
+                sendTcpMessage(new JoinGameResponse("Server", noGamesAvailable, nonExistentNickname, alreadyInGame, wrongLobbyIndex));
             }
 
             else if (message instanceof MakeMoveMessage) {

@@ -7,7 +7,7 @@ import it.polimi.ingsw.network.messages.Message;
  */
 public class JoinGameMessage extends Message {
 
-    private final int gameIndex;
+    private final String gameIndex;
 
     /**
      * constructor
@@ -15,13 +15,13 @@ public class JoinGameMessage extends Message {
      * @param sender    : the sender
      * @param gameIndex
      */
-    public JoinGameMessage(String sender, int gameIndex) {
+    public JoinGameMessage(String sender, String gameIndex) {
         super(sender);
         this.gameIndex = gameIndex;
         setMessageType("JoinGameMessage");
     }
 
-    public int getGameIndex() {
+    public String getGameIndex() {
         return gameIndex;
     }
 }

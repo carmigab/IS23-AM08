@@ -16,6 +16,7 @@ import it.polimi.ingsw.network.server.exceptions.NonExistentNicknameException;
 import it.polimi.ingsw.constants.ServerConstants;
 import it.polimi.ingsw.network.server.exceptions.NoGamesAvailableException;
 import it.polimi.ingsw.network.messages.Message;
+import it.polimi.ingsw.network.server.exceptions.WrongLobbyIndexException;
 import it.polimi.ingsw.view.View;
 
 import java.io.*;
@@ -426,13 +427,14 @@ public class TcpClient implements Client{
      * @throws AlreadyInGameException
      * @throws ConnectionError
      */
-    public synchronized void joinGame(int gameIndex) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError {
+    public synchronized void joinGame(String gameIndex) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError, WrongLobbyIndexException {
         JoinGameResponse response = (JoinGameResponse) this.manageTcpConversation(actionLock,
                 new JoinGameMessage(this.nickname, gameIndex));
 
         if (response.isAlreadyInGame()) throw new AlreadyInGameException();
         if (response.isNoGamesAvailable()) throw new NoGamesAvailableException();
         if (response.isNonExistentNickname()) throw new NonExistentNicknameException();
+        if (response.isWrongLobbyIndex()) throw new WrongLobbyIndexException();
     }
 
     /**

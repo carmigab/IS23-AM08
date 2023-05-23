@@ -410,7 +410,9 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
         List<Lobby> activeLobbies = new ArrayList<>();
 
         for (MatchServer matchServer : serverList) {
-            activeLobbies.add(new Lobby(matchServer.getNumPlayers(), matchServer.getNicknamesList().size(), List.copyOf(matchServer.getNicknamesList())));
+            if (matchServer.getFreeSpaces() > 0) {
+                activeLobbies.add(new Lobby(matchServer.getNumPlayers(), matchServer.getNicknamesList().size(), List.copyOf(matchServer.getNicknamesList())));
+            }
         }
 
         return activeLobbies;

@@ -10,6 +10,7 @@ import it.polimi.ingsw.utilities.UtilityFunctions;
 import it.polimi.ingsw.constants.ViewConstants;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.AlreadyBoundException;
@@ -459,6 +460,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
 
             try {
                 serverSocket = new ServerSocket(port);
+                if(!mute) System.out.println("LS: Server ip: " + InetAddress.getLocalHost().getHostAddress());
             } catch (IOException e) {
                 if(!mute) System.out.println("LS: Error while opening the tcp Server port");
                 System.err.println(e.getMessage());

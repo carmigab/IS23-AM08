@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 /**
- * This os the Rmi Interface for the client
+ * This is the Rmi Interface for the client
  */
 public interface RmiClientInterface extends Remote {
     /**

@@ -319,10 +319,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      */
     @Override
     public List<Lobby> getLobbies() throws NoGamesAvailableException, ConnectionError {
-        List<Lobby> activeLobbies = new ArrayList<>();
+        List<Lobby> activeLobbies;
 
         try {
-            lobbyServer.getLobbies();
+            activeLobbies=lobbyServer.getLobbies();
         } catch (RemoteException e) {
             if (!mute && !essential) System.out.println("Remote exception from getLobbies");
             this.gracefulDisconnection(true);

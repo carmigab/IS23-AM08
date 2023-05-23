@@ -13,6 +13,8 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -176,6 +178,13 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * This method loads all games currently saved in the directory "savedMatches" and removes the ones which are ended already
      */
     private void cleanMatchDirectory(){
+
+        try {
+            Files.createDirectory(Paths.get(ModelConstants.PATH_SAVED_MATCHES));
+        } catch (IOException e) {
+            System.out.println("LS: Directory "+ModelConstants.PATH_SAVED_MATCHES+" already created...");
+        }
+
         Arrays.stream(Objects.requireNonNull(new File(ModelConstants.PATH_SAVED_MATCHES).list()))
                 .filter(match -> {
                     try (FileReader fr = new FileReader(ModelConstants.PATH_SAVED_MATCHES+match)){

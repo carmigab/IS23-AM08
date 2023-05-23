@@ -155,6 +155,7 @@ public class GameModel {
             fileWriter.close();
         } catch (IOException e) {
             System.out.println("Error in opening to the file "+this.fileName+" plz restart application");
+            e.printStackTrace();
         }
 
     }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gameInfo;
 
 import com.google.gson.annotations.Expose;
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.model.SingleGoal;
 import it.polimi.ingsw.model.Tile;
 
@@ -107,9 +108,17 @@ public class PlayerInfo implements Serializable {
      * @return the shelf of the player
      */
     public Tile[][] getShelf() {
-        return shelf;
-    }
+        Tile[][] shelfCopy = new Tile[ModelConstants.ROWS_NUMBER][ModelConstants.COLS_NUMBER];
 
+        for (int i = 0; i < ModelConstants.ROWS_NUMBER; i++) {
+            for (int j = 0; j < ModelConstants.COLS_NUMBER; j++) {
+                shelfCopy[i][j] = new Tile(shelf[i][j]);
+            }
+        }
+
+        return shelfCopy;
+    }
+    ;
     /**
      * Getter
      *

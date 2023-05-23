@@ -779,10 +779,11 @@ public class CLI extends View{
         try {
             List<Lobby> activeLobbies = client.getLobbies();
 
-            for (Lobby lobby : activeLobbies) {
-                printMessage(lobby.toString(), AnsiEscapeCodes.INFO_MESSAGE);
+            for (int i = 0; i < activeLobbies.size(); i++) {
+                printMessage("Lobby " + i + ": " + activeLobbies.get(i).toString(), AnsiEscapeCodes.INFO_MESSAGE);
             }
 
+            System.out.println();
             printMessage("Select the game you want to join (type the game number) or type 'r' to join a random game:", AnsiEscapeCodes.INFO_MESSAGE);
             String input = retryInput(ViewConstants.REGEX_INPUT_JOIN_GAME);
 

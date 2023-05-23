@@ -403,6 +403,8 @@ public class GameViewController implements Initializable{
 
         this.displayCommonGoals();
 
+        this.dispayPersonalGoal();
+
         this.clearPositionList();
 
         this.displayOtherShelf();
@@ -441,6 +443,17 @@ public class GameViewController implements Initializable{
                                 ()->this.myShelf.setComponentSavedImageFromPositions(null, x, y));
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * This method displays the correct image for the personal goal
+     */
+    private void dispayPersonalGoal(){
+        for(PlayerInfo player: this.guiView.gameInfo.getPlayerInfosList()){
+            if(player.getNickname().equals(this.guiView.myNickname)){
+                this.personalGoal.setComponentImage(this.getImageFromPersonalGoalDescription(player.getPersonalGoalNumber()));
             }
         }
     }
@@ -535,6 +548,16 @@ public class GameViewController implements Initializable{
      */
     private Image getImageFromCommonGoalDescription(Integer integer){
         String imageToLoad="gui/images/common_goal_cards/"+(integer+1)+".jpg";
+        return new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath(imageToLoad, this.getClass()));
+    }
+
+    /**
+     * This method is a utility that chooses the correct background image for the personal
+     * @param integer personal goal to be displayed
+     * @return image referring to the correct personal
+     */
+    private Image getImageFromPersonalGoalDescription(Integer integer){
+        String imageToLoad="gui/images/personal_goal_cards/Personal_Goals"+(integer+1)+".png";
         return new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath(imageToLoad, this.getClass()));
     }
 

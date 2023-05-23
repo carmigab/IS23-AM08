@@ -13,6 +13,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -48,6 +50,8 @@ public class HelloController implements Initializable {
     private ChoiceBox<Integer> numPlayers;
     @FXML
     private Button goButton;
+    @FXML
+    private VBox container;
 
     private View guiView;
     private Stage stage;
@@ -73,6 +77,9 @@ public class HelloController implements Initializable {
         numPlayers.getItems().removeAll(numPlayers.getItems());
         numPlayers.getItems().addAll(2,3,4);
         numPlayers.getSelectionModel().select(2);
+
+        container.setPrefWidth(Screen.getPrimary().getBounds().getMaxX()/2);
+        container.setPrefHeight(Screen.getPrimary().getBounds().getMaxY()/2);
 
     }
 

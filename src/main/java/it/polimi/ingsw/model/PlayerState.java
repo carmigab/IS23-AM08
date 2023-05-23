@@ -46,10 +46,16 @@ public class PlayerState {
     private int firstPoint;
 
     /**
-     * This attribute is the Personal shelf of the player
+     * This attribute is the Personal goal of the player
      */
     @Expose
     private PersonalGoal personalGoal;
+
+    /**
+     * This attribute is the Personal goal number of the player
+     */
+    @Expose
+    private Integer personalGoalNumber;
 
     /**
      * This attribute represents the state of the common
@@ -64,10 +70,12 @@ public class PlayerState {
      * This is the constructor
      * @param name: the nickname of the player
      * @param personalGoal: the personal shelf of the player
+     * @param personalGoalNumber: the personal goal number of the player
      */
-    public PlayerState(String name, PersonalGoal personalGoal){
+    public PlayerState(String name, PersonalGoal personalGoal, Integer personalGoalNumber){
         this.nickname = name;
         this.personalGoal = personalGoal;
+        this.personalGoalNumber = personalGoalNumber;
         this.CGPoints = new int[ModelConstants.TOTAL_CG_PER_GAME];
 
         // Initialization
@@ -225,7 +233,8 @@ public class PlayerState {
                 this.firstPoint,
                 this.groupPoints,
                 this.myShelf.getCopy(),
-                this.personalGoal.getCopy());
+                this.personalGoal.getCopy(),
+                this.personalGoalNumber);
     }
 
 }

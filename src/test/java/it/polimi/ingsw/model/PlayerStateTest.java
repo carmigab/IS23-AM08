@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class PlayerStateTest {
 
-    PlayerState player = new PlayerState("Bill1", null);
+    PlayerState player = new PlayerState("Bill1", null, -1);
 
 
     /**

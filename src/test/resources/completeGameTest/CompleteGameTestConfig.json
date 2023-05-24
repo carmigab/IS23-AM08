@@ -922,7 +922,10 @@
           ]
         },
         "PGPoints": 0,
-        "CGPoints": 0,
+        "CGPoints": [
+          0,
+          0
+        ],
         "groupPoints": 0,
         "firstPoint": 0,
         "personalGoal": {
@@ -979,6 +982,7 @@
             12
           ]
         },
+        "personalGoalNumber": 6,
         "comGoalDone": [
           false,
           false
@@ -1123,7 +1127,10 @@
           ]
         },
         "PGPoints": 0,
-        "CGPoints": 0,
+        "CGPoints": [
+          0,
+          0
+        ],
         "groupPoints": 0,
         "firstPoint": 0,
         "personalGoal": {
@@ -1180,6 +1187,7 @@
             12
           ]
         },
+        "personalGoalNumber": 6,
         "comGoalDone": [
           false,
           false

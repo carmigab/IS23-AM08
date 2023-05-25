@@ -197,8 +197,9 @@ public class TcpClientHandler implements Runnable {
                 boolean nonExistentNickname = false;
                 boolean noGamesAvailable = false;
                 boolean wrongLobbyIndex = false;
+                boolean lobbyFull = false;
                 try {
-                    this.lobbyServer.joinGame(m.sender(), this, m.getGameIndex());
+                    this.lobbyServer.joinGame(m.sender(), this, m.getLobbyName());
                 } catch (NoGamesAvailableException e) {
                     noGamesAvailable = true;
                 } catch (AlreadyInGameException e) {
@@ -207,8 +208,10 @@ public class TcpClientHandler implements Runnable {
                     nonExistentNickname = true;
                 } catch (WrongLobbyIndexException e) {
                     wrongLobbyIndex = true;
+                } catch (LobbyFullException e) {
+                    lobbyFull = true;
                 }
-                sendTcpMessage(new JoinGameResponse("Server", noGamesAvailable, nonExistentNickname, alreadyInGame, wrongLobbyIndex));
+                sendTcpMessage(new JoinGameResponse("Server", noGamesAvailable, nonExistentNickname, alreadyInGame, wrongLobbyIndex, lobbyFull));
             }
 
             else if (message instanceof MakeMoveMessage) {

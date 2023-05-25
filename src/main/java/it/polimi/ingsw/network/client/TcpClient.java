@@ -11,12 +11,9 @@ import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.network.messages.clientMessages.*;
 import it.polimi.ingsw.network.messages.serverMessages.*;
 import it.polimi.ingsw.network.server.Lobby;
-import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
-import it.polimi.ingsw.network.server.exceptions.NonExistentNicknameException;
+import it.polimi.ingsw.network.server.exceptions.*;
 import it.polimi.ingsw.constants.ServerConstants;
-import it.polimi.ingsw.network.server.exceptions.NoGamesAvailableException;
 import it.polimi.ingsw.network.messages.Message;
-import it.polimi.ingsw.network.server.exceptions.WrongLobbyIndexException;
 import it.polimi.ingsw.view.View;
 
 import java.io.*;
@@ -427,14 +424,15 @@ public class TcpClient implements Client{
      * @throws AlreadyInGameException
      * @throws ConnectionError
      */
-    public synchronized void joinGame(String gameIndex) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError, WrongLobbyIndexException {
+    public synchronized void joinGame(String lobbyName) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError, WrongLobbyIndexException, LobbyFullException {
         JoinGameResponse response = (JoinGameResponse) this.manageTcpConversation(actionLock,
-                new JoinGameMessage(this.nickname, gameIndex));
+                new JoinGameMessage(this.nickname, lobbyName));
 
         if (response.isAlreadyInGame()) throw new AlreadyInGameException();
         if (response.isNoGamesAvailable()) throw new NoGamesAvailableException();
         if (response.isNonExistentNickname()) throw new NonExistentNicknameException();
         if (response.isWrongLobbyIndex()) throw new WrongLobbyIndexException();
+        if (response.isLobbyFull()) throw new LobbyFullException();
     }
 
     /**

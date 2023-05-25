@@ -16,10 +16,7 @@ import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.constants.ServerConstants;
 import it.polimi.ingsw.network.server.Lobby;
-import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
-import it.polimi.ingsw.network.server.exceptions.NoGamesAvailableException;
-import it.polimi.ingsw.network.server.exceptions.NonExistentNicknameException;
-import it.polimi.ingsw.network.server.exceptions.WrongLobbyIndexException;
+import it.polimi.ingsw.network.server.exceptions.*;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -781,7 +778,7 @@ public class CLI extends View{
             List<Lobby> activeLobbies = client.getLobbies();
 
             for (int i = 0; i < activeLobbies.size(); i++) {
-                printMessage("Lobby " + i + ": " + activeLobbies.get(i).toString(), AnsiEscapeCodes.INFO_MESSAGE);
+                printMessage(i + ") " + activeLobbies.get(i).toString(), AnsiEscapeCodes.INFO_MESSAGE);
             }
 
             System.out.println();
@@ -800,6 +797,8 @@ public class CLI extends View{
 //                return true;
 //            }
 
+            input = parseLobbyInput(input, activeLobbies);
+
             try {
                 client.joinGame(input);
             } catch (NonExistentNicknameException | AlreadyInGameException e) {
@@ -815,6 +814,9 @@ public class CLI extends View{
             throw new RuntimeException(e);
         } catch (WrongLobbyIndexException e) {
             printMessage("Wrong lobby index, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+        }
+        catch (LobbyFullException e) {
+            printMessage("This lobby is full, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
         }
 
         return false;
@@ -835,6 +837,23 @@ public class CLI extends View{
 //        }
 //
 //        return false;
+    }
+
+    /**
+     * This method is used to parse the input of the user when he wants to join a lobby
+     * @param input the input of the user
+     * @param activeLobbies the list of the active lobbies
+     * @return the name of the lobby the user wants to join
+     */
+    private String parseLobbyInput(String input, List<Lobby> activeLobbies) throws WrongLobbyIndexException {
+        if (input.equalsIgnoreCase("r")) {
+            Random random = new Random();
+            return activeLobbies.get(random.nextInt(activeLobbies.size())).lobbyName();
+        }
+        else {
+            if (Integer.parseInt(input) >= activeLobbies.size()) throw new WrongLobbyIndexException();
+            return activeLobbies.get(Integer.parseInt(input)).lobbyName();
+        }
     }
 
     /**

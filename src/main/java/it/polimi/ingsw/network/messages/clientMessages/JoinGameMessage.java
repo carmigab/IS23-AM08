@@ -7,21 +7,21 @@ import it.polimi.ingsw.network.messages.Message;
  */
 public class JoinGameMessage extends Message {
 
-    private final String gameIndex;
+    private final String lobbyName;
 
     /**
      * constructor
      *
      * @param sender    : the sender
-     * @param gameIndex
+     * @param lobbyName : the lobby name
      */
-    public JoinGameMessage(String sender, String gameIndex) {
+    public JoinGameMessage(String sender, String lobbyName) {
         super(sender);
-        this.gameIndex = gameIndex;
+        this.lobbyName = lobbyName;
         setMessageType("JoinGameMessage");
     }
 
-    public String getGameIndex() {
-        return gameIndex;
+    public String getLobbyName() {
+        return lobbyName;
     }
 }

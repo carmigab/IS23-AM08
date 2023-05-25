@@ -4,10 +4,7 @@ import it.polimi.ingsw.network.client.RmiClient;
 import it.polimi.ingsw.network.client.TcpClient;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.constants.ServerConstants;
-import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
-import it.polimi.ingsw.network.server.exceptions.NoGamesAvailableException;
-import it.polimi.ingsw.network.server.exceptions.NonExistentNicknameException;
-import it.polimi.ingsw.network.server.exceptions.WrongLobbyIndexException;
+import it.polimi.ingsw.network.server.exceptions.*;
 import it.polimi.ingsw.view.View;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -153,6 +150,8 @@ public class HelloController implements Initializable {
             this.errorLabel.setText("Connection error");
         } catch (WrongLobbyIndexException e) {
             this.errorLabel.setText("Wrong lobby index");
+        } catch (LobbyFullException e) {
+            this.errorLabel.setText("Lobby is full");
         }
     }
 

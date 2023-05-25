@@ -208,9 +208,9 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @throws AlreadyInGameException
      * @throws ConnectionError
      */
-    public void joinGame(String gameIndex) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError, WrongLobbyIndexException {
+    public void joinGame(String lobbyName) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError, WrongLobbyIndexException, LobbyFullException {
         try {
-            String matchServerName = this.lobbyServer.joinGame(nickname, this, gameIndex);
+            String matchServerName = this.lobbyServer.joinGame(nickname, this, lobbyName);
             this.connectToMatchServer(matchServerName);
         } catch (RemoteException e) {
             if (!mute && !essential) System.out.println("Remote exception from joinGame");

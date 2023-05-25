@@ -2,10 +2,11 @@ package it.polimi.ingsw.network.server;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
-public record Lobby(int playersNum, int playerInGame, List<String> players) implements Serializable {
+public record Lobby(String lobbyName, int playersNum, int playerInGame, List<String> players) implements Serializable {
     @Override
     public String toString() {
-        return "players " + playerInGame + "/" + playersNum + "\n" + "   players waiting: " + players;
+        return lobbyName + ": players " + playerInGame + "/" + playersNum + "\n" + "   players waiting: " + players;
     }
 }

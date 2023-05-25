@@ -13,21 +13,26 @@ import java.util.List;
 public class GameStateRepresentation {
 
     @Expose
-    public Tile[][] board;
+    private Tile[][] board;
 
     @Expose
-    public Tile[][] shelf;
+    private Tile[][] shelf;
+
+    @Expose
+    private final List<SingleGoal> personalGoal;
 
 
     /**
      * This constructor creates a state of the game
      *
-     * @param board        the board of the game
-     * @param shelf        the shelf of the game
+     * @param board         the board of the game
+     * @param shelf         the shelf of the game
+     * @param personalGoal
      */
-    public GameStateRepresentation(Tile[][] board, Tile[][] shelf) {
+    public GameStateRepresentation(Tile[][] board, Tile[][] shelf, List<SingleGoal> personalGoal) {
         this.board = board;
         this.shelf = shelf;
+        this.personalGoal = personalGoal;
     }
 
     /**
@@ -46,6 +51,23 @@ public class GameStateRepresentation {
      */
     public Tile[][] getShelf() {
         return copyTileMatrix(shelf);
+    }
+
+    /**
+     * This method returns the personal goals of the player
+     *
+     * @return the personal goals of the player
+     */
+    public List<SingleGoal> getPersonalGoal() {
+        return personalGoal;
+    }
+
+    public void setBoard(Tile[][] board) {
+        this.board = board;
+    }
+
+    public void setShelf(Tile[][] shelf) {
+        this.shelf = shelf;
     }
 
     @NotNull

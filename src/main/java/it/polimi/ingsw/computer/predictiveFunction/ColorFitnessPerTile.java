@@ -1,10 +1,7 @@
 package it.polimi.ingsw.computer.predictiveFunction;
 
 import it.polimi.ingsw.constants.ModelConstants;
-import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.model.Shelf;
-import it.polimi.ingsw.model.Tile;
-import it.polimi.ingsw.model.TileColor;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.utilities.UtilityFunctionsModel;
 import javafx.geometry.Pos;
 
@@ -37,23 +34,48 @@ public class ColorFitnessPerTile {
     public void updateColorFitnessPerTile(GameStateRepresentation gameStateRepresentation) {
         double coefficient;
         int groupSize;
+        TileColor singleGoalColor;
         List<Position> tilesAtGivenManhattanDistance;
         for (int i = 0; i < ModelConstants.ROWS_NUMBER; i++) {
             for (int j = 0; j < ModelConstants.COLS_NUMBER; j++) {
-                if (!gameStateRepresentation.getShelf()[i][j].isEmpty()) {
-                    groupSize = UtilityFunctionsModel.findGroupSize(new Shelf(gameStateRepresentation.getShelf()), new Position(j, i));
+                singleGoalColor = null;
 
-                    for (int k = 1; k < 9; k++) {
-                        tilesAtGivenManhattanDistance = getTilesAtGivenManhattanDistance(k, new Position(j, i), gameStateRepresentation);
-                        coefficient = computeCoefficient(k, groupSize);
-
-                        for (Position position : tilesAtGivenManhattanDistance) {
-                            if (gameStateRepresentation.getShelf()[position.y()][position.x()].isEmpty()) {
-                                colorFitnessPerTile[position.y()][position.x()].put(gameStateRepresentation.getShelf()[i][j].getColor(),
-                                        colorFitnessPerTile[position.y()][position.x()].get(gameStateRepresentation.getShelf()[i][j].getColor()) + coefficient);
-                            }
-                        }
+                for (SingleGoal singleGoal : gameStateRepresentation.getPersonalGoal()) {
+                    if (singleGoal.getPosition().equals(new Position(j, i))) {
+                        singleGoalColor = singleGoal.getColor();
+                        break;
                     }
+                }
+
+                if (singleGoalColor != null && gameStateRepresentation.getShelf()[i][j].isEmpty()) {
+                    colorFitnessPerTile[i][j].put(singleGoalColor, colorFitnessPerTile[i][j].get(singleGoalColor) + 1);
+
+                    Tile[][] shelf = gameStateRepresentation.getShelf();
+                    shelf[i][j] = new Tile(singleGoalColor, 0);
+
+                    updateCoefficients(gameStateRepresentation, i, j, singleGoalColor);
+                }
+                else if (!gameStateRepresentation.getShelf()[i][j].isEmpty()) {
+                    updateCoefficients(gameStateRepresentation, i, j, gameStateRepresentation.getShelf()[i][j].getColor());
+                }
+            }
+        }
+    }
+
+    private void updateCoefficients(GameStateRepresentation gameStateRepresentation, int i, int j, TileColor color) {
+        int groupSize;
+        List<Position> tilesAtGivenManhattanDistance;
+        double coefficient;
+        groupSize = UtilityFunctionsModel.findGroupSize(new Shelf(gameStateRepresentation.getShelf()), new Position(j, i));
+
+        for (int k = 1; k < 9; k++) {
+            tilesAtGivenManhattanDistance = getTilesAtGivenManhattanDistance(k, new Position(j, i), gameStateRepresentation);
+            coefficient = computeCoefficient(k, groupSize);
+
+            for (Position position : tilesAtGivenManhattanDistance) {
+                if (gameStateRepresentation.getShelf()[position.y()][position.x()].isEmpty()) {
+                    colorFitnessPerTile[position.y()][position.x()].put(color,
+                            colorFitnessPerTile[position.y()][position.x()].get(color) + coefficient);
                 }
             }
         }

@@ -14,7 +14,6 @@ import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.view.View;
 
-import java.nio.file.ClosedFileSystemException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.*;
@@ -56,16 +55,27 @@ public class BotLogic extends View {
                 .findFirst()
                 .orElseThrow();
 
-        for (SingleGoal singleGoal: gameInfo.getPlayerInfosList().stream()
-                .filter(playerInfo -> playerInfo.getNickname().equals(myNickname))
-                .map(PlayerInfo::getPersonalGoal)
-                .findFirst()
-                .orElseThrow()) {
+//        for (SingleGoal singleGoal: gameInfo.getPlayerInfosList().stream()
+//                .filter(playerInfo -> playerInfo.getNickname().equals(myNickname))
+//                .map(PlayerInfo::getPersonalGoal)
+//                .findFirst()
+//                .orElseThrow()) {
+//
+//            shelf[singleGoal.getPosition().y()][singleGoal.getPosition().x()] = new Tile(singleGoal.getColor(), 0);
+//        }
 
-            shelf[singleGoal.getPosition().y()][singleGoal.getPosition().x()] = new Tile(singleGoal.getColor(), 0);
+        if (gameStateRepresentation == null) {
+            gameStateRepresentation = new GameStateRepresentation(gameInfo.getGameBoard(), shelf,
+                    gameInfo.getPlayerInfosList().stream()
+                            .filter(playerInfo -> playerInfo.getNickname().equals(myNickname))
+                            .map(PlayerInfo::getPersonalGoal)
+                            .findFirst()
+                            .orElseThrow());
         }
-
-        gameStateRepresentation = new GameStateRepresentation(gameInfo.getGameBoard(), shelf);
+        else {
+            gameStateRepresentation.setBoard(gameInfo.getGameBoard());
+            gameStateRepresentation.setShelf(shelf);
+        }
 
         colorFitnessPerTile.updateColorFitnessPerTile(gameStateRepresentation);
 
@@ -111,7 +121,7 @@ public class BotLogic extends View {
     private Action getBestAction() {
         Action bestAction = null;
         Set<Action> availableActions = getAvailableActions();
-        double maxFitness = Double.MIN_VALUE;
+        double maxFitness = -10;
 
         for (Action action: availableActions) {
             if (colorFitnessPerTile.evaluateAction(action, gameStateRepresentation.getShelf()) > maxFitness) {

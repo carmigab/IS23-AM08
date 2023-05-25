@@ -22,6 +22,7 @@ public class GetLobbiesResponse extends Message {
         super(sender);
         this.lobbyList = lobbyList;
         this.noGamesAvailableException = noGamesAvailableException;
+        setMessageType("GetLobbiesResponse");
     }
 
     public List<Lobby> getLobbyList() {

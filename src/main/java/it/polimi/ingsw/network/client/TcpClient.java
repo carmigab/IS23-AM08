@@ -362,7 +362,9 @@ public class TcpClient implements Client{
         else if (message instanceof UpdateMessage) {
             UpdateMessage m = (UpdateMessage) message;
             this.update(m.getNewState(), m.getNewInfo());
-
+        }
+        else if (message instanceof GetLobbiesResponse) {
+            notifyLockAndSetMessage(actionLock, message);
         }
     }
 

@@ -33,7 +33,8 @@ public class ServerLauncher {
         serverParameters.put("--server-name", (index) -> input.setServerName(argsToList.get(index+1)));
         serverParameters.put("--game-name"  , (index) -> input.setStartingName(argsToList.get(index+1)));
 
-        if(argsToList.get(0).equals("--help")){
+
+        if(argsToList.size() > 0 && argsToList.get(0).equals("--help")){
             System.out.println("""
                     Usage:\s
                     --tcp-port

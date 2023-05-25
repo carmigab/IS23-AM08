@@ -116,7 +116,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
      * @throws InvalidNicknameException
      * @throws InvalidMoveException
      */
-    public void makeMove(List<Position> pos, int col, String nickname) throws RemoteException, InvalidNicknameException, InvalidMoveException, GameEndedException {
+    public synchronized void makeMove(List<Position> pos, int col, String nickname) throws RemoteException, InvalidNicknameException, InvalidMoveException, GameEndedException {
         if (this.state == State.ENDGAME) throw new GameEndedException();
 
         if(!mute) System.out.println("MS: A client made a move");

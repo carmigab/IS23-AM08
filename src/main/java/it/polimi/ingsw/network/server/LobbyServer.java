@@ -405,7 +405,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      */
     @Override
     public String joinGame(String nickname, RmiClientInterface rmiClient) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
-        return this.joinGameTcpRmi(nickname, new ClientHandler(rmiClient));
+        return this.joinGameTcpRmi(nickname, new RmiClientHandler(rmiClient));
     }
 
     /**
@@ -421,7 +421,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      */
     @Override
     public String createGame(Integer numPlayers, String nickname, RmiClientInterface rmiClient) throws RemoteException, AlreadyInGameException, NonExistentNicknameException{
-        return this.createGameTcpRmi(numPlayers, nickname, new ClientHandler(rmiClient));
+        return this.createGameTcpRmi(numPlayers, nickname, new RmiClientHandler(rmiClient));
     }
 
 
@@ -438,7 +438,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
     public String joinGame(String nickname, TcpClientHandler tcpClient) throws NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException {
-        return this.joinGameTcpRmi(nickname, new ClientHandler(tcpClient));
+        return this.joinGameTcpRmi(nickname, tcpClient);
     }
 
     /**
@@ -453,7 +453,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
     public String createGame(Integer numPlayers, String nickname, TcpClientHandler tcpClient) throws RemoteException, AlreadyInGameException, NonExistentNicknameException{
-        return this.createGameTcpRmi(numPlayers, nickname, new ClientHandler(tcpClient));
+        return this.createGameTcpRmi(numPlayers, nickname, tcpClient);
     }
 
     /**

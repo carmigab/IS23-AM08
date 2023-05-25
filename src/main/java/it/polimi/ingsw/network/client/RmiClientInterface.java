@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
+import it.polimi.ingsw.network.client.exceptions.TimeOutException;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

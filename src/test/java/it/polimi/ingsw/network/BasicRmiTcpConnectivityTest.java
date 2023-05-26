@@ -12,6 +12,7 @@ import javafx.geometry.Pos;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
@@ -51,13 +52,20 @@ public class BasicRmiTcpConnectivityTest {
                 client2.makeMove(positions, 1);
             }
 
+            // Chat test
+            client1.messageAll("Wololo");
+            client2.messageSomeone("Wololo", "Bill1");
+
+            client2.messageAll("Wololo");
+            client1.messageSomeone("Wololo", "Bill1");
+
 
             // With this we delete the match that we have created
-
             Arrays.stream(Objects.requireNonNull(new File(ModelConstants.PATH_SAVED_MATCHES).list()))
-                    .forEach((match) -> new File(ModelConstants.PATH_SAVED_MATCHES + match).delete());
-
-
+                    .forEach((match) -> {
+                        if (match.equals("Bill2_Bill1_.json"))
+                            new File(ModelConstants.PATH_SAVED_MATCHES + match).delete();
+                    });
 
 
 

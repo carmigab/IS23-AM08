@@ -408,7 +408,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      */
     @Override
     public String joinGame(String nickname, RmiClientInterface rmiClient, String gameIndex) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException, WrongLobbyIndexException, LobbyFullException {
-        return this.joinGameTcpRmi(nickname, new ClientHandler(rmiClient), gameIndex);
+        return this.joinGameTcpRmi(nickname, new RmiClientHandler(rmiClient), gameIndex);
     }
 
     /**
@@ -461,7 +461,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
     public String joinGame(String nickname, TcpClientHandler tcpClient, String lobbyName) throws NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException, WrongLobbyIndexException, LobbyFullException {
-        return this.joinGameTcpRmi(nickname, new ClientHandler(tcpClient), lobbyName);
+        return this.joinGameTcpRmi(nickname, tcpClient, lobbyName);
     }
 
     /**

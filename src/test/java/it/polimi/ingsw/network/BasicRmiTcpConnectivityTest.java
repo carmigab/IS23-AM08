@@ -41,7 +41,7 @@ public class BasicRmiTcpConnectivityTest {
             // Second Client
             Client client2 = new TcpClient(nickname2, fakeView, "localhost", ServerConstants.TCP_PORT);
             client2.chooseNickname(nickname2);
-            client2.joinGame();
+            client2.joinGame("gamedummy1");
 
 
             ArrayList<Position> positions = new ArrayList<>();

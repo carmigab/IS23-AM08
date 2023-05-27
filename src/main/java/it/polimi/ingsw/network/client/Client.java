@@ -53,7 +53,7 @@ public interface Client  {
      * @throws AlreadyInGameException
      * @throws ConnectionError
      */
-    public void joinGame(String gameIndex) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError, WrongLobbyIndexException, LobbyFullException;
+    public void joinGame(String lobbyName) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError, WrongLobbyIndexException, LobbyFullException;
 
     /**
      * This method has to be overridden in its subclasses, it tries to send a private message

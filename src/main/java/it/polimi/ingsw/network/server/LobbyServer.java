@@ -13,6 +13,8 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -22,6 +24,7 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.google.gson.*;
 /**
  * This class sets up the main server which will make the player set his name and choose a game to join
  */
@@ -172,6 +175,13 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * This method loads all games currently saved in the directory "savedMatches" and removes the ones which are ended already
      */
     private void cleanMatchDirectory(){
+
+        try {
+            Files.createDirectory(Paths.get(ModelConstants.PATH_SAVED_MATCHES));
+        } catch (IOException e) {
+            System.out.println("LS: Directory "+ModelConstants.PATH_SAVED_MATCHES+" already created...");
+        }
+
         Arrays.stream(Objects.requireNonNull(new File(ModelConstants.PATH_SAVED_MATCHES).list()))
                 .filter(match -> {
                     try (FileReader fr = new FileReader(ModelConstants.PATH_SAVED_MATCHES+match)){
@@ -253,11 +263,11 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             // here we manage the client
             rs.addPlayer(nickname, client);
             client.setMatchServer(rs);
-            
+
             this.serverList.add(rs);
             String gameName = this.config.getStartingName()+(this.serverList.size());
             this.serverInformation.add(gameName);
-            
+
             this.startGame(rs, gameName);
             return gameName;
         }
@@ -434,7 +444,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      */
     @Override
     public String createGame(Integer numPlayers, String nickname, RmiClientInterface rmiClient) throws RemoteException, AlreadyInGameException, NonExistentNicknameException{
-        return this.createGameTcpRmi(numPlayers, nickname, new ClientHandler(rmiClient));
+        return this.createGameTcpRmi(numPlayers, nickname, new RmiClientHandler(rmiClient));
     }
 
 
@@ -466,7 +476,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
     public String createGame(Integer numPlayers, String nickname, TcpClientHandler tcpClient) throws RemoteException, AlreadyInGameException, NonExistentNicknameException{
-        return this.createGameTcpRmi(numPlayers, nickname, new ClientHandler(tcpClient));
+        return this.createGameTcpRmi(numPlayers, nickname, tcpClient);
     }
 
     /**

@@ -122,7 +122,6 @@ public abstract class View {
      * This method is called by waitCommand to parse the command and call the right method
      * @param command the command to parse
      */
-    //TODO: implementare
     protected abstract void parseCommand(String command);
 
     /**
@@ -154,7 +153,6 @@ public abstract class View {
      * This method is used to check the single position: the client choose a tile and this method check if the
      * position is in the board, if the tile isn't invalid or empty and if the tile has free adjacent
      */
-    //TODO: implementare
     private boolean checkSinglePosition(Position pos){
         if(pos.x() < 0 || pos.x() >= ModelConstants.BOARD_DIMENSION) return false;
         if(pos.y() < 0 || pos.y() >= ModelConstants.BOARD_DIMENSION) return false;

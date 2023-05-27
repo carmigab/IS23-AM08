@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * This class manages all the inbound and outgoing communication between the client and the server
  */
-public class TcpClientHandler implements Runnable {
+public class TcpClientHandler extends ClientHandler implements Runnable {
     /**
      * This attribute represents the socket
      */
@@ -81,16 +81,16 @@ public class TcpClientHandler implements Runnable {
         try {
             this.socket.setSoTimeout(ServerConstants.PING_TIME+ServerConstants.TCP_WAIT_TIME+1000);
         } catch (SocketException e) {
-            if(!mute) System.out.println("CH["+nickname+"]: SocketException");
+            if(!mute) System.out.println("Tcp_CH["+nickname+"]: SocketException");
             this.disconnection();
         }
 
         // Opening output streams
         try {
-            if(!mute) System.out.println("CH: Opening Output Streams");
+            if(!mute) System.out.println("Tcp_CH: Opening Output Streams");
             this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         } catch (IOException e) {
-            if(!mute) System.out.println("CH["+nickname+"]: Failed opening Output Streams");
+            if(!mute) System.out.println("Tcp_CH["+nickname+"]: Failed opening Output Streams");
             this.disconnection();
         }
 
@@ -102,14 +102,14 @@ public class TcpClientHandler implements Runnable {
      * This method creates a thread that listens for inbound messages
      */
     private void createInboundMessagesThread(){
-        if(!mute) System.out.println("CH["+nickname+"]: New MessagesListener Thread starting");
-        if(!mute) System.out.println("CH["+nickname+"]: Opening Input Streams");
+        if(!mute) System.out.println("Tcp_CH["+nickname+"]: New MessagesListener Thread starting");
+        if(!mute) System.out.println("Tcp_CH["+nickname+"]: Opening Input Streams");
         Thread t = new Thread(() -> {
             // opening the input streams
             try {
                 this.objectInputStream  = new ObjectInputStream(socket.getInputStream());
             } catch (IOException e) {
-                if(!mute) System.out.println("CH["+nickname+"]: Failed opening Input Streams");
+                if(!mute) System.out.println("Tcp_CH["+nickname+"]: Failed opening Input Streams");
                 this.disconnection();
             }
 
@@ -118,21 +118,21 @@ public class TcpClientHandler implements Runnable {
                     Message message = (Message) objectInputStream.readObject();
                     this.manageInboundTcpMessages(message);
                 } catch (SocketTimeoutException e) {
-                    if(!mute) System.out.println("CH["+nickname+"]: SocketTimeoutException from InboundMessagesThread");
+                    if(!mute) System.out.println("Tcp_CH["+nickname+"]: SocketTimeoutException from InboundMessagesThread");
                     // e.printStackTrace();
                     this.disconnection();
                     break;
                 }
                 catch (IOException e) {
                     if (listeningForMessages){
-                        if(!mute) System.out.println("CH["+nickname+"]: IOException from InboundMessagesThread");
+                        if(!mute) System.out.println("Tcp_CH["+nickname+"]: IOException from InboundMessagesThread");
                         //e.printStackTrace();
                         this.disconnection();
                         break;
                     }
                 } catch (ClassNotFoundException e) {
                     if (listeningForMessages){
-                        if(!mute) System.out.println("CH["+nickname+"]: ClassNotFoundException from InboundMessagesThread");
+                        if(!mute) System.out.println("Tcp_CH["+nickname+"]: ClassNotFoundException from InboundMessagesThread");
                         this.disconnection();
                         break;
                     }
@@ -146,8 +146,8 @@ public class TcpClientHandler implements Runnable {
      * This method manages an inbound message
      * @param message: the inbound message
      */
-    private void manageInboundTcpMessages(Message message) {
-        if(!mute) System.out.println("CH["+nickname+"]: Received a "+message.toString()+" from "+message.sender());
+    private void manageInboundTcpMessages(Message message){
+        if(!mute) System.out.println("Tcp_CH["+nickname+"]: Received a "+message.toString()+" from "+message.sender());
         try {
             // asynchronous messages
             if (message instanceof ChatAllMessage) {
@@ -247,7 +247,7 @@ public class TcpClientHandler implements Runnable {
                 this.sendTcpMessage(new PingClientResponse("Server"));
 
         } catch (RemoteException e) {
-            if(!mute) System.out.println("CH["+nickname+"]: This remote exception shouldn't be here");
+            if(!mute) System.out.println("Tcp_CH["+nickname+"]: This remote exception shouldn't be here");
             //ignore
         }
     }
@@ -258,13 +258,13 @@ public class TcpClientHandler implements Runnable {
      */
     private void sendTcpMessage(Message message){
         if (tcpClientHandlerOnline) {
-            if(!mute) System.out.println("CH["+nickname+"]: Sending " + message.toString() + " to the client socket");
+            if(!mute) System.out.println("Tcp_CH["+nickname+"]: Sending " + message.toString() + " to the client socket");
             try {
                 this.objectOutputStream.writeObject(message);
                 this.objectOutputStream.flush();
                 //this.objectOutputStream.reset();
             } catch (IOException e) {
-                if(!mute) System.out.println("CH["+nickname+"]: An error occurred while trying to send a message");
+                if(!mute) System.out.println("Tcp_CH["+nickname+"]: An error occurred while trying to send a message");
                 this.disconnection();
             }
         }
@@ -327,15 +327,15 @@ public class TcpClientHandler implements Runnable {
      */
     private synchronized void disconnection(){
         if (tcpClientHandlerOnline){
-            if(!mute) System.out.println("CH["+nickname+"]: initializing disconnection");
+            if(!mute) System.out.println("Tcp_CH["+nickname+"]: initializing disconnection");
             // ending the listening thread
             this.listeningForMessages = false;
 
             try {
-                if(!mute) System.out.println("CH["+nickname+"]: closing socket");
+                if(!mute) System.out.println("Tcp_CH["+nickname+"]: closing socket");
                 this.socket.close();
             } catch (IOException e) {
-                if(!mute) System.out.println("CH["+nickname+"]: error while closing socket");
+                if(!mute) System.out.println("Tcp_CH["+nickname+"]: error while closing socket");
             }
 
             // client is now offline

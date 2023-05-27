@@ -128,7 +128,7 @@ public class GameModel {
             while (extractedPersonalGoals.contains(random)) {
                 random = r.nextInt(ModelConstants.TOTAL_GOALS);
             }
-            playerList.add(new PlayerState(s, poc.getPersonalGoalAtIndex(random)));
+            playerList.add(new PlayerState(s, poc.getPersonalGoalAtIndex(random), random));
             extractedPersonalGoals.add(random);
         }
 
@@ -155,6 +155,7 @@ public class GameModel {
             fileWriter.close();
         } catch (IOException e) {
             System.out.println("Error in opening to the file "+this.fileName+" plz restart application");
+            e.printStackTrace();
         }
 
     }

@@ -28,11 +28,21 @@ public class ServerLauncher {
         if(!argsToList.isEmpty())argsToList.remove(0);
         LobbyServerConfig input= JsonWithExposeSingleton.getJsonWithExposeSingleton().fromJson(UtilityFunctions.getReaderFromFileNameRelativePath(ServerConstants.SERVER_INITIAL_CONFIG_FILENAME, ServerLauncher.class),LobbyServerConfig.class);
 
-        serverParameters.put("--tcp-port",    (index) -> input.setServerPortTCP(Integer.valueOf(argsToList.get(index+1))));
-        serverParameters.put("--rmi-port",    (index) -> input.setServerPortRMI(Integer.valueOf(argsToList.get(index+1))));
+        serverParameters.put("--tcp-port"   , (index) -> input.setServerPortTCP(Integer.valueOf(argsToList.get(index+1))));
+        serverParameters.put("--rmi-port   ", (index) -> input.setServerPortRMI(Integer.valueOf(argsToList.get(index+1))));
         serverParameters.put("--server-name", (index) -> input.setServerName(argsToList.get(index+1)));
-        serverParameters.put("--game-name",   (index) -> input.setStartingName(argsToList.get(index+1)));
+        serverParameters.put("--game-name"  , (index) -> input.setStartingName(argsToList.get(index+1)));
 
+
+        if(argsToList.size() > 0 && argsToList.get(0).equals("--help")){
+            System.out.println("""
+                    Usage:\s
+                    --tcp-port
+                    --rmi-port
+                    --server-name
+                    --game-name""");
+            return;
+        }
         for(int i=0; i<argsToList.size();i+=2){
             if(serverParameters.containsKey(argsToList.get(i))) serverParameters.get(argsToList.get(i)).accept(i);
         }

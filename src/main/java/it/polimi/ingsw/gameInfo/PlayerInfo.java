@@ -55,6 +55,12 @@ public class PlayerInfo implements Serializable {
     private final List<SingleGoal> personalGoal;
 
     /**
+     * This attribute stores the personal goals number of the player
+     */
+    @Expose
+    private final Integer personalGoalNumber;
+
+    /**
      * Constructor
      *
      * @param nickname      of the player
@@ -65,7 +71,7 @@ public class PlayerInfo implements Serializable {
      * @param shelf         of the player
      * @param personalGoal  of the player
      */
-    public PlayerInfo(String nickname, int pgPoints, int[] comGoalPoints, int firstPoint, int groupPoints, Tile[][] shelf, List<SingleGoal> personalGoal) {
+    public PlayerInfo(String nickname, int pgPoints, int[] comGoalPoints, int firstPoint, int groupPoints, Tile[][] shelf, List<SingleGoal> personalGoal, int personalGoalNumber) {
         this.nickname = nickname;
         this.pgPoints = pgPoints;
         this.comGoalPoints = comGoalPoints;
@@ -73,6 +79,7 @@ public class PlayerInfo implements Serializable {
         this.groupPoints = groupPoints;
         this.shelf = shelf;
         this.personalGoal = personalGoal;
+        this.personalGoalNumber = personalGoalNumber;
     }
 
     /**
@@ -127,6 +134,13 @@ public class PlayerInfo implements Serializable {
     public List<SingleGoal> getPersonalGoal() {
         return personalGoal;
     }
+
+    /**
+     * Getter
+     *
+     * @return the personal goals of the player
+     */
+    public Integer getPersonalGoalNumber() {return personalGoalNumber; }
 
     /**
      * Getter

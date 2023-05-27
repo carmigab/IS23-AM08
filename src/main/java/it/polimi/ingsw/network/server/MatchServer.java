@@ -16,7 +16,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+import com.google.gson.*;
 /**
  * This class represents the server that manages a game
  */

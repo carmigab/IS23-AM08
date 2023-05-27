@@ -5,6 +5,7 @@ import it.polimi.ingsw.constants.ServerConstants;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.network.client.Client;
+import it.polimi.ingsw.network.client.RmiClient;
 import it.polimi.ingsw.network.client.TcpClient;
 import it.polimi.ingsw.network.server.LobbyServer;
 import it.polimi.ingsw.network.server.LobbyServerConfig;
@@ -33,7 +34,7 @@ public class BasicRmiTcpConnectivityTest {
             FakeView fakeView = new FakeView();
 
             // First Client
-            Client client1 = new TcpClient(nickname1, fakeView, "localhost", ServerConstants.TCP_PORT);
+            Client client1 = new RmiClient(nickname1, fakeView, "localhost", ServerConstants.RMI_PORT);
             client1.chooseNickname(nickname1);
             client1.createGame(2);
 
@@ -63,7 +64,6 @@ public class BasicRmiTcpConnectivityTest {
             // With this we delete the match that we have created
             Arrays.stream(Objects.requireNonNull(new File(ModelConstants.PATH_SAVED_MATCHES).list()))
                     .forEach((match) -> {
-                        if (match.equals("Bill2_Bill1_.json"))
                             new File(ModelConstants.PATH_SAVED_MATCHES + match).delete();
                     });
 

@@ -24,6 +24,7 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.google.gson.*;
 /**
  * This class sets up the main server which will make the player set his name and choose a game to join
  */

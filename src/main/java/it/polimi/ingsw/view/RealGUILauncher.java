@@ -14,16 +14,29 @@ import javafx.stage.Stage;
 
 import java.util.Objects;
 
+/**
+ * This class launches the application in gui mode
+ */
 public class RealGUILauncher extends Application {
+    /**
+     * Main of the application
+     * @param args parameters received via command line
+     */
     public static void main(String[] args) {
         launch();
     }
-    static void runAsServer(){
-        System.out.println("Server started...adios!");
-    }
 
+    /**
+     * View containing the information used to connect to the server
+     */
     private View guiView;
 
+    /**
+     * Method that launches the gui
+     * It loads the starting scene, sets an icon to the application and adds the possibility to go full screen
+     * @param stage stage of the application
+     * @throws Exception generic exception
+     */
     @Override
     public void start(Stage stage) throws Exception {
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("gui/images/Publisher_material/Icon_50x50px.png"))));

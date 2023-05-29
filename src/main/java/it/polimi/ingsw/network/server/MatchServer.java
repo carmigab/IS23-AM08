@@ -320,7 +320,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
     }
 
     /**
-     * This method handles the disconnection of one of the clients
+     * This method lets the match server be killed from outside
      */
     public synchronized void  killMatchServer() {
         if (!serverOffline) {
@@ -360,6 +360,8 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
 
     /**
      * This method check if the clients are alive
+     * @throws RemoteException
+     * @throws TimeOutException
      */
     private void pingClients() throws RemoteException, TimeOutException {
         //System.out.println("checking if RmiClient clients are alive...");

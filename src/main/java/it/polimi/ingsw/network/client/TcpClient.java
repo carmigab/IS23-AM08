@@ -460,6 +460,8 @@ public class TcpClient implements Client{
      * This method retrieve the active lobbies on the server
      *
      * @return the list of the active lobbies
+     * @throws ConnectionError
+     * @throws NoGamesAvailableException
      */
     @Override
     public List<Lobby> getLobbies() throws ConnectionError, NoGamesAvailableException {

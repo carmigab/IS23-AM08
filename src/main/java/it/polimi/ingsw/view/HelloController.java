@@ -21,51 +21,122 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
+/**
+ * This class is the controller for all the interactions of the user before entering a game
+ */
 public class HelloController implements Initializable {
+    /**
+     * Choice box containing the information of the connection to be used (either tcp or rmi)
+     */
     @FXML
     private ChoiceBox<String> connectionType;
+    /**
+     * Text field where the user inputs the ip of the server to connect
+     */
     @FXML
     private TextField serverIP;
+    /**
+     * Text field where the user inputs the port of the server
+     */
     @FXML
     private TextField serverPort;
+    /**
+     * Label where any error (or exception) will be shown
+     */
     @FXML
     private Label errorLabel;
+    /**
+     * Label that prompts the user if the connection to the server was successful
+     */
     @FXML
     private Label connectionLabel;
+    /**
+     * Label that prompts the user to insert a nickname
+     */
     @FXML
     private Label nicknameLabel;
+    /**
+     * Text field where the user inputs his nickname
+     */
     @FXML
     private TextField nicknameTextField;
+    /**
+     * Button that the user can click to send the information of the chosen nickname to the server
+     */
     @FXML
     private Button nicknameButton;
+    /**
+     * Button that the user can click to try and join a game
+     */
     @FXML
     private Button joinButton;
+    /**
+     * Button that the user can click to open the information relative to the creation of a game
+     */
     @FXML
     private Button createButton;
+    /**
+     * Label that prompts the user to select how many players does the game contain
+     */
     @FXML
     private Label numPlayersLabel;
+    /**
+     * Choice box containing the information of the connection to be used (either tcp or rmi)
+     */
     @FXML
     private ChoiceBox<Integer> numPlayers;
+    /**
+     * Button that the user can click to create a game
+     */
     @FXML
     private Button goButton;
+    /**
+     * Container of the whole scene
+     */
     @FXML
     private VBox container;
 
+    /**
+     * View that connects to the server. It is passed between scenes
+     */
     private View guiView;
+    /**
+     * Stage of the entire application
+     */
     private Stage stage;
+    /**
+     * Game scene (it is preloaded for optimizing delays and update problems)
+     */
     private Scene nextScene;
 
+    /**
+     * Empty constructor of the application
+     */
     public HelloController(){
 
     }
 
+    /**
+     * Setter of the view
+     * @param guiView view of the application
+     */
     public void setGuiView(View guiView){
         this.guiView=guiView;
     }
+    /**
+     * Setter of the current stage
+     * @param stage stage of the application
+     */
     public void setStage(Stage stage){
         this.stage=stage;
     }
 
+    /**
+     * Method that is called when the fxml file is loaded.
+     * It sets up all the choice boxes
+     * @param url something
+     * @param resourceBundle something else
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         connectionType.getItems().removeAll(connectionType.getItems());
@@ -81,6 +152,12 @@ public class HelloController implements Initializable {
 
     }
 
+    /**
+     * Method called when the connect button is clicked
+     * It checks if the parameters inserted in the text fields are correct and then tries to connect to the server
+     * At the end displays the new buttons used for accessing a game
+     * When it connects it preloads the game scene
+     */
     @FXML
     protected void onConnectButtonClick(){
         String input=connectionType.getValue().trim();
@@ -112,6 +189,7 @@ public class HelloController implements Initializable {
             } catch (InterruptedException e) {
                 this.errorLabel.setText("error while connecting to the server");
             } catch (ConnectionError e) {
+                this.errorLabel.setText("Connection error");
             }
         }
         this.connectionLabel.setText("Connected succesfully");
@@ -122,6 +200,10 @@ public class HelloController implements Initializable {
         this.loadNextScene();
     }
 
+    /**
+     * Method called when the insert name button is clicked
+     * It sends to the server the nickname and proceeds to display the buttons for the creation and the joining of a game
+     */
     @FXML
     protected void onInsertNameButtonClick(){
         String nickname=this.nicknameTextField.getText().trim();
@@ -142,6 +224,10 @@ public class HelloController implements Initializable {
         }
     }
 
+    /**
+     * Method called when the join button is clicked
+     * It tries to join a game and changes scene afterwards if successful
+     */
     @FXML
     protected void onJoinButtonClick(){
         try {
@@ -162,6 +248,10 @@ public class HelloController implements Initializable {
         }
     }
 
+    /**
+     * Method called when the create game button is clicked
+     * It displays all the information for the correct creation of the game
+     */
     @FXML
     protected void onCreateButtonClick(){
         this.numPlayersLabel.setVisible(true);
@@ -169,6 +259,10 @@ public class HelloController implements Initializable {
         this.goButton.setVisible(true);
     }
 
+    /**
+     * Method called when the go button is clicked
+     * It asks the server to create a new game and changes scene afterwards
+     */
     @FXML
     protected void onGoButtonClick(){
         try {
@@ -183,11 +277,17 @@ public class HelloController implements Initializable {
         }
     }
 
+    /**
+     * Method used to change scene of the stage
+     */
     private void changeScene(){
         this.stage.setScene(this.nextScene);
         this.stage.show();
     }
 
+    /**
+     * Method used to load the game scene
+     */
     private void loadNextScene(){
         FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("gui/game-view.fxml"));
 

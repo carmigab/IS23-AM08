@@ -9,4 +9,27 @@
    -fx-background-repeat: repeat;
    -fx-background-size: 1920 1080;
    -fx-background-position: center center;
+   -fx-content-display: center;
+   -fx-alignment: center;
+   -fx-padding: 10;
+}
+
+HBox{
+   -fx-alignment: center;
+   -fx-content-display: center;
+}
+
+VBox{
+   -fx-alignment: center;
+   -fx-content-display: center;
+}
+
+#gameBoardAnchorPane, #commonGoal1AnchorPane, #commonGoal2AnchorPane, #chatScrollPane, #myShelfAnchorPane, #personalGoalAnchorPane {
+   -fx-padding: 10;
+   -fx-start-margin: 5;
+   -fx-end-margin: 5;
+}
+
+#chatScrollPane {
+   -fx-pref-width: 230;
 }

@@ -3,14 +3,12 @@ package it.polimi.ingsw.view;
 import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
-import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.PlayerInfo;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.utilities.UtilityFunctions;
-import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.gui.ClickableComponent;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -21,9 +19,8 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.*;
@@ -158,7 +155,7 @@ public class GameViewController implements Initializable{
      * This attribute stores the container where all the scene is set
      */
     @FXML
-    private VBox gameContainer;
+    private BorderPane gameContainer;
 
     /**
      * This attribute is a personalized data format used for transporting the position selected on the game board in the clipboard when a drag occurs
@@ -264,7 +261,9 @@ public class GameViewController implements Initializable{
         this.gameContainer.widthProperty().addListener(onDimensionsChange);
         this.gameContainer.heightProperty().addListener(onDimensionsChange);
 
-        this.initializeGridPane();
+//        this.initializeGridPane();
+
+        this.initializeScene();
 
         this.chatLabel.setText("");
 
@@ -382,6 +381,22 @@ public class GameViewController implements Initializable{
 
         this.gridPane.setHgap(10);
         this.gridPane.setVgap(10);
+    }
+
+
+    private void initializeScene() {
+        this.gameContainer.setBottom(new HBox(this.moveListAnchorPane, this.errorLabel));
+        this.gameContainer.setRight(new VBox(this.chatScrollPane, this.refreshButton));
+        this.gameContainer.setCenter(new HBox(new VBox(this.gameBoardAnchorPane, new HBox(this.commonGoal1AnchorPane, this.commonGoal2AnchorPane)),
+                new VBox(this.myShelfAnchorPane, new HBox(this.personalGoalAnchorPane))));
+
+        VBox otherShelfVBox = new VBox();
+        for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
+            otherShelfVBox.getChildren().add(this.otherShelf.get(i).getComponentAnchorPane());
+
+        this.gameContainer.setLeft(otherShelfVBox);
+
+        this.gameContainer.setTop(new HBox(new Text("GAME")));
     }
 
     /**

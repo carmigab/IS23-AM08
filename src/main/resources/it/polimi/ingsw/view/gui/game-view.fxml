@@ -48,6 +48,9 @@
     <ImageView fx:id="moveListImage" pickOnBounds="true" preserveRatio="true">
         <Image url="@images/screenshot.png"/>
     </ImageView>
+    <ImageView fx:id="title" preserveRatio="true">
+        <Image url="@images/Publisher_material/Title_2000x618px.png"/>
+    </ImageView>
     <Label fx:id="errorLabel" text="Label">
         <font>
           <Font name="Comic Sans MS" size="18.0"/>

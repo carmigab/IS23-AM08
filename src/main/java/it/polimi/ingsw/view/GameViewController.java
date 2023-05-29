@@ -158,6 +158,12 @@ public class GameViewController implements Initializable{
     private BorderPane gameContainer;
 
     /**
+     * This attribute stores the image information of the title
+     */
+    @FXML
+    private ImageView title;
+
+    /**
      * This attribute is a personalized data format used for transporting the position selected on the game board in the clipboard when a drag occurs
      */
     private final DataFormat dft=new DataFormat("gameBoardPosition");
@@ -385,6 +391,11 @@ public class GameViewController implements Initializable{
 
 
     private void initializeScene() {
+        title.setFitHeight(100);
+        title.setPreserveRatio(true);
+        title.setSmooth(true);
+        title.setCache(true);
+        this.gameContainer.setTop(new HBox(title));
         this.gameContainer.setBottom(new HBox(this.moveListAnchorPane, this.errorLabel));
         this.gameContainer.setRight(new VBox(this.chatScrollPane, this.refreshButton));
         this.gameContainer.setCenter(new HBox(new VBox(this.gameBoardAnchorPane, new HBox(this.commonGoal1AnchorPane, this.commonGoal2AnchorPane)),
@@ -395,8 +406,6 @@ public class GameViewController implements Initializable{
             otherShelfVBox.getChildren().add(this.otherShelf.get(i).getComponentAnchorPane());
 
         this.gameContainer.setLeft(otherShelfVBox);
-
-        this.gameContainer.setTop(new HBox(new Text("GAME")));
     }
 
     /**

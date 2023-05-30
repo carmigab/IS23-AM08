@@ -19,19 +19,27 @@ public class JoinGameResponse extends Message {
      */
     private boolean alreadyInGame;
 
+    private boolean wrongLobbyIndex;
+
+    private boolean lobbyFull;
+
     /**
      * the constructor
-     * @param sender: the one who sends the message
-     * @param nonExistentNickname: true if the game does not exist
-     * @param alreadyInGame: true if the player is already in game
-     * @param noGamesAvailable: true if no game are available
+     *
+     * @param sender              : the one who sends the message
+     * @param noGamesAvailable    : true if no game are available
+     * @param nonExistentNickname : true if the game does not exist
+     * @param alreadyInGame       : true if the player is already in game
+     * @param wrongLobbyIndex
      */
-    public JoinGameResponse(String sender, boolean noGamesAvailable, boolean nonExistentNickname, boolean alreadyInGame) {
+    public JoinGameResponse(String sender, boolean noGamesAvailable, boolean nonExistentNickname, boolean alreadyInGame, boolean wrongLobbyIndex, boolean lobbyFull) {
         super(sender);
 
         this.alreadyInGame = alreadyInGame;
         this.noGamesAvailable = noGamesAvailable;
         this.nonExistentNickname = nonExistentNickname;
+        this.wrongLobbyIndex = wrongLobbyIndex;
+        this.lobbyFull = lobbyFull;
         setMessageType("JoinGameResponse");
     }
 
@@ -57,5 +65,12 @@ public class JoinGameResponse extends Message {
      */
     public boolean isNonExistentNickname() {
         return nonExistentNickname;
+    }
+
+    public boolean isWrongLobbyIndex() {
+        return wrongLobbyIndex;
+    }
+
+    public boolean isLobbyFull() { return lobbyFull;
     }
 }

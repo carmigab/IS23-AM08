@@ -7,11 +7,13 @@ import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
+import it.polimi.ingsw.controller.observers.Observer;
 import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.utilities.UtilityFunctionsModel;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -30,6 +32,8 @@ class CompleteGameTest {
     @Test
     @Disabled
     void twoPlayerCompleteGame() throws FileNotFoundException {
+
+
         String modelsFileCount = "1";
 
         Gson json = new GsonBuilder().setPrettyPrinting().create();
@@ -37,7 +41,7 @@ class CompleteGameTest {
 
         Gson jsonLoader = JsonWithExposeSingleton.getJsonWithExposeSingleton();
 
-        String file = "src/main/resources/savedMatches/MatteCenz_GabriCarr.json";
+        String file = "src/test/resources/completeGameTest/MatteCenz_GabriCarr_.json";
         GameModel savedModel;
 
         List<String> actions = json.fromJson(UtilityTestFunctions.getReaderFromFileNameResourcesPath("completeGameTest/CompleteGameTestActions.json", this.getClass()), ArrayList.class);
@@ -60,15 +64,11 @@ class CompleteGameTest {
                 gameController.makeMove(positions, col, playerNickname);
                 savedModel = new GameModel(json.fromJson(new FileReader(file), GameModel.class));
                 if (index < 14) {
-                    System.out.println(index);
-
                     modelsFileCount = new String(intToString(index));
-                    GameModel expectedGameModel = new GameModel(jsonLoader.fromJson(UtilityTestFunctions.getReaderFromFileNameResourcesPath("Model"+modelsFileCount+".json", GameModel.class), GameModel.class));
-                    assertTrue(expectedGameModel.equals(savedModel));
+                    GameModel expectedGameModel = new GameModel(jsonLoader.fromJson(new FileReader("src/test/resources/completeGameTest/Model"+modelsFileCount+".json"), GameModel.class));
+                    assertEquals(expectedGameModel, savedModel);
                 }
-            } catch (InvalidNicknameException e) {
-                throw new RuntimeException(e);
-            } catch (InvalidMoveException e) {
+            } catch (InvalidNicknameException | InvalidMoveException e) {
                 throw new RuntimeException(e);
             }
             index++;

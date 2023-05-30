@@ -46,12 +46,4 @@ public class MyStack {
     public Integer peek(){
         return this.stack.peek();
     }
-
-    /**
-     * This method returns a copy of the stack of the common goal
-     * @return a copy of the stack (in the form of list)
-     */
-    public List<Integer> getStackCopy(){
-        return this.stack.stream().sorted().collect(Collectors.toList());
-    }
 }

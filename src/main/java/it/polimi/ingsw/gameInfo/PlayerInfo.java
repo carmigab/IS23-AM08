@@ -1,6 +1,7 @@
 package it.polimi.ingsw.gameInfo;
 
 import com.google.gson.annotations.Expose;
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.model.SingleGoal;
 import it.polimi.ingsw.model.Tile;
 
@@ -54,6 +55,12 @@ public class PlayerInfo implements Serializable {
     private final List<SingleGoal> personalGoal;
 
     /**
+     * This attribute stores the personal goals number of the player
+     */
+    @Expose
+    private final Integer personalGoalNumber;
+
+    /**
      * Constructor
      *
      * @param nickname      of the player
@@ -64,7 +71,7 @@ public class PlayerInfo implements Serializable {
      * @param shelf         of the player
      * @param personalGoal  of the player
      */
-    public PlayerInfo(String nickname, int pgPoints, int[] comGoalPoints, int firstPoint, int groupPoints, Tile[][] shelf, List<SingleGoal> personalGoal) {
+    public PlayerInfo(String nickname, int pgPoints, int[] comGoalPoints, int firstPoint, int groupPoints, Tile[][] shelf, List<SingleGoal> personalGoal, int personalGoalNumber) {
         this.nickname = nickname;
         this.pgPoints = pgPoints;
         this.comGoalPoints = comGoalPoints;
@@ -72,6 +79,7 @@ public class PlayerInfo implements Serializable {
         this.groupPoints = groupPoints;
         this.shelf = shelf;
         this.personalGoal = personalGoal;
+        this.personalGoalNumber = personalGoalNumber;
     }
 
     /**
@@ -107,9 +115,17 @@ public class PlayerInfo implements Serializable {
      * @return the shelf of the player
      */
     public Tile[][] getShelf() {
-        return shelf;
-    }
+        Tile[][] shelfCopy = new Tile[ModelConstants.ROWS_NUMBER][ModelConstants.COLS_NUMBER];
 
+        for (int i = 0; i < ModelConstants.ROWS_NUMBER; i++) {
+            for (int j = 0; j < ModelConstants.COLS_NUMBER; j++) {
+                shelfCopy[i][j] = new Tile(shelf[i][j]);
+            }
+        }
+
+        return shelfCopy;
+    }
+    ;
     /**
      * Getter
      *
@@ -118,6 +134,13 @@ public class PlayerInfo implements Serializable {
     public List<SingleGoal> getPersonalGoal() {
         return personalGoal;
     }
+
+    /**
+     * Getter
+     *
+     * @return the personal goals of the player
+     */
+    public Integer getPersonalGoalNumber() {return personalGoalNumber; }
 
     /**
      * Getter

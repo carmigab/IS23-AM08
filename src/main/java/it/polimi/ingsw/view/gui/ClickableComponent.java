@@ -12,15 +12,41 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This class is a utility used for wrapping a lot of gui components into a single big component that can be resized, clicked and performed actions on
+ */
 public class   ClickableComponent {
-
+    /**
+     * Attribute containing the background image of the component
+     */
     private final ImageView componentImage;
+    /**
+     * Attribute containing the anchor pane of the component
+     */
     private final AnchorPane componentAnchorPane;
+    /**
+     * Attribute containing the canvas of the component
+     */
     private final Canvas componentCanvas;
+    /**
+     * Attribute containing all the images contained in the component
+     */
     private final List<ImageView> componentSavedImages;
+    /**
+     * Attribute containing how many images there are in the x direction
+     */
     private final Integer componentSavedImagesX;
+    /**
+     * Attribute containing how many images there are in the y direction
+     */
     private final Integer componentSavedImagesY;
+    /**
+     * Width dimension of the single tile
+     */
     private Double tileX;
+    /**
+     * Height dimension of the single tile
+     */
     private Double tileY;
     /**
      * Percentage offset between the edge of the game board and the first tile on the left
@@ -52,6 +78,21 @@ public class   ClickableComponent {
     private Double componentPredefinedRatio = 0.5;
 
 
+    /**
+     * Constructor of the component
+     * @param componentImage background image
+     * @param componentAnchorPane anchor pane
+     * @param componentCanvas canvas
+     * @param componentSavedImagesX number of images in the x direction
+     * @param componentSavedImagesY number of images in the y direction
+     * @param tileComponentOffsetXLeft left offset of the single tile
+     * @param tileComponentOffsetXRight right offset of the single tile
+     * @param tileComponentOffsetYUp up offset of the single tile
+     * @param tileComponentOffsetYDown down offset  of the single tile
+     * @param tileComponentDistanceX x distance between internal tiles
+     * @param tileComponentDistanceY y distance between internal tiles
+     * @param componentPredefinedRatio ratio of the component relative to the screen size
+     */
     public ClickableComponent(ImageView componentImage, AnchorPane componentAnchorPane, Canvas componentCanvas, Integer componentSavedImagesX, Integer componentSavedImagesY, Double tileComponentOffsetXLeft, Double tileComponentOffsetXRight, Double tileComponentOffsetYUp, Double tileComponentOffsetYDown, Double tileComponentDistanceX, Double tileComponentDistanceY, Double componentPredefinedRatio){
         this(componentImage, componentAnchorPane, componentCanvas, componentSavedImagesX, componentSavedImagesY);
         this.tileComponentOffsetXLeft=tileComponentOffsetXLeft;
@@ -63,7 +104,14 @@ public class   ClickableComponent {
         this.componentPredefinedRatio=componentPredefinedRatio;
     }
 
-
+    /**
+     * Constructor of the component
+     * @param componentImage background image
+     * @param componentAnchorPane anchor pane
+     * @param componentCanvas canvas
+     * @param componentSavedImagesX number of images in the x direction
+     * @param componentSavedImagesY number of images in the y direction
+     */
     public ClickableComponent(ImageView componentImage, AnchorPane componentAnchorPane, Canvas componentCanvas, Integer componentSavedImagesX, Integer componentSavedImagesY){
         this.componentImage=componentImage;
         this.componentAnchorPane=componentAnchorPane;
@@ -75,6 +123,11 @@ public class   ClickableComponent {
         this.tileY=0.0;
         this.initializeComponent();
     }
+
+    /**
+     * This method attaches every node to the anchor pane
+     * It also creates the images contained in the component
+     */
     private void initializeComponent(){
 
         //Add the component to the anchor pane
@@ -98,6 +151,9 @@ public class   ClickableComponent {
 
     }
 
+    /**
+     * This method draws each node in the component with its relative dimensions
+     */
     public void draw(){
         this.calculateCurrentTileDimension();
 
@@ -174,6 +230,12 @@ public class   ClickableComponent {
         return position.map(value -> this.componentSavedImages.get(value.y() * this.componentSavedImagesY + value.x()));
     }
 
+    /**
+     * Method that given two coordinates, if they are in between the dimensions of a tile, it returns the position of the specified tile
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return a position, if present
+     */
     public Optional<Position> getPositionOfSavedImageFromCoordinates(double x, double y){
 
         //The values are relative to the canvas size, so we need to adapt them to our needs
@@ -189,21 +251,60 @@ public class   ClickableComponent {
                 ).findFirst();
     }
 
+    /**
+     * Method that given two coordinates if they are in between the dimensions of a tile it returns its column
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return an integer, if present
+     */
+    public Optional<Integer> getColumnOfsavedImageFromCoordinates(double x, double y){
+        //The values are relative to the canvas size, so we need to adapt them to our needs
+        Double realX=x+this.tileComponentOffsetXLeft*this.componentImage.getFitWidth();
+        Double realY=y+this.tileComponentOffsetYUp*this.componentImage.getFitHeight();
 
+        return this.componentSavedImages.stream()
+                .filter(imageView -> realX >= imageView.getLayoutX() && realX <= imageView.getLayoutX()+imageView.getFitWidth() &&
+                        realY >= imageView.getLayoutY() && realY <= imageView.getLayoutY()+imageView.getFitHeight() )
+                .map(imageView ->
+                        (int)((imageView.getLayoutX()+imageView.getFitWidth()/2)/(this.componentImage.getFitWidth()/this.componentSavedImagesY))
+                        ).findFirst();
+    }
+
+
+    /**
+     * Setter of the background image
+     * @param image image to be set as background
+     */
     public void setComponentImage(Image image){
         this.componentImage.setImage(image);
     }
 
+    /**
+     * Setter of the single image
+     * @param image image to be set
+     * @param x x position of the image
+     * @param y y position of the image
+     */
     public void setComponentSavedImageFromPositions(Image image, int x, int y){
         this.componentSavedImages.get(x*this.componentSavedImagesY+y).setImage(image);
     }
 
-
+    /**
+     * Setter of the single image
+     * @param image image to be set
+     * @param x x coordinate of the image
+     * @param y y coordinate of the image
+     */
     public void setComponentSavedImageFromCoordinates(Image image, double x, double y){
         Optional<ImageView> imageView =this.getTileOnComponentFromPosition(x,y);
+
         imageView.ifPresent( (imageView1)-> imageView1.setImage(image));
     }
 
+    /**
+     * Getter of the component's anchor pane
+     * @return an anchor pane
+     */
     public AnchorPane getComponentAnchorPane(){
         return this.componentAnchorPane;
     }

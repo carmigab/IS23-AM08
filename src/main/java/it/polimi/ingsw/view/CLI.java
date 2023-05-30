@@ -2,6 +2,7 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.constants.ViewConstants;
 import it.polimi.ingsw.constants.ModelConstants;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.RmiClient;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
@@ -15,9 +16,9 @@ import it.polimi.ingsw.network.client.TcpClient;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.constants.ServerConstants;
-import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
-import it.polimi.ingsw.network.server.exceptions.NoGamesAvailableException;
-import it.polimi.ingsw.network.server.exceptions.NonExistentNicknameException;
+import it.polimi.ingsw.network.server.Lobby;
+import it.polimi.ingsw.network.server.exceptions.*;
+import javafx.geometry.Pos;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -70,9 +71,15 @@ public class CLI extends View{
             if (currentState == State.ENDGAME) {
                 printMessage("Game ended!", AnsiEscapeCodes.INFO_MESSAGE);
                 printMessage("Final scores:", AnsiEscapeCodes.INFO_MESSAGE);
-                for (PlayerInfo playerInfo : gameInfo.getPlayerInfosList()) {
+                /*for (PlayerInfo playerInfo : gameInfo.getPlayerInfosList()) {
                     printMessage(playerInfo.getNickname() + ": " + playerInfo.getScore(), AnsiEscapeCodes.INFO_MESSAGE);
                 }
+                */
+                printLeaderBoard();
+                printMessage("The winner is : " + gameInfo.getLeaderBoard().get(0).getNickname(), AnsiEscapeCodes.INFO_MESSAGE);
+
+
+
                 return;
             }
 
@@ -84,6 +91,15 @@ public class CLI extends View{
             if (isMyTurn()) {
                 printMessage("It's your turn!", AnsiEscapeCodes.INFO_MESSAGE);
             }
+        }
+    }
+
+    /**
+     * this method prints the final leaderBoard of the game
+     */
+    private void printLeaderBoard(){
+        for(GameEnded g : gameInfo.getLeaderBoard()){
+            printMessage(g.getNickname() + ": " + g.getFinalPoints() + " points", AnsiEscapeCodes.INFO_MESSAGE);
         }
     }
 
@@ -456,7 +472,7 @@ public class CLI extends View{
 
             // display the chosen tiles and ask if the player wants to order them
             if (positions.size() > 1) {
-                askToChangeOrder(positions);
+                positions = askToChangeOrder(positions);
             }
 
             column = askColumn(positions);
@@ -511,7 +527,7 @@ public class CLI extends View{
      * This method is used to ask if the player wants to change the order of the selected tiles
      * @param positions the list of selected positions
      */
-    private void askToChangeOrder(List<Position> positions) {
+    private List<Position> askToChangeOrder(List<Position> positions) {
         String answer = "y";
         String input;
 
@@ -528,6 +544,8 @@ public class CLI extends View{
                 answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);
             }
         }
+
+        return positions;
     }
 
     /**
@@ -793,19 +811,79 @@ public class CLI extends View{
      */
     private boolean joinExistingGame() {
         try {
+            List<Lobby> activeLobbies = client.getLobbies();
+
+            for (int i = 0; i < activeLobbies.size(); i++) {
+                printMessage(i + ") " + activeLobbies.get(i).toString(), AnsiEscapeCodes.INFO_MESSAGE);
+            }
+
+            System.out.println();
+            printMessage("Select the game you want to join (type the game number) or type 'r' to recover a game:", AnsiEscapeCodes.INFO_MESSAGE);
+            String input = retryInput(ViewConstants.REGEX_INPUT_JOIN_GAME);
+
+            if (input.equalsIgnoreCase("r")) {
+                try {
+                    client.recoverGame();
+                } catch (ConnectionError e) {
+                    //ignore
+                }
+                return true;
+            }
+
+            input = parseLobbyInput(input, activeLobbies);
+
             try {
-                client.joinGame();
-            } catch (NonExistentNicknameException | AlreadyInGameException e) {
+                client.joinGame(input);
+            } catch (AlreadyInGameException e) {
                 throw new RuntimeException(e);
             } catch (ConnectionError e) {
-                //ignore
+
             }
             return true;
+
+        }
+        catch (NonExistentNicknameException e) {
+            printMessage("Probabily you cannot join a game recovered from last server crash, try the input \"r\" next time", AnsiEscapeCodes.ERROR_MESSAGE);
         } catch (NoGamesAvailableException e) {
             printMessage("No games available, please create a new one ", AnsiEscapeCodes.ERROR_MESSAGE);
+        } catch (ConnectionError e) {
+            throw new RuntimeException(e);
+        } catch (WrongLobbyIndexException e) {
+            printMessage("Wrong lobby index, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
+        }
+        catch (LobbyFullException e) {
+            printMessage("This lobby is full, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);
         }
 
         return false;
+
+
+        //old version
+//        try {
+//            try {
+//                client.joinGame();
+//            } catch (NonExistentNicknameException | AlreadyInGameException e) {
+//                throw new RuntimeException(e);
+//            } catch (ConnectionError e) {
+//                //ignore
+//            }
+//            return true;
+//        } catch (NoGamesAvailableException e) {
+//            printMessage("No games available, please create a new one ", AnsiEscapeCodes.ERROR_MESSAGE);
+//        }
+//
+//        return false;
+    }
+
+    /**
+     * This method is used to parse the input of the user when he wants to join a lobby
+     * @param input the input of the user
+     * @param activeLobbies the list of the active lobbies
+     * @return the name of the lobby the user wants to join
+     */
+    private String parseLobbyInput(String input, List<Lobby> activeLobbies) throws WrongLobbyIndexException {
+        if (Integer.parseInt(input) >= activeLobbies.size()) throw new WrongLobbyIndexException();
+        return activeLobbies.get(Integer.parseInt(input)).getLobbyName();
     }
 
     /**

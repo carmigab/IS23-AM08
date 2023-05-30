@@ -5,11 +5,26 @@ import it.polimi.ingsw.view.View;
 
 import java.util.Scanner;
 
+
+/**
+ * This class is used to launch the application in client mode
+ */
 public class ViewLauncher {
+    /**
+     * View of the game
+     */
     private static View view = null;
 
+    /**
+     * Scanner used for utility
+     */
     private static final Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Main of the application.
+     * It decides whether to run as cli or gui
+     * @param args arguments passed via command line
+     */
     public static void main(String[] args) {
 
         //System.out.println("ඞ");

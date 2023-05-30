@@ -4,14 +4,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Hello world!
+ * This is the main application launched from the jar
  *
  */
 public class App 
 {
 
+    /**
+     * This map contains the actions to perform based on the parameters passed as arguments to the application
+     */
     private static final Map<String, Runnable> startCommands = new HashMap<>();
 
+    /**
+     * The main of the application, it decides which mode to launch (server or client)
+     * Without parameters the application will launch in client mode
+     * @param args arguments passed via command line
+     */
     public static void main( String[] args ) {
 
         startCommands.put("--server", () -> ServerLauncher.main(args));

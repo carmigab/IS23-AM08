@@ -2,12 +2,16 @@ package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
+import it.polimi.ingsw.network.client.exceptions.TimeOutException;
+import it.polimi.ingsw.network.server.Lobby;
+import it.polimi.ingsw.network.server.exceptions.NoGamesAvailableException;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
 /**
- * This os the Rmi Interface for the client
+ * This is the Rmi Interface for the client
  */
 public interface RmiClientInterface extends Remote {
     /**
@@ -39,5 +43,4 @@ public interface RmiClientInterface extends Remote {
      * @throws RemoteException
      */
     public void receiveMessage(String message) throws RemoteException;
-
-   }
+}

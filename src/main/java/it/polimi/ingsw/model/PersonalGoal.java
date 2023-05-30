@@ -54,9 +54,9 @@ public class PersonalGoal {
     }
 
     /**
-     *
-     * @param obj
-     * @return
+     * Override of equality operator
+     * @param obj: the object to check
+     * @return true if objects are equals
      */
     @Override
     public boolean equals(Object obj) {

@@ -2,98 +2,51 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
-import it.polimi.ingsw.network.client.RmiClientInterface;
 import it.polimi.ingsw.network.client.exceptions.TimeOutException;
 
 import java.rmi.RemoteException;
 
 /**
- * This class wraps the rmiClientInterfaces and TcpClientHandlers, and makes the server transparent to the
- * communication protocol of the client
+ * This is the abstract class of all the ClientHandles
  */
-public class ClientHandler {
+public abstract class ClientHandler {
     /**
-     * This attribute represents a rmi remote object
-     */
-    RmiClientInterface rmiClient;
-    /**
-     * This attribute represents a tcp client handler
-     */
-    TcpClientHandler tcpClient;
-    /**
-     * This flag is true we call methods on the remote object
-     */
-    boolean rmiInvocation;
-
-
-    /**
-     * the constructor with the rmi client
-     * @param rmiClient: the rmi client
-     */
-    ClientHandler(RmiClientInterface rmiClient){
-        this.rmiClient = rmiClient;
-        this.rmiInvocation = true;
-    }
-
-    /**
-     * the constructor with the rmi client
-     * @param tcpClient: the tcp client
-     */
-    ClientHandler(TcpClientHandler tcpClient){
-        this.tcpClient = tcpClient;
-        this.rmiInvocation = false;
-    }
-
-    /**
-     * This method updates the client with a new state and a new game info
-     * @param newState: the new state of the game
+     * This method is called by the matchServer and sends a message to update the client with the
+     * new state and new game info
+     * @param newState: the new state
      * @param newInfo: the new game info
-     * @throws RemoteException
      * @throws TimeOutException
+     * @throws RemoteException
      */
-    public void update(State newState, GameInfo newInfo) throws RemoteException, TimeOutException {
-        if(rmiInvocation) rmiClient.update(newState, newInfo);
-        else tcpClient.update(newState, newInfo);
-
-    }
+    public void update(State newState, GameInfo newInfo) throws RemoteException, TimeOutException {}
 
     /**
-     * This method pings the client
-     * @throws RemoteException
+     * This method throws and exception if the client is not online
      * @throws TimeOutException
+     * @throws RemoteException
      */
-    public void isAlive() throws RemoteException, TimeOutException {
-        if(rmiInvocation) rmiClient.isAlive();
-        else tcpClient.isAlive();
-
-    }
+    public void isAlive() throws RemoteException, TimeOutException {}
 
     /**
-     * This method asks the client for his nickname
-     * @return the nickname
+     * This method is called by the matchServer and returns the nickname of the player
+     * @return the nickname of the player
      * @throws RemoteException
      */
     public String name() throws RemoteException {
-        if(rmiInvocation) return rmiClient.name();
-        else return tcpClient.name();
+        return null;
     }
 
     /**
      * This method sends a chat message to the client
      * @param message: the chat message
-     * @throws RemoteException
      * @throws TimeOutException
+     * @throws RemoteException
      */
-    public void receiveMessage(String message) throws RemoteException, TimeOutException {
-        if(rmiInvocation) rmiClient.receiveMessage(message);
-        else tcpClient.receiveMessage(message);
-    }
+    public void receiveMessage(String message) throws RemoteException, TimeOutException {}
 
     /**
-     * This method sets the matchServer of the tcp client if present
-     * @param server: the matchServer
+     * This method sets the match server
+     * @param matchServer: the match server
      */
-    public void setMatchServer(MatchServer server){
-        if(!rmiInvocation) tcpClient.setMatchServer(server);
-    }
+    public void setMatchServer(MatchServer matchServer){}
 }

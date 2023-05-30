@@ -18,7 +18,7 @@ import java.util.Random;
 
 /**
  * This is the class used for the simulation of the physical game board.
- * It is indeed very articulated, but it can do all the features required for the correct advancement of the game
+ * It can do all the features required for the correct advancement of the game.
  */
 public final class GameBoard {
     /**
@@ -75,9 +75,9 @@ public final class GameBoard {
     }
 
     /**
-     * This constructor copies a gameboard from its parameters (note that it has to create a new list of common goals since json does not save them)
+     * Copy constructor of the game board.
      * @param gameBoard gameboard to be copied
-     * @param cg which common goals have to be created
+     * @param cg list of common goals to be copied
      */
     public GameBoard(GameBoard gameBoard, List<Integer> cg){
         this.myGameBoard=gameBoard.myGameBoard;
@@ -199,13 +199,12 @@ public final class GameBoard {
     }
 
     /**
-     * This method is useful to the GameModel to check if the user did input a correct move (not empty or invalid)tile
+     * This method is useful to the GameModel to check if the user did input a correct move, checking if it is not in a not empty or invalid tile
      * @param p coordinates of the tile
      * @return true if the position is effectively occupied by some valid tile
      */
     public boolean positionOccupied(Position p){
 
-        if(p.x()<0 || p.x()>=BoardConstants.BOARD_DIMENSION || p.y()<0 || p.y()>=BoardConstants.BOARD_DIMENSION) return false;
         return !myGameBoard[p.y()][p.x()].isInvalid() && !myGameBoard[p.y()][p.x()].isEmpty();
 
     }
@@ -257,14 +256,18 @@ public final class GameBoard {
         return true;
     }
 
-
+    /**
+     * Getter of the common goal at a specified index
+     * @param idx index of the common goal
+     * @return common goal at the index specified as parameter
+     */
     public CommonGoal getCommonGoal(int idx){
         return commonGoals.get(idx);
     }
 
 
     /**
-     * This method is useful to the GameModel when the player makes a move, it removes it from the current board (sets it to empty) and returns it
+     * This method is useful to the GameModel when the player makes a move, it removes a tile from the current board (sets it to empty) and returns it
      * @param p position of the move that needs to be done (assumed correct, since all the controls are done before)
      * @return the tile contained in position p
      */
@@ -275,9 +278,9 @@ public final class GameBoard {
     }
 
     /**
-     *
-     * @param obj
-     * @return
+     * Method that checks the equality between two game board objects
+     * @param obj objeect to be checked
+     * @return true if the game board are the same (same tiles and same common goals)
      */
     @Override
     public boolean equals(Object obj) {

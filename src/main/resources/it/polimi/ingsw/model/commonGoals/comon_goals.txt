@@ -1,0 +1,266 @@
+1.
+
+1 0 0 0 0
+1 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+ì
+
+num: 6
+
+sameColor: true
+
+maxColors: -1
+
+allDiffColors: false
+
+keepPositionRatio: true
+
+checkCombinations: true
+
+2.
+
+1 0 0 0 1
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+1 0 0 0 1
+
+num: 1
+
+sameColor: true
+
+maxColors: -1
+
+allDiffColors: false
+
+keepPositionRatio: true
+
+checkCombinations: false
+
+3.
+
+1 0 0 0 0
+1 0 0 0 0
+1 0 0 0 0
+1 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+
+num: 4
+
+sameColor: false
+
+maxColors: -1
+
+allDiffColors: false
+
+keepPositionRatio: true
+
+checkCombinations: true
+
+4.
+
+1 1 0 0 0
+1 1 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+
+num: 2
+
+sameColor: true
+
+maxColors: -1
+
+allDiffColors: false
+
+keepPositionRatio: true
+
+checkCombinations: false
+
+5.
+
+1 0 0 0 0
+1 0 0 0 0
+1 0 0 0 0
+1 0 0 0 0
+1 0 0 0 0
+1 0 0 0 0
+
+num: 3
+
+sameColor: false
+
+maxColors: 3
+
+allDiffColors: false
+
+keepPositionRatio: true
+
+checkCombinations: false
+
+6.
+
+1 1 1 1 0
+1 1 1 1 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+
+num: 3
+
+sameColor: true
+
+maxColors: -1
+
+allDiffColors: false
+
+keepPositionRatio: false
+
+checkCombinations: false
+
+7.
+
+1 0 0 0 0
+0 1 0 0 0
+0 0 1 0 0
+0 0 0 1 0
+0 0 0 0 1
+0 0 0 0 0
+
+0 0 0 0 1
+0 0 0 1 0
+0 0 1 0 0
+0 1 0 0 0
+1 0 0 0 0
+0 0 0 0 0
+
+num: 3
+
+sameColor: true
+
+maxColors: -1
+
+allDiffColors: false
+
+keepPositionRatio: true
+
+checkCombinations: false
+
+8.
+
+1 1 1 1 1
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+
+num: 4
+
+sameColor: false
+
+maxColors: 3
+
+allDiffColors: false
+
+keepPositionRatio: true
+
+checkCombinations: false
+
+9.
+
+1 0 0 0 0
+1 0 0 0 0
+1 0 0 0 0
+1 0 0 0 0
+1 0 0 0 0
+1 0 0 0 0
+
+num: 2
+
+sameColor: false
+
+maxColors: 6
+
+allDiffColors: true
+
+keepPositionRatio: true
+
+checkCombinations: false
+
+10.
+
+1 1 1 1 1
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+
+num: 2
+
+sameColor: false
+
+maxColors: 5
+
+allDiffColors: true
+
+keepPositionRatio: true
+
+checkCombinations: false
+
+11.
+
+1 0 1 0 0
+0 1 0 0 0
+1 0 1 0 0
+0 0 0 0 0
+0 0 0 0 0
+0 0 0 0 0
+
+num: 1
+
+sameColor: true
+
+maxColors: -1
+
+allDiffColors: false
+
+keepPositionRatio: true
+
+checkCombinations: false
+
+12.
+
+1 0 0 0 0
+1 1 0 0 0
+1 1 1 0 0
+1 1 1 1 0
+1 1 1 1 1
+0 0 0 0 0
+
+0 0 0 0 1
+0 0 0 1 1
+0 0 1 1 1
+0 1 1 1 1
+1 1 1 1 1
+0 0 0 0 0
+
+num: 1
+
+sameColor: false
+
+maxColors: 6
+
+allDiffColors: false
+
+keepPositionRatio: true
+
+checkCombinations: false

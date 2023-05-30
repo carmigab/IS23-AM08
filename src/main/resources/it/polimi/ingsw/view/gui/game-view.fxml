@@ -4,8 +4,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox fx:id="gameContainer" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" stylesheets="@hello-style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GameViewController">
+<VBox fx:id="gameContainer" alignment="CENTER_LEFT" maxHeight="700.0" maxWidth="1000.0" minHeight="700.0" minWidth="1000.0" prefHeight="700.0" prefWidth="1000.0" stylesheets="@hello-style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GameViewController">
    <children>
       <GridPane fx:id="gridPane">
         <columnConstraints>
@@ -16,7 +17,7 @@
         </rowConstraints>
       </GridPane>
       <AnchorPane fx:id="gameBoardAnchorPane" prefHeight="200.0" prefWidth="200.0" />
-      <Canvas fx:id="gameBoardCanvas" height="200.0" onMouseClicked="#onGameBoardCanvasClick" onMouseMoved="#onGameBoardCanvasHover" onDragDetected="#onGameBoardCanvasDragDetected" width="200.0" />
+      <Canvas fx:id="gameBoardCanvas" height="200.0" onDragDetected="#onGameBoardCanvasDragDetected" onMouseClicked="#onGameBoardCanvasClick" onMouseMoved="#onGameBoardCanvasHover" width="200.0" />
       <ImageView fx:id="gameBoardImage" fitHeight="1000.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/boards/livingroom.png" />
@@ -48,11 +49,34 @@
                <Image url="@images/personal_goal_cards/front_EMPTY.jpg" />
            </image></ImageView>
        <AnchorPane fx:id="moveListAnchorPane" prefHeight="200.0" prefWidth="200.0" />
-       <Canvas fx:id="moveListCanvas" height="200.0" width="200.0"  onDragDropped="#onMoveListCanvasDragDropped"  onDragOver="#onMoveListCanvasDragOver" />
+       <Canvas fx:id="moveListCanvas" height="200.0" onDragDropped="#onMoveListCanvasDragDropped" onDragOver="#onMoveListCanvasDragOver" onMouseClicked="#onMoveListCanvasClick" width="200.0" />
        <ImageView fx:id="moveListImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
            <image>
                <Image url="@images/screenshot.png" />
            </image></ImageView>
+      <Label fx:id="errorLabel" text="Label">
+         <font>
+            <Font name="Comic Sans MS" size="18.0" />
+         </font>
+      </Label>
+      <ScrollPane fx:id="chatScrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="225.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="chatLabel" text="Prova" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <TextField fx:id="chatTextField" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="175.0" />
+                  <Button fx:id="chatButton" mnemonicParsing="false" onMouseClicked="#onChatButtonMouseClick" text="Send" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="148.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="175.0">
+                     <font>
+                        <Font name="Comic Sans MS" size="12.0" />
+                     </font></Button>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+       <Button fx:id="refreshButton" mnemonicParsing="false" onMouseClicked="#onRefreshButtonMouseClick" text="Refresh">
+           <font>
+               <Font name="Comic Sans MS" size="12.0" />
+           </font></Button>
       <!--Slider fx:id="tcoxl" blockIncrement="0.01" layoutX="10.0" layoutY="1114.0" max="0.7" min="1.0E-4" />
       <Slider fx:id="tcoxr" blockIncrement="0.01" layoutX="10.0" layoutY="1121.0" max="0.7" min="1.0E-4" />
       <Slider fx:id="tcoyu" blockIncrement="0.01" layoutX="10.0" layoutY="1128.0" max="0.7" min="1.0E-4" />

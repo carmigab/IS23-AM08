@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.network.client.clientLocks.Lock;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.network.client.exceptions.GameEndedException;
+import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.network.server.RmiServerInterface;
 import it.polimi.ingsw.network.server.RMILobbyServerInterface;
 import it.polimi.ingsw.constants.ServerConstants;
@@ -215,15 +216,36 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     }
 
     /**
+     * This method lets a player recover a game from persistence
+     * @throws NoGamesAvailableException
+     * @throws ConnectionError
+     */
+    public void recoverGame() throws NoGamesAvailableException, ConnectionError {
+        try {
+            String matchServerName = this.lobbyServer.recoverGame(nickname, this);
+            this.connectToMatchServer(matchServerName);
+        } catch (RemoteException e) {
+            if (!mute && !essential) System.out.println("Remote exception from joinGame");
+            this.gracefulDisconnection(true);
+            throw new ConnectionError();
+        } catch (NotBoundException e) {
+            if (!mute && !essential) System.out.println("Trying to lock up an unbound registry");
+            this.gracefulDisconnection(true);
+            throw new ConnectionError();
+        }
+
+    }
+
+    /**
      * This method lets a player join a game
      * @throws NoGamesAvailableException
      * @throws NonExistentNicknameException
      * @throws AlreadyInGameException
      * @throws ConnectionError
      */
-    public void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError {
+    public void joinGame(String lobbyName) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError, WrongLobbyIndexException, LobbyFullException {
         try {
-            String matchServerName = this.lobbyServer.joinGame(nickname, this);
+            String matchServerName = this.lobbyServer.joinGame(nickname, this, lobbyName);
             this.connectToMatchServer(matchServerName);
         } catch (RemoteException e) {
             if (!mute && !essential) System.out.println("Remote exception from joinGame");
@@ -322,6 +344,28 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
             throw new ConnectionError();
         }
 
+    }
+
+    /**
+     * This method retrieve the active lobbies on the server
+     *
+     * @return the list of the active lobbies
+     * @throws NoGamesAvailableException
+     * @throws ConnectionError
+     */
+    @Override
+    public List<Lobby> getLobbies() throws NoGamesAvailableException, ConnectionError {
+        List<Lobby> activeLobbies;
+
+        try {
+            activeLobbies=lobbyServer.getLobbies(this.nickname);
+        } catch (RemoteException e) {
+            if (!mute && !essential) System.out.println("Remote exception from getLobbies");
+            this.gracefulDisconnection(true);
+            throw new ConnectionError();
+        }
+
+        return activeLobbies;
     }
 
     /**

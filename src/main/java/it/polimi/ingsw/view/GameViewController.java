@@ -21,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
 
 import java.net.URL;
 import java.util.*;
@@ -396,10 +397,10 @@ public class GameViewController implements Initializable{
         title.setSmooth(true);
         title.setCache(true);
         this.gameContainer.setTop(new HBox(title));
-        this.gameContainer.setBottom(new HBox(this.moveListAnchorPane, this.errorLabel));
-        this.gameContainer.setRight(new VBox(this.chatScrollPane, this.refreshButton));
+        this.gameContainer.setRight(new VBox(this.myShelfAnchorPane, this.personalGoalAnchorPane, this.refreshButton));
+//        this.moveListAnchorPane.getTransforms().add(new Rotate(90, 0, 0));
         this.gameContainer.setCenter(new HBox(new VBox(this.gameBoardAnchorPane, new HBox(this.commonGoal1AnchorPane, this.commonGoal2AnchorPane)),
-                new VBox(this.myShelfAnchorPane, new HBox(this.personalGoalAnchorPane))));
+                new VBox(new HBox(this.moveListAnchorPane), new HBox(this.errorLabel), new HBox(this.chatScrollPane))));
 
         VBox otherShelfVBox = new VBox();
         for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)

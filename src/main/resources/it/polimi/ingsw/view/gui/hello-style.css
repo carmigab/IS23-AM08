@@ -24,7 +24,7 @@ VBox{
    -fx-content-display: center;
 }
 
-#gameBoardAnchorPane, #commonGoal1AnchorPane, #commonGoal2AnchorPane, #chatScrollPane, #myShelfAnchorPane, #personalGoalAnchorPane {
+#gameBoardAnchorPane, #commonGoal1AnchorPane, #commonGoal2AnchorPane, #chatScrollPane, #myShelfAnchorPane, #personalGoalAnchorPane, #moveListAnchorPane, #errorLabel {
    -fx-padding: 10;
    -fx-start-margin: 5;
    -fx-end-margin: 5;

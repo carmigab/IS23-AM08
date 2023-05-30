@@ -93,6 +93,7 @@ public class BotLogic extends View {
 
             try {
                 client.makeMove(move.positions(), move.column());
+                moveActionMap.clear();
             } catch (InvalidNicknameException | InvalidMoveException | ConnectionError | GameEndedException e) {
                 System.out.println("bot unable to make move");
             }

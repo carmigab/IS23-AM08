@@ -52,6 +52,7 @@ public class ServerLauncher {
             lobbyS.start();
         }
         catch (RemoteException e){
+            System.out.println(e.getMessage());
             throw new RuntimeException();
         }
 

@@ -58,23 +58,6 @@ public class Shelf implements Serializable {
 
         return myShelfCopy;
     }
-    /**
-     * This method return a copy of the array of tile of the shelf
-     *
-     * @return a copy of myShelf
-     */
-    public Shelf getShelfCopy() {
-        Shelf myShelfCopy = new Shelf();
-
-        for (int i = 0; i < ModelConstants.ROWS_NUMBER; i++) {
-            for (int j = 0; j < ModelConstants.COLS_NUMBER; j++) {
-                myShelfCopy.myShelf[i][j] = new Tile(this.myShelf[i][j]);
-            }
-        }
-
-        return myShelfCopy;
-    }
-
 
     /**
      * This method receive a tile object and an int representing the column in which the tile

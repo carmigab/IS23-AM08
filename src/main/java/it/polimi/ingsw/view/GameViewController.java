@@ -27,6 +27,9 @@ import javafx.scene.transform.Rotate;
 import java.net.URL;
 import java.util.*;
 
+/**
+ * This class is the whole controller of the game scene
+ */
 public class GameViewController implements Initializable{
     /**
      * This attribute stores the grid panel that decides how to view each component

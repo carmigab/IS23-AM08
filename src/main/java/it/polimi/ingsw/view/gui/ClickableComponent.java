@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * This class is a utility used for wrapping a lot of gui components into a single big component that can be resized, clicked and performed actions on
+ */
 public class   ClickableComponent {
     /**
      * Attribute containing the background image of the component

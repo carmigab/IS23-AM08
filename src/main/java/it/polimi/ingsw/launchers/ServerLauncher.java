@@ -14,13 +14,21 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 /**
- * Main server of the application
+ * This class is used to launch the application in server mode
  */
 public class ServerLauncher {
 
 
+    /**
+     * This map contains the actions to perform based on the parameters passed as arguments to the application
+     */
     private static final Map<String, Consumer<Integer>> serverParameters=new HashMap<>();
 
+    /**
+     * Main of the server.
+     * It takes the arguments received and parses them
+     * @param args arguments passed via command line
+     */
     public static void main(String[] args) {
 
         List<String> argsToList=new ArrayList<>(List.of(args));

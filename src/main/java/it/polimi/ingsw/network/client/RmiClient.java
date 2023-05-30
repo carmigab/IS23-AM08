@@ -315,6 +315,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * This method retrieve the active lobbies on the server
      *
      * @return the list of the active lobbies
+     * @throws NoGamesAvailableException
+     * @throws ConnectionError
      */
     @Override
     public List<Lobby> getLobbies() throws NoGamesAvailableException, ConnectionError {

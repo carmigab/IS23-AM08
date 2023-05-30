@@ -414,6 +414,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     /**
      * This method return the active lobbies
      * @return the list of active lobbies
+     * @throws NoGamesAvailableException
      */
     @Override
     public List<Lobby> getLobbies() throws NoGamesAvailableException {

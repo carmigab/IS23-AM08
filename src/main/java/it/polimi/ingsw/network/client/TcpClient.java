@@ -284,7 +284,7 @@ public class TcpClient implements Client{
     /**
      * This method retrieves a message from a lock
      * @param lock: the lock
-     * @return: the message
+     * @return the message
      * @throws ConnectionError: if the client is offline or
      */
     private Message retrieveMessageFromLock(Lock lock) throws ConnectionError {
@@ -345,6 +345,8 @@ public class TcpClient implements Client{
         if (message instanceof ChooseNicknameResponse)
             notifyLockAndSetMessage(actionLock, message);
         else if (message instanceof CreateGameResponse)
+            notifyLockAndSetMessage(actionLock, message);
+        else if (message instanceof RecoverGameResponse)
             notifyLockAndSetMessage(actionLock, message);
         else if (message instanceof JoinGameResponse)
             notifyLockAndSetMessage(actionLock, message);
@@ -435,6 +437,18 @@ public class TcpClient implements Client{
         if (response.isNonExistentNickname()) throw new NonExistentNicknameException();
         if (response.isWrongLobbyIndex()) throw new WrongLobbyIndexException();
         if (response.isLobbyFull()) throw new LobbyFullException();
+    }
+
+    /**
+     * This method lets a player recover a game from persistence
+     * @throws NoGamesAvailableException
+     * @throws ConnectionError
+     */
+    public synchronized void recoverGame() throws NoGamesAvailableException, ConnectionError {
+        RecoverGameResponse response = (RecoverGameResponse) this.manageTcpConversation(actionLock,
+                new RecoverGameMessage(this.nickname));
+
+        if (response.isNoGamesAvailable()) throw new NoGamesAvailableException();
     }
 
     /**

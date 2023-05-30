@@ -202,6 +202,27 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     }
 
     /**
+     * This method lets a player recover a game from persistence
+     * @throws NoGamesAvailableException
+     * @throws ConnectionError
+     */
+    public void recoverGame() throws NoGamesAvailableException, ConnectionError {
+        try {
+            String matchServerName = this.lobbyServer.recoverGame(nickname, this);
+            this.connectToMatchServer(matchServerName);
+        } catch (RemoteException e) {
+            if (!mute && !essential) System.out.println("Remote exception from joinGame");
+            this.gracefulDisconnection(true);
+            throw new ConnectionError();
+        } catch (NotBoundException e) {
+            if (!mute && !essential) System.out.println("Trying to lock up an unbound registry");
+            this.gracefulDisconnection(true);
+            throw new ConnectionError();
+        }
+
+    }
+
+    /**
      * This method lets a player join a game
      * @throws NoGamesAvailableException
      * @throws NonExistentNicknameException
@@ -323,7 +344,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         List<Lobby> activeLobbies;
 
         try {
-            activeLobbies=lobbyServer.getLobbies();
+            activeLobbies=lobbyServer.getLobbies(this.nickname);
         } catch (RemoteException e) {
             if (!mute && !essential) System.out.println("Remote exception from getLobbies");
             this.gracefulDisconnection(true);

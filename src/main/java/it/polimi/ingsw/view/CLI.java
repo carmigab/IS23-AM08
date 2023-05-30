@@ -794,32 +794,32 @@ public class CLI extends View{
             }
 
             System.out.println();
-            printMessage("Select the game you want to join (type the game number) or type 'r' to join a random game:", AnsiEscapeCodes.INFO_MESSAGE);
+            printMessage("Select the game you want to join (type the game number) or type 'r' to recover a game:", AnsiEscapeCodes.INFO_MESSAGE);
             String input = retryInput(ViewConstants.REGEX_INPUT_JOIN_GAME);
 
-//            if (input.equalsIgnoreCase("r")) {
-//                try {
-//                    Random random = new Random();
-//                    client.joinGame(random.nextInt(activeLobbies.size()));
-//                } catch (NonExistentNicknameException | AlreadyInGameException e) {
-//                    throw new RuntimeException(e);
-//                } catch (ConnectionError e) {
-//                    //ignore
-//                }
-//                return true;
-//            }
+            if (input.equalsIgnoreCase("r")) {
+                try {
+                    client.recoverGame();
+                } catch (ConnectionError e) {
+                    //ignore
+                }
+                return true;
+            }
 
             input = parseLobbyInput(input, activeLobbies);
 
             try {
                 client.joinGame(input);
-            } catch (NonExistentNicknameException | AlreadyInGameException e) {
+            } catch (AlreadyInGameException e) {
                 throw new RuntimeException(e);
             } catch (ConnectionError e) {
 
             }
             return true;
 
+        }
+        catch (NonExistentNicknameException e) {
+            printMessage("Probabily you cannot join a game recovered from last server crash, try the input \"r\" next time", AnsiEscapeCodes.ERROR_MESSAGE);
         } catch (NoGamesAvailableException e) {
             printMessage("No games available, please create a new one ", AnsiEscapeCodes.ERROR_MESSAGE);
         } catch (ConnectionError e) {
@@ -858,14 +858,8 @@ public class CLI extends View{
      * @return the name of the lobby the user wants to join
      */
     private String parseLobbyInput(String input, List<Lobby> activeLobbies) throws WrongLobbyIndexException {
-        if (input.equalsIgnoreCase("r")) {
-            Random random = new Random();
-            return activeLobbies.get(random.nextInt(activeLobbies.size())).lobbyName();
-        }
-        else {
-            if (Integer.parseInt(input) >= activeLobbies.size()) throw new WrongLobbyIndexException();
-            return activeLobbies.get(Integer.parseInt(input)).lobbyName();
-        }
+        if (Integer.parseInt(input) >= activeLobbies.size()) throw new WrongLobbyIndexException();
+        return activeLobbies.get(Integer.parseInt(input)).getLobbyName();
     }
 
     /**

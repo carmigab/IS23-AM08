@@ -214,6 +214,17 @@ public class TcpClientHandler extends ClientHandler implements Runnable {
                 sendTcpMessage(new JoinGameResponse("Server", noGamesAvailable, nonExistentNickname, alreadyInGame, wrongLobbyIndex, lobbyFull));
             }
 
+            else if (message instanceof RecoverGameMessage) {
+                RecoverGameMessage m = (RecoverGameMessage) message;
+                boolean noGamesAvailable = false;
+                try {
+                    this.lobbyServer.recoverGame(m.sender(), this);
+                } catch (NoGamesAvailableException e) {
+                    noGamesAvailable = true;
+                }
+                sendTcpMessage(new RecoverGameResponse("Server", noGamesAvailable));
+            }
+
             else if (message instanceof MakeMoveMessage) {
                 MakeMoveMessage m = (MakeMoveMessage) message;
                 boolean invalidNickname = false;
@@ -235,7 +246,7 @@ public class TcpClientHandler extends ClientHandler implements Runnable {
                 List<Lobby> lobbyList = null;
                 boolean noGamesAvailableException = false;
                 try {
-                    lobbyList = this.lobbyServer.getLobbies();
+                    lobbyList = this.lobbyServer.getLobbies(message.sender());
                 } catch (NoGamesAvailableException e) {
                     noGamesAvailableException = true;
                 }

@@ -452,4 +452,10 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
     public int getNumPlayers() {
         return numPlayers;
     }
+
+    /**
+     * Getter of the to load game attribute
+     * @return true if the game is loaded from file
+     */
+    public boolean isToLoad(){return this.toLoadGame;}
 }

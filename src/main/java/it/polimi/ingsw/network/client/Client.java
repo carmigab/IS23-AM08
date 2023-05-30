@@ -49,6 +49,14 @@ public interface Client  {
     /**
      * This method has to be overridden in its subclasses, it tries to join a new game
      * @throws NoGamesAvailableException
+     * @throws ConnectionError
+     */
+    public void recoverGame() throws NoGamesAvailableException, ConnectionError;
+
+
+    /**
+     * This method has to be overridden in its subclasses, it tries to join a new game
+     * @throws NoGamesAvailableException
      * @throws NonExistentNicknameException
      * @throws AlreadyInGameException
      * @throws ConnectionError

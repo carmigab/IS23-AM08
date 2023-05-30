@@ -46,9 +46,30 @@
          <Font name="Comic Sans MS" size="12.0" />
       </font>
    </Button>
-   <Button fx:id="joinButton" mnemonicParsing="false" onAction="#onJoinButtonClick" text="Join" visible="false" />
-   <Button fx:id="createButton" mnemonicParsing="false" onAction="#onCreateButtonClick" text="Create" visible="false" />
-   <Label fx:id="numPlayersLabel" text="Insert number of players" visible="false" />
+   <Button fx:id="joinButton" mnemonicParsing="false" onAction="#onJoinButtonClick" text="Join" visible="false" >
+        <font>
+            <Font name="Comic Sans MS" size="12.0" />
+        </font>
+   </Button>
+   <Button fx:id="recoverButton" mnemonicParsing="false" onAction="#onRecoverButtonClick" text="Recover" visible="false" >
+      <font>
+         <Font name="Comic Sans MS" size="12.0" />
+      </font>
+   </Button>
+   <Button fx:id="createButton" mnemonicParsing="false" onAction="#onCreateButtonClick" text="Create" visible="false" >
+       <font>
+           <Font name="Comic Sans MS" size="12.0" />
+       </font>
+   </Button>
+   <Label fx:id="numPlayersLabel" text="Insert number of players" visible="false" >
+       <font>
+           <Font name="Comic Sans MS" size="12.0" />
+       </font>
+   </Label>
    <ChoiceBox fx:id="numPlayers" prefWidth="150.0" visible="false" />
-   <Button fx:id="goButton" mnemonicParsing="false" onAction="#onGoButtonClick" text="Go" visible="false" />
+   <Button fx:id="goButton" mnemonicParsing="false" onAction="#onGoButtonClick" text="Go" visible="false" >
+       <font>
+           <Font name="Comic Sans MS" size="12.0" />
+       </font>
+   </Button>
 </VBox>

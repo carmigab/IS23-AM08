@@ -2,15 +2,12 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.constants.ViewConstants;
 import it.polimi.ingsw.constants.ModelConstants;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.RmiClient;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.gameInfo.PlayerInfo;
 import it.polimi.ingsw.gameInfo.State;
-import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.model.SingleGoal;
-import it.polimi.ingsw.model.Tile;
-import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.network.client.TcpClient;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.network.client.exceptions.GameEndedException;
@@ -69,9 +66,15 @@ public class CLI extends View{
             if (currentState == State.ENDGAME) {
                 printMessage("Game ended!", AnsiEscapeCodes.INFO_MESSAGE);
                 printMessage("Final scores:", AnsiEscapeCodes.INFO_MESSAGE);
-                for (PlayerInfo playerInfo : gameInfo.getPlayerInfosList()) {
+                /*for (PlayerInfo playerInfo : gameInfo.getPlayerInfosList()) {
                     printMessage(playerInfo.getNickname() + ": " + playerInfo.getScore(), AnsiEscapeCodes.INFO_MESSAGE);
                 }
+                */
+                printLeaderBoard();
+                printMessage("The winner is : " + gameInfo.getLeaderBoard().get(0).getNickname(), AnsiEscapeCodes.INFO_MESSAGE);
+
+
+
                 return;
             }
 
@@ -83,6 +86,15 @@ public class CLI extends View{
             if (isMyTurn()) {
                 printMessage("It's your turn!", AnsiEscapeCodes.INFO_MESSAGE);
             }
+        }
+    }
+
+    /**
+     * this method prints the final leaderBoard of the game
+     */
+    private void printLeaderBoard(){
+        for(GameEnded g : gameInfo.getLeaderBoard()){
+            printMessage(g.getNickname() + ": " + g.getFinalPoints() + " points", AnsiEscapeCodes.INFO_MESSAGE);
         }
     }
 

@@ -397,6 +397,11 @@ public class GameViewController implements Initializable{
 
         if(this.guiView.gameInfo == null) return;
 
+        if(this.guiView.currentState.equals(State.GRACEFULDISCONNECTION)){
+            Platform.runLater(()->this.showErrorAlert("Someone disconnected"));
+            return;
+        }
+
         if(this.guiView.currentState.equals(State.ENDGAME)) {
             Platform.runLater(this::showGameEndedAlert);
             return;

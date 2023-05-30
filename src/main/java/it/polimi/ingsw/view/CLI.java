@@ -14,6 +14,7 @@ import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.constants.ServerConstants;
 import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.network.server.exceptions.*;
+import javafx.geometry.Pos;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -467,7 +468,7 @@ public class CLI extends View{
 
             // display the chosen tiles and ask if the player wants to order them
             if (positions.size() > 1) {
-                askToChangeOrder(positions);
+                positions = askToChangeOrder(positions);
             }
 
             column = askColumn(positions);
@@ -522,7 +523,7 @@ public class CLI extends View{
      * This method is used to ask if the player wants to change the order of the selected tiles
      * @param positions the list of selected positions
      */
-    private void askToChangeOrder(List<Position> positions) {
+    private List<Position> askToChangeOrder(List<Position> positions) {
         String answer = "y";
         String input;
 
@@ -539,6 +540,8 @@ public class CLI extends View{
                 answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);
             }
         }
+
+        return positions;
     }
 
     /**

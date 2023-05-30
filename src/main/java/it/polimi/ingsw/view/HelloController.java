@@ -4,6 +4,7 @@ import it.polimi.ingsw.network.client.RmiClient;
 import it.polimi.ingsw.network.client.TcpClient;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.constants.ServerConstants;
+import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.network.server.exceptions.*;
 import it.polimi.ingsw.view.View;
 import javafx.fxml.FXML;
@@ -19,6 +20,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 /**
@@ -231,7 +234,9 @@ public class HelloController implements Initializable {
     @FXML
     protected void onJoinButtonClick(){
         try {
-            this.guiView.client.joinGame("r");
+            List<Lobby> activeLobbies = this.guiView.client.getLobbies();
+            String lobby = parseLobbyInput("r", activeLobbies);
+            this.guiView.client.joinGame(lobby);
             this.changeScene();
         } catch (NoGamesAvailableException e) {
             this.errorLabel.setText("There are no games available");
@@ -246,6 +251,18 @@ public class HelloController implements Initializable {
         } catch (LobbyFullException e) {
             this.errorLabel.setText("Lobby is full");
         }
+    }
+
+    private String parseLobbyInput(String input, List<Lobby> activeLobbies) {
+        if (input.equalsIgnoreCase("r")) {
+            Random random = new Random();
+            return activeLobbies.get(random.nextInt(activeLobbies.size())).lobbyName();
+        }
+        return "nothing to see here";
+//        else {
+//            if (Integer.parseInt(input) >= activeLobbies.size()) throw new WrongLobbyIndexException();
+//            return activeLobbies.get(Integer.parseInt(input)).lobbyName();
+//        }
     }
 
     /**

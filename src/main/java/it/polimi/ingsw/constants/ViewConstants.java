@@ -35,4 +35,5 @@ public class ViewConstants {
     public static final String REGEX_INPUT_ORDER_2TILES = "^[1-3]+,[1-3]+$";
 
     public static final String REGEX_INPUT_ORDER_3TILES = "^[1-3]+,[1-3]+,[1-3]+$";
+    public static final String REGEX_INPUT_JOIN_GAME = "^[0-9]+|r|R";
 }

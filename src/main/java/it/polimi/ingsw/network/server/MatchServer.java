@@ -16,7 +16,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+import com.google.gson.*;
 /**
  * This class represents the server that manages a game
  */
@@ -24,15 +24,16 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
     /**
      * This attribute is a list of the players nicknames
      */
-    private List<String> nicknamesList = new ArrayList<>();
+    private final List<String> nicknamesList = new ArrayList<>();
     /**
      * This attribute is a list of clientHandlers
      */
-    private List<ClientHandler> clientsList = new ArrayList<>();
+    private final List<ClientHandler> clientsList = new ArrayList<>();
     /**
      * This attribute represents the number of player slots
      */
     private int numPlayers;
+
     /**
      * This attribute represents the state of the game
      */
@@ -44,7 +45,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
     /**
      * This attribute is the lobby server
      */
-    private LobbyServer lobby;
+    private final LobbyServer lobby;
     /**
      * This attribute represents the model to be loaded
      */
@@ -52,7 +53,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
     /**
      * This attribute is true if there is a game to load
      */
-    private boolean toLoadGame;
+    private final boolean toLoadGame;
     /**
      * This attribute is true if the server has to ping the clients
      */
@@ -64,7 +65,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
     /**
      * Set this attribute to true to mute the server
      */
-    private boolean mute = false;
+    private final boolean mute = false;
 
 
     /**
@@ -116,7 +117,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
      * @throws InvalidNicknameException
      * @throws InvalidMoveException
      */
-    public void makeMove(List<Position> pos, int col, String nickname) throws RemoteException, InvalidNicknameException, InvalidMoveException, GameEndedException {
+    public synchronized void makeMove(List<Position> pos, int col, String nickname) throws RemoteException, InvalidNicknameException, InvalidMoveException, GameEndedException {
         if (this.state == State.ENDGAME) throw new GameEndedException();
 
         if(!mute) System.out.println("MS: A client made a move");
@@ -319,7 +320,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
     }
 
     /**
-     * This method handles the disconnection of one of the clients
+     * This method lets the match server be killed from outside
      */
     public synchronized void  killMatchServer() {
         if (!serverOffline) {
@@ -359,6 +360,8 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
 
     /**
      * This method check if the clients are alive
+     * @throws RemoteException
+     * @throws TimeOutException
      */
     private void pingClients() throws RemoteException, TimeOutException {
         //System.out.println("checking if RmiClient clients are alive...");
@@ -434,5 +437,19 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
         return true;
     }
 
+    /**
+     * Getter for nicknamesList
+     * @return the nicknamesList
+     */
+    public List<String> getNicknamesList() {
+        return nicknamesList;
+    }
 
+    /**
+     * Getter for numPlayers
+     * @return the number of players
+     */
+    public int getNumPlayers() {
+        return numPlayers;
+    }
 }

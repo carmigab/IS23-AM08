@@ -59,8 +59,6 @@ public class ModelConstants {
     public static String FILE_CONFIG_NLINESOFATMOSTMDIFFERENTCOLORS = "commonGoals5and8and9and10.json";
     public static String FILE_CONFIG_SINGLEOCCURRENCEOFGIVENSHAPE = "commonGoals3and7and11.json";
 
-    //public static String PATH_SAVED_MATCHES = "/home/matteo/Desktop/PROGETTO_IDS/src/main/resources/savedMatches/";
-    public static String PATH_SAVED_MATCHES = "src/main/resources/savedMatches/";
-    //public static String PATH_SAVED_MATCHES = "C:/Users/cenza/Desktop/PROVA_FINALE_IDS/IS23-AM08/src/main/resources/savedMatches/";
+    public static String PATH_SAVED_MATCHES = "./savedMatches/";
 
 }

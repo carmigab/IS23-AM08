@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.PlayerInfo;
+import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.model.Tile;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
@@ -28,6 +29,9 @@ import javafx.scene.layout.VBox;
 import java.net.URL;
 import java.util.*;
 
+/**
+ * This class is the whole controller of the game scene
+ */
 public class GameViewController implements Initializable{
     /**
      * This attribute stores the grid panel that decides how to view each component
@@ -393,21 +397,33 @@ public class GameViewController implements Initializable{
 
         if(this.guiView.gameInfo == null) return;
 
+        if(this.guiView.currentState.equals(State.GRACEFULDISCONNECTION)){
+            Platform.runLater(()->this.showErrorAlert("Someone disconnected"));
+            return;
+        }
+
+        if(this.guiView.currentState.equals(State.ENDGAME)) {
+            Platform.runLater(this::showGameEndedAlert);
+            return;
+        }
+
 
         if(this.guiView.isMyTurn()) Platform.runLater(()->this.errorLabel.setText("YOUR TURN"));
         else Platform.runLater(()->this.errorLabel.setText("DO NOT MOVE"));
 
-        this.displayGameBoard();
 
-        this.displayMyShelf();
 
-        this.displayCommonGoals();
+        Platform.runLater(this::displayGameBoard);
 
-        this.dispayPersonalGoal();
+        Platform.runLater(this::displayMyShelf);
 
-        this.clearPositionList();
+        Platform.runLater(this::displayCommonGoals);
 
-        this.displayOtherShelf();
+        Platform.runLater(this::dispayPersonalGoal);
+
+        Platform.runLater(this::clearPositionList);
+
+        Platform.runLater(this::displayOtherShelf);
     }
 
     /**
@@ -639,8 +655,14 @@ public class GameViewController implements Initializable{
 
         Optional<Position> positionPressed = gameBoard.getPositionOfSavedImageFromCoordinates(event.getX(), event.getY());
 
-
         imagePressed.ifPresent((imageView)->{
+
+            if(!this.guiView.checkValidPosition(this.positionsList.values().stream().toList(), positionPressed.get())){
+                this.errorLabel.setText("SELECT A VALID TILE BOZO");
+                return;
+            }
+            this.errorLabel.setText("GOOD BOY");
+
             Dragboard db=imageView.startDragAndDrop(TransferMode.COPY_OR_MOVE);
             ClipboardContent content = new ClipboardContent();
             content.putImage(this.scaleImage(imageView.getImage(), imageView.getFitWidth(), imageView.getFitHeight()));
@@ -748,6 +770,35 @@ public class GameViewController implements Initializable{
         imageView.setFitWidth(targetWidth);
         imageView.setFitHeight(targetHeight);
         return imageView.snapshot(null, null);
+    }
+
+    /**
+     * This method is called whenever the game is ended.
+     * It pops an alert to the screen showing the leaderboard
+     */
+    private void showGameEndedAlert(){
+
+        Alert alert =new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Game ended");
+        alert.setHeaderText("LeaderBoard:");
+        alert.setContentText("No leaderboard yet");
+
+        alert.showAndWait();
+
+    }
+
+    /**
+     * This method is called whenever an error client side has occurred.
+     * It pops an alert to the screen showing the error message
+     * @param message error message to be shown
+     */
+    public void showErrorAlert(String message){
+
+        Alert alert =new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Something went wrong");
+        alert.setContentText(message);
+
+        alert.showAndWait();
     }
 
 }

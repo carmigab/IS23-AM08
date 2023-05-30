@@ -30,7 +30,7 @@ class GameModelTest {
     public void testLoadFromFile() throws FileNotFoundException {
         List<String> players=new ArrayList<>(4);
         players.add("MatteCenz"); players.add("GabriCarr"); players.add("GabriCarm"); players.add("AleCappe");
-        String file= ModelConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(players);
+        String file= "src/main/resources/savedMatches/" + UtilityFunctionsModel.getJSONFileName(players);
         Gson json=new GsonBuilder().setPrettyPrinting().create();
         GameModel gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
         //System.out.println(json.toJson(gm));
@@ -149,7 +149,7 @@ class GameModelTest {
     public void getCurrentPlayer() throws FileNotFoundException {
         List<String> players=new ArrayList<>(4);
         players.add("MatteCenz"); players.add("GabriCarr"); players.add("GabriCarm"); players.add("AleCappe");
-        String file= ModelConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(players);
+        String file= "src/main/resources/savedMatches/" + UtilityFunctionsModel.getJSONFileName(players);
         Gson json=new GsonBuilder().setPrettyPrinting().create();
         GameModel gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
 
@@ -164,7 +164,7 @@ class GameModelTest {
     public void getPlayer() throws FileNotFoundException {
         List<String> players=new ArrayList<>(4);
         players.add("MatteCenz"); players.add("GabriCarr"); players.add("GabriCarm"); players.add("AleCappe");
-        String file= ModelConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(players);
+        String file= "src/main/resources/savedMatches/" + UtilityFunctionsModel.getJSONFileName(players);
         Gson json=new GsonBuilder().setPrettyPrinting().create();
         GameModel gm=new GameModel(json.fromJson(new FileReader(file), GameModel.class));
         PlayerState p = gm.getCurrentPlayerState();

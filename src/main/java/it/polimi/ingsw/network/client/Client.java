@@ -5,9 +5,8 @@ import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.network.client.exceptions.GameEndedException;
-import it.polimi.ingsw.network.server.exceptions.AlreadyInGameException;
-import it.polimi.ingsw.network.server.exceptions.NonExistentNicknameException;
-import it.polimi.ingsw.network.server.exceptions.NoGamesAvailableException;
+import it.polimi.ingsw.network.server.Lobby;
+import it.polimi.ingsw.network.server.exceptions.*;
 
 import java.util.List;
 
@@ -54,7 +53,7 @@ public interface Client  {
      * @throws AlreadyInGameException
      * @throws ConnectionError
      */
-    public void joinGame() throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError;
+    public void joinGame(String lobbyName) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError, WrongLobbyIndexException, LobbyFullException;
 
     /**
      * This method has to be overridden in its subclasses, it tries to send a private message
@@ -71,4 +70,9 @@ public interface Client  {
      */
     public void messageAll(String message) throws ConnectionError;
 
+    /**
+     * This method retrieve the active lobbies on the server
+     * @return the list of the active lobbies
+     */
+    public List<Lobby> getLobbies() throws NoGamesAvailableException, ConnectionError;
 }

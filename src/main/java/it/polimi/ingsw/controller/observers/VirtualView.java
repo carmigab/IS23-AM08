@@ -55,6 +55,6 @@ public class VirtualView implements Observer{
                 }
             }
         }
-        this.server.update(this.currentState,this.gameInfo);
+        if (this.server!=null) this.server.update(this.currentState,this.gameInfo);
     }
 }

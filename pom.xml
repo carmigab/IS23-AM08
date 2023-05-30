@@ -50,50 +50,56 @@
     <artifactId>javafx-fxml</artifactId>
     <version>19.0.2.1</version>
   </dependency>
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>5.3.0</version>
+        <scope>test</scope>
+    </dependency>
 
-  <!-- UNCOMMENT WHEN PACKAGING WITH WSL >
+    <!-- UNCOMMENT WHEN PACKAGING WITH WSL >
 
-  <dependency>
-    <groupId>org.openjfx</groupId>
-    <artifactId>javafx-media</artifactId>
-    <version>17-ea+11</version>
-    <classifier>win</classifier>
-  </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-media</artifactId>
+      <version>17-ea+11</version>
+      <classifier>win</classifier>
+    </dependency>
 
-  <dependency>
-    <groupId>org.openjfx</groupId>
-    <artifactId>javafx-media</artifactId>
-    <version>17-ea+11</version>
-    <classifier>linux</classifier>
-  </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-media</artifactId>
+      <version>17-ea+11</version>
+      <classifier>linux</classifier>
+    </dependency>
 
-  <dependency>
-    <groupId>org.openjfx</groupId>
-    <artifactId>javafx-media</artifactId>
-    <version>17-ea+11</version>
-    <classifier>mac</classifier>
-  </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-media</artifactId>
+      <version>17-ea+11</version>
+      <classifier>mac</classifier>
+    </dependency>
 
-  <dependency>
-    <groupId>org.openjfx</groupId>
-    <artifactId>javafx-graphics</artifactId>
-    <version>17-ea+11</version>
-    <classifier>win</classifier>
-  </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>17-ea+11</version>
+      <classifier>win</classifier>
+    </dependency>
 
-  <dependency>
-    <groupId>org.openjfx</groupId>
-    <artifactId>javafx-graphics</artifactId>
-    <version>17-ea+11</version>
-    <classifier>linux</classifier>
-  </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>17-ea+11</version>
+      <classifier>linux</classifier>
+    </dependency>
 
-  <dependency>
-    <groupId>org.openjfx</groupId>
-    <artifactId>javafx-graphics</artifactId>
-    <version>17-ea+11</version>
-    <classifier>mac</classifier>
-  </dependency -->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>17-ea+11</version>
+      <classifier>mac</classifier>
+    </dependency -->
 
 </dependencies>
 

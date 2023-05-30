@@ -1,10 +1,417 @@
 {
-  "commonGoalsCreated": [
-    6,
-    2
+  "numPlayers": 2,
+  "playerList": [
+    {
+      "nickname": "MatteCenz",
+      "myShelf": {
+        "myShelf": [
+          [
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 1
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            }
+          ],
+          [
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 1
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            }
+          ],
+          [
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 2
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 1
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 2
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            }
+          ],
+          [
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 2
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 1
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            }
+          ],
+          [
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 1
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 2
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            }
+          ],
+          [
+            {
+              "color": "BLUE",
+              "sprite": 1
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 2
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 1
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            }
+          ]
+        ]
+      },
+      "PGPoints": 0,
+      "CGPoints": [
+        0,
+        0
+      ],
+      "groupPoints": 0,
+      "firstPoint": 0,
+      "personalGoal": {
+        "personalGoal": [
+          {
+            "position": {
+              "x": 0,
+              "y": 1
+            },
+            "color": "BLUE"
+          },
+          {
+            "position": {
+              "x": 0,
+              "y": 5
+            },
+            "color": "WHITE"
+          },
+          {
+            "position": {
+              "x": 1,
+              "y": 3
+            },
+            "color": "GREEN"
+          },
+          {
+            "position": {
+              "x": 2,
+              "y": 2
+            },
+            "color": "VIOLET"
+          },
+          {
+            "position": {
+              "x": 3,
+              "y": 1
+            },
+            "color": "YELLOW"
+          },
+          {
+            "position": {
+              "x": 4,
+              "y": 3
+            },
+            "color": "CYAN"
+          }
+        ],
+        "pointsForCompletion": [
+          1,
+          2,
+          4,
+          6,
+          9,
+          12
+        ]
+      },
+      "personalGoalNumber": 6,
+      "comGoalDone": [
+        false,
+        false
+      ]
+    },
+    {
+      "nickname": "GabriCarr",
+      "myShelf": {
+        "myShelf": [
+          [
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            }
+          ],
+          [
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            }
+          ],
+          [
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            }
+          ],
+          [
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            }
+          ],
+          [
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            }
+          ],
+          [
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            },
+            {
+              "color": "EMPTY",
+              "sprite": 0
+            }
+          ]
+        ]
+      },
+      "PGPoints": 0,
+      "CGPoints": [
+        0,
+        0
+      ],
+      "groupPoints": 0,
+      "firstPoint": 0,
+      "personalGoal": {
+        "personalGoal": [
+          {
+            "position": {
+              "x": 0,
+              "y": 5
+            },
+            "color": "YELLOW"
+          },
+          {
+            "position": {
+              "x": 1,
+              "y": 1
+            },
+            "color": "CYAN"
+          },
+          {
+            "position": {
+              "x": 1,
+              "y": 3
+            },
+            "color": "BLUE"
+          },
+          {
+            "position": {
+              "x": 2,
+              "y": 3
+            },
+            "color": "WHITE"
+          },
+          {
+            "position": {
+              "x": 3,
+              "y": 5
+            },
+            "color": "GREEN"
+          },
+          {
+            "position": {
+              "x": 4,
+              "y": 4
+            },
+            "color": "VIOLET"
+          }
+        ],
+        "pointsForCompletion": [
+          1,
+          2,
+          4,
+          6,
+          9,
+          12
+        ]
+      },
+      "personalGoalNumber": 6,
+      "comGoalDone": [
+        false,
+        false
+      ]
+    }
   ],
-  "currentPlayer": 1,
-  "fileName": "src/main/resources/savedMatches/MatteCenz_GabriCarr.json",
   "gameBoard": {
     "myGameBoard": [
       [
@@ -63,7 +470,7 @@
           "sprite": 1
         },
         {
-          "color": "EMPTY",
+          "color": "VIOLET",
           "sprite": 1
         },
         {
@@ -143,15 +550,15 @@
           "sprite": 1
         },
         {
-          "color": "EMPTY",
+          "color": "YELLOW",
           "sprite": 1
         },
         {
-          "color": "EMPTY",
+          "color": "YELLOW",
           "sprite": 1
         },
         {
-          "color": "EMPTY",
+          "color": "YELLOW",
           "sprite": 1
         },
         {
@@ -181,15 +588,15 @@
           "sprite": 1
         },
         {
-          "color": "EMPTY",
+          "color": "BLUE",
           "sprite": 1
         },
         {
-          "color": "EMPTY",
+          "color": "BLUE",
           "sprite": 1
         },
         {
-          "color": "EMPTY",
+          "color": "BLUE",
           "sprite": 1
         },
         {
@@ -223,7 +630,7 @@
           "sprite": 1
         },
         {
-          "color": "EMPTY",
+          "color": "VIOLET",
           "sprite": 1
         },
         {
@@ -349,6 +756,24 @@
           "sprite": 1
         }
       ]
+    ],
+    "commonGoalsStacks": [
+      {
+        "stack": [
+          2,
+          4,
+          6,
+          8
+        ]
+      },
+      {
+        "stack": [
+          2,
+          4,
+          6,
+          8
+        ]
+      }
     ],
     "allTiles": [
       {
@@ -761,410 +1186,12 @@
       }
     ]
   },
+  "commonGoalsCreated": [
+    6,
+    2
+  ],
+  "currentPlayer": 1,
   "isLastTurn": false,
-  "numPlayers": 2,
-  "playerList": [
-    {
-      "nickname": "MatteCenz",
-      "myShelf": {
-        "myShelf": [
-          [
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 1
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            }
-          ],
-          [
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 1
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            }
-          ],
-          [
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 2
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 1
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 2
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            }
-          ],
-          [
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 2
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 1
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            }
-          ],
-          [
-            {
-              "color": "VIOLET",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 1
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 2
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            }
-          ],
-          [
-            {
-              "color": "BLUE",
-              "sprite": 0
-            },
-            {
-              "color": "VIOLET",
-              "sprite": 2
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 1
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            }
-          ]
-        ]
-      },
-      "PGPoints": 0,
-      "CGPoints": [0,0],
-      "groupPoints": 0,
-      "firstPoint": 0,
-      "personalGoal": {
-        "personalGoal": [
-          {
-            "position": {
-              "x": 0,
-              "y": 1
-            },
-            "color": "BLUE"
-          },
-          {
-            "position": {
-              "x": 0,
-              "y": 5
-            },
-            "color": "WHITE"
-          },
-          {
-            "position": {
-              "x": 1,
-              "y": 3
-            },
-            "color": "GREEN"
-          },
-          {
-            "position": {
-              "x": 2,
-              "y": 2
-            },
-            "color": "VIOLET"
-          },
-          {
-            "position": {
-              "x": 3,
-              "y": 1
-            },
-            "color": "YELLOW"
-          },
-          {
-            "position": {
-              "x": 4,
-              "y": 3
-            },
-            "color": "CYAN"
-          }
-        ],
-        "pointsForCompletion": [
-          1,
-          2,
-          4,
-          6,
-          9,
-          12
-        ]
-      },
-      "comGoalDone": [
-        false,
-        false
-      ]
-    },
-    {
-      "nickname": "GabriCarr",
-      "myShelf": {
-        "myShelf": [
-          [
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            }
-          ],
-          [
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            }
-          ],
-          [
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            }
-          ],
-          [
-            {
-              "color": "YELLOW",
-              "sprite": 0
-            },
-            {
-              "color": "BLUE",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            }
-          ],
-          [
-            {
-              "color": "YELLOW",
-              "sprite": 0
-            },
-            {
-              "color": "BLUE",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            }
-          ],
-          [
-            {
-              "color": "YELLOW",
-              "sprite": 0
-            },
-            {
-              "color": "BLUE",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            },
-            {
-              "color": "EMPTY",
-              "sprite": 0
-            }
-          ]
-        ]
-      },
-      "PGPoints": 2,
-      "CGPoints": [0,0],
-      "groupPoints": 4,
-      "firstPoint": 0,
-      "personalGoal": {
-        "personalGoal": [
-          {
-            "position": {
-              "x": 0,
-              "y": 5
-            },
-            "color": "YELLOW"
-          },
-          {
-            "position": {
-              "x": 1,
-              "y": 1
-            },
-            "color": "CYAN"
-          },
-          {
-            "position": {
-              "x": 1,
-              "y": 3
-            },
-            "color": "BLUE"
-          },
-          {
-            "position": {
-              "x": 2,
-              "y": 3
-            },
-            "color": "WHITE"
-          },
-          {
-            "position": {
-              "x": 3,
-              "y": 5
-            },
-            "color": "GREEN"
-          },
-          {
-            "position": {
-              "x": 4,
-              "y": 4
-            },
-            "color": "VIOLET"
-          }
-        ],
-        "pointsForCompletion": [
-          1,
-          2,
-          4,
-          6,
-          9,
-          12
-        ]
-      },
-      "comGoalDone": [
-        false,
-        false
-      ]
-    }
-  ]
+  "fileName": "src/main/resources/savedMatches/MatteCenz_GabriCarr.json",
+  "gameOver": false
 }

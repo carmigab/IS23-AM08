@@ -755,9 +755,9 @@ public class CLI extends View{
     public void createOrJoinGame() {
         boolean gameSelected = false;
 
-        printMessage("Do you want to create a new game or join an existing one? (c/j) ", AnsiEscapeCodes.INFO_MESSAGE);
-
         while (!gameSelected) {
+            printMessage("Do you want to create a new game or join an existing one? (c/j) ", AnsiEscapeCodes.INFO_MESSAGE);
+
             String input = this.retryInput("c|j");
 
             if (input.equals("c")) {

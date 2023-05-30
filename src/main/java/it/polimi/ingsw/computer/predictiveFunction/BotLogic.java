@@ -26,7 +26,7 @@ public class BotLogic extends View {
 
     private ColorFitnessPerTile colorFitnessPerTile;
 
-    private Map<Move, Action> moveActionMap;
+    private Map<Action, Move> moveActionMap;
 
     public BotLogic(String myNickname, String gameName) {
         this.myNickname = myNickname;
@@ -109,17 +109,13 @@ public class BotLogic extends View {
 
         Action action = new Action(tileColors, move.column());
 
-        moveActionMap.put(move, action);
+        moveActionMap.put(action, move);
 
         return action;
     }
 
     private Move mapActionToMove(Action action) {
-        return moveActionMap.entrySet().stream()
-                .filter(entry -> entry.getValue().equals(action))
-                .map(Map.Entry::getKey)
-                .findFirst()
-                .orElseThrow();
+        return moveActionMap.get(action);
     }
 
     private Action getBestAction() {

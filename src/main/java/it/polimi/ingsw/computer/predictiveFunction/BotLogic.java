@@ -88,6 +88,9 @@ public class BotLogic extends View {
 
             Move move = mapActionToMove(action);
 
+            System.out.println("Best move: ");
+            for(Position p: move.positions()) System.out.println(p.x()+" "+p.y());
+
             try {
                 client.makeMove(move.positions(), move.column());
             } catch (InvalidNicknameException | InvalidMoveException | ConnectionError | GameEndedException e) {
@@ -187,7 +190,7 @@ public class BotLogic extends View {
                 List<Position> adj = getAdj(List.of(position));
 
                 for (Position adjPosition: adj) {
-                    List<Position> adj2 = getAdj(List.of(adjPosition));
+                    List<Position> adj2 = getAdj(List.of(position, adjPosition));
 
                     for (Position adj2Position: adj2) {
                         moves.add(new Move(List.of(position, adjPosition, adj2Position), i));

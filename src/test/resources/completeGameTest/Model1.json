@@ -5,6 +5,8 @@
   ],
   "currentPlayer": 1,
   "fileName": "src/main/resources/savedMatches/MatteCenz_GabriCarr.json",
+  "gameOver": false,
+  "isLastTurn": false,
   "gameBoard": {
     "myGameBoard": [
       [
@@ -761,7 +763,6 @@
       }
     ]
   },
-  "isLastTurn": false,
   "numPlayers": 2,
   "playerList": [
     {

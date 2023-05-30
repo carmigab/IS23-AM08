@@ -26,7 +26,7 @@ public class BotLogic extends View {
 
     private ColorFitnessPerTile colorFitnessPerTile;
 
-    private Map<Action, Move> moveActionMap;
+    private final Map<Action, Move> moveActionMap;
 
     public BotLogic(String myNickname, String gameName) {
         this.myNickname = myNickname;
@@ -86,6 +86,19 @@ public class BotLogic extends View {
         if (isMyTurn()) {
             Action action = getBestAction();
 
+            System.out.println("Best action: ");
+            for(TileColor tileColor: action.getTiles()) System.out.println(tileColor);
+            System.out.println(action.getColumn());
+
+            for (Action a : moveActionMap.keySet()) {
+                System.out.println("Action: ");
+                for(TileColor tileColor: a.getTiles()) System.out.println(tileColor);
+                System.out.println(action.getColumn());
+
+                System.out.println("Move: ");
+                for(Position p: moveActionMap.get(a).positions()) System.out.println(p.x()+" "+p.y());
+            }
+
             Move move = mapActionToMove(action);
 
             System.out.println("Best move: ");
@@ -121,7 +134,15 @@ public class BotLogic extends View {
     private Action getBestAction() {
         Action bestAction = null;
         Set<Action> availableActions = getAvailableActions();
-        double maxFitness = -10;
+
+        System.out.println("Available actions: ");
+        for (Action action: availableActions) {
+            System.out.println("Action: ");
+            for(TileColor tileColor: action.getTiles()) System.out.println(tileColor);
+            System.out.println(action.getColumn());
+        }
+
+        double maxFitness = -Double.MAX_VALUE;
 
         for (Action action: availableActions) {
             if (colorFitnessPerTile.evaluateAction(action, gameStateRepresentation.getShelf()) > maxFitness) {

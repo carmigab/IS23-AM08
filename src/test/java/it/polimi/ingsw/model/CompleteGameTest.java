@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit test for a complete game
  */
 class CompleteGameTest {
-    
+
     /**
      * This method test a game with two players simulating all the actions to check if all flows correctly
      */     
@@ -37,9 +37,7 @@ class CompleteGameTest {
 
         Gson jsonLoader = JsonWithExposeSingleton.getJsonWithExposeSingleton();
 
-        List<String> players=new ArrayList<>(2);
-        players.add("MatteCenz"); players.add("GabriCarr");
-        String file = ModelConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(players);
+        String file = "src/main/resources/savedMatches/MatteCenz_GabriCarr.json";
         GameModel savedModel;
 
         List<String> actions = json.fromJson(UtilityTestFunctions.getReaderFromFileNameResourcesPath("completeGameTest/CompleteGameTestActions.json", this.getClass()), ArrayList.class);
@@ -62,6 +60,8 @@ class CompleteGameTest {
                 gameController.makeMove(positions, col, playerNickname);
                 savedModel = new GameModel(json.fromJson(new FileReader(file), GameModel.class));
                 if (index < 14) {
+                    System.out.println(index);
+
                     modelsFileCount = new String(intToString(index));
                     GameModel expectedGameModel = new GameModel(jsonLoader.fromJson(UtilityTestFunctions.getReaderFromFileNameResourcesPath("Model"+modelsFileCount+".json", GameModel.class), GameModel.class));
                     assertTrue(expectedGameModel.equals(savedModel));

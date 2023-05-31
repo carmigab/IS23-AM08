@@ -13,6 +13,8 @@ import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.constants.ServerConstants;
 import it.polimi.ingsw.network.server.Lobby;
+import it.polimi.ingsw.network.server.LobbyRecovered;
+import it.polimi.ingsw.network.server.LobbyStandard;
 import it.polimi.ingsw.network.server.exceptions.*;
 import javafx.geometry.Pos;
 
@@ -791,10 +793,22 @@ public class CLI extends View{
     private boolean joinExistingGame() {
         try {
             List<Lobby> activeLobbies = client.getLobbies();
+            boolean atLeastOneAvailableALobby = false;
 
+            // This for cycle prints a lobby only if is of the type "LobbyRecovered" or the type is "LobbyStandard"
+            // and the lobby was not recovered by someone else
             for (int i = 0; i < activeLobbies.size(); i++) {
-                printMessage(i + ") " + activeLobbies.get(i).toString(), AnsiEscapeCodes.INFO_MESSAGE);
+                if (activeLobbies.get(i) instanceof LobbyRecovered) {
+                    printMessage("r) " + activeLobbies.get(i).toString(), AnsiEscapeCodes.INFO_MESSAGE);
+                    atLeastOneAvailableALobby = true;
+                }
+                else if (activeLobbies.get(i) instanceof LobbyStandard && !activeLobbies.get(i).isRecovered()) {
+                    printMessage(i + ") " + activeLobbies.get(i).toString(), AnsiEscapeCodes.INFO_MESSAGE);
+                    atLeastOneAvailableALobby = true;
+                }
             }
+
+            if (!atLeastOneAvailableALobby) throw new NoGamesAvailableException();
 
             System.out.println();
             printMessage("Select the game you want to join (type the game number) or type 'r' to recover a game:", AnsiEscapeCodes.INFO_MESSAGE);
@@ -822,7 +836,7 @@ public class CLI extends View{
 
         }
         catch (NonExistentNicknameException e) {
-            printMessage("Probabily you cannot join a game recovered from last server crash, try the input \"r\" next time", AnsiEscapeCodes.ERROR_MESSAGE);
+            printMessage("Please try again", AnsiEscapeCodes.ERROR_MESSAGE);
         } catch (NoGamesAvailableException e) {
             printMessage("No games available, please create a new one ", AnsiEscapeCodes.ERROR_MESSAGE);
         } catch (ConnectionError e) {

@@ -13,11 +13,15 @@ public class Lobby implements Serializable {
 
     protected final List<String> players;
 
-    public Lobby(String lobbyName, int playersNum, int playerInGame, List<String> players) {
+    protected final boolean recovered;
+
+    public Lobby(String lobbyName, int playersNum, int playerInGame, List<String> players, boolean recovered) {
         this.lobbyName = lobbyName;
         this.playersNum = playersNum;
         this.playerInGame = playerInGame;
         this.players = players;
+        this.recovered = recovered;
+
     }
 
     public String getLobbyName() {
@@ -36,8 +40,8 @@ public class Lobby implements Serializable {
         return players;
     }
 
-    @Override
-    public String toString() {
-        return lobbyName + ": players " + playerInGame + "/" + playersNum + "\n" + "   players waiting: " + players;
+    public boolean isRecovered() {
+        return recovered;
     }
+
 }

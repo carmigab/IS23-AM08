@@ -317,8 +317,9 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
                 throw new LobbyFullException();
             }
 
-            //check on the recovered game
-            if (this.serverList.get(serverInformation.indexOf(lobbyName)).isToLoad()){
+            // check if the game is a recovered pre-existing game
+            // TODO change the exception type to something more meaningful
+            if (this.serverList.get(serverInformation.indexOf(lobbyName)).isRecovered()){
                 throw new NonExistentNicknameException();
             }
 
@@ -443,14 +444,23 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     public List<Lobby> getLobbies(String nickname) throws NoGamesAvailableException {
         List<Lobby> activeLobbies = new ArrayList<>();
 
-        if(this.potentialPlayers.containsKey(nickname)){
-            activeLobbies.add(new LobbyRecovered("Recovered", 0, 0, List.of()));
-        }
+
 
         for (MatchServer matchServer : serverList) {
             if (matchServer.getFreeSpaces() > 0) {
-                activeLobbies.add(new Lobby(serverInformation.get(serverList.indexOf(matchServer)), matchServer.getNumPlayers(), matchServer.getNicknamesList().size(), List.copyOf(matchServer.getNicknamesList())));
+                if (matchServer.isRecovered())
+                    activeLobbies.add(new LobbyStandard(serverInformation.get(serverList.indexOf(matchServer)),
+                        0, 0,
+                        List.copyOf(matchServer.getNicknamesList()), true));
+                else
+                    activeLobbies.add(new LobbyStandard(serverInformation.get(serverList.indexOf(matchServer)),
+                        matchServer.getNumPlayers(), matchServer.getNicknamesList().size(),
+                        List.copyOf(matchServer.getNicknamesList()), false));
             }
+        }
+
+        if(this.potentialPlayers.containsKey(nickname)){
+            activeLobbies.add(new LobbyRecovered("Recovered", 0, 0, List.of()));
         }
 
         if(activeLobbies.isEmpty())

@@ -418,7 +418,8 @@ public class GameModel {
     public void endGame(boolean forced){
         this.gameOver = true;
         // if we force the end of the game (from server) we must not create a leaderboard
-        if (!forced) createLeaderBoard();
+//        if (!forced)
+            createLeaderBoard();
         // if we force the end of the game (from server) we must save the current state
         if (forced) this.saveCurrentState();
         this.notifyObservers();

@@ -798,11 +798,11 @@ public class CLI extends View{
             // This for cycle prints a lobby only if is of the type "LobbyRecovered" or the type is "LobbyStandard"
             // and the lobby was not recovered by someone else
             for (int i = 0; i < activeLobbies.size(); i++) {
-                if (activeLobbies.get(i) instanceof LobbyRecovered) {
+                if (activeLobbies.get(i).isRecovered() && activeLobbies.get(i).toShow()) {
                     printMessage("r) " + activeLobbies.get(i).toString(), AnsiEscapeCodes.INFO_MESSAGE);
                     atLeastOneAvailableALobby = true;
                 }
-                else if (activeLobbies.get(i) instanceof LobbyStandard && !activeLobbies.get(i).isRecovered()) {
+                else if (activeLobbies.get(i).toShow()) {
                     printMessage(i + ") " + activeLobbies.get(i).toString(), AnsiEscapeCodes.INFO_MESSAGE);
                     atLeastOneAvailableALobby = true;
                 }
@@ -822,6 +822,7 @@ public class CLI extends View{
                 }
                 return true;
             }
+
 
             input = parseLobbyInput(input, activeLobbies);
 

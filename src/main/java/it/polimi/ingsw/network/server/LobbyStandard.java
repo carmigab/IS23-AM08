@@ -5,6 +5,8 @@ import java.util.List;
 public class LobbyStandard extends Lobby{
     public LobbyStandard(String lobbyName, int playersNum, int playerInGame, List<String> players, boolean recovered) {
         super(lobbyName, playersNum, playerInGame, players, recovered);
+        // We show a standard lobby only if it was not recovered
+        this.toShow = !recovered;
     }
 
     @Override

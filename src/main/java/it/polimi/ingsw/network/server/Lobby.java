@@ -15,12 +15,15 @@ public class Lobby implements Serializable {
 
     protected final boolean recovered;
 
+    protected boolean toShow;
+
     public Lobby(String lobbyName, int playersNum, int playerInGame, List<String> players, boolean recovered) {
         this.lobbyName = lobbyName;
         this.playersNum = playersNum;
         this.playerInGame = playerInGame;
         this.players = players;
         this.recovered = recovered;
+
 
     }
 
@@ -42,6 +45,10 @@ public class Lobby implements Serializable {
 
     public boolean isRecovered() {
         return recovered;
+    }
+
+    public boolean toShow(){
+        return toShow;
     }
 
 }

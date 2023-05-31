@@ -278,9 +278,9 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @param nickname   nickname of the player that calls the method
      * @param client     reference to the methods of the client that can be called by the server using RMI
      * @return the information useful for the connection to the game
-     * @throws NoGamesAvailableException if there are no games that can be recovered from persistance
+     * @throws NoGameToRecoverException if there are no games that can be recovered from persistance
      */
-    private String recoverGameTcpRmi(String nickname, ClientHandler client) throws NoGamesAvailableException{
+    private String recoverGameTcpRmi(String nickname, ClientHandler client) throws NoGameToRecoverException{
         synchronized (lockCreateGame) {
             if (this.potentialPlayers.containsKey(nickname)) {
                 if (!mute) System.out.println("LS: Joining game recovered from persistance...");
@@ -292,7 +292,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
                 this.potentialPlayers.remove(nickname);
                 return toReturn;
             }
-            throw new NoGamesAvailableException();
+            throw new NoGameToRecoverException();
         }
     }
 
@@ -303,8 +303,9 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @return the information useful for the connection to the game
      * @throws AlreadyInGameException       if the player is already in a different game
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
+     * @throws NoGameToRecoverException     if there are no games available for recovery with your name
      */
-    private String joinGameTcpRmi(String nickname, ClientHandler client, String lobbyName) throws AlreadyInGameException, NonExistentNicknameException, WrongLobbyIndexException, LobbyFullException {
+    private String joinGameTcpRmi(String nickname, ClientHandler client, String lobbyName) throws AlreadyInGameException, NonExistentNicknameException, NoGameToRecoverException, WrongLobbyIndexException, LobbyFullException {
         synchronized (lockCreateGame) {
 
             this.checkCredentialsIntegrity(nickname);
@@ -318,9 +319,8 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
             }
 
             // check if the game is a recovered pre-existing game
-            // TODO change the exception type to something more meaningful
             if (this.serverList.get(serverInformation.indexOf(lobbyName)).isRecovered()){
-                throw new NonExistentNicknameException();
+                throw new NoGameToRecoverException();
             }
 
             MatchServer matchServer;
@@ -412,10 +412,10 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @param rmiClient reference to the methods of the client that can be called by the server using RMI
      * @return the information useful for the connection to the game
      * @throws RemoteException           if the connection fails
-     * @throws NoGamesAvailableException    if every game is full or there is no game currently ongoing in the server
+     * @throws NoGameToRecoverException    if every game is full or there is no game currently ongoing in the server
      */
     @Override
-    public String recoverGame(String nickname, RmiClientInterface rmiClient) throws RemoteException, NoGamesAvailableException {
+    public String recoverGame(String nickname, RmiClientInterface rmiClient) throws RemoteException, NoGameToRecoverException {
         return this.recoverGameTcpRmi(nickname, new RmiClientHandler(rmiClient));
     }
 
@@ -431,7 +431,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
     @Override
-    public String joinGame(String nickname, RmiClientInterface rmiClient, String gameIndex) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException, WrongLobbyIndexException, LobbyFullException {
+    public String joinGame(String nickname, RmiClientInterface rmiClient, String gameIndex) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException, NoGameToRecoverException, WrongLobbyIndexException, LobbyFullException {
         return this.joinGameTcpRmi(nickname, new RmiClientHandler(rmiClient), gameIndex);
     }
 
@@ -496,7 +496,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @return the information useful for the connection to the game
      * @throws NoGamesAvailableException if no games are available
      */
-    public String recoverGame(String nickname, TcpClientHandler tcpClient) throws NoGamesAvailableException{
+    public String recoverGame(String nickname, TcpClientHandler tcpClient) throws NoGameToRecoverException{
         return this.recoverGameTcpRmi(nickname, tcpClient);
     }
 
@@ -510,7 +510,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws AlreadyInGameException if the player is already in a different game
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
      */
-    public String joinGame(String nickname, TcpClientHandler tcpClient, String lobbyName) throws NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException, WrongLobbyIndexException, LobbyFullException {
+    public String joinGame(String nickname, TcpClientHandler tcpClient, String lobbyName) throws NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException, NoGameToRecoverException, WrongLobbyIndexException, LobbyFullException {
         return this.joinGameTcpRmi(nickname, tcpClient, lobbyName);
     }
 

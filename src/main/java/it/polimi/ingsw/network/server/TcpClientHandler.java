@@ -196,13 +196,17 @@ public class TcpClientHandler extends ClientHandler implements Runnable {
                 boolean alreadyInGame = false;
                 boolean nonExistentNickname = false;
                 boolean noGamesAvailable = false;
+                boolean noGameToRecover = false;
                 boolean wrongLobbyIndex = false;
                 boolean lobbyFull = false;
                 try {
                     this.lobbyServer.joinGame(m.sender(), this, m.getLobbyName());
                 } catch (NoGamesAvailableException e) {
                     noGamesAvailable = true;
-                } catch (AlreadyInGameException e) {
+                } catch (NoGameToRecoverException e){
+                    noGameToRecover = true;
+                }
+                catch (AlreadyInGameException e) {
                     alreadyInGame = true;
                 } catch (NonExistentNicknameException e) {
                     nonExistentNickname = true;
@@ -211,7 +215,7 @@ public class TcpClientHandler extends ClientHandler implements Runnable {
                 } catch (LobbyFullException e) {
                     lobbyFull = true;
                 }
-                sendTcpMessage(new JoinGameResponse("Server", noGamesAvailable, nonExistentNickname, alreadyInGame, wrongLobbyIndex, lobbyFull));
+                sendTcpMessage(new JoinGameResponse("Server", noGamesAvailable, nonExistentNickname, noGameToRecover, alreadyInGame, wrongLobbyIndex, lobbyFull));
             }
 
             else if (message instanceof RecoverGameMessage) {
@@ -219,7 +223,7 @@ public class TcpClientHandler extends ClientHandler implements Runnable {
                 boolean noGamesAvailable = false;
                 try {
                     this.lobbyServer.recoverGame(m.sender(), this);
-                } catch (NoGamesAvailableException e) {
+                } catch (NoGameToRecoverException e) {
                     noGamesAvailable = true;
                 }
                 sendTcpMessage(new RecoverGameResponse("Server", noGamesAvailable));

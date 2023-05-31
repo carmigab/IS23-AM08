@@ -7,17 +7,17 @@ public class RecoverGameResponse extends Message {
     /**
      * true if no game are available
      */
-    private boolean noGamesAvailable;
+    private boolean noGameToRecover;
 
     /**
      * Constructor
      *
      * @param sender : the one who sends the message
      */
-    public RecoverGameResponse(String sender, boolean noGamesAvailable) {
+    public RecoverGameResponse(String sender, boolean noGameToRecover) {
         super(sender);
 
-        this.noGamesAvailable=noGamesAvailable;
+        this.noGameToRecover=noGameToRecover;
         setMessageType("RecoverGameResponse");
     }
 
@@ -25,7 +25,7 @@ public class RecoverGameResponse extends Message {
      * Method to check if no games are available
      * @return true if no game are available
      */
-    public boolean isNoGamesAvailable() {
-        return noGamesAvailable;
+    public boolean isNoGameToRecover() {
+        return noGameToRecover;
     }
 }

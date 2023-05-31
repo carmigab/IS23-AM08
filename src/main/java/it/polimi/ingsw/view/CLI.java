@@ -828,7 +828,7 @@ public class CLI extends View{
 
             try {
                 client.joinGame(input);
-            } catch (AlreadyInGameException e) {
+            } catch (AlreadyInGameException | NonExistentNicknameException e) {
                 throw new RuntimeException(e);
             } catch (ConnectionError e) {
 
@@ -836,8 +836,8 @@ public class CLI extends View{
             return true;
 
         }
-        catch (NonExistentNicknameException e) {
-            printMessage("Please try again", AnsiEscapeCodes.ERROR_MESSAGE);
+         catch (NoGameToRecoverException e) {
+            printMessage("No games available for recovery with your name", AnsiEscapeCodes.ERROR_MESSAGE);
         } catch (NoGamesAvailableException e) {
             printMessage("No games available, please create a new one ", AnsiEscapeCodes.ERROR_MESSAGE);
         } catch (ConnectionError e) {

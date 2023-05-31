@@ -248,6 +248,8 @@ public class HelloController implements Initializable {
             this.errorLabel.setText("There are no games available");
         } catch (NonExistentNicknameException e) {
             this.errorLabel.setText("You did not put any nickname");
+        } catch (NoGameToRecoverException e){
+            this.errorLabel.setText("No games for recovery with your name");
         } catch (AlreadyInGameException e) {
             this.errorLabel.setText("You are already in a game");
         } catch (ConnectionError e) {
@@ -268,8 +270,8 @@ public class HelloController implements Initializable {
         try{
             this.guiView.client.recoverGame();
             this.changeScene();
-        } catch (NoGamesAvailableException e) {
-            this.errorLabel.setText("There are no games available");
+        } catch (NoGameToRecoverException e) {
+            this.errorLabel.setText("No games for recovery with your name");
         } catch (ConnectionError e) {
             this.errorLabel.setText("Connection error");
         }

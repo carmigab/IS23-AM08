@@ -203,10 +203,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
 
     /**
      * This method lets a player recover a game from persistence
-     * @throws NoGamesAvailableException
+     * @throws NoGameToRecoverException
      * @throws ConnectionError
      */
-    public void recoverGame() throws NoGamesAvailableException, ConnectionError {
+    public void recoverGame() throws NoGameToRecoverException, ConnectionError {
         try {
             String matchServerName = this.lobbyServer.recoverGame(nickname, this);
             this.connectToMatchServer(matchServerName);
@@ -226,10 +226,11 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * This method lets a player join a game
      * @throws NoGamesAvailableException
      * @throws NonExistentNicknameException
+     * @throws NoGameToRecoverException
      * @throws AlreadyInGameException
      * @throws ConnectionError
      */
-    public void joinGame(String lobbyName) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError, WrongLobbyIndexException, LobbyFullException {
+    public void joinGame(String lobbyName) throws NoGamesAvailableException, NonExistentNicknameException, NoGameToRecoverException, AlreadyInGameException, ConnectionError, WrongLobbyIndexException, LobbyFullException {
         try {
             String matchServerName = this.lobbyServer.joinGame(nickname, this, lobbyName);
             this.connectToMatchServer(matchServerName);

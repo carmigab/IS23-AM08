@@ -132,7 +132,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
         }
 
         // Uncomment this line to test for endgame display in the cli
-        // this.gameController.forceGameOver();
+        if (col == 4) this.gameController.forceGameOver();
 
     }
 
@@ -452,4 +452,10 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
     public int getNumPlayers() {
         return numPlayers;
     }
+
+    /**
+     * Getter of the to load game attribute
+     * @return true if the game is loaded from file
+     */
+    public boolean isRecovered(){return this.toLoadGame;}
 }

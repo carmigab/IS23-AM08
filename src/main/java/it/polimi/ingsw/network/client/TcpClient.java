@@ -284,7 +284,7 @@ public class TcpClient implements Client{
     /**
      * This method retrieves a message from a lock
      * @param lock: the lock
-     * @return: the message
+     * @return the message
      * @throws ConnectionError: if the client is offline or
      */
     private Message retrieveMessageFromLock(Lock lock) throws ConnectionError {
@@ -345,6 +345,8 @@ public class TcpClient implements Client{
         if (message instanceof ChooseNicknameResponse)
             notifyLockAndSetMessage(actionLock, message);
         else if (message instanceof CreateGameResponse)
+            notifyLockAndSetMessage(actionLock, message);
+        else if (message instanceof RecoverGameResponse)
             notifyLockAndSetMessage(actionLock, message);
         else if (message instanceof JoinGameResponse)
             notifyLockAndSetMessage(actionLock, message);
@@ -424,17 +426,31 @@ public class TcpClient implements Client{
      * @throws NoGamesAvailableException
      * @throws NonExistentNicknameException
      * @throws AlreadyInGameException
+     * @throws NoGameToRecoverException
      * @throws ConnectionError
      */
-    public synchronized void joinGame(String lobbyName) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError, WrongLobbyIndexException, LobbyFullException {
+    public synchronized void joinGame(String lobbyName) throws NoGamesAvailableException, NonExistentNicknameException, NoGameToRecoverException, AlreadyInGameException, ConnectionError, WrongLobbyIndexException, LobbyFullException {
         JoinGameResponse response = (JoinGameResponse) this.manageTcpConversation(actionLock,
                 new JoinGameMessage(this.nickname, lobbyName));
 
         if (response.isAlreadyInGame()) throw new AlreadyInGameException();
         if (response.isNoGamesAvailable()) throw new NoGamesAvailableException();
         if (response.isNonExistentNickname()) throw new NonExistentNicknameException();
+        if (response.isNoGameToRecover()) throw new NoGameToRecoverException();
         if (response.isWrongLobbyIndex()) throw new WrongLobbyIndexException();
         if (response.isLobbyFull()) throw new LobbyFullException();
+    }
+
+    /**
+     * This method lets a player recover a game from persistence
+     * @throws NoGameToRecoverException
+     * @throws ConnectionError
+     */
+    public synchronized void recoverGame() throws NoGameToRecoverException, ConnectionError {
+        RecoverGameResponse response = (RecoverGameResponse) this.manageTcpConversation(actionLock,
+                new RecoverGameMessage(this.nickname));
+
+        if (response.isNoGameToRecover()) throw new NoGameToRecoverException();
     }
 
     /**

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.constants.ServerConstants;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.gameInfo.GameInfo;
@@ -8,17 +9,16 @@ import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.network.client.exceptions.TimeOutException;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.clientMessages.*;
-import it.polimi.ingsw.network.messages.clientMessages.ChatSomeoneMessage;
 import it.polimi.ingsw.network.messages.serverMessages.*;
-import it.polimi.ingsw.constants.ServerConstants;
 import it.polimi.ingsw.network.server.exceptions.*;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -196,13 +196,17 @@ public class TcpClientHandler extends ClientHandler implements Runnable {
                 boolean alreadyInGame = false;
                 boolean nonExistentNickname = false;
                 boolean noGamesAvailable = false;
+                boolean noGameToRecover = false;
                 boolean wrongLobbyIndex = false;
                 boolean lobbyFull = false;
                 try {
                     this.lobbyServer.joinGame(m.sender(), this, m.getLobbyName());
                 } catch (NoGamesAvailableException e) {
                     noGamesAvailable = true;
-                } catch (AlreadyInGameException e) {
+                } catch (NoGameToRecoverException e){
+                    noGameToRecover = true;
+                }
+                catch (AlreadyInGameException e) {
                     alreadyInGame = true;
                 } catch (NonExistentNicknameException e) {
                     nonExistentNickname = true;
@@ -211,7 +215,18 @@ public class TcpClientHandler extends ClientHandler implements Runnable {
                 } catch (LobbyFullException e) {
                     lobbyFull = true;
                 }
-                sendTcpMessage(new JoinGameResponse("Server", noGamesAvailable, nonExistentNickname, alreadyInGame, wrongLobbyIndex, lobbyFull));
+                sendTcpMessage(new JoinGameResponse("Server", noGamesAvailable, nonExistentNickname, noGameToRecover, alreadyInGame, wrongLobbyIndex, lobbyFull));
+            }
+
+            else if (message instanceof RecoverGameMessage) {
+                RecoverGameMessage m = (RecoverGameMessage) message;
+                boolean noGamesAvailable = false;
+                try {
+                    this.lobbyServer.recoverGame(m.sender(), this);
+                } catch (NoGameToRecoverException e) {
+                    noGamesAvailable = true;
+                }
+                sendTcpMessage(new RecoverGameResponse("Server", noGamesAvailable));
             }
 
             else if (message instanceof MakeMoveMessage) {
@@ -235,7 +250,7 @@ public class TcpClientHandler extends ClientHandler implements Runnable {
                 List<Lobby> lobbyList = null;
                 boolean noGamesAvailableException = false;
                 try {
-                    lobbyList = this.lobbyServer.getLobbies();
+                    lobbyList = this.lobbyServer.getLobbies(message.sender());
                 } catch (NoGamesAvailableException e) {
                     noGamesAvailableException = true;
                 }

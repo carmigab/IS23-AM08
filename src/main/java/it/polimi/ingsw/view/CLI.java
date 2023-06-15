@@ -2,21 +2,21 @@ package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.constants.ViewConstants;
 import it.polimi.ingsw.constants.ModelConstants;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.RmiClient;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.gameInfo.PlayerInfo;
 import it.polimi.ingsw.gameInfo.State;
-import it.polimi.ingsw.model.Position;
-import it.polimi.ingsw.model.SingleGoal;
-import it.polimi.ingsw.model.Tile;
-import it.polimi.ingsw.model.TileColor;
 import it.polimi.ingsw.network.client.TcpClient;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.constants.ServerConstants;
 import it.polimi.ingsw.network.server.Lobby;
+import it.polimi.ingsw.network.server.LobbyRecovered;
+import it.polimi.ingsw.network.server.LobbyStandard;
 import it.polimi.ingsw.network.server.exceptions.*;
+import javafx.geometry.Pos;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -69,9 +69,15 @@ public class CLI extends View{
             if (currentState == State.ENDGAME) {
                 printMessage("Game ended!", AnsiEscapeCodes.INFO_MESSAGE);
                 printMessage("Final scores:", AnsiEscapeCodes.INFO_MESSAGE);
-                for (PlayerInfo playerInfo : gameInfo.getPlayerInfosList()) {
+                /*for (PlayerInfo playerInfo : gameInfo.getPlayerInfosList()) {
                     printMessage(playerInfo.getNickname() + ": " + playerInfo.getScore(), AnsiEscapeCodes.INFO_MESSAGE);
                 }
+                */
+                printLeaderBoard();
+                printMessage("The winner is : " + gameInfo.getLeaderBoard().get(0).getNickname(), AnsiEscapeCodes.INFO_MESSAGE);
+
+
+
                 return;
             }
 
@@ -83,6 +89,15 @@ public class CLI extends View{
             if (isMyTurn()) {
                 printMessage("It's your turn!", AnsiEscapeCodes.INFO_MESSAGE);
             }
+        }
+    }
+
+    /**
+     * this method prints the final leaderBoard of the game
+     */
+    private void printLeaderBoard(){
+        for(GameEnded g : gameInfo.getLeaderBoard()){
+            printMessage(g.getNickname() + ": " + g.getFinalPoints() + " points", AnsiEscapeCodes.INFO_MESSAGE);
         }
     }
 
@@ -455,7 +470,7 @@ public class CLI extends View{
 
             // display the chosen tiles and ask if the player wants to order them
             if (positions.size() > 1) {
-                askToChangeOrder(positions);
+                positions = askToChangeOrder(positions);
             }
 
             column = askColumn(positions);
@@ -510,7 +525,7 @@ public class CLI extends View{
      * This method is used to ask if the player wants to change the order of the selected tiles
      * @param positions the list of selected positions
      */
-    private void askToChangeOrder(List<Position> positions) {
+    private List<Position> askToChangeOrder(List<Position> positions) {
         String answer = "y";
         String input;
 
@@ -527,6 +542,8 @@ public class CLI extends View{
                 answer = this.retryInput(ViewConstants.REGEX_INPUT_YES_OR_NO);
             }
         }
+
+        return positions;
     }
 
     /**
@@ -776,38 +793,51 @@ public class CLI extends View{
     private boolean joinExistingGame() {
         try {
             List<Lobby> activeLobbies = client.getLobbies();
+            boolean atLeastOneAvailableALobby = false;
 
+            // This for cycle prints a lobby only if is of the type "LobbyRecovered" or the type is "LobbyStandard"
+            // and the lobby was not recovered by someone else
             for (int i = 0; i < activeLobbies.size(); i++) {
-                printMessage(i + ") " + activeLobbies.get(i).toString(), AnsiEscapeCodes.INFO_MESSAGE);
+                if (activeLobbies.get(i).isRecovered() && activeLobbies.get(i).toShow()) {
+                    printMessage("r) " + activeLobbies.get(i).toString(), AnsiEscapeCodes.INFO_MESSAGE);
+                    atLeastOneAvailableALobby = true;
+                }
+                else if (activeLobbies.get(i).toShow()) {
+                    printMessage(i + ") " + activeLobbies.get(i).toString(), AnsiEscapeCodes.INFO_MESSAGE);
+                    atLeastOneAvailableALobby = true;
+                }
             }
 
+            if (!atLeastOneAvailableALobby) throw new NoGamesAvailableException();
+
             System.out.println();
-            printMessage("Select the game you want to join (type the game number) or type 'r' to join a random game:", AnsiEscapeCodes.INFO_MESSAGE);
+            printMessage("Select the game you want to join (type the game number) or type 'r' to recover a game:", AnsiEscapeCodes.INFO_MESSAGE);
             String input = retryInput(ViewConstants.REGEX_INPUT_JOIN_GAME);
 
-//            if (input.equalsIgnoreCase("r")) {
-//                try {
-//                    Random random = new Random();
-//                    client.joinGame(random.nextInt(activeLobbies.size()));
-//                } catch (NonExistentNicknameException | AlreadyInGameException e) {
-//                    throw new RuntimeException(e);
-//                } catch (ConnectionError e) {
-//                    //ignore
-//                }
-//                return true;
-//            }
+            if (input.equalsIgnoreCase("r")) {
+                try {
+                    client.recoverGame();
+                } catch (ConnectionError e) {
+                    //ignore
+                }
+                return true;
+            }
+
 
             input = parseLobbyInput(input, activeLobbies);
 
             try {
                 client.joinGame(input);
-            } catch (NonExistentNicknameException | AlreadyInGameException e) {
+            } catch (AlreadyInGameException | NonExistentNicknameException e) {
                 throw new RuntimeException(e);
             } catch (ConnectionError e) {
 
             }
             return true;
 
+        }
+         catch (NoGameToRecoverException e) {
+            printMessage("No games available for recovery with your name", AnsiEscapeCodes.ERROR_MESSAGE);
         } catch (NoGamesAvailableException e) {
             printMessage("No games available, please create a new one ", AnsiEscapeCodes.ERROR_MESSAGE);
         } catch (ConnectionError e) {
@@ -846,14 +876,8 @@ public class CLI extends View{
      * @return the name of the lobby the user wants to join
      */
     private String parseLobbyInput(String input, List<Lobby> activeLobbies) throws WrongLobbyIndexException {
-        if (input.equalsIgnoreCase("r")) {
-            Random random = new Random();
-            return activeLobbies.get(random.nextInt(activeLobbies.size())).lobbyName();
-        }
-        else {
-            if (Integer.parseInt(input) >= activeLobbies.size()) throw new WrongLobbyIndexException();
-            return activeLobbies.get(Integer.parseInt(input)).lobbyName();
-        }
+        if (Integer.parseInt(input) >= activeLobbies.size()) throw new WrongLobbyIndexException();
+        return activeLobbies.get(Integer.parseInt(input)).getLobbyName();
     }
 
     /**

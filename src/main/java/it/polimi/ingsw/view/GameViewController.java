@@ -422,6 +422,11 @@ public class GameViewController implements Initializable{
 
         if(this.guiView.gameInfo == null) return;
 
+        if(this.guiView.currentState.equals(State.GRACEFULDISCONNECTION)){
+            Platform.runLater(()->this.showErrorAlert("Someone disconnected"));
+            return;
+        }
+
         if(this.guiView.currentState.equals(State.ENDGAME)) {
             Platform.runLater(this::showGameEndedAlert);
             return;
@@ -798,12 +803,15 @@ public class GameViewController implements Initializable{
      */
     private void showGameEndedAlert(){
 
-        Alert alert =new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Game ended");
-        alert.setHeaderText("LeaderBoard:");
-        alert.setContentText("No leaderboard yet");
+        Platform.runLater(()-> {
 
-        alert.showAndWait();
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Game ended");
+            alert.setHeaderText("LeaderBoard:");
+            alert.setContentText("No leaderboard yet");
+
+            alert.showAndWait();
+        });
 
     }
 
@@ -814,11 +822,14 @@ public class GameViewController implements Initializable{
      */
     public void showErrorAlert(String message){
 
-        Alert alert =new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Something went wrong");
-        alert.setContentText(message);
+        Platform.runLater(()->{
+            Alert alert =new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Something went wrong");
+            alert.setContentText(message);
 
-        alert.showAndWait();
+            alert.showAndWait();
+        });
+
     }
 
 }

@@ -60,7 +60,7 @@ public class GameModel {
      * this attribute represents the final leaderboard of the game
      */
     @Expose
-    private List<PlayerState> leaderBoard;
+    private List<GameEnded> leaderBoard;
     /**
      * This attribute stores the information of the file name in the class, so that it does not have to be constructed each time
      */
@@ -307,13 +307,11 @@ public class GameModel {
      * farther from the first player will be higher in the leaderboard
      */
     private void createLeaderBoard(){
-        List<PlayerState> temp = new ArrayList<>(playerList);
-        leaderBoard = new ArrayList<>(numPlayers);
-        temp.sort((p1, p2) -> {                        // sort() preserves the order
-            return Integer.compare(p1.getPoints(), p2.getPoints());
-        });
+        List<PlayerState> temp = new ArrayList<>(this.playerList);
+        leaderBoard = new ArrayList<>();
+        temp.sort(Comparator.comparingInt(PlayerState::getPoints));
         for(int i=temp.size()-1; i>=0;i--){
-            leaderBoard.add(temp.get(i));
+            leaderBoard.add(new GameEnded(temp.get(i).getNickname(), temp.get(i).getPoints()));
         }
     }
 
@@ -408,6 +406,10 @@ public class GameModel {
         return this.gameBoard;
     }
 
+    public List<GameEnded> getLeaderBoard() {
+        return leaderBoard;
+    }
+
     public boolean isGameOver(){
         return this.gameOver;
     }
@@ -416,7 +418,8 @@ public class GameModel {
     public void endGame(boolean forced){
         this.gameOver = true;
         // if we force the end of the game (from server) we must not create a leaderboard
-        if (!forced) createLeaderBoard();
+//        if (!forced)
+            createLeaderBoard();
         // if we force the end of the game (from server) we must save the current state
         if (forced) this.saveCurrentState();
         this.notifyObservers();
@@ -493,6 +496,8 @@ public class GameModel {
         }
         return toReturn;
     }
+
+
 }
 
 

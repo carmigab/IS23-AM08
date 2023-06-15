@@ -49,11 +49,19 @@ public interface Client  {
     /**
      * This method has to be overridden in its subclasses, it tries to join a new game
      * @throws NoGamesAvailableException
+     * @throws ConnectionError
+     */
+    public void recoverGame() throws NoGameToRecoverException, ConnectionError;
+
+
+    /**
+     * This method has to be overridden in its subclasses, it tries to join a new game
+     * @throws NoGamesAvailableException
      * @throws NonExistentNicknameException
      * @throws AlreadyInGameException
      * @throws ConnectionError
      */
-    public void joinGame(String lobbyName) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError, WrongLobbyIndexException, LobbyFullException;
+    public void joinGame(String lobbyName) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, NoGameToRecoverException, ConnectionError, WrongLobbyIndexException, LobbyFullException;
 
     /**
      * This method has to be overridden in its subclasses, it tries to send a private message

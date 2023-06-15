@@ -5,6 +5,7 @@ import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.network.server.MatchServer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -43,7 +44,7 @@ public class VirtualView implements Observer{
     @Override
     public void update(GameModel model) {
         // Something bad happens when we create a new gameInfo
-        this.gameInfo=new GameInfo(model.getGameBoardCopy(), model.getCommonGoalsCreatedCopy(), model.getCommonGoalsStackCopy(), model.getPlayerListCopy(), new HashMap<>(), model.getCurrentPlayerNickName());
+        this.gameInfo=new GameInfo(model.getGameBoardCopy(), model.getCommonGoalsCreatedCopy(), model.getCommonGoalsStackCopy(), model.getPlayerListCopy(), model.getLeaderBoard(), model.getCurrentPlayerNickName());
         if(model.isGameOver()) this.currentState=State.ENDGAME;
         else {
             switch (model.getCurrentPlayer()) {
@@ -55,6 +56,6 @@ public class VirtualView implements Observer{
                 }
             }
         }
-        this.server.update(this.currentState,this.gameInfo);
+        if (this.server!=null) this.server.update(this.currentState,this.gameInfo);
     }
 }

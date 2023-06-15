@@ -74,6 +74,11 @@ public class HelloController implements Initializable {
     @FXML
     private Button joinButton;
     /**
+     * Button that the user can click to try and recover a game
+     */
+    @FXML
+    private Button recoverButton;
+    /**
      * Button that the user can click to open the information relative to the creation of a game
      */
     @FXML
@@ -220,6 +225,7 @@ public class HelloController implements Initializable {
                 this.nicknameTextField.setVisible(false);
                 this.nicknameButton.setVisible(false);
                 this.joinButton.setVisible(true);
+                this.recoverButton.setVisible(true);
                 this.createButton.setVisible(true);
             }
         } catch (ConnectionError e) {
@@ -242,6 +248,8 @@ public class HelloController implements Initializable {
             this.errorLabel.setText("There are no games available");
         } catch (NonExistentNicknameException e) {
             this.errorLabel.setText("You did not put any nickname");
+        } catch (NoGameToRecoverException e){
+            this.errorLabel.setText("No games for recovery with your name");
         } catch (AlreadyInGameException e) {
             this.errorLabel.setText("You are already in a game");
         } catch (ConnectionError e) {
@@ -253,10 +261,26 @@ public class HelloController implements Initializable {
         }
     }
 
+    /**
+     * Method called when the recover button is clicked
+     * It tries to recover a game (if there is one already with its name, it will join it)
+     */
+    @FXML
+    protected void onRecoverButtonClick(){
+        try{
+            this.guiView.client.recoverGame();
+            this.changeScene();
+        } catch (NoGameToRecoverException e) {
+            this.errorLabel.setText("No games for recovery with your name");
+        } catch (ConnectionError e) {
+            this.errorLabel.setText("Connection error");
+        }
+    }
+
     private String parseLobbyInput(String input, List<Lobby> activeLobbies) {
         if (input.equalsIgnoreCase("r")) {
             Random random = new Random();
-            return activeLobbies.get(random.nextInt(activeLobbies.size())).lobbyName();
+            return activeLobbies.get(random.nextInt(activeLobbies.size())).getLobbyName();
         }
         return "nothing to see here";
 //        else {

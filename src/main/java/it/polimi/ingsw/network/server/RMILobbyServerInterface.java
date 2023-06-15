@@ -16,7 +16,9 @@ public interface RMILobbyServerInterface extends Remote {
 
     public String createGame(Integer numPlayers, String nickname, RmiClientInterface client) throws RemoteException, AlreadyInGameException, NonExistentNicknameException;
 
-    public String joinGame(String nickname, RmiClientInterface client, String gameIndex) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException, WrongLobbyIndexException, LobbyFullException;
+    public String joinGame(String nickname, RmiClientInterface client, String gameIndex) throws RemoteException, NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException, NoGameToRecoverException, WrongLobbyIndexException, LobbyFullException;
 
-    List<Lobby> getLobbies() throws RemoteException, NoGamesAvailableException;
+    List<Lobby> getLobbies(String nickname) throws RemoteException, NoGamesAvailableException;
+
+    String recoverGame(String nickname, RmiClientInterface rmiClient) throws RemoteException, NoGameToRecoverException;
 }

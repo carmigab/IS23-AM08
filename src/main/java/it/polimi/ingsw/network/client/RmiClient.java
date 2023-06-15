@@ -202,13 +202,35 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     }
 
     /**
+     * This method lets a player recover a game from persistence
+     * @throws NoGameToRecoverException
+     * @throws ConnectionError
+     */
+    public void recoverGame() throws NoGameToRecoverException, ConnectionError {
+        try {
+            String matchServerName = this.lobbyServer.recoverGame(nickname, this);
+            this.connectToMatchServer(matchServerName);
+        } catch (RemoteException e) {
+            if (!mute && !essential) System.out.println("Remote exception from joinGame");
+            this.gracefulDisconnection(true);
+            throw new ConnectionError();
+        } catch (NotBoundException e) {
+            if (!mute && !essential) System.out.println("Trying to lock up an unbound registry");
+            this.gracefulDisconnection(true);
+            throw new ConnectionError();
+        }
+
+    }
+
+    /**
      * This method lets a player join a game
      * @throws NoGamesAvailableException
      * @throws NonExistentNicknameException
+     * @throws NoGameToRecoverException
      * @throws AlreadyInGameException
      * @throws ConnectionError
      */
-    public void joinGame(String lobbyName) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, ConnectionError, WrongLobbyIndexException, LobbyFullException {
+    public void joinGame(String lobbyName) throws NoGamesAvailableException, NonExistentNicknameException, NoGameToRecoverException, AlreadyInGameException, ConnectionError, WrongLobbyIndexException, LobbyFullException {
         try {
             String matchServerName = this.lobbyServer.joinGame(nickname, this, lobbyName);
             this.connectToMatchServer(matchServerName);
@@ -323,7 +345,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
         List<Lobby> activeLobbies;
 
         try {
-            activeLobbies=lobbyServer.getLobbies();
+            activeLobbies=lobbyServer.getLobbies(this.nickname);
         } catch (RemoteException e) {
             if (!mute && !essential) System.out.println("Remote exception from getLobbies");
             this.gracefulDisconnection(true);

@@ -408,7 +408,7 @@ public class GameViewController implements Initializable{
 
         VBox otherShelfVBox = new VBox();
         for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
-            otherShelfVBox.getChildren().add(this.otherShelf.get(i).getComponentAnchorPane());
+            otherShelfVBox.getChildren().add(new VBox(new Text("palyer's " + (i + 1) + " name") , this.otherShelf.get(i).getComponentAnchorPane()));
 
         this.gameContainer.setLeft(otherShelfVBox);
     }
@@ -531,6 +531,7 @@ public class GameViewController implements Initializable{
      * This method displays all other shelves
      */
     private void displayOtherShelf(){
+        VBox otherShelfBox=new VBox();
 
         for(int i=0, l=0; i<this.guiView.gameInfo.getPlayerInfosList().size();i++,l++){
             PlayerInfo playerInfo=this.guiView.gameInfo.getPlayerInfosList().get(i);
@@ -545,6 +546,7 @@ public class GameViewController implements Initializable{
                                 ()->this.otherShelf.get(z).setComponentSavedImageFromPositions(null, x, y));
                     }
                 }
+                otherShelfBox.getChildren().add(new VBox(new Label(playerInfo.getNickname()) , this.otherShelf.get(l).getComponentAnchorPane()));
             }
             else l--;
         }
@@ -552,6 +554,8 @@ public class GameViewController implements Initializable{
         for(int i=ModelConstants.MAX_PLAYERS-2; i>this.guiView.gameInfo.getPlayerInfosList().size()-2;i--){
             this.otherShelf.get(i).setComponentImage(null);
         }
+
+        this.gameContainer.setLeft(otherShelfBox);
     }
 
     /**

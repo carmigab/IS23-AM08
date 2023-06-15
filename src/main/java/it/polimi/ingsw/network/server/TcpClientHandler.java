@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.constants.ServerConstants;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.gameInfo.GameInfo;
@@ -8,17 +9,16 @@ import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.network.client.exceptions.TimeOutException;
 import it.polimi.ingsw.network.messages.Message;
 import it.polimi.ingsw.network.messages.clientMessages.*;
-import it.polimi.ingsw.network.messages.clientMessages.ChatSomeoneMessage;
 import it.polimi.ingsw.network.messages.serverMessages.*;
-import it.polimi.ingsw.constants.ServerConstants;
 import it.polimi.ingsw.network.server.exceptions.*;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

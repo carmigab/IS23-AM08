@@ -29,7 +29,7 @@ class LobbyServerTest {
         //trying to insert it again will not work
         assertThrows(ExistentNicknameException.class, ()-> ls1.chooseNickname("Gabri"));
         //try a name from the ban list
-        String bannedName="Matteo";
+        String bannedName="TestName1";
         assertThrows(IllegalNicknameException.class, ()-> ls1.chooseNickname(bannedName));
     }
 
@@ -45,9 +45,9 @@ class LobbyServerTest {
         assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("Gab riele "));
         assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname(" Gabriele"));
         // now try with another banned regex
-        assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("Matteo"));
-        assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("aaMatteo"));
-        assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("Matteoa"));
+        assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("TestName1"));
+        assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("aaTestName1"));
+        assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("TestName1a"));
         // now try the keyword "all" alone, should throw the exception
         assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("all"));
         // try some variants to show it does not throw anything

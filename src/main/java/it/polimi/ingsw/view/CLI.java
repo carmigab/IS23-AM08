@@ -16,7 +16,6 @@ import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.network.server.LobbyRecovered;
 import it.polimi.ingsw.network.server.LobbyStandard;
 import it.polimi.ingsw.network.server.exceptions.*;
-import javafx.geometry.Pos;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;

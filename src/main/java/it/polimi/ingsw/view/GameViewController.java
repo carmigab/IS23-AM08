@@ -127,6 +127,21 @@ public class GameViewController implements Initializable{
     @FXML
     private Canvas moveListCanvas;
     /**
+     * This attribute stores the image information of the points obtained by the player
+     */
+    @FXML
+    private ImageView myPointsImage;
+    /**
+     * This attribute stores the panel used to contain all the components of the the points obtained by the player
+     */
+    @FXML
+    private AnchorPane myPointsAnchorPane;
+    /**
+     * This attribute stores the canvas relative to the the points obtained by the player, where the click actions will be performed
+     */
+    @FXML
+    private Canvas myPointsCanvas;
+    /**
      * This attribute stores the label where every error/success will be printed
      */
     @FXML
@@ -217,6 +232,16 @@ public class GameViewController implements Initializable{
      */
     private List<ClickableComponent> otherShelf;
     /**
+     * This attribute is a list of components that collects all the points obtained during the game of the player
+     * (i.e. the common goal points and the first place point)
+     */
+    private ClickableComponent myPoints;
+    /**
+     * This attribute is a list of components that collects all the points obtained during the game of the other players
+     * (i.e. the common goal points and the first place point)
+     */
+    private List<ClickableComponent> otherPointsObtained;
+    /**
      * This attribute is a map that stores the move selected
      */
     private Map<Integer, Position> positionsList;
@@ -247,6 +272,8 @@ public class GameViewController implements Initializable{
 
         this.positionsList=new HashMap<>();
         this.otherShelf   =new ArrayList<>(ModelConstants.MAX_PLAYERS-1);
+        this.otherPointsObtained = new ArrayList<>(ModelConstants.MAX_PLAYERS-1);
+
 
         this.initializeClickableComponents();
 
@@ -264,6 +291,8 @@ public class GameViewController implements Initializable{
                     this.chatScrollPane.setPrefViewportWidth (Math.min(gameContainer.getWidth(), gameContainer.getHeight())*0.2);
                     this.chatScrollPane.setPrefViewportHeight(Math.min(gameContainer.getWidth(), gameContainer.getHeight())*0.2);
                     for(ClickableComponent clickableComponent: this.otherShelf) clickableComponent.setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
+                    this.myPoints    .setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
+                    for(ClickableComponent clickableComponent: this.otherPointsObtained) clickableComponent.setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
 
                     this.drawClickableComponents();
                 };
@@ -272,7 +301,7 @@ public class GameViewController implements Initializable{
         this.gameContainer.widthProperty().addListener(onDimensionsChange);
         this.gameContainer.heightProperty().addListener(onDimensionsChange);
 
-//        this.initializeGridPane();
+        //this.initializeGridPane();
 
         this.initializeScene();
 
@@ -358,6 +387,16 @@ public class GameViewController implements Initializable{
             this.otherShelf.add(new ClickableComponent(imageView, new AnchorPane(), new Canvas(), ModelConstants.ROWS_NUMBER, ModelConstants.COLS_NUMBER,
                     0.097, 0.097, 0.054, 0.11, 0.027, 0.019, 0.25));
         }
+
+        this.myPoints=new ClickableComponent(this.myPointsImage, this.myPointsAnchorPane, this.myPointsCanvas, ModelConstants.TOTAL_CG_PER_GAME+1, 1,
+                0.097, 0.097, 0.001, 0.001, 0.0, 0.0, 0.25);
+
+        for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++){
+            ImageView imageView= new ImageView();
+            this.otherPointsObtained.add(new ClickableComponent(imageView, new AnchorPane(), new Canvas(), ModelConstants.TOTAL_CG_PER_GAME+1, 1,
+                    0.097, 0.097, 0.001, 0.001, 0.0, 0.0, 0.25));
+        }
+
     }
 
     /**
@@ -371,6 +410,8 @@ public class GameViewController implements Initializable{
         this.personalGoal.draw();
         this.moveList.draw();
         for(ClickableComponent clickableComponent: this.otherShelf) clickableComponent.draw();
+        this.myPoints.draw();
+        for(ClickableComponent clickableComponent: this.otherPointsObtained) clickableComponent.draw();
     }
 
     /**
@@ -378,6 +419,7 @@ public class GameViewController implements Initializable{
      * The method add() is structured as follows: node, column, row, colspan, rowspan
      */
     private void initializeGridPane(){
+
         this.gridPane.add(this.gameBoardAnchorPane   , 0, 0, 1, 2);
         this.gridPane.add(this.myShelfAnchorPane     , 1, 0, 1, 2);
         this.gridPane.add(this.commonGoal1AnchorPane , 0, 2, 1, 1);
@@ -389,6 +431,9 @@ public class GameViewController implements Initializable{
         this.gridPane.add(this.refreshButton         , 2, 3, 1, 1);
         for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
             this.gridPane.add(this.otherShelf.get(i).getComponentAnchorPane(), 3, i, 1, 1);
+        this.gridPane.add(this.myPointsAnchorPane    , 1, 4, 1, 1);
+        for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
+            this.gridPane.add(this.otherPointsObtained.get(i).getComponentAnchorPane(), 4, i, 1, 1);
 
         this.gridPane.setHgap(10);
         this.gridPane.setVgap(10);
@@ -408,7 +453,7 @@ public class GameViewController implements Initializable{
 
         VBox otherShelfVBox = new VBox();
         for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
-            otherShelfVBox.getChildren().add(new VBox(new Text("palyer's " + (i + 1) + " name") , this.otherShelf.get(i).getComponentAnchorPane()));
+            otherShelfVBox.getChildren().add(new VBox(new Text("player's " + (i + 1) + " name") , this.otherShelf.get(i).getComponentAnchorPane()));
 
         this.gameContainer.setLeft(otherShelfVBox);
     }
@@ -449,6 +494,8 @@ public class GameViewController implements Initializable{
         Platform.runLater(this::clearPositionList);
 
         Platform.runLater(this::displayOtherShelf);
+
+        Platform.runLater(this::displayAllPointsObtained);
     }
 
     /**
@@ -556,6 +603,65 @@ public class GameViewController implements Initializable{
         }
 
         this.gameContainer.setLeft(otherShelfBox);
+    }
+
+    /**
+     * This method displays all the points obtained (by the player and the others
+     */
+    private void displayAllPointsObtained(){
+
+        for(int i=0, l=0; i<this.guiView.gameInfo.getPlayerInfosList().size();i++,l++) {
+
+            PlayerInfo playerInfo = this.guiView.gameInfo.getPlayerInfosList().get(i);
+
+            //display my points
+            if(playerInfo.getNickname().equals(this.guiView.myNickname)){
+
+                if(playerInfo.getComGoalPoints()[0]!=0){
+                    this.myPoints.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(this.guiView.gameInfo.getCommonGoalsStack().get(0)), 0, 0 );
+                }
+                else this.myPoints.setComponentSavedImageFromPositions(null, 0, 0);
+
+                if(playerInfo.getComGoalPoints()[1]!=0){
+                    this.myPoints.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(this.guiView.gameInfo.getCommonGoalsStack().get(1)), 1, 0 );
+                }
+                else this.myPoints.setComponentSavedImageFromPositions(null, 1, 0);
+
+                if(playerInfo.getFirstPoint()!=0){
+                    this.myPoints.setComponentSavedImageFromPositions(
+                            new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath(
+                                    "gui/images/scoring_tokens/end_game.jpg", this.getClass())), 2, 0 );
+                }
+                else this.myPoints.setComponentSavedImageFromPositions(null, 2, 0);
+
+                l--;
+
+            }
+            //display other points
+            else{
+                if(playerInfo.getComGoalPoints()[0]!=0){
+                    this.otherPointsObtained.get(l).setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(this.guiView.gameInfo.getCommonGoalsStack().get(0)), 0, 0 );
+                }
+                else this.otherPointsObtained.get(l).setComponentSavedImageFromPositions(null, 0, 0);
+
+                if(playerInfo.getComGoalPoints()[1]!=0){
+                    this.otherPointsObtained.get(l).setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(this.guiView.gameInfo.getCommonGoalsStack().get(1)), 1, 0 );
+                }
+                else this.otherPointsObtained.get(l).setComponentSavedImageFromPositions(null, 1, 0);
+
+                if(playerInfo.getFirstPoint()!=0){
+                    this.otherPointsObtained.get(l).setComponentSavedImageFromPositions(
+                            new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath(
+                                    "gui/images/scoring_tokens/end_game.jpg", this.getClass())), 2, 0 );
+                }
+                else this.otherPointsObtained.get(l).setComponentSavedImageFromPositions(null, 2, 0);
+            }
+        }
+
+        //remove the other information
+        for(int i=ModelConstants.MAX_PLAYERS-2; i>this.guiView.gameInfo.getPlayerInfosList().size()-2;i--){
+            this.otherPointsObtained.get(i).setComponentImage(null);
+        }
     }
 
     /**

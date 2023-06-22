@@ -199,10 +199,11 @@ public class PlayerState {
         setPGPoints(personalGoal.evaluate(this.myShelf));
     }
 
+
     /**
-     *
-     * @param obj
-     * @return
+     * This method overrides the method equals.
+     * @param obj the object to check
+     * @return true if equal
      */
     @Override
     public boolean equals(Object obj){

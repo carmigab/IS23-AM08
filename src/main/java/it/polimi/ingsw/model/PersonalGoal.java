@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is the class containing all the information for the storage of a single personal shelf
+ * This is the class containing all the information for the storage of a single personal goal
  */
 public class PersonalGoal {
 
     /**
-     * This attribute stores a list of 6 objects of class SingleGoal
+     * This attribute stores a list of 6 objects of the class SingleGoal
      */
     @Expose
     private List<SingleGoal> personalGoal;
@@ -26,7 +26,7 @@ public class PersonalGoal {
     /**
      * This is the constructor, it should never be called since the information is created when the file is loaded
      * @param s array of single goals used to construct the object
-     * @param points array of poins assigned for the completion of the objective
+     * @param points array of points assigned for the completion of the objective
      */
     public PersonalGoal(SingleGoal[] s, int[] points){
         this.personalGoal =new ArrayList<>(ModelConstants.TOTAL_POINTS_FOR_PG);

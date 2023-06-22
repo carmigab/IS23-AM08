@@ -131,6 +131,13 @@ public class UtilityFunctionsModel {
         return (p1.x()-p2.x())*(p1.x()-p2.x()) + (p1.y()-p2.y())*(p1.y()-p2.y());
     }
 
+
+    /**
+     * This method checks if a tile has a free adjacent position
+     * @param myGameBoard the game board
+     * @param p the position
+     * @return true if the position as an adjacent free tile
+     */
     public static boolean hasFreeAdjacent(Tile[][] myGameBoard, Position p){
         // get all the adjacent position containing a tile
         List<Position> adjacents = UtilityFunctionsModel.getAdjacentPositions(p, true);
@@ -146,6 +153,12 @@ public class UtilityFunctionsModel {
         return false;
     }
 
+    /**
+     * This method returns the number of free spaces in a give column
+     * @param myShelf the shelf
+     * @param col the column
+     * @return the number of free spaces
+     */
     public static Integer getFreeSpaces(Tile[][] myShelf, Integer col){
         int result = 0;
         int rowIdx = 0;

@@ -92,7 +92,6 @@ public class GameModel {
     }
 
     /**
-     * TODO: ask professor if could be done better
      * This constructor copies the gameModel when loaded from file.
      * Note that it copies the reference, but it is fine because when the object is loaded from file
      * GSON creates a new instance of the object, so even if we copy by reference it is fine
@@ -227,27 +226,6 @@ public class GameModel {
 
         if(pos.size()> ModelConstants.MAX_NUM_OF_MOVES-1) if(UtilityFunctionsModel.distanceSquared(copyPos.get(0),copyPos.get(copyPos.size()-1)) != 4) return false;
 
-        /*
-        for(int i=0;i<pos.size()-1;i++) {
-            if((pos.get(i).x() - pos.get(i+1).x() > 1 || pos.get(i).x() - pos.get(i+1).x() < -1 ) ||
-                    ((pos.get(i).y() - pos.get(i+1).y() > 1 || pos.get(i).y() - pos.get(i+1).y() < -1 ))){
-                return false;
-            }
-        }
-
-
-        for(int i=0; i< pos.size(); i++){
-            if(i!=0 && pos.get(i).x() != pos.get(0).x() && pos.get(i).y() != pos.get(0).y()){
-                return false;
-            }
-        }
-        for(int i=0; i<pos.size()-1; i++){
-            if(!((pos.get(i).x() != pos.get(i+1).x() && pos.get(i).y() == pos.get(i+1).y()) ||
-                    (pos.get(i).x() == pos.get(i+1).x() && pos.get(i).y() != pos.get(i+1).y()))){
-                return false;
-            }
-        }
-         */
         return true;
     }
 
@@ -273,7 +251,7 @@ public class GameModel {
 
     /**
      * This method updates the score of the current player
-     * and sets lastTurn to true if he filled the shelf
+     * and sets lastTurn to true if the shelf was filled
      */
     private void evaluatePoints(){
         PlayerState currP = playerList.get(currentPlayer);
@@ -316,8 +294,7 @@ public class GameModel {
     }
 
     /**
-     * this method is used to update the currentPlayer and evaluate the points of the currentPlayer; the currentPlayer
-     * is finished his turn;
+     * This method is used to update the currentPlayer and evaluate the points of the currentPlayer
      */
     public void nextTurn(){
         this.evaluatePoints();
@@ -328,13 +305,13 @@ public class GameModel {
                     this.gameBoard.fillBoard();
                 }
                 catch (NoMoreTilesAtStartFillBoardException | NoMoreTilesToFillBoardException e) {
-                    endGame(false);
+                    forceEndGame(false);
                 }
             }
         }
         else{
             if(this.currentPlayer == this.numPlayers - 1){
-                endGame(false);
+                forceEndGame(false);
             }
             else{
                 this.currentPlayer++;
@@ -342,7 +319,7 @@ public class GameModel {
                     try{
                         this.gameBoard.fillBoard();
                     } catch (NoMoreTilesAtStartFillBoardException | NoMoreTilesToFillBoardException e) {
-                        endGame(false);
+                        forceEndGame(false);
                     }
 
                 }
@@ -415,10 +392,12 @@ public class GameModel {
     }
 
 
-    public void endGame(boolean forced){
+    /**
+     * This method forces and end to the game
+     * @param forced true if forced from outside
+     */
+    public void forceEndGame(boolean forced){
         this.gameOver = true;
-        // if we force the end of the game (from server) we must not create a leaderboard
-//        if (!forced)
             createLeaderBoard();
         // if we force the end of the game (from server) we must save the current state
         if (forced) this.saveCurrentState();
@@ -427,9 +406,9 @@ public class GameModel {
 
 
     /**
-     *
-     * @param obj
-     * @return
+     * This method overrides the method equals.
+     * @param obj the object to check
+     * @return true if equal
      */
     @Override
     public boolean equals(Object obj) {
@@ -449,12 +428,6 @@ public class GameModel {
 
         return true;
 
-//        return this.isLastTurn == gameModel.isLastTurn &&
-//                this.currentPlayer == gameModel.currentPlayer &&
-//                this.numPlayers == gameModel.numPlayers &&
-//                this.commonGoalsCreated.equals(gameModel.commonGoalsCreated) &&
-//                this.gameBoard.equals(gameModel.gameBoard) &&
-//                this.playerList.equals(gameModel.playerList);
     }
 
     /**

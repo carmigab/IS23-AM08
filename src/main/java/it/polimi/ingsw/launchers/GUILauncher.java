@@ -7,7 +7,7 @@ import it.polimi.ingsw.view.RealGUILauncher;
  */
 public class GUILauncher {
     /**
-     * Main used for the redirect of the applciation
+     * Main used for the redirect of the application
      * @param args arguments passed via command line
      */
     public static void main(String[] args) {

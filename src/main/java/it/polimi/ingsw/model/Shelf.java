@@ -163,7 +163,6 @@ public class Shelf implements Serializable {
         }
 
         // Main logic of the method
-        // Create an array
         while(!posToExplore.isEmpty()){
             Position p = posToExplore.pop();
             components.add(UtilityFunctionsModel.findGroupSize(tempLib, p));

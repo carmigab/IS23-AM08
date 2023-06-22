@@ -83,7 +83,7 @@ public class GameController {
      * This method forces the end of a game
      */
     public void forceGameOver(){
-        this.model.endGame(true);
+        this.model.forceEndGame(true);
     }
 
 

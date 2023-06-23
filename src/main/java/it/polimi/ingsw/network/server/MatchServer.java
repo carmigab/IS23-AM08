@@ -132,7 +132,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
         }
 
         // Uncomment this line to test for endgame display in the cli
-        if (col == 4) this.gameController.forceGameOver();
+//        if (col == 4) this.gameController.forceGameOver();
 
     }
 

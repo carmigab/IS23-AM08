@@ -446,14 +446,14 @@ public class GameViewController implements Initializable{
         title.setSmooth(true);
         title.setCache(true);
         this.gameContainer.setTop(new HBox(title));
-        this.gameContainer.setRight(new VBox(this.myShelfAnchorPane, this.personalGoalAnchorPane, this.refreshButton));
+        this.gameContainer.setRight(new VBox(this.myShelfAnchorPane, this.personalGoalAnchorPane, this.myPointsAnchorPane, this.refreshButton));
 //        this.moveListAnchorPane.getTransforms().add(new Rotate(90, 0, 0));
         this.gameContainer.setCenter(new HBox(new VBox(this.gameBoardAnchorPane, new HBox(this.commonGoal1AnchorPane, this.commonGoal2AnchorPane)),
                 new VBox(new HBox(this.moveListAnchorPane), new HBox(this.errorLabel), new HBox(this.chatScrollPane))));
 
         VBox otherShelfVBox = new VBox();
         for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
-            otherShelfVBox.getChildren().add(new VBox(new Text("player's " + (i + 1) + " name") , this.otherShelf.get(i).getComponentAnchorPane()));
+            otherShelfVBox.getChildren().add(new VBox(new Text("player's " + (i + 1) + " name") , this.otherShelf.get(i).getComponentAnchorPane(), this.otherPointsObtained.get(i).getComponentAnchorPane()));
 
         this.gameContainer.setLeft(otherShelfVBox);
     }

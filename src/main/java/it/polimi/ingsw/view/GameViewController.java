@@ -26,6 +26,8 @@ import javafx.scene.transform.Rotate;
 
 import java.net.URL;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * This class is the whole controller of the game scene
@@ -388,13 +390,13 @@ public class GameViewController implements Initializable{
                     0.097, 0.097, 0.054, 0.11, 0.027, 0.019, 0.25));
         }
 
-        this.myPoints=new ClickableComponent(this.myPointsImage, this.myPointsAnchorPane, this.myPointsCanvas, ModelConstants.TOTAL_CG_PER_GAME+1, 1,
-                0.097, 0.097, 0.001, 0.001, 0.0, 0.0, 0.25);
+        this.myPoints=new ClickableComponent(this.myPointsImage, this.myPointsAnchorPane, this.myPointsCanvas, 1, ModelConstants.TOTAL_CG_PER_GAME+1,
+                0.052, 0.115, 0.068, 0.627, 0.015, 0.013, 0.3);
 
         for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++){
             ImageView imageView= new ImageView();
-            this.otherPointsObtained.add(new ClickableComponent(imageView, new AnchorPane(), new Canvas(), ModelConstants.TOTAL_CG_PER_GAME+1, 1,
-                    0.097, 0.097, 0.001, 0.001, 0.0, 0.0, 0.25));
+            this.otherPointsObtained.add(new ClickableComponent(imageView, new AnchorPane(), new Canvas(), 1, ModelConstants.TOTAL_CG_PER_GAME+1,
+                    0.052, 0.115, 0.068, 0.627, 0.015, 0.013, 0.3));
         }
 
     }
@@ -614,47 +616,36 @@ public class GameViewController implements Initializable{
 
             PlayerInfo playerInfo = this.guiView.gameInfo.getPlayerInfosList().get(i);
 
+            Consumer<ClickableComponent> action = (component )->{
+                if(playerInfo.getComGoalPoints()[0]!=0){
+                    component.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(playerInfo.getComGoalPoints()[0]), 0, 0 );
+                }
+                else component.setComponentSavedImageFromPositions(null, 0, 0);
+
+                if(playerInfo.getComGoalPoints()[1]!=0){
+                    component.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(playerInfo.getComGoalPoints()[0]), 0, 1 );
+                }
+                else component.setComponentSavedImageFromPositions(null, 0, 1);
+
+                if(playerInfo.getFirstPoint()!=0){
+                    component.setComponentSavedImageFromPositions(
+                            new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath(
+                                    "gui/images/scoring_tokens/end_game.jpg", this.getClass())), 0, 2 );
+                }
+                else component.setComponentSavedImageFromPositions(null, 0, 2);
+            };
+
             //display my points
             if(playerInfo.getNickname().equals(this.guiView.myNickname)){
 
-                if(playerInfo.getComGoalPoints()[0]!=0){
-                    this.myPoints.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(this.guiView.gameInfo.getCommonGoalsStack().get(0)), 0, 0 );
-                }
-                else this.myPoints.setComponentSavedImageFromPositions(null, 0, 0);
-
-                if(playerInfo.getComGoalPoints()[1]!=0){
-                    this.myPoints.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(this.guiView.gameInfo.getCommonGoalsStack().get(1)), 1, 0 );
-                }
-                else this.myPoints.setComponentSavedImageFromPositions(null, 1, 0);
-
-                if(playerInfo.getFirstPoint()!=0){
-                    this.myPoints.setComponentSavedImageFromPositions(
-                            new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath(
-                                    "gui/images/scoring_tokens/end_game.jpg", this.getClass())), 2, 0 );
-                }
-                else this.myPoints.setComponentSavedImageFromPositions(null, 2, 0);
+                action.accept(this.myPoints);
 
                 l--;
 
             }
             //display other points
             else{
-                if(playerInfo.getComGoalPoints()[0]!=0){
-                    this.otherPointsObtained.get(l).setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(this.guiView.gameInfo.getCommonGoalsStack().get(0)), 0, 0 );
-                }
-                else this.otherPointsObtained.get(l).setComponentSavedImageFromPositions(null, 0, 0);
-
-                if(playerInfo.getComGoalPoints()[1]!=0){
-                    this.otherPointsObtained.get(l).setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(this.guiView.gameInfo.getCommonGoalsStack().get(1)), 1, 0 );
-                }
-                else this.otherPointsObtained.get(l).setComponentSavedImageFromPositions(null, 1, 0);
-
-                if(playerInfo.getFirstPoint()!=0){
-                    this.otherPointsObtained.get(l).setComponentSavedImageFromPositions(
-                            new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath(
-                                    "gui/images/scoring_tokens/end_game.jpg", this.getClass())), 2, 0 );
-                }
-                else this.otherPointsObtained.get(l).setComponentSavedImageFromPositions(null, 2, 0);
+                action.accept(this.otherPointsObtained.get(l));
             }
         }
 

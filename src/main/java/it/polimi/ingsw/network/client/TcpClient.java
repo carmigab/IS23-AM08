@@ -155,7 +155,7 @@ public class TcpClient implements Client{
         if (!mute && !essential) System.out.println("Opening Input Streams");
         Thread t = new Thread(() -> {
             try {
-                this.objectInputStream  = new ObjectInputStream(socket.getInputStream());
+                this.objectInputStream = new ObjectInputStream(socket.getInputStream());
             } catch (IOException e) {
                 if (!mute && !essential) System.out.println("Failed opening Input Streams");
                 this.gracefulDisconnection(true);
@@ -166,7 +166,7 @@ public class TcpClient implements Client{
                     Message message = (Message) objectInputStream.readObject();
                     this.manageInboundTcpMessages(message);
 
-                } catch (SocketTimeoutException e ) {
+                } catch (SocketTimeoutException e) {
                     if (listeningForMessages) {
                         if (!mute && !essential) System.out.println("SocketTimeout Exception InboundMessagesThread");
                         this.gracefulDisconnection(true);
@@ -217,14 +217,15 @@ public class TcpClient implements Client{
 
 
     /**
-     * This method manages the whole tcp conversation by creating thread to send a message and waiting for a response
+     * This method manages the whole tcp conversation by creating a thread to send a message and waiting for a response
      * This method waits only for a finite amount of time and then throws an exception if no response has arrived
-     * @param lock
-     * @param message
-     * @return
+     * @param lock the lock used for synchronization
+     * @param message the message
+     * @return the retrieved message
      * @throws ConnectionError
      */
     private Message manageTcpConversation(Lock lock, Message message) throws ConnectionError {
+        // This locks exists only in the method
         Lock manageTcpConversationLock = new Lock();
 
         // here we create a thread that manages the inbound message
@@ -241,6 +242,7 @@ public class TcpClient implements Client{
                         //lock.wait(ServerConstants.TCP_WAIT_TIME);
 
                         long time2 = System.currentTimeMillis();
+
                         if(!mute && !essential) System.out.println("Waited response for: "+ (time2-time1) + " ms");
 
                         manageTcpConversationLock.setToWait(false);
@@ -251,8 +253,6 @@ public class TcpClient implements Client{
                 if (!mute && !essential) System.out.println("Interrupted Exception from manageTcpConversation");
                 this.gracefulDisconnection(true);
             }
-
-
         });
 
         // Here we start the thread and release the lock
@@ -290,8 +290,7 @@ public class TcpClient implements Client{
     private Message retrieveMessageFromLock(Lock lock) throws ConnectionError {
         synchronized (lock) {
             Message newMessage = lock.getMessage();
-            if (lock.isDisconnection()) throw new ConnectionError();
-            // Version 2 (works also with version 1)
+            if (lock.isOffline()) throw new ConnectionError();
             if (newMessage == null) {
                 if (!mute) System.out.println("Failed to receive response");
                 throw new ConnectionError();
@@ -352,6 +351,9 @@ public class TcpClient implements Client{
             notifyLockAndSetMessage(actionLock, message);
         else if (message instanceof MakeMoveResponse)
             notifyLockAndSetMessage(actionLock, message);
+        else if (message instanceof GetLobbiesResponse) {
+            notifyLockAndSetMessage(actionLock, message);
+        }
         // The client keeps the heartbeat the server only responds
         else if (message instanceof PingClientResponse);
             // do nothing
@@ -365,13 +367,10 @@ public class TcpClient implements Client{
             UpdateMessage m = (UpdateMessage) message;
             this.update(m.getNewState(), m.getNewInfo());
         }
-        else if (message instanceof GetLobbiesResponse) {
-            notifyLockAndSetMessage(actionLock, message);
-        }
     }
 
 
-    // synchronous methods
+    // Synchronous methods
 
     /**
      * This method lets the player choose his nickname
@@ -535,7 +534,7 @@ public class TcpClient implements Client{
 
             //Notifying lock to stop
             synchronized (actionLock) {
-                this.actionLock.setDisconnection(true);
+                this.actionLock.setOffline(true);
                 this.actionLock.notifyAll();
             }
 

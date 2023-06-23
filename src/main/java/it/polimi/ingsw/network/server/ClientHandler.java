@@ -7,7 +7,7 @@ import it.polimi.ingsw.network.client.exceptions.TimeOutException;
 import java.rmi.RemoteException;
 
 /**
- * This is the abstract class of all the ClientHandles
+ * This is the abstract class that handles the client server side
  */
 public abstract class ClientHandler {
     /**

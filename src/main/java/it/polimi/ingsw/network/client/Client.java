@@ -19,7 +19,7 @@ public interface Client  {
     /**
      * This method has to be overridden in its subclasses, it asks the server a
      * possible nickname
-     * @param nick
+     * @param nick the nickname
      * @return true if successful
      * @throws ConnectionError
      */
@@ -47,7 +47,7 @@ public interface Client  {
     public void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException,ConnectionError;
 
     /**
-     * This method has to be overridden in its subclasses, it tries to join a new game
+     * This method has to be overridden in its subclasses, it tries to recover a new game
      * @throws NoGamesAvailableException
      * @throws ConnectionError
      */

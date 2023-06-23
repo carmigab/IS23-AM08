@@ -52,7 +52,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     private View view;
 
     /**
-     * This attribute is a lock useful for synchronization
+     * This attribute is a lock, useful for synchronization
      */
     private Object lock = new Lock();
     /**
@@ -78,15 +78,15 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
 
     /**
      * This method is the constructor of RmiClient
-     * @param nickname
-     * @param fV : this will become the true view
+     * @param nickname the nickname
+     * @param v this is the view
      * @param ipToConnect ip of the server to connect to
      * @throws RemoteException
      * @throws NotBoundException
      */
-    public RmiClient(String nickname, View fV, String ipToConnect, Integer lobbyPort) throws NotBoundException, InterruptedException, RemoteException {
+    public RmiClient(String nickname, View v, String ipToConnect, Integer lobbyPort) throws NotBoundException, InterruptedException, RemoteException {
         super();
-        this.view = fV;
+        this.view = v;
         this.nickname = nickname;
 
         // with this command we set a timeout for a rmi method invocation
@@ -101,7 +101,9 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
 
     /**
      * This method looks up the registry of the lobby server
-     * If it doesn't found it he waits for 5 second
+     * If it doesn't find it he waits for 5 second
+     * @param ipToConnect the ip to connect to
+     * @param lobbyPort the port of the lobby server
      * @throws InterruptedException
      */
     private void connectToLobbyServer(String ipToConnect, Integer lobbyPort) throws InterruptedException {
@@ -224,6 +226,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
 
     /**
      * This method lets a player join a game
+     * @param lobbyName the name of the chosen lobby
      * @throws NoGamesAvailableException
      * @throws NonExistentNicknameException
      * @throws NoGameToRecoverException
@@ -335,7 +338,6 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
 
     /**
      * This method retrieve the active lobbies on the server
-     *
      * @return the list of the active lobbies
      * @throws NoGamesAvailableException
      * @throws ConnectionError

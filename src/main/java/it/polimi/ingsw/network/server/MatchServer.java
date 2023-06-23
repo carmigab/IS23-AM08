@@ -16,6 +16,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+
 import com.google.gson.*;
 /**
  * This class represents the server that manages a game
@@ -33,7 +35,6 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
      * This attribute represents the number of player slots
      */
     private int numPlayers;
-
     /**
      * This attribute represents the state of the game
      */
@@ -50,6 +51,10 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
      * This attribute represents the model to be loaded
      */
     private GameModel gameToLoad;
+    /**
+     * The lock for the ping thread
+     */
+    private Object pingThreadLock = new Object();
     /**
      * This attribute is true if there is a game to load
      */
@@ -132,7 +137,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
         }
 
         // Uncomment this line to test for endgame display in the cli
-        if (col == 4) this.gameController.forceGameOver();
+        // if (col == 4) this.gameController.forceGameOver();
 
     }
 
@@ -202,13 +207,13 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
      */
     private void createPingThread(){
         Thread t = new Thread(() -> {
-            synchronized (nicknamesList) {
+            synchronized (pingThreadLock) {
                 if(!mute) System.out.println("MS: New Ping Thread starting");
                 while (toPing) {
                     try {
                         //System.out.println("New Ping Iteration");
                         this.pingClients();
-                        nicknamesList.wait(ServerConstants.PING_TIME);
+                        pingThreadLock.wait(ServerConstants.PING_TIME);
 
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
@@ -292,7 +297,6 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
             this.toPing = false;
 
             // This updates the clients with the disconnection info
-
             synchronized (clientsList) {
                 for (ClientHandler client : clientsList) {
                     try {
@@ -303,9 +307,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
                 }
             }
 
-
             if(!mute) System.out.println("MS: Initialized graceful disconnection for all clients");
-
             if(!mute) System.out.println("MS: Forcing gameOver");
             // Here we end the current game
             if (this.gameController != null) this.gameController.forceGameOver();
@@ -344,9 +346,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
                 }
             }
 
-
             if(!mute) System.out.println("MS: Initialized graceful disconnection for all clients");
-
             if(!mute) System.out.println("MS: Forcing gameOver");
             // Here we end the current game
             if (this.gameController != null) this.gameController.forceGameOver();

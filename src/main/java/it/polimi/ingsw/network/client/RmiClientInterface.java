@@ -31,7 +31,7 @@ public interface RmiClientInterface extends Remote {
 
     /**
      * This method has to be overridden in its subclasses, it is a remote invocation to ask the client his nickname
-     * @return
+     * @return the nickname
      * @throws RemoteException
      */
     public String name() throws RemoteException;
@@ -39,7 +39,7 @@ public interface RmiClientInterface extends Remote {
     /**
      * This method has to be overridden in its subclasses, it is a remote invocation to make the client receive a
      * message to be displayed in the chat
-     * @param message
+     * @param message the messages
      * @throws RemoteException
      */
     public void receiveMessage(String message) throws RemoteException;

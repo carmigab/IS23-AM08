@@ -28,35 +28,35 @@ public class TcpClientHandler extends ClientHandler implements Runnable {
     /**
      * This attribute represents the socket
      */
-    Socket socket;
+    private Socket socket;
     /**
      * This attribute represents the lobby server
      */
-    LobbyServer lobbyServer;
+    private LobbyServer lobbyServer;
     /**
      * This attribute represents the match server
      */
-    MatchServer matchServer;
+    private MatchServer matchServer;
     /**
      * This attribute represents the nickname of the player
      */
-    String nickname;
+    private String nickname;
     /**
      * This attribute represents the objectOutputStream
      */
-    ObjectOutputStream objectOutputStream;
+    private ObjectOutputStream objectOutputStream;
     /**
      * This attribute represents the objectInputStream
      */
-    ObjectInputStream objectInputStream;
+    private ObjectInputStream objectInputStream;
     /**
      * This flag is true if the tcpClientHandler is listening for messages
      */
-    boolean listeningForMessages = true;
+    private boolean listeningForMessages = true;
     /**
      * This flag is true if the tcpClientHandler is online
      */
-    boolean tcpClientHandlerOnline = true;
+    private boolean tcpClientHandlerOnline = true;
     /**
      * Set this flag to true to mute the tcpClientHandler
      */

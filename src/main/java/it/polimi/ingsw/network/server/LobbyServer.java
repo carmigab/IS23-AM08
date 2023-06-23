@@ -278,12 +278,12 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @param nickname   nickname of the player that calls the method
      * @param client     reference to the methods of the client that can be called by the server using RMI
      * @return the information useful for the connection to the game
-     * @throws NoGameToRecoverException if there are no games that can be recovered from persistance
+     * @throws NoGameToRecoverException if there are no games that can be recovered from persistence
      */
     private String recoverGameTcpRmi(String nickname, ClientHandler client) throws NoGameToRecoverException{
         synchronized (lockCreateGame) {
             if (this.potentialPlayers.containsKey(nickname)) {
-                if (!mute) System.out.println("LS: Joining game recovered from persistance...");
+                if (!mute) System.out.println("LS: Joining game recovered from persistence...");
                 String toReturn = this.potentialPlayers.get(nickname).orElseGet(() -> this.recoverGame(nickname));
                 // here we manage the client
                 this.serverList.get(this.serverInformation.indexOf(toReturn)).addPlayer(nickname, client);
@@ -300,6 +300,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * This method lets you join one of the games listed in the current active games
      * @param nickname nickname of the player that calls the method
      * @param client reference to the methods of the client that can be called by the server
+     * @param lobbyName the name of the lobby
      * @return the information useful for the connection to the game
      * @throws AlreadyInGameException       if the player is already in a different game
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
@@ -394,6 +395,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * This method takes in input the list of nicknames, and it removes all the players
      * from the current pool of players in game
      * @param playersList file name where the game was stored
+     * @param match the match server
      */
     public void removePlayersAndMatchServerFromLobby(List<String> playersList, MatchServer match){
         playersList.forEach(this.nicknamesInGame::remove);
@@ -424,6 +426,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * It is the method called by a rmi remote call
      * @param nickname nickname of the player that calls the method
      * @param rmiClient reference to the methods of the client that can be called by the server using RMI
+     * @param gameIndex index of the game
      * @return the information useful for the connection to the game
      * @throws RemoteException           if the connection fails
      * @throws NoGamesAvailableException    if every game is full or there is no game currently ongoing in the server
@@ -436,7 +439,8 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     }
 
     /**
-     * This method return the active lobbies
+     * This method returns a list of the active lobbies
+     * @param nickname the nickname
      * @return the list of active lobbies
      * @throws NoGamesAvailableException
      */
@@ -444,21 +448,22 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
     public List<Lobby> getLobbies(String nickname) throws NoGamesAvailableException {
         List<Lobby> activeLobbies = new ArrayList<>();
 
-
-
         for (MatchServer matchServer : serverList) {
             if (matchServer.getFreeSpaces() > 0) {
                 if (matchServer.isRecovered())
+                    // We add a 'standard lobby' with the recovered flag set to true
                     activeLobbies.add(new LobbyStandard(serverInformation.get(serverList.indexOf(matchServer)),
                         0, 0,
                         List.copyOf(matchServer.getNicknamesList()), true));
                 else
+                    // We add a standard lobby with the recovered flag set to false
                     activeLobbies.add(new LobbyStandard(serverInformation.get(serverList.indexOf(matchServer)),
                         matchServer.getNumPlayers(), matchServer.getNicknamesList().size(),
                         List.copyOf(matchServer.getNicknamesList()), false));
             }
         }
 
+        // If the player is a potential one we add a 'recovered lobby'
         if(this.potentialPlayers.containsKey(nickname)){
             activeLobbies.add(new LobbyRecovered("Recovered", 0, 0, List.of()));
         }
@@ -505,6 +510,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * It is the method called by the tcp client handler
      * @param nickname nickname of the player that calls the method
      * @param tcpClient reference to the methods of the client that can be called by the server using RMI
+     * @param lobbyName the name of the lobby
      * @return the information useful for the connection to the game
      * @throws NoGamesAvailableException if no games are available
      * @throws AlreadyInGameException if the player is already in a different game

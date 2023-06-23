@@ -18,14 +18,14 @@ public class Lock {
     /**
      * Flag that is true if the client has disconnected
      */
-    private boolean disconnection;
+    private boolean offline;
 
     /**
      * constructor of the class
      */
     public Lock(){
         this.reset();
-        this.disconnection = false;
+        this.offline = false;
     }
 
     /**
@@ -72,15 +72,15 @@ public class Lock {
      * Method that returns the disconnection flag
      * @return the disconnection flag
      */
-    public boolean isDisconnection() {
-        return disconnection;
+    public boolean isOffline() {
+        return offline;
     }
 
     /**
      * Method that sets the disconnection flag
      * @param flag: the new flag
      */
-    public void setDisconnection(boolean flag){
-        this.disconnection = flag;
+    public void setOffline(boolean flag){
+        this.offline = flag;
     }
 }

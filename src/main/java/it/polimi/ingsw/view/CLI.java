@@ -786,7 +786,7 @@ public class CLI extends View{
     }
 
     /**
-     * This method is used to join an existing game on the server
+     * This method is used to join an existing game on the server, it also prints the available lobbies
      * @return true if connected successfully, false if no games available
      */
     private boolean joinExistingGame() {
@@ -794,8 +794,9 @@ public class CLI extends View{
             List<Lobby> activeLobbies = client.getLobbies();
             boolean atLeastOneAvailableALobby = false;
 
-            // This for cycle prints a lobby only if is of the type "LobbyRecovered" or the type is "LobbyStandard"
-            // and the lobby was not recovered by someone else
+            // This for cycle prints a lobby only if the type is "LobbyRecovered" or the type is "LobbyStandard"
+            // and (in case of LobbyStandard) the lobby was not recovered by someone else
+            // Analogously it shows a lobby only if the method 'toShow' returns true
             for (int i = 0; i < activeLobbies.size(); i++) {
                 if (activeLobbies.get(i).isRecovered() && activeLobbies.get(i).toShow()) {
                     printMessage("r) " + activeLobbies.get(i).toString(), AnsiEscapeCodes.INFO_MESSAGE);
@@ -807,6 +808,7 @@ public class CLI extends View{
                 }
             }
 
+            // This happens if there isn't a single available lobby
             if (!atLeastOneAvailableALobby) throw new NoGamesAvailableException();
 
             System.out.println();

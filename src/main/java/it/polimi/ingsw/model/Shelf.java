@@ -21,7 +21,7 @@ public class Shelf implements Serializable {
 
     /**
      * This method is the class constructor, it doesn't receive parameters and simply fill the shelf with empty
-     * tiles (see Tile class for details on what empty tile means)
+     * tiles (see TileColor class for details on what empty tile means)
      */
     public Shelf() {
         myShelf = new Tile[ModelConstants.ROWS_NUMBER][ModelConstants.COLS_NUMBER];
@@ -99,8 +99,8 @@ public class Shelf implements Serializable {
     /**
      * This method return the tile in the given position in the shelf
      *
-     * @param position : Position
-     * @return : Tile
+     * @param position : Position passed by parameter
+     * @return : Tile in the position passed by parameter
      */
     public Tile getTile(Position position) {
         return myShelf[position.y()][position.x()];
@@ -177,7 +177,7 @@ public class Shelf implements Serializable {
      * position of the shelf, they have the same tile in this position. If the parameter isn't a shelf,
      * return false.
      * * @param obj object to be compared with "this"
-     * @return a boolean
+     * @return a boolean : true if the shelf are equals
      */
     @Override
     public boolean equals(Object obj) {

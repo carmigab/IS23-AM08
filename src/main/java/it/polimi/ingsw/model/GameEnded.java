@@ -2,8 +2,12 @@ package it.polimi.ingsw.model;
 
 import java.io.Serializable;
 
+/**
+ * this class represents the "data structure" useful to create the final leaderboard of the game (which is a list
+ * gameEnded objects)
+ */
 public class GameEnded implements Serializable {
-    /*
+    /**
      * this attribute represents the nickname of a player
      */
     private final  String nickname;
@@ -23,10 +27,18 @@ public class GameEnded implements Serializable {
         this.finalPoints = finalPoints;
     }
 
+    /**
+     * this method return the nickname of the player
+     * @return a String, the specific nickname of the player
+     */
     public String getNickname() {
         return nickname;
     }
 
+    /**
+     * this method return the final points of a specific player
+     * @return an int, the final points of a specific player
+     */
     public int getFinalPoints() {
         return finalPoints;
     }

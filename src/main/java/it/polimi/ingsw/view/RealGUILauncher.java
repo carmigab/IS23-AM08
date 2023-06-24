@@ -51,6 +51,10 @@ public class RealGUILauncher extends Application {
             if(KeyCode.F11.equals(keyEvent.getCode())) stage.setFullScreen(!stage.isFullScreen());
         });
 
+        stage.setOnCloseRequest(event -> {
+            System.exit(0);
+        });
+
         this.guiView=new GUIView();
         ((HelloController)fxmlLoader.getController()).setGuiView(this.guiView);
         ((HelloController)fxmlLoader.getController()).setStage(stage);

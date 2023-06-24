@@ -56,19 +56,16 @@
           <Font name="Comic Sans MS" size="18.0"/>
         </font>
     </Label>
-    <ScrollPane fx:id="chatScrollPane" hbarPolicy="NEVER">
-        <AnchorPane>
-            <Label fx:id="chatLabel" text="Prova" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0"/>
-            <TextField fx:id="chatTextField" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="175.0"/>
-            <Button fx:id="chatButton" mnemonicParsing="false" onMouseClicked="#onChatButtonMouseClick"
-                    text="Send" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="148.0"
-                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="175.0">
-                <font>
-                    <Font name="Comic Sans MS" size="12.0"/>
-                </font>
-            </Button>
-        </AnchorPane>
-    </ScrollPane>
+    <AnchorPane fx:id="chatAnchorPane">
+        <TextField fx:id="chatTextField" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="175.0"/>
+        <Button fx:id="chatButton" mnemonicParsing="false" onMouseClicked="#onChatButtonMouseClick"
+                text="Send" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="148.0"
+                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="175.0">
+            <font>
+                <Font name="Comic Sans MS" size="12.0"/>
+            </font>
+        </Button>
+    </AnchorPane>
     <Button fx:id="refreshButton" mnemonicParsing="false" onMouseClicked="#onRefreshButtonMouseClick" text="Refresh">
         <font>
             <Font name="Comic Sans MS" size="12.0"/>
@@ -85,4 +82,6 @@
     <Slider fx:id="tcoyd" blockIncrement="0.01" layoutX="10.0" layoutY="1135.0" max="0.7" min="1.0E-4" />
     <Slider fx:id="tcodx" blockIncrement="0.01" layoutX="10.0" layoutY="1142.0" max="0.7" min="1.0E-4" />
     <Slider fx:id="tcody" blockIncrement="0.01" layoutX="10.0" layoutY="1149.0" max="0.7" min="1.0E-4" /-->
+    <TabPane fx:id="chatPane">
+    </TabPane>
 </BorderPane>

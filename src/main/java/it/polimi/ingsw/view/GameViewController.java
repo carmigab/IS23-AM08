@@ -15,6 +15,7 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Side;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -22,11 +23,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
 
-import java.io.File;
 import java.net.URL;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * This class is the whole controller of the game scene
@@ -148,15 +150,10 @@ public class GameViewController implements Initializable{
     @FXML
     private Label errorLabel;
     /**
-     * This attribute stores the scroll pane of the chat section
+     * This attribute stores the anchor pane containing the fields for communication in chat
      */
     @FXML
-    private ScrollPane chatScrollPane;
-    /**
-     * This attribute stores the label where all the chat is shown
-     */
-    @FXML
-    private Label chatLabel;
+    private AnchorPane chatAnchorPane;
     /**
      * This attribute stores the text field where the user can input the chat
      */
@@ -183,6 +180,12 @@ public class GameViewController implements Initializable{
      */
     @FXML
     private ImageView title;
+
+    /**
+     *
+     */
+    @FXML
+    private TabPane chatPane;
 
     /**
      * This attribute is a personalized data format used for transporting the position selected on the game board in the clipboard when a drag occurs
@@ -246,6 +249,8 @@ public class GameViewController implements Initializable{
      * This attribute is a map that stores the move selected
      */
     private Map<Integer, Position> positionsList;
+
+    private List<Label> chatLabels;
     /**
      * This attribute is the reference to the gui component used to call methods via network
      */
@@ -274,6 +279,7 @@ public class GameViewController implements Initializable{
         this.positionsList=new HashMap<>();
         this.otherShelf   =new ArrayList<>(ModelConstants.MAX_PLAYERS-1);
         this.otherPointsObtained = new ArrayList<>(ModelConstants.MAX_PLAYERS-1);
+        this.chatLabels   =new ArrayList<>(ModelConstants.MAX_PLAYERS);
 
 
         this.initializeClickableComponents();
@@ -282,21 +288,23 @@ public class GameViewController implements Initializable{
 
         //Prepare the listener of the resize event
         ChangeListener<Number> onDimensionsChange = (observable, oldValue, newValue) ->
-                {
-                    this.gameBoard   .setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
-                    this.myShelf     .setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
-                    this.commonGoal1 .setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
-                    this.commonGoal2 .setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
-                    this.personalGoal.setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
-                    this.moveList    .setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
-                    this.chatScrollPane.setPrefViewportWidth (Math.min(gameContainer.getWidth(), gameContainer.getHeight())*0.2);
-                    this.chatScrollPane.setPrefViewportHeight(Math.min(gameContainer.getWidth(), gameContainer.getHeight())*0.2);
-                    for(ClickableComponent clickableComponent: this.otherShelf) clickableComponent.setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
-                    this.myPoints    .setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
-                    for(ClickableComponent clickableComponent: this.otherPointsObtained) clickableComponent.setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
+        {
+            this.gameBoard   .setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
+            this.myShelf     .setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
+            this.commonGoal1 .setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
+            this.commonGoal2 .setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
+            this.personalGoal.setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
+            this.moveList    .setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
+            this.chatPane    .setPrefHeight(Math.min(gameContainer.getWidth(), gameContainer.getHeight())*0.2);
+            this.chatPane    .setPrefWidth(Math.min(gameContainer.getWidth(), gameContainer.getHeight())*0.2);
+            this.chatAnchorPane.setPrefWidth(Math.min(gameContainer.getWidth(), gameContainer.getHeight())*0.2);
+            this.chatAnchorPane.setPrefHeight(Math.min(gameContainer.getWidth(), gameContainer.getHeight())*0.2);
+            for(ClickableComponent clickableComponent: this.otherShelf) clickableComponent.setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
+            this.myPoints    .setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
+            for(ClickableComponent clickableComponent: this.otherPointsObtained) clickableComponent.setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
 
-                    this.drawClickableComponents();
-                };
+            this.drawClickableComponents();
+        };
 
         //Add the listeners
         this.gameContainer.widthProperty().addListener(onDimensionsChange);
@@ -304,9 +312,9 @@ public class GameViewController implements Initializable{
 
         //this.initializeGridPane();
 
-        this.initializeScene();
+        this.initializeChatPane();
 
-        this.chatLabel.setText("");
+        this.initializeScene();
 
         /*
         tcoxl.valueProperty().addListener((
@@ -394,7 +402,7 @@ public class GameViewController implements Initializable{
 
         for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++){
             ImageView imageView= new ImageView();
-            imageView.setImage(new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath("gui/images/screenshot.png", this.getClass())));
+            imageView.setImage(new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath("gui/images/screenshot.png",this.getClass())));
             this.otherPointsObtained.add(new ClickableComponent(imageView, new AnchorPane(), new Canvas(), 1, ModelConstants.TOTAL_CG_PER_GAME+1,
                     0.052, 0.115, 0.068, 0.627, 0.015, 0.013, 0.3));
         }
@@ -416,6 +424,31 @@ public class GameViewController implements Initializable{
         for(ClickableComponent clickableComponent: this.otherPointsObtained) clickableComponent.draw();
     }
 
+    /**
+     * This method sets up the grid pane to show everything correctly
+     * The method add() is structured as follows: node, column, row, colspan, rowspan
+     */
+    private void initializeGridPane(){
+
+        this.gridPane.add(this.gameBoardAnchorPane   , 0, 0, 1, 2);
+        this.gridPane.add(this.myShelfAnchorPane     , 1, 0, 1, 2);
+        this.gridPane.add(this.commonGoal1AnchorPane , 0, 2, 1, 1);
+        this.gridPane.add(this.commonGoal2AnchorPane , 0, 3, 1, 1);
+        this.gridPane.add(this.personalGoalAnchorPane, 2, 0, 1, 1);
+        this.gridPane.add(this.moveListAnchorPane    , 1, 2, 1, 1);
+        this.gridPane.add(this.errorLabel            , 1, 3, 1, 1);
+        this.gridPane.add(this.chatPane              , 2, 2, 1, 1);
+        this.gridPane.add(this.refreshButton         , 2, 3, 1, 1);
+        for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
+            this.gridPane.add(this.otherShelf.get(i).getComponentAnchorPane(), 3, i, 1, 1);
+        this.gridPane.add(this.myPointsAnchorPane    , 1, 4, 1, 1);
+        for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
+            this.gridPane.add(this.otherPointsObtained.get(i).getComponentAnchorPane(), 4, i, 1, 1);
+
+        this.gridPane.setHgap(10);
+        this.gridPane.setVgap(10);
+    }
+
 
     private void initializeScene() {
         title.setFitHeight(100);
@@ -423,16 +456,48 @@ public class GameViewController implements Initializable{
         title.setSmooth(true);
         title.setCache(true);
         this.gameContainer.setTop(new HBox(title));
-        this.gameContainer.setRight(new VBox(this.myShelfAnchorPane, this.personalGoalAnchorPane, this.myPointsAnchorPane));
+        this.gameContainer.setRight(new VBox(this.myShelfAnchorPane, this.personalGoalAnchorPane, this.myPointsAnchorPane, this.refreshButton));
 //        this.moveListAnchorPane.getTransforms().add(new Rotate(90, 0, 0));
         this.gameContainer.setCenter(new HBox(new VBox(this.gameBoardAnchorPane, new HBox(this.commonGoal1AnchorPane, this.commonGoal2AnchorPane)),
-                new VBox(new HBox(this.moveListAnchorPane), new HBox(this.errorLabel), new HBox(this.chatScrollPane))));
+                new VBox(new HBox(this.moveListAnchorPane), new HBox(this.errorLabel), new HBox(this.chatPane), new HBox(this.chatAnchorPane))));
 
         VBox otherShelfVBox = new VBox();
         for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
             otherShelfVBox.getChildren().add(new VBox(new Text("player's " + (i + 1) + " name") , this.otherShelf.get(i).getComponentAnchorPane(), this.otherPointsObtained.get(i).getComponentAnchorPane()));
 
         this.gameContainer.setLeft(otherShelfVBox);
+    }
+
+    private void initializeChatPane(){
+
+        this.chatPane.setSide(Side.BOTTOM);
+
+        Tab chatAll=new Tab();
+        chatAll.setText("all");
+
+        ScrollPane sc=new ScrollPane();
+        Label l=new Label();
+        sc.setContent(l);
+        chatAll.setContent(sc);
+
+        this.chatLabels.add(l);
+        this.chatPane.getTabs().add(chatAll);
+
+        for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++){
+
+            Tab player=new Tab();
+            player.setText("player "+i);
+
+            sc=new ScrollPane();
+            l=new Label();
+            sc.setContent(l);
+            player.setContent(sc);
+
+            this.chatLabels.add(l);
+            this.chatPane.getTabs().add(player);
+
+        }
+
     }
 
     /**
@@ -473,6 +538,8 @@ public class GameViewController implements Initializable{
         Platform.runLater(this::displayOtherShelf);
 
         Platform.runLater(this::displayAllPointsObtained);
+
+        Platform.runLater(this::displayChatPane);
     }
 
     /**
@@ -570,7 +637,7 @@ public class GameViewController implements Initializable{
                                 ()->this.otherShelf.get(z).setComponentSavedImageFromPositions(null, x, y));
                     }
                 }
-                otherShelfBox.getChildren().add(new VBox(new Label(playerInfo.getNickname()) , this.otherShelf.get(l).getComponentAnchorPane(), this.otherPointsObtained.get(l).getComponentAnchorPane()));
+                otherShelfBox.getChildren().add(new VBox(new Label(playerInfo.getNickname()) , this.otherShelf.get(l).getComponentAnchorPane()));
             }
             else l--;
         }
@@ -598,7 +665,7 @@ public class GameViewController implements Initializable{
                 else component.setComponentSavedImageFromPositions(null, 0, 0);
 
                 if(playerInfo.getComGoalPoints()[1]!=0){
-                    component.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(playerInfo.getComGoalPoints()[1]), 0, 1 );
+                    component.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(playerInfo.getComGoalPoints()[0]), 0, 1 );
                 }
                 else component.setComponentSavedImageFromPositions(null, 0, 1);
 
@@ -630,12 +697,64 @@ public class GameViewController implements Initializable{
         }
     }
 
+    private void displayChatPane(){
+
+        for(int i=0, l=0;i<this.guiView.gameInfo.getPlayerInfosList().size();i++,l++){
+
+            PlayerInfo playerInfo = this.guiView.gameInfo.getPlayerInfosList().get(i);
+
+            //if it is my name do nothing
+            if(playerInfo.getNickname().equals(this.guiView.myNickname)){
+                l--;
+            }
+            //display other chats
+            else{
+                this.chatPane.getTabs().get(l+1).setText(playerInfo.getNickname());
+            }
+
+        }
+
+        for(int i=ModelConstants.MAX_PLAYERS-2; i>this.guiView.gameInfo.getPlayerInfosList().size()-2;i--){
+            try{
+                this.chatPane.getTabs().remove(i+1);
+                this.chatLabels.remove(i+1);
+            }catch(IndexOutOfBoundsException e){
+                //do nothing
+            }
+        }
+
+    }
+
     /**
      * This method is called from the view and displays the chat message received
      * @param message string received
      */
+
     public void displayMessage(String message){
-        Platform.runLater(()-> this.chatLabel.setText(this.chatLabel.getText()+message+"\n"));
+        Platform.runLater(
+
+                ()-> {
+
+                    System.out.println(message);
+
+                    if(!message.contains("[Privately]")){
+                        this.chatLabels.get(0).setText(this.chatLabels.get(0).getText()+"\n"+message);
+
+                        System.out.println("message");
+                    }
+                    else{
+
+                        for(int i=0, l=0;i<this.chatPane.getTabs().size();i++,l++){
+
+                            if(message.split("\\[")[0].equals(this.chatPane.getTabs().get(i).getText())){
+                                this.chatLabels.get(i).setText(this.chatLabels.get(i).getText()+"\n"+message);
+                            }
+
+                        }
+                    }
+                }
+
+        );
     }
 
     /**
@@ -836,14 +955,26 @@ public class GameViewController implements Initializable{
 
     /**
      * This method is called whenever the chat button is clicked.
-     * It sends the message to the server in all chat  TODO implement private chat
+     * It sends the message to the server in all chat
      */
+
     @FXML
     protected void onChatButtonMouseClick(){
         if(this.chatTextField.getText().isEmpty()) return;
 
         try {
-            this.guiView.client.messageAll(this.chatTextField.getText());
+
+            String nameToSend=this.chatPane.getSelectionModel().getSelectedItem().getText();
+
+            System.out.println(nameToSend);
+
+            if(nameToSend.equals("all")){
+                this.guiView.client.messageAll(this.chatTextField.getText());
+            }
+            else{
+                this.guiView.client.messageSomeone(this.chatTextField.getText(),nameToSend);
+            }
+
         } catch (ConnectionError e) {
             this.errorLabel.setText("CONNECTION ERROR");
         }

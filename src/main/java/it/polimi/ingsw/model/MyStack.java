@@ -32,7 +32,7 @@ public class MyStack {
     }
 
     /**
-     * This method is the push function for a usual stack
+     * This method is the pop function for a usual stack
      * @return pop of the integer from the stack
      */
     public Integer pop(){

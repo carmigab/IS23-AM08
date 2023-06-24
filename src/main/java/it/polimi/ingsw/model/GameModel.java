@@ -16,6 +16,11 @@ import it.polimi.ingsw.controller.observers.Observer;
 import java.io.*;
 import java.util.*;
 
+/**
+ * this class is the main class of the model : it contains the methods called by the Controller and in this
+ * class there are all the methods that implement the logic of the game (check of a move, the logic of the
+ * turns, the final leaderboard ...)
+ */
 public class GameModel {
     /**
      * this attribute is a list of observers
@@ -28,7 +33,7 @@ public class GameModel {
     @Expose
     private final int numPlayers;
     /**
-     * this attribute is a list of the states of the players; one state for each player;
+     * this attribute is a list of the players of the match
      */
     @Expose
     private final List<PlayerState> playerList;
@@ -39,13 +44,13 @@ public class GameModel {
     @Expose
     private final GameBoard gameBoard;
     /**
-     * this attribute is the list of common goals created in the specified game;
+     * this attribute is the list of common goals created in the specific match;
      */
     @Expose
     private final List<Integer> commonGoalsCreated;
 
     /**
-     * this attribute is used to indicate the player who must do the turn
+     * this attribute is used to indicate the player who must do the turn (the current player)
      */
     @Expose
     private int currentPlayer;
@@ -57,24 +62,25 @@ public class GameModel {
 
 
     /**
-     * this attribute represents the final leaderboard of the game
+     * this attribute represents the final leaderboard of the game; it will be shown at the end of the game
      */
     @Expose
     private List<GameEnded> leaderBoard;
     /**
-     * This attribute stores the information of the file name in the class, so that it does not have to be constructed each time
+     * This attribute stores the information of the file name in the class, so that it does not have to
+     * be constructed each time
      */
     @Expose
     private String fileName;
 
     /**
-     *
+     *this attribute is used to indicate that the game is finished
      */
     @Expose
     private boolean gameOver;
 
     /**
-     * Constructor
+     * this method is the class constructor : it creates a new GameMode object
      * @param numPlayers number of players for the game
      * @param nicknames players' nicknames
      */
@@ -87,7 +93,7 @@ public class GameModel {
         this.isLastTurn = false;
         this.gameOver = false;
         initializePlayers(nicknames);
-        initializePersistencyFile(nicknames);
+        initializePersistenceFile(nicknames);
 
     }
 
@@ -106,7 +112,9 @@ public class GameModel {
         this.currentPlayer = gameModel.currentPlayer;
         this.isLastTurn = gameModel.isLastTurn;
         this.leaderBoard = gameModel.leaderBoard;
+        this.gameOver = gameModel.gameOver;
         this.fileName = gameModel.fileName;
+
 
         // oss: the observers are added from outside
     }
@@ -134,11 +142,12 @@ public class GameModel {
     }
 
     /**
-     * This method is called only by the constructor and what it does is simply create the file where the current state of the game is saved
-     * The object also keeps track of the file name once it is created, so that it can be easily accessed (not by constructing it every time)
+     * This method is called only by the constructor and what it does is simply create the file where the current
+     * state of the game is saved. The object also keeps track of the file name once it is created, so that it can
+     * be easily accessed (not by constructing it every time)
      * @param nicks list of the names of the players
      */
-    private void initializePersistencyFile(List<String> nicks){
+    private void initializePersistenceFile(List<String> nicks){
         this.fileName= ModelConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(nicks);
         saveCurrentState();
     }
@@ -160,8 +169,8 @@ public class GameModel {
     }
 
     /**
-     * This method selects two random numbers between 0 and 12 (total goals, 12 excluded) and assigns a common shelf to it.
-     * It is important to note that it checks that which common goals are created
+     * This method selects two random numbers between 0 and 12 (total goals, 12 excluded) and assigns a
+     * common shelf to it. It is important to note that it checks that which common goals are created
      * @return the list of 2 random common goals created
      */
     private List<Integer> getRandomCommonGoals(){
@@ -181,9 +190,9 @@ public class GameModel {
     /**
      * this method represents the move done by a player: the player removes from 1 to 3 tile from the game board and
      * adds the tiles in his shelf, in the specific column. We don't check if the positions in the list are correct
-     * because we assumed the positions in the list are already check(by method checkValidMove). We assume the same for
-     * the column;
-     * @param pos: list of position chosen by the player
+     * because we assumed the positions in the list are already check(by method checkValidMove).We assume the same
+     * for the column;
+     * @param pos: list of position chosen by the player (tiles chosen by the player)
      * @param col : column chosen by the player
      */
 
@@ -194,8 +203,9 @@ public class GameModel {
     }
 
     /**
-     * this method is used to check if the move done by the current player is correct
-     * @param pos list of the position of the tiles taken by the player from the game board
+     * this method is used to check if the move done by the current player is correct, according to the rules of
+     * the game
+     * @param pos list of the position of the tiles taken by the player from the gameBoard
      * @return true if the move is valid, false if the move isn't valid
      */
     public boolean checkValidMove(List<Position> pos){
@@ -208,7 +218,7 @@ public class GameModel {
 
         if(pos.stream().distinct().count()!=pos.size()) return false;
 
-        //we have to check that they are in the same line
+        //we have to check that they are in the same line,
         //so we take a copy of the list, we sort it in the x and y direction (if in a line it is obvious that one of them will not be sorted)
 
         List<Position> copyPos=new ArrayList<>();
@@ -222,7 +232,7 @@ public class GameModel {
             if(UtilityFunctionsModel.distanceSquared(copyPos.get(i), copyPos.get(i+1))!=1) return false;
         }
         //also at the end we have to check that the first and the last are in a line (have a distance of exactly 4)
-        //now 4 is the constant which depends on the lenght of the total array, for now i will leave it hard coded
+        //now 4 is the constant which depends on the length of the total array, for now I will leave it hard coded
 
         if(pos.size()> ModelConstants.MAX_NUM_OF_MOVES-1) if(UtilityFunctionsModel.distanceSquared(copyPos.get(0),copyPos.get(copyPos.size()-1)) != 4) return false;
 
@@ -243,7 +253,7 @@ public class GameModel {
     /**
      * this method is used to check if the game board has to be filled; it calls the method hasToBeFilled of the class
      * GameBoard
-     * @return true if hasToBeFilled return true
+     * @return true if hasToBeFilled return true, false otherwise
      */
     private boolean boardToBeFilled(){
         return this.gameBoard.hasToBeFilled();
@@ -251,7 +261,7 @@ public class GameModel {
 
     /**
      * This method updates the score of the current player
-     * and sets lastTurn to true if the shelf was filled
+     * and sets lastTurn to true if his personal shelf is filled
      */
     private void evaluatePoints(){
         PlayerState currP = playerList.get(currentPlayer);
@@ -281,8 +291,9 @@ public class GameModel {
     }
 
     /**
-     * this method creates the final leaderBoard of the match. if two players have the same points, the player who is
-     * farther from the first player will be higher in the leaderboard
+     * this method creates the final leaderBoard of the match. if two players have the same points, the player
+     * who is farther from the first player will be higher in the leaderboard; the leaderBoard will be shown at
+     * the end of the game
      */
     private void createLeaderBoard(){
         List<PlayerState> temp = new ArrayList<>(this.playerList);
@@ -294,7 +305,9 @@ public class GameModel {
     }
 
     /**
-     * This method is used to update the currentPlayer and evaluate the points of the currentPlayer
+     * This method represents the logic of the turns: is used to update the currentPlayer and
+     * evaluate the points of the currentPlayer. It also checks at the end of the turn if the board has to be
+     * filled
      */
     public void nextTurn(){
         this.evaluatePoints();
@@ -342,7 +355,7 @@ public class GameModel {
     }
 
     /**
-     * this method return the number of players
+     * this method return the number of players of a specific match
      * @return an int, the number of players
      */
     public String getCurrentPlayerNickName() {
@@ -351,7 +364,7 @@ public class GameModel {
 
     /**
      * this method adds observers
-     * @param o the observer
+     * @param o the observer added
      */
     public void addObserver(Observer o){
         observers.add(o);
@@ -375,18 +388,34 @@ public class GameModel {
         observers.clear();
     }
 
+    /**
+     * this method returns the current player in a specific game
+     * @return a PlayerState in the position "currentPlayer" of the List playerList
+     */
     public PlayerState getCurrentPlayerState() {
         return this.playerList.get(currentPlayer);
     }
 
+    /**
+     * this method returns the gameBoard of a specific game
+     * @return a gameBoard, the gameBoard of a specific game
+     */
     public GameBoard getGameBoard() {
         return this.gameBoard;
     }
 
+    /**
+     * this method returns the final leaderboard of the game
+     * @return the final leaderboard of the game
+     */
     public List<GameEnded> getLeaderBoard() {
         return leaderBoard;
     }
 
+    /**
+     * this method returns true if the game is over, false otherwise
+     * @return a boolean which is the value of the attribute gameOver
+     */
     public boolean isGameOver(){
         return this.gameOver;
     }
@@ -406,9 +435,10 @@ public class GameModel {
 
 
     /**
-     * This method overrides the method equals.
+     * This method overrides the method equals. it assumes that two gameModel are equals if they have the same
+     * attributes; if the parameter passed by parameter isn't a gameModel, the method returns false
      * @param obj the object to check
-     * @return true if equal
+     * @return true if the gameModel are equals
      */
     @Override
     public boolean equals(Object obj) {

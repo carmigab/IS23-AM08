@@ -101,6 +101,7 @@ public class PlayerState {
         this.groupPoints = playerState.groupPoints;
         this.firstPoint = playerState.firstPoint;
         this.personalGoal = playerState.personalGoal;
+        this.personalGoalNumber = playerState.personalGoalNumber;
         this.comGoalDone = playerState.comGoalDone;
     }
 

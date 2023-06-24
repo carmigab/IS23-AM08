@@ -22,12 +22,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import javafx.scene.transform.Rotate;
 
+import java.io.File;
 import java.net.URL;
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 /**
  * This class is the whole controller of the game scene
@@ -395,6 +394,7 @@ public class GameViewController implements Initializable{
 
         for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++){
             ImageView imageView= new ImageView();
+            imageView.setImage(new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath("gui/images/screenshot.png", this.getClass())));
             this.otherPointsObtained.add(new ClickableComponent(imageView, new AnchorPane(), new Canvas(), 1, ModelConstants.TOTAL_CG_PER_GAME+1,
                     0.052, 0.115, 0.068, 0.627, 0.015, 0.013, 0.3));
         }
@@ -416,31 +416,6 @@ public class GameViewController implements Initializable{
         for(ClickableComponent clickableComponent: this.otherPointsObtained) clickableComponent.draw();
     }
 
-    /**
-     * This method sets up the grid pane to show everything correctly
-     * The method add() is structured as follows: node, column, row, colspan, rowspan
-     */
-    private void initializeGridPane(){
-
-        this.gridPane.add(this.gameBoardAnchorPane   , 0, 0, 1, 2);
-        this.gridPane.add(this.myShelfAnchorPane     , 1, 0, 1, 2);
-        this.gridPane.add(this.commonGoal1AnchorPane , 0, 2, 1, 1);
-        this.gridPane.add(this.commonGoal2AnchorPane , 0, 3, 1, 1);
-        this.gridPane.add(this.personalGoalAnchorPane, 2, 0, 1, 1);
-        this.gridPane.add(this.moveListAnchorPane    , 1, 2, 1, 1);
-        this.gridPane.add(this.errorLabel            , 1, 3, 1, 1);
-        this.gridPane.add(this.chatScrollPane        , 2, 2, 1, 1);
-        this.gridPane.add(this.refreshButton         , 2, 3, 1, 1);
-        for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
-            this.gridPane.add(this.otherShelf.get(i).getComponentAnchorPane(), 3, i, 1, 1);
-        this.gridPane.add(this.myPointsAnchorPane    , 1, 4, 1, 1);
-        for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
-            this.gridPane.add(this.otherPointsObtained.get(i).getComponentAnchorPane(), 4, i, 1, 1);
-
-        this.gridPane.setHgap(10);
-        this.gridPane.setVgap(10);
-    }
-
 
     private void initializeScene() {
         title.setFitHeight(100);
@@ -448,7 +423,7 @@ public class GameViewController implements Initializable{
         title.setSmooth(true);
         title.setCache(true);
         this.gameContainer.setTop(new HBox(title));
-        this.gameContainer.setRight(new VBox(this.myShelfAnchorPane, this.personalGoalAnchorPane, this.myPointsAnchorPane, this.refreshButton));
+        this.gameContainer.setRight(new VBox(this.myShelfAnchorPane, this.personalGoalAnchorPane, this.myPointsAnchorPane));
 //        this.moveListAnchorPane.getTransforms().add(new Rotate(90, 0, 0));
         this.gameContainer.setCenter(new HBox(new VBox(this.gameBoardAnchorPane, new HBox(this.commonGoal1AnchorPane, this.commonGoal2AnchorPane)),
                 new VBox(new HBox(this.moveListAnchorPane), new HBox(this.errorLabel), new HBox(this.chatScrollPane))));
@@ -595,7 +570,7 @@ public class GameViewController implements Initializable{
                                 ()->this.otherShelf.get(z).setComponentSavedImageFromPositions(null, x, y));
                     }
                 }
-                otherShelfBox.getChildren().add(new VBox(new Label(playerInfo.getNickname()) , this.otherShelf.get(l).getComponentAnchorPane()));
+                otherShelfBox.getChildren().add(new VBox(new Label(playerInfo.getNickname()) , this.otherShelf.get(l).getComponentAnchorPane(), this.otherPointsObtained.get(l).getComponentAnchorPane()));
             }
             else l--;
         }
@@ -623,7 +598,7 @@ public class GameViewController implements Initializable{
                 else component.setComponentSavedImageFromPositions(null, 0, 0);
 
                 if(playerInfo.getComGoalPoints()[1]!=0){
-                    component.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(playerInfo.getComGoalPoints()[0]), 0, 1 );
+                    component.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(playerInfo.getComGoalPoints()[1]), 0, 1 );
                 }
                 else component.setComponentSavedImageFromPositions(null, 0, 1);
 

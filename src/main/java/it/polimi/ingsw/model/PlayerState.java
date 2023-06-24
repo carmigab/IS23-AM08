@@ -90,7 +90,7 @@ public class PlayerState {
     }
 
     /**
-     * This is a second constructor
+     * This is a second constructor : it creates a copy of an existing playerState
      * @param playerState: the player
      */
     public PlayerState(PlayerState playerState) {
@@ -105,7 +105,7 @@ public class PlayerState {
     }
 
     /**
-     * This method returns the nickname
+     * This method returns the nickname of the player
      * @return nickname
      */
     public String getNickname(){
@@ -114,7 +114,7 @@ public class PlayerState {
 
 
     /**
-     * This method returns the Shelf
+     * This method returns the Shelf of the player
      * @return myShelf
      */
     public Shelf getShelf(){
@@ -201,9 +201,11 @@ public class PlayerState {
 
 
     /**
-     * This method overrides the method equals.
+     * This method overrides the method equals. it assumes that two players are equals if they have the same
+     * attributes (the same Shelf, the same firstPoint ...); if the object passed by parameter isn't a
+     * PlayerState, return false
      * @param obj the object to check
-     * @return true if equal
+     * @return true if the player are equals
      */
     @Override
     public boolean equals(Object obj){

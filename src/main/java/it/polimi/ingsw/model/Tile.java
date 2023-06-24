@@ -5,7 +5,7 @@ import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 
 /**
- * this class represent the single tile of the game
+ * this class represents the single tile of the game
  */
 
 public class Tile implements Serializable {
@@ -15,7 +15,7 @@ public class Tile implements Serializable {
     @Expose
     private TileColor color;
     /**
-     * this attribute is used to show the correct image of the tile
+     * this attribute is used to show the correct image of the tile in the Gui
      */
     @Expose
     private final int sprite;
@@ -24,7 +24,7 @@ public class Tile implements Serializable {
      * this method is the class constructor
      *
      * @param color  : set the attribute "color" to color value
-     * @param sprite : set the attribute "sprite" to color value
+     * @param sprite : set the attribute "sprite" to sprite value
      */
     public Tile(TileColor color, int sprite) {
         this.color = color;
@@ -42,7 +42,7 @@ public class Tile implements Serializable {
 
     /**
      * this method return the value of the attribute color
-     * @return a TileColor, the color of the tile
+     * @return a TileColor, the color of the tile (also empty or invalid)
      */
     public TileColor getColor() {return color;}
 
@@ -54,15 +54,15 @@ public class Tile implements Serializable {
 
     /**
      * this method return true if the tile is empty
-     * @return a boolean
+     * @return true if the tile is empty
      */
     public boolean isEmpty(){
         return this.color == TileColor.EMPTY;
     }
 
     /**
-     * this method return true if the tile is empty
-     * @return a boolean
+     * this method return true if the tile is invalid
+     * @return true if the tile is invalid
      */
     public boolean isInvalid(){
         return this.color == TileColor.INVALID;
@@ -82,7 +82,7 @@ public class Tile implements Serializable {
      * this method overrides the method equals. it assumes that two tiles are equals if they have the same color;
      * if the parameter isn't a tile, the method return false
      * @param obj object to be compared with "this"
-     * @return a boolean
+     * @return a boolean : true if the cards are equals
      */
     @Override
     public boolean equals(Object obj) {

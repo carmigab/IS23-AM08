@@ -75,7 +75,7 @@ public final class GameBoard {
 
     /**
      * Copy constructor of the game board.
-     * @param gameBoard gameboard to be copied
+     * @param gameBoard gameBoard to be copied
      * @param cg list of common goals to be copied
      */
     public GameBoard(GameBoard gameBoard, List<Integer> cg){
@@ -170,7 +170,7 @@ public final class GameBoard {
     }
 
     /**
-     * This method fills the stack of a single common objective, used in the creation of the game board
+     * This method fills the stack with a single common objective, used in the creation of the game board
      * @param pos common goal to be filled
      * @param pointStack integer array loaded from the json config file containing the stack of points(from lowest to highest)
      */
@@ -278,7 +278,7 @@ public final class GameBoard {
 
     /**
      * Method that checks the equality between two game board objects
-     * @param obj objeect to be checked
+     * @param obj object to be checked
      * @return true if the game board are the same (same tiles and same common goals)
      */
     @Override

@@ -211,15 +211,28 @@ public class PlayerState {
 
         for (int i = 0; i < comGoalDone.length; i++) {
             if (this.comGoalDone[i] != playerState.comGoalDone[i]) return false;
+            if (!(this.CGPoints[i] == playerState.CGPoints[i])) return false;
         }
 
-        return this.myShelf.equals(playerState.myShelf) &&
-                this.CGPoints == playerState.CGPoints &&
-                this.firstPoint == playerState.firstPoint &&
-                this.groupPoints == playerState.groupPoints &&
-                this.nickname.equals(playerState.nickname) &&
-                this.personalGoal.equals(playerState.personalGoal) &&
-                this.PGPoints == playerState.PGPoints;
+        if (!this.myShelf.equals(playerState.myShelf)) return false;
+
+        if (!(this.firstPoint == playerState.firstPoint)) return false;
+
+        if (!(this.groupPoints == playerState.groupPoints)) return false;
+
+        if (!this.nickname.equals(playerState.nickname)) return false;
+
+        if (!this.personalGoal.equals(playerState.personalGoal)) return false;
+
+        return this.PGPoints == playerState.PGPoints;
+
+//        return this.myShelf.equals(playerState.myShelf) &&
+//                this.CGPoints == playerState.CGPoints &&
+//                this.firstPoint == playerState.firstPoint &&
+//                this.groupPoints == playerState.groupPoints &&
+//                this.nickname.equals(playerState.nickname) &&
+//                this.personalGoal.equals(playerState.personalGoal) &&
+//                this.PGPoints == playerState.PGPoints;
     }
 
     /**

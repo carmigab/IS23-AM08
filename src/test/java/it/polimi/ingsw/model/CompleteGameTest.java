@@ -3,23 +3,18 @@ package it.polimi.ingsw.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.UtilityTestFunctions;
-import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.controller.GameController;
-import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
-import it.polimi.ingsw.controller.observers.Observer;
+import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
-import it.polimi.ingsw.utilities.UtilityFunctionsModel;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit test for a complete game
@@ -30,7 +25,6 @@ class CompleteGameTest {
      * This method test a game with two players simulating all the actions to check if all flows correctly
      */     
     @Test
-    @Disabled
     void twoPlayerCompleteGame() throws FileNotFoundException {
 
 
@@ -41,7 +35,7 @@ class CompleteGameTest {
 
         Gson jsonLoader = JsonWithExposeSingleton.getJsonWithExposeSingleton();
 
-        String file = "src/test/resources/completeGameTest/MatteCenz_GabriCarr_.json";
+        String file = "src/main/resources/savedMatches/MatteCenz_GabriCarr.json";
         GameModel savedModel;
 
         List<String> actions = json.fromJson(UtilityTestFunctions.getReaderFromFileNameResourcesPath("completeGameTest/CompleteGameTestActions.json", this.getClass()), ArrayList.class);

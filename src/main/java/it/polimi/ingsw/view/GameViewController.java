@@ -11,6 +11,7 @@ import it.polimi.ingsw.network.client.exceptions.ConnectionError;
 import it.polimi.ingsw.network.client.exceptions.GameEndedException;
 import it.polimi.ingsw.utilities.UtilityFunctions;
 import it.polimi.ingsw.view.gui.ClickableComponent;
+import it.polimi.ingsw.view.gui.ClickableComponentSetup;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
@@ -153,22 +154,17 @@ public class GameViewController implements Initializable{
      * This attribute stores the anchor pane containing the fields for communication in chat
      */
     @FXML
-    private AnchorPane chatAnchorPane;
+    private AnchorPane sendMessageAnchorPane;
     /**
      * This attribute stores the text field where the user can input the chat
      */
     @FXML
-    private TextField chatTextField;
+    private TextField sendMessageTextField;
     /**
      * This attribute stores the button used to send messages to the chat
      */
     @FXML
-    private Button chatButton;
-    /**
-     * This attribute stores the button used to refresh the page
-     */
-    @FXML
-    private Button refreshButton;
+    private Button sendMessageButton;
     /**
      * This attribute stores the container where all the scene is set
      */
@@ -297,8 +293,8 @@ public class GameViewController implements Initializable{
             this.moveList    .setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
             this.chatPane    .setPrefHeight(Math.min(gameContainer.getWidth(), gameContainer.getHeight())*0.2);
             this.chatPane    .setPrefWidth(Math.min(gameContainer.getWidth(), gameContainer.getHeight())*0.2);
-            this.chatAnchorPane.setPrefWidth(Math.min(gameContainer.getWidth(), gameContainer.getHeight())*0.2);
-            this.chatAnchorPane.setPrefHeight(Math.min(gameContainer.getWidth(), gameContainer.getHeight())*0.2);
+            this.sendMessageAnchorPane.setPrefWidth(Math.min(gameContainer.getWidth(), gameContainer.getHeight())*0.2);
+            this.sendMessageAnchorPane.setPrefHeight(Math.min(gameContainer.getWidth(), gameContainer.getHeight())*0.2);
             for(ClickableComponent clickableComponent: this.otherShelf) clickableComponent.setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
             this.myPoints    .setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
             for(ClickableComponent clickableComponent: this.otherPointsObtained) clickableComponent.setComponentDimensions(Math.min(gameContainer.getWidth(), gameContainer.getHeight()));
@@ -375,36 +371,27 @@ public class GameViewController implements Initializable{
      */
     private void initializeClickableComponents(){
         //Create the array of tiles
-        this.gameBoard=new ClickableComponent(this.gameBoardImage, this.gameBoardAnchorPane, this.gameBoardCanvas, ModelConstants.BOARD_DIMENSION, ModelConstants.BOARD_DIMENSION,
-                0.045, 0.045, 0.045, 0.045, 0.0, 0.0, 0.5);
+        this.gameBoard=new ClickableComponent(this.gameBoardImage, this.gameBoardAnchorPane, this.gameBoardCanvas, ClickableComponentSetup.GAMEBOARD);
         //Create the array of tiles
-        this.myShelf=new ClickableComponent(this.myShelfImage, this.myShelfAnchorPane, this.myShelfCanvas, ModelConstants.ROWS_NUMBER, ModelConstants.COLS_NUMBER,
-                0.097, 0.097, 0.054, 0.11, 0.027, 0.019, 0.4);
+        this.myShelf=new ClickableComponent(this.myShelfImage, this.myShelfAnchorPane, this.myShelfCanvas, ClickableComponentSetup.MYSHELF);
 
-        this.commonGoal1=new ClickableComponent(this.commonGoal1Image, this.commonGoal1AnchorPane, this.commonGoal1Canvas, 1, 1,
-                0.42, 0.0, 0.0, 0.36, 0.13, 0.17, 0.2);
-        this.commonGoal2=new ClickableComponent(this.commonGoal2Image, this.commonGoal2AnchorPane, this.commonGoal2Canvas, 1, 1,
-                0.42, 0.0, 0.0, 0.36, 0.13, 0.17, 0.2);
-        this.personalGoal=new ClickableComponent(this.personalGoalImage, this.personalGoalAnchorPane, this.personalGoalCanvas, 1, 1,
-                0.097, 0.097, 0.054, 0.11, 0.027, 0.019, 0.3);
-        this.moveList=new ClickableComponent(this.moveListImage, this.moveListAnchorPane, this.moveListCanvas, 1, ModelConstants.MAX_NUM_OF_MOVES,
-                0.052, 0.115, 0.068, 0.627, 0.015, 0.013, 0.3);
+        this.commonGoal1=new ClickableComponent(this.commonGoal1Image, this.commonGoal1AnchorPane, this.commonGoal1Canvas, ClickableComponentSetup.COMMONGOAL);
+        this.commonGoal2=new ClickableComponent(this.commonGoal2Image, this.commonGoal2AnchorPane, this.commonGoal2Canvas, ClickableComponentSetup.COMMONGOAL);
+        this.personalGoal=new ClickableComponent(this.personalGoalImage, this.personalGoalAnchorPane, this.personalGoalCanvas, ClickableComponentSetup.PERSONALGOAL);
+        this.moveList=new ClickableComponent(this.moveListImage, this.moveListAnchorPane, this.moveListCanvas, ClickableComponentSetup.MOVELIST);
 
         for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++){
             ImageView imageView=new ImageView();
             imageView.setImage(new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath("gui/images/boards/bookshelf_orth.png", this.getClass())));
-            this.otherShelf.add(new ClickableComponent(imageView, new AnchorPane(), new Canvas(), ModelConstants.ROWS_NUMBER, ModelConstants.COLS_NUMBER,
-                    0.097, 0.097, 0.054, 0.11, 0.027, 0.019, 0.25));
+            this.otherShelf.add(new ClickableComponent(imageView, new AnchorPane(), new Canvas(), ClickableComponentSetup.OTHERSHELF));
         }
 
-        this.myPoints=new ClickableComponent(this.myPointsImage, this.myPointsAnchorPane, this.myPointsCanvas, 1, ModelConstants.TOTAL_CG_PER_GAME+1,
-                0.052, 0.115, 0.068, 0.627, 0.015, 0.013, 0.3);
+        this.myPoints=new ClickableComponent(this.myPointsImage, this.myPointsAnchorPane, this.myPointsCanvas, ClickableComponentSetup.MYPOINTS);
 
         for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++){
             ImageView imageView= new ImageView();
             imageView.setImage(new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath("gui/images/screenshot.png",this.getClass())));
-            this.otherPointsObtained.add(new ClickableComponent(imageView, new AnchorPane(), new Canvas(), 1, ModelConstants.TOTAL_CG_PER_GAME+1,
-                    0.052, 0.115, 0.068, 0.627, 0.015, 0.013, 0.3));
+            this.otherPointsObtained.add(new ClickableComponent(imageView, new AnchorPane(), new Canvas(), ClickableComponentSetup.OTHERPOINTS));
         }
 
     }
@@ -438,7 +425,6 @@ public class GameViewController implements Initializable{
         this.gridPane.add(this.moveListAnchorPane    , 1, 2, 1, 1);
         this.gridPane.add(this.errorLabel            , 1, 3, 1, 1);
         this.gridPane.add(this.chatPane              , 2, 2, 1, 1);
-        this.gridPane.add(this.refreshButton         , 2, 3, 1, 1);
         for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
             this.gridPane.add(this.otherShelf.get(i).getComponentAnchorPane(), 3, i, 1, 1);
         this.gridPane.add(this.myPointsAnchorPane    , 1, 4, 1, 1);
@@ -456,10 +442,10 @@ public class GameViewController implements Initializable{
         title.setSmooth(true);
         title.setCache(true);
         this.gameContainer.setTop(new HBox(title));
-        this.gameContainer.setRight(new VBox(this.myShelfAnchorPane, this.personalGoalAnchorPane, this.myPointsAnchorPane, this.refreshButton));
+        this.gameContainer.setRight(new VBox(this.myShelfAnchorPane, this.personalGoalAnchorPane, this.myPointsAnchorPane));
 //        this.moveListAnchorPane.getTransforms().add(new Rotate(90, 0, 0));
         this.gameContainer.setCenter(new HBox(new VBox(this.gameBoardAnchorPane, new HBox(this.commonGoal1AnchorPane, this.commonGoal2AnchorPane)),
-                new VBox(new HBox(this.moveListAnchorPane), new HBox(this.errorLabel), new HBox(this.chatPane), new HBox(this.chatAnchorPane))));
+                new VBox(new HBox(this.moveListAnchorPane), new HBox(this.errorLabel), new HBox(this.chatPane), new HBox(this.sendMessageAnchorPane))));
 
         VBox otherShelfVBox = new VBox();
         for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
@@ -735,12 +721,8 @@ public class GameViewController implements Initializable{
 
                 ()-> {
 
-                    System.out.println(message);
-
                     if(!message.contains("[Privately]")){
                         this.chatLabels.get(0).setText(this.chatLabels.get(0).getText()+"\n"+message);
-
-                        System.out.println("message");
                     }
                     else{
 
@@ -960,7 +942,7 @@ public class GameViewController implements Initializable{
 
     @FXML
     protected void onChatButtonMouseClick(){
-        if(this.chatTextField.getText().isEmpty()) return;
+        if(this.sendMessageTextField.getText().isEmpty()) return;
 
         try {
 
@@ -969,10 +951,10 @@ public class GameViewController implements Initializable{
             System.out.println(nameToSend);
 
             if(nameToSend.equals("all")){
-                this.guiView.client.messageAll(this.chatTextField.getText());
+                this.guiView.client.messageAll(this.sendMessageTextField.getText());
             }
             else{
-                this.guiView.client.messageSomeone(this.chatTextField.getText(),nameToSend);
+                this.guiView.client.messageSomeone(this.sendMessageTextField.getText(),nameToSend);
             }
 
         } catch (ConnectionError e) {

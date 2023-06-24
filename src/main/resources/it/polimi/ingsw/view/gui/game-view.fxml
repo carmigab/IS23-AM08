@@ -56,9 +56,9 @@
           <Font name="Comic Sans MS" size="18.0"/>
         </font>
     </Label>
-    <AnchorPane fx:id="chatAnchorPane">
-        <TextField fx:id="chatTextField" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="175.0"/>
-        <Button fx:id="chatButton" mnemonicParsing="false" onMouseClicked="#onChatButtonMouseClick"
+    <AnchorPane fx:id="sendMessageAnchorPane">
+        <TextField fx:id="sendMessageTextField" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="175.0"/>
+        <Button fx:id="sendMessageButton" mnemonicParsing="false" onMouseClicked="#onChatButtonMouseClick"
                 text="Send" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="148.0"
                 AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="175.0">
             <font>
@@ -66,11 +66,6 @@
             </font>
         </Button>
     </AnchorPane>
-    <Button fx:id="refreshButton" mnemonicParsing="false" onMouseClicked="#onRefreshButtonMouseClick" text="Refresh">
-        <font>
-            <Font name="Comic Sans MS" size="12.0"/>
-        </font>
-    </Button>
     <AnchorPane fx:id="myPointsAnchorPane"/>
     <Canvas fx:id="myPointsCanvas"/>
     <ImageView fx:id="myPointsImage" pickOnBounds="true" preserveRatio="true">

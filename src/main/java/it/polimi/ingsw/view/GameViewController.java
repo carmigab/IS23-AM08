@@ -445,7 +445,7 @@ public class GameViewController implements Initializable{
         this.gameContainer.setRight(new VBox(this.myShelfAnchorPane, this.personalGoalAnchorPane, this.myPointsAnchorPane));
 //        this.moveListAnchorPane.getTransforms().add(new Rotate(90, 0, 0));
         this.gameContainer.setCenter(new HBox(new VBox(this.gameBoardAnchorPane, new HBox(this.commonGoal1AnchorPane, this.commonGoal2AnchorPane)),
-                new VBox(new HBox(this.moveListAnchorPane), new HBox(this.errorLabel), new HBox(this.chatPane), new HBox(this.sendMessageAnchorPane))));
+                new VBox(new HBox(this.moveListAnchorPane), new HBox(this.errorLabel), new VBox(this.chatPane, this.sendMessageAnchorPane))));
 
         VBox otherShelfVBox = new VBox();
         for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
@@ -627,7 +627,7 @@ public class GameViewController implements Initializable{
                                 ()->this.otherShelf.get(z).setComponentSavedImageFromPositions(null, x, y));
                     }
                 }
-                otherShelfBox.getChildren().add(new VBox(new Label(playerInfo.getNickname()) , this.otherShelf.get(l).getComponentAnchorPane()));
+                otherShelfBox.getChildren().add(new VBox(new Label(playerInfo.getNickname()) , this.otherShelf.get(l).getComponentAnchorPane(), this.otherPointsObtained.get(l).getComponentAnchorPane()));
             }
             else l--;
         }

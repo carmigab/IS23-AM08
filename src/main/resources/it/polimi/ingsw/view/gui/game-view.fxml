@@ -57,10 +57,10 @@
         </font>
     </Label>
     <AnchorPane fx:id="sendMessageAnchorPane">
-        <TextField fx:id="sendMessageTextField" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="175.0"/>
+        <TextField fx:id="sendMessageTextField" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0"/>
         <Button fx:id="sendMessageButton" mnemonicParsing="false" onMouseClicked="#onChatButtonMouseClick"
                 text="Send" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="148.0"
-                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="175.0">
+                AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <font>
                 <Font name="Comic Sans MS" size="12.0"/>
             </font>

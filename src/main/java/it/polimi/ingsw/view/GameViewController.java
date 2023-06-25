@@ -445,11 +445,15 @@ public class GameViewController implements Initializable{
         this.gameContainer.setRight(new VBox(this.myShelfAnchorPane, this.personalGoalAnchorPane, this.myPointsAnchorPane));
 //        this.moveListAnchorPane.getTransforms().add(new Rotate(90, 0, 0));
         this.gameContainer.setCenter(new HBox(new VBox(this.gameBoardAnchorPane, new HBox(this.commonGoal1AnchorPane, this.commonGoal2AnchorPane)),
-                new VBox(new HBox(this.moveListAnchorPane), new HBox(this.errorLabel), new HBox(this.chatPane), new HBox(this.sendMessageAnchorPane))));
+                new VBox(new HBox(this.moveListAnchorPane), new HBox(this.errorLabel), new VBox(this.chatPane, this.sendMessageAnchorPane))));
 
         VBox otherShelfVBox = new VBox();
         for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
-            otherShelfVBox.getChildren().add(new VBox(new Text("player's " + (i + 1) + " name") , this.otherShelf.get(i).getComponentAnchorPane(), this.otherPointsObtained.get(i).getComponentAnchorPane()));
+            otherShelfVBox.getChildren().addAll(new VBox(
+                    new Text("player's " + (i + 1) + " name")
+                    , this.otherShelf.get(i).getComponentAnchorPane()
+                    , this.otherPointsObtained.get(i).getComponentAnchorPane()
+            ));
 
         this.gameContainer.setLeft(otherShelfVBox);
     }
@@ -623,7 +627,7 @@ public class GameViewController implements Initializable{
                                 ()->this.otherShelf.get(z).setComponentSavedImageFromPositions(null, x, y));
                     }
                 }
-                otherShelfBox.getChildren().add(new VBox(new Label(playerInfo.getNickname()) , this.otherShelf.get(l).getComponentAnchorPane()));
+                otherShelfBox.getChildren().add(new VBox(new Label(playerInfo.getNickname()) , this.otherShelf.get(l).getComponentAnchorPane(), this.otherPointsObtained.get(l).getComponentAnchorPane()));
             }
             else l--;
         }
@@ -636,7 +640,7 @@ public class GameViewController implements Initializable{
     }
 
     /**
-     * This method displays all the points obtained (by the player and the others
+     * This method displays all the points obtained by the player and the others
      */
     private void displayAllPointsObtained(){
 
@@ -644,7 +648,7 @@ public class GameViewController implements Initializable{
 
             PlayerInfo playerInfo = this.guiView.gameInfo.getPlayerInfosList().get(i);
 
-            Consumer<ClickableComponent> action = (component )->{
+            Consumer<ClickableComponent> action = (component)->{
                 if(playerInfo.getComGoalPoints()[0]!=0){
                     component.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(playerInfo.getComGoalPoints()[0]), 0, 0 );
                 }
@@ -683,6 +687,9 @@ public class GameViewController implements Initializable{
         }
     }
 
+    /**
+     * This method displays the tab pane containing all the information of the chats
+     */
     private void displayChatPane(){
 
         for(int i=0, l=0;i<this.guiView.gameInfo.getPlayerInfosList().size();i++,l++){
@@ -737,6 +744,29 @@ public class GameViewController implements Initializable{
                 }
 
         );
+    }
+
+    /**
+     * This method is used for sending a message to our own part of the private chat
+     * @param nameToSend name of the private chat
+     * @param message message to display
+     */
+    private void displayOwnPrivateMessage(String nameToSend, String message){
+
+        Platform.runLater(
+
+                ()->{
+
+                    for(int i=1;i<this.chatPane.getTabs().size();i++){
+                        if(this.chatPane.getTabs().get(i).getText().equals(nameToSend)){
+                            this.chatLabels.get(i).setText(this.chatLabels.get(i).getText()+"\n"+message);
+                        }
+                    }
+
+                }
+
+        );
+
     }
 
     /**
@@ -937,7 +967,7 @@ public class GameViewController implements Initializable{
 
     /**
      * This method is called whenever the chat button is clicked.
-     * It sends the message to the server in all chat
+     * It distinguishes between the all chat and the private chat
      */
 
     @FXML
@@ -948,28 +978,20 @@ public class GameViewController implements Initializable{
 
             String nameToSend=this.chatPane.getSelectionModel().getSelectedItem().getText();
 
-            System.out.println(nameToSend);
-
             if(nameToSend.equals("all")){
                 this.guiView.client.messageAll(this.sendMessageTextField.getText());
             }
             else{
                 this.guiView.client.messageSomeone(this.sendMessageTextField.getText(),nameToSend);
+
+                this.displayOwnPrivateMessage(nameToSend, this.guiView.myNickname+"[Privately]: "+this.sendMessageTextField.getText());
+
             }
+
 
         } catch (ConnectionError e) {
             this.errorLabel.setText("CONNECTION ERROR");
         }
-    }
-
-    /**
-     * This method is called whenever the refresh button is clicked.
-     * It displays all the information received again
-     */
-    @FXML
-    protected void onRefreshButtonMouseClick(){
-        Platform.runLater(this::drawClickableComponents);
-        Platform.runLater(this::display);
     }
 
     /**
@@ -997,7 +1019,7 @@ public class GameViewController implements Initializable{
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Game ended");
             alert.setHeaderText("LeaderBoard:");
-            alert.setContentText("No leaderboard yet");
+            alert.setContentText(this.guiView.getLeaderBoardAsText());
 
             alert.showAndWait();
         });

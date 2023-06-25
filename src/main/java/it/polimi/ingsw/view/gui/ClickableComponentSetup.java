@@ -95,7 +95,7 @@ public enum ClickableComponentSetup {
             0.627,
             0.015,
             0.013,
-            0.3);
+            0.15);
 
     /**
      * Attribute containing how many images there are in the x direction

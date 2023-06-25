@@ -33,3 +33,7 @@ VBox{
 #chatScrollPane {
    -fx-pref-width: 230;
 }
+
+#sendMessageAnchorPane {
+   -fx-max-height: 20;
+}

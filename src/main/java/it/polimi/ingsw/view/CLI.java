@@ -95,9 +95,7 @@ public class CLI extends View{
      * this method prints the final leaderBoard of the game
      */
     private void printLeaderBoard(){
-        for(GameEnded g : gameInfo.getLeaderBoard()){
-            printMessage(g.getNickname() + ": " + g.getFinalPoints() + " points", AnsiEscapeCodes.INFO_MESSAGE);
-        }
+        printMessage(super.getLeaderBoardAsText(), AnsiEscapeCodes.INFO_MESSAGE);
     }
 
     /**

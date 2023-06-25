@@ -23,6 +23,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 
@@ -236,6 +237,11 @@ public class GameViewController implements Initializable{
      * (i.e. the common goal points and the first place point)
      */
     private ClickableComponent myPoints;
+
+    /**
+     * This attribute stores in a list the names of all the other players
+     */
+    private List<Text> otherNames;
     /**
      * This attribute is a list of components that collects all the points obtained during the game of the other players
      * (i.e. the common goal points and the first place point)
@@ -251,6 +257,10 @@ public class GameViewController implements Initializable{
      * This attribute is the reference to the gui component used to call methods via network
      */
     private View guiView;
+    /**
+     * This attribute stores the information when the first update of the game is received
+     */
+    private boolean firstUpdate=true;
 
     /**
      * Setter of the gui view
@@ -274,6 +284,7 @@ public class GameViewController implements Initializable{
 
         this.positionsList=new HashMap<>();
         this.otherShelf   =new ArrayList<>(ModelConstants.MAX_PLAYERS-1);
+        this.otherNames   =new ArrayList<>(ModelConstants.MAX_PLAYERS-1);
         this.otherPointsObtained = new ArrayList<>(ModelConstants.MAX_PLAYERS-1);
         this.chatLabels   =new ArrayList<>(ModelConstants.MAX_PLAYERS);
 
@@ -448,12 +459,16 @@ public class GameViewController implements Initializable{
                 new VBox(new HBox(this.moveListAnchorPane), new HBox(this.errorLabel), new HBox(this.chatPane), new HBox(this.sendMessageAnchorPane))));
 
         VBox otherShelfVBox = new VBox();
-        for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
+        for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++) {
+            Text other = new Text("player's " + (i + 1) + " name");
+            other.setFont(Font.font("Comic Sans MS", 20));
+            this.otherNames.add(other);
             otherShelfVBox.getChildren().addAll(new VBox(
-                    new Text("player's " + (i + 1) + " name")
+                    other
                     , this.otherShelf.get(i).getComponentAnchorPane()
                     , this.otherPointsObtained.get(i).getComponentAnchorPane()
             ));
+        }
 
         this.gameContainer.setLeft(otherShelfVBox);
     }
@@ -499,6 +514,11 @@ public class GameViewController implements Initializable{
 
         if(this.guiView.gameInfo == null) return;
 
+        if(firstUpdate){
+            Platform.runLater(this::setupDynamicComponents);
+            firstUpdate=false;
+        }
+
         if(this.guiView.currentState.equals(State.GRACEFULDISCONNECTION)){
             Platform.runLater(()->this.showErrorAlert("Someone disconnected"));
             return;
@@ -530,6 +550,18 @@ public class GameViewController implements Initializable{
         Platform.runLater(this::displayAllPointsObtained);
 
         Platform.runLater(this::displayChatPane);
+    }
+
+    private void setupDynamicComponents(){
+
+        for(int i=ModelConstants.MAX_PLAYERS-2; i>this.guiView.gameInfo.getPlayerInfosList().size()-2;i--){
+            this.otherShelf.get(i).setComponentImage(null);
+            this.otherPointsObtained.get(i).setComponentImage(null);
+            this.chatPane.getTabs().remove(i+1);
+            this.chatLabels.remove(i+1);
+            this.otherNames.get(i).setText("");
+        }
+
     }
 
     /**
@@ -612,11 +644,13 @@ public class GameViewController implements Initializable{
      * This method displays all other shelves
      */
     private void displayOtherShelf(){
-        VBox otherShelfBox=new VBox();
 
         for(int i=0, l=0; i<this.guiView.gameInfo.getPlayerInfosList().size();i++,l++){
             PlayerInfo playerInfo=this.guiView.gameInfo.getPlayerInfosList().get(i);
             if(!playerInfo.getNickname().equals(this.guiView.myNickname)){
+
+                this.otherNames.get(l).setText(playerInfo.getNickname());
+
                 for(int j=0; j<ModelConstants.ROWS_NUMBER;j++){
                     for(int k=0; k<ModelConstants.COLS_NUMBER;k++){
                         Optional<Image> image=this.getImageFromTileDescription(playerInfo.getShelf()[j][k]);
@@ -627,16 +661,9 @@ public class GameViewController implements Initializable{
                                 ()->this.otherShelf.get(z).setComponentSavedImageFromPositions(null, x, y));
                     }
                 }
-                otherShelfBox.getChildren().add(new VBox(new Label(playerInfo.getNickname()) , this.otherShelf.get(l).getComponentAnchorPane()));
             }
             else l--;
         }
-
-        for(int i=ModelConstants.MAX_PLAYERS-2; i>this.guiView.gameInfo.getPlayerInfosList().size()-2;i--){
-            this.otherShelf.get(i).setComponentImage(null);
-        }
-
-        this.gameContainer.setLeft(otherShelfBox);
     }
 
     /**
@@ -680,11 +707,6 @@ public class GameViewController implements Initializable{
                 action.accept(this.otherPointsObtained.get(l));
             }
         }
-
-        //remove the other information
-        for(int i=ModelConstants.MAX_PLAYERS-2; i>this.guiView.gameInfo.getPlayerInfosList().size()-2;i--){
-            this.otherPointsObtained.get(i).setComponentImage(null);
-        }
     }
 
     /**
@@ -705,15 +727,6 @@ public class GameViewController implements Initializable{
                 this.chatPane.getTabs().get(l+1).setText(playerInfo.getNickname());
             }
 
-        }
-
-        for(int i=ModelConstants.MAX_PLAYERS-2; i>this.guiView.gameInfo.getPlayerInfosList().size()-2;i--){
-            try{
-                this.chatPane.getTabs().remove(i+1);
-                this.chatLabels.remove(i+1);
-            }catch(IndexOutOfBoundsException e){
-                //do nothing
-            }
         }
 
     }

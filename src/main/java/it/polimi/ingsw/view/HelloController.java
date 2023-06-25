@@ -44,6 +44,11 @@ public class HelloController implements Initializable {
     @FXML
     private TextField serverPort;
     /**
+     * Button used for the connnection to the server
+     */
+    @FXML
+    private Button connectButton;
+    /**
      * Label where any error (or exception) will be shown
      */
     @FXML
@@ -204,6 +209,8 @@ public class HelloController implements Initializable {
         this.nicknameLabel.setVisible(true);
         this.nicknameTextField.setVisible(true);
         this.nicknameButton.setVisible(true);
+        this.connectButton.setVisible(false);
+
 
         this.loadNextScene();
     }

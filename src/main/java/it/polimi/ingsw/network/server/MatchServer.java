@@ -173,6 +173,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
         // we notify the clients to wait only if the players are not all here
         if (this.getFreeSpaces() != 0) this.updateClients(State.WAITINGFORPLAYERS, null);
         if (this.getFreeSpaces() == 0) this.startGame();
+
     }
 
 

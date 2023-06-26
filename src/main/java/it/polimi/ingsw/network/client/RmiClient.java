@@ -293,14 +293,14 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
 
     /**
      * This method lets the server check if the client is alive
-     * @throws RemoteException
+     * @throws RemoteException  if there is a connection error
      */
     public void isAlive() throws RemoteException {}
 
     /**
      * This method lets the server ask a client for his nickname
      * @return the nickname of the client
-     * @throws RemoteException
+     * @throws RemoteException  if there is a connection error
      */
     public String name() throws RemoteException{
         return this.nickname;
@@ -310,7 +310,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * This method lets the client send a message privately to someone
      * @param message: the message
      * @param receiver : the one that is supposed to receive the message
-     * @throws ConnectionError
+     * @throws ConnectionError  if there is a connection error
      */
     public void messageSomeone(String message, String receiver) throws ConnectionError {
         try {
@@ -325,7 +325,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     /**
      * This method lets the client send a message to every other client connected to the game
      * @param message: the message
-     * @throws ConnectionError
+     * @throws ConnectionError  if there is a connection error
      */
     public void messageAll(String message) throws ConnectionError {
         try {
@@ -341,8 +341,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     /**
      * This method retrieve the active lobbies on the server
      * @return the list of the active lobbies
-     * @throws NoGamesAvailableException
-     * @throws ConnectionError
+     * @throws NoGamesAvailableException    if there are no games available
+     * @throws ConnectionError        if there is a connection error
      */
     @Override
     public List<Lobby> getLobbies() throws NoGamesAvailableException, ConnectionError {
@@ -362,7 +362,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     /**
      * This method notifies the view that a chat message has arrived
      * @param message: the message
-     * @throws RemoteException
+     * @throws RemoteException if there is a connection error
      */
     public void receiveMessage(String message) throws RemoteException {
         // we need to launch a new thread because rmi is not thread safe

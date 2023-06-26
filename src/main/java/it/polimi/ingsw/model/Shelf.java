@@ -36,6 +36,7 @@ public class Shelf implements Serializable {
 
     /**
      * This method is the class constructor used to create a copy of an existing shelf
+     * @param myShelf = shelf to be copied
      */
     public Shelf(Shelf myShelf) {
         this.myShelf = myShelf.getCopy();

@@ -6,7 +6,9 @@ import it.polimi.ingsw.network.messages.Message;
  * This class represents a message to join the game
  */
 public class JoinGameMessage extends Message {
-
+    /**
+     * The lobby name
+     */
     private final String lobbyName;
 
     /**

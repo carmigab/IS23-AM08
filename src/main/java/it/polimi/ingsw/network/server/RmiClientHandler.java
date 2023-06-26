@@ -7,6 +7,9 @@ import it.polimi.ingsw.network.client.exceptions.TimeOutException;
 
 import java.rmi.RemoteException;
 
+/**
+ * This is the class that handles the tcp client server side
+ */
 public class RmiClientHandler extends ClientHandler {
     /**
      * This attribute is the rmiClient
@@ -26,7 +29,7 @@ public class RmiClientHandler extends ClientHandler {
      * new state and new game info
      * @param newState: the new state
      * @param newInfo: the new game info
-     * @throws RemoteException
+     * @throws RemoteException  if the client is not online
      */
     public void update(State newState, GameInfo newInfo) throws RemoteException {
         rmiClient.update(newState, newInfo);
@@ -34,7 +37,7 @@ public class RmiClientHandler extends ClientHandler {
 
     /**
      * This method throws and exception if the client is not online
-     * @throws RemoteException
+     * @throws RemoteException if the client is not online
      */
     public void isAlive() throws RemoteException {
         rmiClient.isAlive();
@@ -51,7 +54,7 @@ public class RmiClientHandler extends ClientHandler {
     /**
      * This method sends a chat message to the client
      * @param message: the chat message
-     * @throws RemoteException
+     * @throws RemoteException if the client is not online
      */
     public void receiveMessage(String message) throws RemoteException {
         rmiClient.receiveMessage(message);

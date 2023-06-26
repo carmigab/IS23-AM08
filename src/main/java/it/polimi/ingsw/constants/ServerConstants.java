@@ -1,5 +1,8 @@
 package it.polimi.ingsw.constants;
 
+/**
+ * This class contains all the constants related to the server
+ */
 public class ServerConstants {
 
     public static final String SERVER_INITIAL_CONFIG_FILENAME="lobbyServerInitialConfig.json";

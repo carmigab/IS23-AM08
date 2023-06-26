@@ -1,5 +1,7 @@
 package it.polimi.ingsw.gameInfo;
-
+/**
+ * This enum is used to store the state of the game
+ */
 public enum State {
     WAITINGFORPLAYERS,
     TURN0,

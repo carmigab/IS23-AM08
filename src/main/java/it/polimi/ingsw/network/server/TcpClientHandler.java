@@ -290,7 +290,7 @@ public class TcpClientHandler extends ClientHandler implements Runnable {
      * new state and new game info
      * @param newState: the new state
      * @param newInfo: the new game info
-     * @throws TimeOutException
+     * @throws TimeOutException if the connection fails
      */
     public void update(State newState, GameInfo newInfo) throws TimeOutException {
         this.sendTcpMessage(new UpdateMessage("Server", newState, newInfo));
@@ -298,7 +298,7 @@ public class TcpClientHandler extends ClientHandler implements Runnable {
 
     /**
      * This method throws and exception if the client is not online
-     * @throws TimeOutException
+     * @throws TimeOutException if the connection fails
      */
     public void isAlive() throws TimeOutException {
         if (!tcpClientHandlerOnline) throw new TimeOutException();
@@ -307,7 +307,7 @@ public class TcpClientHandler extends ClientHandler implements Runnable {
     /**
      * This method sends a chat message to the client
      * @param chatMessage: the chat message
-     * @throws TimeOutException
+     * @throws TimeOutException if the connection fails
      */
     public void receiveMessage(String chatMessage) throws TimeOutException{
         this.sendTcpMessage(new ChatReceiveMessage("Server", chatMessage));

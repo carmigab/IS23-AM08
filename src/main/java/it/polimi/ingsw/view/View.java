@@ -256,6 +256,7 @@ public abstract class View {
 
     /**
      * This method tell the user that the client is shutting down
+     * @param message the message to display
      */
     protected void close(String message) {
         notifyClose(message);
@@ -273,6 +274,7 @@ public abstract class View {
      * @param message the message to display
      */
     public abstract void displayChatMessage(String message);
+
 
     protected String getLeaderBoardAsText(){
         StringBuilder toReturn= new StringBuilder();

@@ -90,8 +90,8 @@ public class TcpClient implements Client{
      * @param view: the view of the player
      * @param serverIp: the ip of the server
      * @param lobbyPort: the port of the lobby server
-     * @throws InterruptedException
-     * @throws ConnectionError
+     * @throws InterruptedException if the thread is interrupted
+     * @throws ConnectionError if the connection fails
      */
     public TcpClient(String nickname, View view, String serverIp, Integer lobbyPort) throws InterruptedException, ConnectionError {
         super();
@@ -107,7 +107,7 @@ public class TcpClient implements Client{
      * @param serverIp: the ip of the server
      * @param lobbyPort: the port of the server
      * @throws InterruptedException
-     * @throws ConnectionError
+     * @throws ConnectionError if the connection fails
      */
     private void connectToLobbyServer(String serverIp, Integer lobbyPort) throws InterruptedException, ConnectionError {
         while (true) {
@@ -222,7 +222,7 @@ public class TcpClient implements Client{
      * @param lock the lock used for synchronization
      * @param message the message
      * @return the retrieved message
-     * @throws ConnectionError
+     * @throws ConnectionError if the connection fails
      */
     private Message manageTcpConversation(Lock lock, Message message) throws ConnectionError {
         // This locks exists only in the method
@@ -285,7 +285,7 @@ public class TcpClient implements Client{
      * This method retrieves a message from a lock
      * @param lock: the lock
      * @return the message
-     * @throws ConnectionError: if the client is offline or
+     * @throws ConnectionError: if the connection fails
      */
     private Message retrieveMessageFromLock(Lock lock) throws ConnectionError {
         synchronized (lock) {
@@ -376,7 +376,7 @@ public class TcpClient implements Client{
      * This method lets the player choose his nickname
      * @param nick: the nickname of the player
      * @return true if nickname is available
-     * @throws ConnectionError
+     * @throws ConnectionError if the connection fails
      */
     public synchronized boolean chooseNickname(String nick) throws ConnectionError {
         ChooseNicknameResponse response = (ChooseNicknameResponse) this.manageTcpConversation(actionLock,
@@ -390,10 +390,10 @@ public class TcpClient implements Client{
      * This method lets the player make a move
      * @param pos : a List of positions
      * @param col : the column of the shelf
-     * @throws InvalidNicknameException
-     * @throws InvalidMoveException
-     * @throws ConnectionError
-     * @throws GameEndedException
+     * @throws InvalidNicknameException if the nickname is invalid
+     * @throws InvalidMoveException if the move is invalid
+     * @throws ConnectionError if the connection fails
+     * @throws GameEndedException if the game has ended
      */
     public synchronized void makeMove(List<Position> pos, int col) throws InvalidMoveException, InvalidNicknameException, ConnectionError, GameEndedException {
         MakeMoveResponse response = (MakeMoveResponse) this.manageTcpConversation(actionLock,
@@ -408,9 +408,9 @@ public class TcpClient implements Client{
     /**
      * This method lets a player create a game and choose the available player slots
      * @param num : player slots
-     * @throws NonExistentNicknameException
-     * @throws AlreadyInGameException
-     * @throws ConnectionError
+     * @throws NonExistentNicknameException if the nickname is invalid
+     * @throws AlreadyInGameException if the player is already in a game
+     * @throws ConnectionError if the connection fails
      */
     public synchronized void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException, ConnectionError {
         CreateGameResponse response = (CreateGameResponse) this.manageTcpConversation(actionLock,
@@ -422,11 +422,11 @@ public class TcpClient implements Client{
 
     /**
      * This method lets a player join a game
-     * @throws NoGamesAvailableException
-     * @throws NonExistentNicknameException
-     * @throws AlreadyInGameException
-     * @throws NoGameToRecoverException
-     * @throws ConnectionError
+     * @throws NoGamesAvailableException if there are no games available
+     * @throws NonExistentNicknameException if the nickname is invalid
+     * @throws AlreadyInGameException if the player is already in a game
+     * @throws NoGameToRecoverException if there is no game to recover
+     * @throws ConnectionError if the connection fails
      */
     public synchronized void joinGame(String lobbyName) throws NoGamesAvailableException, NonExistentNicknameException, NoGameToRecoverException, AlreadyInGameException, ConnectionError, WrongLobbyIndexException, LobbyFullException {
         JoinGameResponse response = (JoinGameResponse) this.manageTcpConversation(actionLock,
@@ -442,8 +442,8 @@ public class TcpClient implements Client{
 
     /**
      * This method lets a player recover a game from persistence
-     * @throws NoGameToRecoverException
-     * @throws ConnectionError
+     * @throws NoGameToRecoverException if there is no game to recover
+     * @throws ConnectionError if the connection fails
      */
     public synchronized void recoverGame() throws NoGameToRecoverException, ConnectionError {
         RecoverGameResponse response = (RecoverGameResponse) this.manageTcpConversation(actionLock,
@@ -456,7 +456,7 @@ public class TcpClient implements Client{
      * This method lets the client send a message privately to someone
      * @param chatMessage: the message
      * @param receiver : the one that is supposed to receive the message
-     * @throws ConnectionError
+     * @throws ConnectionError if the connection fails
      */
     public synchronized void messageSomeone(String chatMessage, String receiver) throws ConnectionError {
         this.sendTcpMessage(new ChatSomeoneMessage(this.nickname, chatMessage, receiver));
@@ -465,7 +465,7 @@ public class TcpClient implements Client{
     /**
      * This method lets the client send a message to every other client connected to the game
      * @param chatMessage: the message
-     * @throws ConnectionError
+     * @throws ConnectionError if the connection fails
      */
     public synchronized void messageAll(String chatMessage) throws ConnectionError {
         this.sendTcpMessage(new ChatAllMessage(this.nickname, chatMessage));
@@ -475,8 +475,8 @@ public class TcpClient implements Client{
      * This method retrieve the active lobbies on the server
      *
      * @return the list of the active lobbies
-     * @throws ConnectionError
-     * @throws NoGamesAvailableException
+     * @throws ConnectionError if the connection fails
+     * @throws NoGamesAvailableException if there are no games available
      */
     @Override
     public List<Lobby> getLobbies() throws ConnectionError, NoGamesAvailableException {

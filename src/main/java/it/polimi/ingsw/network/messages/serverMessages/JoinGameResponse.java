@@ -18,10 +18,17 @@ public class JoinGameResponse extends Message {
      * true if the player is already in game
      */
     private boolean alreadyInGame;
+    /**
+     * true if there are no games available for recovery
+     */
     private boolean noGameToRecover;
-
+    /**
+     * true if the lobby index is not valid
+     */
     private boolean wrongLobbyIndex;
-
+    /**
+     * true if the lobby is full
+     */
     private boolean lobbyFull;
 
     /**

@@ -9,9 +9,13 @@ import java.util.List;
  * This class represents the response to a GetLobbies message
  */
 public class GetLobbiesResponse extends Message {
-
+    /**
+     * The list of lobbies
+     */
     private final List<Lobby> lobbyList;
-
+    /**
+     * True if there are no games available
+     */
     private final boolean noGamesAvailableException;
 
     /**

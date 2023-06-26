@@ -32,7 +32,7 @@ public class GameController {
     }
 
     /**
-     * This method initializes a new gameController from a pre-existing model
+     * This method initializes a new class gameController from a pre-existing model
      * @param model: the model to load
      * @param server: the server where the controller resides
      */

@@ -845,7 +845,7 @@ public class GameViewController implements Initializable{
                 this.errorLabel.setText("INVALID TILE");
                 return;
             }
-            this.errorLabel.setText("GOOD JOB");
+            this.errorLabel.setText("MOVING");
 
             Dragboard db=imageView.startDragAndDrop(TransferMode.COPY_OR_MOVE);
             ClipboardContent content = new ClipboardContent();

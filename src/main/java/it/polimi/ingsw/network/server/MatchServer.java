@@ -77,7 +77,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
      * Constructor of the MatchServer class
      * @param numPlayers: number of player slots
      * @param lobby: lobby server
-     * @throws RemoteException
+     * @throws RemoteException  if the connection is lost
      */
     public MatchServer(int numPlayers, LobbyServer lobby) throws RemoteException {
         super();
@@ -96,7 +96,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
      * Constructor of the MatchServer class from a pre-existing gameModel
      * @param gameModel: the model to load
      * @param lobby: lobby server
-     * @throws RemoteException
+     * @throws RemoteException if the connection is lost
      */
     public MatchServer(GameModel gameModel, LobbyServer lobby) throws RemoteException{
         super();
@@ -118,9 +118,9 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
      * @param pos: list of tile positions
      * @param col: column
      * @param nickname: nickname of the player making the move
-     * @throws RemoteException
-     * @throws InvalidNicknameException
-     * @throws InvalidMoveException
+     * @throws RemoteException if the connection is lost
+     * @throws InvalidNicknameException if the nickname is invalid
+     * @throws InvalidMoveException if the move is invalid
      */
     public synchronized void makeMove(List<Position> pos, int col, String nickname) throws RemoteException, InvalidNicknameException, InvalidMoveException, GameEndedException {
         if (this.state == State.ENDGAME) throw new GameEndedException();
@@ -378,7 +378,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
      * @param message: the message to send
      * @param speaker : the one who sends the message
      * @param receiver : the one that is supposed to receive the message
-     * @throws RemoteException
+     * @throws RemoteException if the client is not reachable
      */
     public void messageSomeone(String message, String speaker, String receiver) throws RemoteException{
         String messageToSend = speaker + "[Privately]: " + message;
@@ -405,7 +405,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
      * This method lets a client broadcast a message
      * @param message: the message to send
      * @param speaker: the one who sends the message
-     * @throws RemoteException
+     * @throws RemoteException if the server is offline
      */
     public void messageAll(String message, String speaker) throws RemoteException {
         String messageToSend = speaker + ": " + message;
@@ -430,7 +430,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
     /**
      * this method responds to the client's ping
      * @return true
-     * @throws RemoteException
+     * @throws RemoteException if the server is offline
      */
     @Override
     public boolean isAlive() throws RemoteException {

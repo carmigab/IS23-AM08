@@ -1,15 +1,18 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.constants.ModelConstants;
-import it.polimi.ingsw.network.client.RmiClientInterface;
-import it.polimi.ingsw.model.GameModel;
-import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.constants.ServerConstants;
-import it.polimi.ingsw.network.server.exceptions.*;
-import it.polimi.ingsw.utilities.UtilityFunctions;
 import it.polimi.ingsw.constants.ViewConstants;
+import it.polimi.ingsw.model.GameModel;
+import it.polimi.ingsw.network.client.RmiClientInterface;
+import it.polimi.ingsw.network.server.exceptions.*;
+import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
+import it.polimi.ingsw.utilities.UtilityFunctions;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -23,8 +26,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import com.google.gson.*;
 /**
  * This class sets up the main server which will make the player set his name and choose a game to join
  */
@@ -442,7 +443,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * This method returns a list of the active lobbies
      * @param nickname the nickname
      * @return the list of active lobbies
-     * @throws NoGamesAvailableException
+     * @throws NoGamesAvailableException if there are no games available
      */
     @Override
     public List<Lobby> getLobbies(String nickname) throws NoGamesAvailableException {
@@ -515,6 +516,9 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @throws NoGamesAvailableException if no games are available
      * @throws AlreadyInGameException if the player is already in a different game
      * @throws NonExistentNicknameException if the player's nickname is not in the server's list
+     * @throws NoGameToRecoverException if no games are available to recover
+     * @throws WrongLobbyIndexException if the lobby index is wrong
+     * @throws LobbyFullException if the lobby is full
      */
     public String joinGame(String nickname, TcpClientHandler tcpClient, String lobbyName) throws NoGamesAvailableException, AlreadyInGameException, NonExistentNicknameException, NoGameToRecoverException, WrongLobbyIndexException, LobbyFullException {
         return this.joinGameTcpRmi(nickname, tcpClient, lobbyName);

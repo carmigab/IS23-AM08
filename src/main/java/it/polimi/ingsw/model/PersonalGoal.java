@@ -29,13 +29,13 @@ public class PersonalGoal {
      * @param points array of points assigned for the completion of the objective
      */
     public PersonalGoal(SingleGoal[] s, int[] points){
-        this.personalGoal =new ArrayList<>(ModelConstants.TOTAL_POINTS_FOR_PG);
+        this.personalGoal =new ArrayList<>(ModelConstants.SINGLE_GOALS_NUMBER);
 
-        for(int i = 0; i< ModelConstants.TOTAL_POINTS_FOR_PG; i++){
+        for(int i = 0; i< ModelConstants.SINGLE_GOALS_NUMBER; i++){
             this.personalGoal.add(new SingleGoal(s[i].getPosition(),s[i].getColor()));
         }
 
-        this.pointsForCompletion=new ArrayList<>(ModelConstants.TOTAL_POINTS_FOR_PG);
+        this.pointsForCompletion=new ArrayList<>(ModelConstants.SINGLE_GOALS_NUMBER);
         for (int point : points) this.pointsForCompletion.add(point);
     }
 
@@ -71,7 +71,7 @@ public class PersonalGoal {
      */
     public List<SingleGoal> getCopy(){
         List<SingleGoal> sgCopy = new ArrayList<>(this.personalGoal.size());
-        for(int i = 0; i< ModelConstants.TOTAL_POINTS_FOR_PG; i++){
+        for(int i = 0; i< ModelConstants.SINGLE_GOALS_NUMBER; i++){
             sgCopy.add(this.personalGoal.get(i));
         }
         return sgCopy;

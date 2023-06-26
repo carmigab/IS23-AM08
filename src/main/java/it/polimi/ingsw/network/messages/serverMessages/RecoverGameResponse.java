@@ -2,6 +2,9 @@ package it.polimi.ingsw.network.messages.serverMessages;
 
 import it.polimi.ingsw.network.messages.Message;
 
+/**
+ * This class represents the recover game response message
+ */
 public class RecoverGameResponse extends Message {
 
     /**
@@ -11,8 +14,8 @@ public class RecoverGameResponse extends Message {
 
     /**
      * Constructor
-     *
      * @param sender : the one who sends the message
+     * @param noGameToRecover : true if no game are available
      */
     public RecoverGameResponse(String sender, boolean noGameToRecover) {
         super(sender);

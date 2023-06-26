@@ -63,9 +63,9 @@ public class Ladder extends CommonGoal {
     }
 
     /**
-     *
-     * @param obj
-     * @return
+     * Equals
+     * @param obj object to compare
+     * @return true if the objects are equal
      */
     @Override
     public boolean equals(Object obj) {

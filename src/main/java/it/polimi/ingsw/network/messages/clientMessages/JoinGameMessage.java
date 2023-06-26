@@ -21,6 +21,10 @@ public class JoinGameMessage extends Message {
         setMessageType("JoinGameMessage");
     }
 
+    /**
+     * Method to get the lobby name
+     * @return the lobby name
+     */
     public String getLobbyName() {
         return lobbyName;
     }

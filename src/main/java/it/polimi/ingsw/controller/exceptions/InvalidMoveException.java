@@ -5,6 +5,9 @@ package it.polimi.ingsw.controller.exceptions;
  */
 public class InvalidMoveException extends Exception{
 
+    /**
+     * constructor
+     */
     public InvalidMoveException(){
         super();
     }

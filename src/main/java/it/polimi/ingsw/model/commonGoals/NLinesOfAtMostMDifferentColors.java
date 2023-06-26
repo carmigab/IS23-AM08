@@ -94,9 +94,9 @@ public class NLinesOfAtMostMDifferentColors extends CommonGoal{
     }
 
     /**
-     *
-     * @param obj
-     * @return
+     * Equals
+     * @param obj object to compare
+     * @return true if the two objects are equals
      */
     @Override
     public boolean equals(Object obj) {

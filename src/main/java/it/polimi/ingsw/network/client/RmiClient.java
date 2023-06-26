@@ -81,8 +81,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * @param nickname the nickname
      * @param v this is the view
      * @param ipToConnect ip of the server to connect to
-     * @throws RemoteException
-     * @throws NotBoundException
+     * @param lobbyPort port of the lobby server
+     * @throws RemoteException if there are connection problems
+     * @throws NotBoundException  if there are connection problems
+     * @throws InterruptedException if there are connection problems
      */
     public RmiClient(String nickname, View v, String ipToConnect, Integer lobbyPort) throws NotBoundException, InterruptedException, RemoteException {
         super();
@@ -125,7 +127,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * This method updates the view with new information
      * @param newState : the new state of the game
      * @param newInfo : the new info for the view
-     * @throws RemoteException
+     * @throws RemoteException if there is a connection error
      */
     @Override
     public void update(State newState, GameInfo newInfo) throws RemoteException {
@@ -142,7 +144,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * This method lets the player choose his nickname
      * @param nick: the nickname of the player
      * @return true if nickname is available
-     * @throws ConnectionError
+     * @throws ConnectionError if there is a connection error
      */
     @Override
     public boolean chooseNickname(String nick) throws ConnectionError {
@@ -166,10 +168,10 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      * This method lets the player make a move
      * @param pos : a List of positions
      * @param col : the column of the shelf
-     * @throws InvalidNicknameException
-     * @throws InvalidMoveException
-     * @throws ConnectionError
-     * @throws GameEndedException
+     * @throws InvalidNicknameException if the nickname is not registered
+     * @throws InvalidMoveException if the move is not valid
+     * @throws ConnectionError if there is a connection error
+     * @throws GameEndedException if the game is ended
      */
     public void makeMove(List<Position> pos, int col) throws InvalidNicknameException, InvalidMoveException, ConnectionError, GameEndedException {
         try {
@@ -184,9 +186,9 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     /**
      * This method lets a player create a game and choose the available player slots
      * @param num : player slots
-     * @throws NonExistentNicknameException
-     * @throws AlreadyInGameException
-     * @throws ConnectionError
+     * @throws NonExistentNicknameException if the nickname is not registered
+     * @throws AlreadyInGameException    if the player is already in a game
+     * @throws ConnectionError if there is a connection error
      */
     public void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException, ConnectionError {
         try {
@@ -205,8 +207,8 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
 
     /**
      * This method lets a player recover a game from persistence
-     * @throws NoGameToRecoverException
-     * @throws ConnectionError
+     * @throws NoGameToRecoverException if there are no games to recover
+     * @throws ConnectionError if there is a connection error
      */
     public void recoverGame() throws NoGameToRecoverException, ConnectionError {
         try {
@@ -227,11 +229,11 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
     /**
      * This method lets a player join a game
      * @param lobbyName the name of the chosen lobby
-     * @throws NoGamesAvailableException
-     * @throws NonExistentNicknameException
-     * @throws NoGameToRecoverException
-     * @throws AlreadyInGameException
-     * @throws ConnectionError
+     * @throws NoGamesAvailableException if there are no games available
+     * @throws NonExistentNicknameException if the nickname doesn't exist
+     * @throws NoGameToRecoverException if there is no game to recover
+     * @throws AlreadyInGameException if the player is already in a game
+     * @throws ConnectionError if there is a connection error
      */
     public void joinGame(String lobbyName) throws NoGamesAvailableException, NonExistentNicknameException, NoGameToRecoverException, AlreadyInGameException, ConnectionError, WrongLobbyIndexException, LobbyFullException {
         try {

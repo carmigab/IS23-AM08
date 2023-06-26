@@ -62,6 +62,8 @@ public interface Client  {
      * @throws ConnectionError if there is a connection error
      * @throws WrongLobbyIndexException if the lobby index is wrong
      * @throws LobbyFullException if the lobby is full
+     * @param lobbyName: the name of the lobby
+     * @throws NoGameToRecoverException if there are no games to recover
      */
     public void joinGame(String lobbyName) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, NoGameToRecoverException, ConnectionError, WrongLobbyIndexException, LobbyFullException;
 

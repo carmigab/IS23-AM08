@@ -5,6 +5,9 @@ import it.polimi.ingsw.network.server.Lobby;
 
 import java.util.List;
 
+/**
+ * This class represents the response to a GetLobbies message
+ */
 public class GetLobbiesResponse extends Message {
 
     private final List<Lobby> lobbyList;
@@ -25,10 +28,18 @@ public class GetLobbiesResponse extends Message {
         setMessageType("GetLobbiesResponse");
     }
 
+    /**
+     * Method to get the list of lobbies
+     * @return the list of lobbies
+     */
     public List<Lobby> getLobbyList() {
         return lobbyList;
     }
 
+    /**
+     * Method to check if there are no games available
+     * @return true if there are no games available
+     */
     public boolean isNoGamesAvailableException() {
         return noGamesAvailableException;
     }

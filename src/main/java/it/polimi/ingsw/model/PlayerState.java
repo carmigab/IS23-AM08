@@ -145,6 +145,7 @@ public class PlayerState {
     /**
      * This method adds points to CGPoints counter
      * @param p : the points to add
+     * @param index : the position in array CGPoints
      */
     public void addCGPoints(int p, int index){
         this.CGPoints[index] += p;

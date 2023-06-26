@@ -18,21 +18,21 @@ public interface RmiClientInterface extends Remote {
      * This method has to be overridden in its subclasses, it is a remote invocation to update the client
      * @param newState: new state of the game
      * @param newInfo: new GameInfo
-     * @throws RemoteException
+     * @throws RemoteException if the remote invocation fails
      */
     public void update(State newState, GameInfo newInfo) throws RemoteException;
 
     /**
      * This method has to be overridden in its subclasses, it is a remote invocation to check that the client
      * is alive
-     * @throws RemoteException
+     * @throws RemoteException if the remote invocation fails
      */
     public void isAlive() throws RemoteException;
 
     /**
      * This method has to be overridden in its subclasses, it is a remote invocation to ask the client his nickname
      * @return the nickname
-     * @throws RemoteException
+     * @throws RemoteException if the remote invocation fails
      */
     public String name() throws RemoteException;
 
@@ -40,7 +40,7 @@ public interface RmiClientInterface extends Remote {
      * This method has to be overridden in its subclasses, it is a remote invocation to make the client receive a
      * message to be displayed in the chat
      * @param message the messages
-     * @throws RemoteException
+     * @throws RemoteException if the remote invocation fails
      */
     public void receiveMessage(String message) throws RemoteException;
 }

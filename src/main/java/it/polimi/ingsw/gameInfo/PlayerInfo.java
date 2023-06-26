@@ -70,6 +70,7 @@ public class PlayerInfo implements Serializable {
      * @param groupPoints   of the player
      * @param shelf         of the player
      * @param personalGoal  of the player
+     * @param personalGoalNumber of the player
      */
     public PlayerInfo(String nickname, int pgPoints, int[] comGoalPoints, int firstPoint, int groupPoints, Tile[][] shelf, List<SingleGoal> personalGoal, int personalGoalNumber) {
         this.nickname = nickname;

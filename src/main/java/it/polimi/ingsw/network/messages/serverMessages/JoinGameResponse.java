@@ -32,7 +32,8 @@ public class JoinGameResponse extends Message {
      * @param nonExistentNickname : true if the game does not exist
      * @param noGameToRecover     : true if there are no games available for recovery
      * @param alreadyInGame       : true if the player is already in game
-     * @param wrongLobbyIndex
+     * @param wrongLobbyIndex    : true if the lobby index is not valid
+     * @param lobbyFull          : true if the lobby is full
      */
     public JoinGameResponse(String sender, boolean noGamesAvailable, boolean nonExistentNickname, boolean noGameToRecover, boolean alreadyInGame, boolean wrongLobbyIndex, boolean lobbyFull) {
         super(sender);
@@ -70,12 +71,24 @@ public class JoinGameResponse extends Message {
         return nonExistentNickname;
     }
 
+    /**
+     * Method to check if there are no games available for recovery
+     * @return true if there are no games available for recovery
+     */
     public boolean isNoGameToRecover() {return noGameToRecover;}
 
+    /**
+     * Method to check if the lobby index is not valid
+     * @return true if the lobby index is not valid
+     */
     public boolean isWrongLobbyIndex() {
         return wrongLobbyIndex;
     }
 
+    /**
+     * Method to check if the lobby is full
+     * @return true if the lobby is full
+     */
     public boolean isLobbyFull() { return lobbyFull;
     }
 }

@@ -58,9 +58,9 @@ public class NGroupsOfSizeM extends CommonGoal{
     }
 
     /**
-     *
-     * @param obj
-     * @return
+     * Equals method
+     * @param obj object to compare
+     * @return true if the objects are equal
      */
     @Override
     public boolean equals(Object obj) {

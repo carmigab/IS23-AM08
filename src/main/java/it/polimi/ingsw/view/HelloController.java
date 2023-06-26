@@ -323,6 +323,7 @@ public class HelloController implements Initializable {
     @FXML
     protected void onJoinSelectedButtonClick(){
         try {
+            if(this.choiceLobbies.getItems().isEmpty()) {this.errorLabel.setText("Please click Refresh first"); return;}
             this.guiView.client.joinGame(this.choiceLobbies.getValue().split(" ")[0]);
             this.changeScene();
         } catch (NoGamesAvailableException e) {
@@ -398,6 +399,8 @@ public class HelloController implements Initializable {
         for(Lobby lobby: lobbies){
             if(!lobby.isRecovered()) this.choiceLobbies.getItems().add(lobby.getLobbyName()+" "+lobby.getPlayerInGame()+"/"+lobby.getPlayersNum());
         }
+
+        this.choiceLobbies.getSelectionModel().select(0);
 
     }
 

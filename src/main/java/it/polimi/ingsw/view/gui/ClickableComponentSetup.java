@@ -83,12 +83,12 @@ public enum ClickableComponentSetup {
     MOVELIST(
             1,
             ModelConstants.MAX_NUM_OF_MOVES,
-            0.052,
-            0.115,
-            0.068,
-            0.627,
-            0.015,
-            0.013,
+            0.001,
+            0.001,
+            0.014,
+            0.73,
+            0.045,
+            0.010,
             0.3),
 
     /**
@@ -111,12 +111,12 @@ public enum ClickableComponentSetup {
     MYPOINTS(
             1,
             ModelConstants.TOTAL_CG_PER_GAME+1,
-            0.052,
-            0.115,
-            0.068,
-            0.627,
-            0.015,
-            0.013,
+            0.001,
+            0.001,
+            0.014,
+            0.73,
+            0.045,
+            0.010,
             0.3),
 
     /**
@@ -124,12 +124,12 @@ public enum ClickableComponentSetup {
      */
     OTHERPOINTS(1,
             ModelConstants.TOTAL_CG_PER_GAME+1,
-            0.052,
-            0.115,
-            0.068,
-            0.627,
-            0.015,
-            0.013,
+            0.001,
+            0.001,
+            0.014,
+            0.73,
+            0.045,
+            0.010,
             0.15);
 
     /**

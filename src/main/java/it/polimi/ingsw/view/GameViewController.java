@@ -401,7 +401,7 @@ public class GameViewController implements Initializable{
         VBox otherShelfVBox = new VBox();
         for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++) {
             Text other = new Text("player's " + (i + 1) + " name");
-            other.setFont(Font.font("Comic Sans MS", 20));
+            other.setFont(Font.font("Comic Sans MS", 14));
             this.otherNames.add(other);
             otherShelfVBox.getChildren().addAll(new VBox(
                     new HBox(other)
@@ -464,11 +464,6 @@ public class GameViewController implements Initializable{
             return;
         }
 
-        if(this.guiView.currentState.equals(State.ENDGAME)) {
-            Platform.runLater(this::showGameEndedAlert);
-            return;
-        }
-
 
         if(this.guiView.isMyTurn()) Platform.runLater(()->this.errorLabel.setText("YOUR TURN"));
         else Platform.runLater(()->this.errorLabel.setText("DO NOT MOVE"));
@@ -490,6 +485,10 @@ public class GameViewController implements Initializable{
         Platform.runLater(this::displayAllPointsObtained);
 
         Platform.runLater(this::displayChatPane);
+
+        if(this.guiView.currentState.equals(State.ENDGAME)) {
+            Platform.runLater(this::showGameEndedAlert);
+        }
     }
 
     private void setupDynamicComponents(){
@@ -622,7 +621,7 @@ public class GameViewController implements Initializable{
                 else component.setComponentSavedImageFromPositions(null, 0, 0);
 
                 if(playerInfo.getComGoalPoints()[1]!=0){
-                    component.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(playerInfo.getComGoalPoints()[0]), 0, 1 );
+                    component.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(playerInfo.getComGoalPoints()[1]), 0, 1 );
                 }
                 else component.setComponentSavedImageFromPositions(null, 0, 1);
 
@@ -843,10 +842,10 @@ public class GameViewController implements Initializable{
         imagePressed.ifPresent((imageView)->{
 
             if(!this.guiView.checkValidPosition(this.positionsList.values().stream().toList(), positionPressed.get())){
-                this.errorLabel.setText("SELECT A VALID TILE BOZO");
+                this.errorLabel.setText("INVALID TILE");
                 return;
             }
-            this.errorLabel.setText("GOOD BOY");
+            this.errorLabel.setText("GOOD JOB");
 
             Dragboard db=imageView.startDragAndDrop(TransferMode.COPY_OR_MOVE);
             ClipboardContent content = new ClipboardContent();

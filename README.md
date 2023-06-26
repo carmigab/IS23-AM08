@@ -7,28 +7,30 @@
 * Alessandro Capellino
 
 
-| Functionality | State           | Test Coverage (Methods) |
-|---------------|-----------------|-------------------------|
-| GameModel     | :green_circle:  | 100%                    |
-| GameBoard     | :green_circle:  | 100%                    |  
-| PlayerState   | :green_circle:  | 92%                     |
-| Shelf         | :green_circle:  | 100%                    |
-| CommonGoal    | :green_circle:  | 62%                     |
-| PersonalGoal  | :green_circle:  | 50%                     | 
-| SingleGoal    | :green_circle:  | 100%                    | 
-| Tile          | :green_circle:  | 100%                    |
-| Position      | :green_circle:  | 100%                    |
-| Server        | :green_circle:  |                         |
-| Client        | :green_circle:  |                         |
-| CLI           | :yellow_circle: |                         |
-| GUI           | :yellow_circle: |                         |
-| RMI           | :green_circle:  |                         |
-| TCP           | :green_circle:  |                         |
+| Functionality  | State           | Test Coverage (Methods) |
+|----------------|-----------------|-------------------------|
+| GameModel      | :green_circle:  | 100%                    |
+| GameBoard      | :green_circle:  | 100%                    |  
+| PlayerState    | :green_circle:  | 100%                    |
+| Shelf          | :green_circle:  | 100%                    |
+| CommonGoal     | :green_circle:  | 63%                     |
+| PersonalGoal   | :green_circle:  | 100%                    | 
+| SingleGoal     | :green_circle:  | 100%                    | 
+| GameController | :green_circle:  | 100%                    |
+| Tile           | :green_circle:  | 100%                    |
+| Position       | :green_circle:  | 100%                    |
+| Server         | :green_circle:  |                         |
+| Client         | :green_circle:  |                         |
+| CLI            | :green_circle:  |                         |
+| GUI            | :green_circle:  |                         |
+| RMI            | :green_circle:  |                         |
+| TCP            | :green_circle:  |                         |
+
 
 ## Project Requirements and Specifics
 
 Following the scoring table present in the pdf file "requirements.pdf"
-here are the functionalities that have been added to the project:
+here are the functionalities that have been added to the project: 
 
 * Complete Rules
 

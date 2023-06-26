@@ -1,8 +1,6 @@
 package it.polimi.ingsw.view.gui;
 
-import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.model.Position;
-import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -57,6 +55,7 @@ public class   ClickableComponent {
      */
     public ClickableComponent(ImageView componentImage, AnchorPane componentAnchorPane, Canvas componentCanvas, ClickableComponentSetup setup){
         this.componentImage=componentImage;
+        this.componentImage.setPreserveRatio(true);
         this.componentAnchorPane=componentAnchorPane;
         this.componentCanvas=componentCanvas;
         this.componentSavedImages=new ArrayList<>();

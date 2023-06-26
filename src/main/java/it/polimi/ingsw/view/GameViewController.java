@@ -263,6 +263,11 @@ public class GameViewController implements Initializable{
     private boolean firstUpdate=true;
 
     /**
+     * This attribute stores the list of the players names
+     */
+    private List<Label> playersNames;
+
+    /**
      * Setter of the gui view
      * @param guiView gui view to set
      */
@@ -401,7 +406,7 @@ public class GameViewController implements Initializable{
 
         for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++){
             ImageView imageView= new ImageView();
-            imageView.setImage(new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath("gui/images/screenshot.png",this.getClass())));
+            imageView.setImage(new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath("gui/images/points_board.png",this.getClass())));
             this.otherPointsObtained.add(new ClickableComponent(imageView, new AnchorPane(), new Canvas(), ClickableComponentSetup.OTHERPOINTS));
         }
 
@@ -453,7 +458,7 @@ public class GameViewController implements Initializable{
         title.setSmooth(true);
         title.setCache(true);
         this.gameContainer.setTop(new HBox(title));
-        this.gameContainer.setRight(new VBox(this.myShelfAnchorPane, this.personalGoalAnchorPane, this.myPointsAnchorPane));
+        this.gameContainer.setRight(new VBox(new HBox(this.myShelfAnchorPane), new HBox(this.myPointsAnchorPane), new HBox(this.personalGoalAnchorPane)));
 //        this.moveListAnchorPane.getTransforms().add(new Rotate(90, 0, 0));
         this.gameContainer.setCenter(new HBox(new VBox(this.gameBoardAnchorPane, new HBox(this.commonGoal1AnchorPane, this.commonGoal2AnchorPane)),
                 new VBox(new HBox(this.moveListAnchorPane), new HBox(this.errorLabel), new HBox(this.chatPane), new HBox(this.sendMessageAnchorPane))));
@@ -464,9 +469,9 @@ public class GameViewController implements Initializable{
             other.setFont(Font.font("Comic Sans MS", 20));
             this.otherNames.add(other);
             otherShelfVBox.getChildren().addAll(new VBox(
-                    other
-                    , this.otherShelf.get(i).getComponentAnchorPane()
-                    , this.otherPointsObtained.get(i).getComponentAnchorPane()
+                    new HBox(other)
+                    , new HBox(this.otherShelf.get(i).getComponentAnchorPane())
+                    , new HBox(this.otherPointsObtained.get(i).getComponentAnchorPane())
             ));
         }
 

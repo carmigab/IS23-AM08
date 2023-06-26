@@ -68,10 +68,6 @@ public class CLI extends View{
             if (currentState == State.ENDGAME) {
                 printMessage("Game ended!", AnsiEscapeCodes.INFO_MESSAGE);
                 printMessage("Final scores:", AnsiEscapeCodes.INFO_MESSAGE);
-                /*for (PlayerInfo playerInfo : gameInfo.getPlayerInfosList()) {
-                    printMessage(playerInfo.getNickname() + ": " + playerInfo.getScore(), AnsiEscapeCodes.INFO_MESSAGE);
-                }
-                */
                 printLeaderBoard();
                 printMessage("The winner is : " + gameInfo.getLeaderBoard().get(0).getNickname(), AnsiEscapeCodes.INFO_MESSAGE);
 
@@ -202,10 +198,6 @@ public class CLI extends View{
         for (int i = 0; i < yMax; i++) {
 
             result.add(createLine(xMax, i, boardOrShelf, personalGoal));
-
-//            if (i != yMax - 1 && xMax == ModelConstants.COLS_NUMBER) {
-//                result.add(createSeparator(xMax));
-//            }
         }
 
         result.addAll(createHeaderOrFooter(xMax, false));
@@ -213,45 +205,49 @@ public class CLI extends View{
         return result;
     }
 
-    private StringBuilder createSeparator(int xMax) {
-        StringBuilder lineBuilder = new StringBuilder();
-        return lineBuilder.append("   ").append(AnsiEscapeCodes.SHELF_BACKGROUND.getCode())
-                .append(" ".repeat(Math.max(0, (xMax + 1) * 4 + 1 - 4)))
-                .append(AnsiEscapeCodes.ENDING_CODE.getCode())
-                .append("   ");
-    }
-
+    /**
+     * This method created a line of the shelf
+     * @param xMax the number of columns
+     * @param i the index of the row
+     * @param boardOrShelf the board or the shelf to be printed
+     * @param personalGoal the personal goal of the player (might be null, in that case the board is printed)
+     * @return the line of the shelf
+     */
     private StringBuilder createLine(int xMax, int i, Tile[][] boardOrShelf, List<SingleGoal> personalGoal) {
         StringBuilder lineBuilder = new StringBuilder();
         String toPrint;
 
         lineBuilder.append(" ").append(i).append(" ");
-        if (ViewConstants.ENABLE_BOARD_AND_SHELF_BORDER) lineBuilder.append(createVerticalBorder(xMax));
+        if (ViewConstants.ENABLE_BOARD_AND_SHELF_BORDER) lineBuilder.append(createVerticalBorder());
         for (int j = 0; j < xMax; j++) {
             toPrint = checkIfIsPersonalGoal(personalGoal, i, j, boardOrShelf);
 
             lineBuilder.append(tileColorToAnsiCode(boardOrShelf[i][j].getColor(), true, i, j, xMax == ModelConstants.COLS_NUMBER)).append(toPrint).append(AnsiEscapeCodes.ENDING_CODE.getCode());
-
-//            if (xMax == ModelConstants.COLS_NUMBER) {
-//                lineBuilder.append(createVerticalBorder(xMax));
-//            }
         }
 
-//        if (xMax != ModelConstants.COLS_NUMBER) {
-        if (ViewConstants.ENABLE_BOARD_AND_SHELF_BORDER) lineBuilder.append(createVerticalBorder(xMax));
-//        }
+        if (ViewConstants.ENABLE_BOARD_AND_SHELF_BORDER) lineBuilder.append(createVerticalBorder());
+
         lineBuilder.append(" ").append(i).append(" ");
 
         return lineBuilder;
     }
 
-    private String createVerticalBorder(int xMax) {
-//        return (xMax == ModelConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() :
-//                AnsiEscapeCodes.BOARD_BORDER_BACKGROUND.getCode()) + " " + AnsiEscapeCodes.ENDING_CODE.getCode();
-
+    /**
+     * This method creates the vertical border for a line of the shelf
+     * @return the vertical border of the shelf
+     */
+    private String createVerticalBorder() {
         return AnsiEscapeCodes.BOARD_BORDER_BACKGROUND.getCode() + " " + AnsiEscapeCodes.ENDING_CODE.getCode();
     }
 
+    /**
+     * This method is used to check if a shelf tile is a personal goal and style it properly
+     * @param personalGoal the personal goal of the player (might be null, in that case the board is printed)
+     * @param i the index of the row
+     * @param j the index of the column
+     * @param boardOrShelf the board or the shelf to be printed
+     * @return the string to be printed (personal goal symbol or empty)
+     */
     private String checkIfIsPersonalGoal(List<SingleGoal> personalGoal, int i, int j, Tile[][] boardOrShelf) {
         if (personalGoal != null) {
             for (SingleGoal singleGoal : personalGoal) {
@@ -294,21 +290,13 @@ public class CLI extends View{
     private StringBuilder createFirstOrLastRow(int xMax) {
         StringBuilder result = new StringBuilder();
 
-//        result.append("   ").append(xMax == ModelConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BORDER_BACKGROUND.getCode())
-//                .append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
-
         result.append("   ");
 
         result.append(AnsiEscapeCodes.BOARD_BORDER_BACKGROUND.getCode()).append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
 
         for (int i = 0; i < xMax; i++) {
-//            result.append(xMax == ModelConstants.COLS_NUMBER ? AnsiEscapeCodes.SHELF_BACKGROUND.getCode() : AnsiEscapeCodes.BOARD_BORDER_BACKGROUND.getCode())
-//                    .append(xMax == ModelConstants.COLS_NUMBER ? "    " : "   ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
-
             result.append(AnsiEscapeCodes.BOARD_BORDER_BACKGROUND.getCode()).append("   ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
         }
-
-        /*if (xMax != ModelConstants.COLS_NUMBER)*/ result.append(AnsiEscapeCodes.BOARD_BORDER_BACKGROUND.getCode()).append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
 
         result.append("   ");
         return result;
@@ -324,10 +312,7 @@ public class CLI extends View{
 
         result.append("    ");
         for (int i = 0; i < xMax; i++) {
-//            if (xMax != ModelConstants.COLS_NUMBER)
                 result.append(" ").append(i).append(" ");
-//            else
-//                result.append(" ").append(i).append("  ");
         }
         result.append("   ");
         return result;
@@ -558,12 +543,8 @@ public class CLI extends View{
             if (((!checkValidPosition(positions, pos)) || positions.contains(pos))){
                 if (!checkValidPosition(positions, pos)) {
                     printMessage("Invalid position", AnsiEscapeCodes.ERROR_MESSAGE);
-//                        input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
-//                        pos = new Position(Integer.parseInt(input.substring(0, 1)), Integer.parseInt(input.substring(2, 3)));
                 } else {
                     printMessage("Already chosen", AnsiEscapeCodes.ERROR_MESSAGE);
-//                        input = this.retryInput(ViewConstants.REGEX_INPUT_SINGLE_MOVE);
-//                        pos = new Position(Integer.parseInt(input.substring(0, 1)), Integer.parseInt(input.substring(2, 3)));
                 }
             }
             else positions.add(pos);
@@ -849,23 +830,6 @@ public class CLI extends View{
         }
 
         return false;
-
-
-        //old version
-//        try {
-//            try {
-//                client.joinGame();
-//            } catch (NonExistentNicknameException | AlreadyInGameException e) {
-//                throw new RuntimeException(e);
-//            } catch (ConnectionError e) {
-//                //ignore
-//            }
-//            return true;
-//        } catch (NoGamesAvailableException e) {
-//            printMessage("No games available, please create a new one ", AnsiEscapeCodes.ERROR_MESSAGE);
-//        }
-//
-//        return false;
     }
 
     /**

@@ -46,7 +46,7 @@
     <Canvas fx:id="moveListCanvas" onDragDropped="#onMoveListCanvasDragDropped"
             onDragOver="#onMoveListCanvasDragOver" onMouseClicked="#onMoveListCanvasClick"/>
     <ImageView fx:id="moveListImage" pickOnBounds="true" preserveRatio="true">
-        <Image url="@images/screenshot.png"/>
+        <Image url="@images/points_board.png"/>
     </ImageView>
     <ImageView fx:id="title" preserveRatio="true">
         <Image url="@images/Publisher_material/Title_2000x618px.png"/>
@@ -69,7 +69,7 @@
     <AnchorPane fx:id="myPointsAnchorPane"/>
     <Canvas fx:id="myPointsCanvas"/>
     <ImageView fx:id="myPointsImage" pickOnBounds="true" preserveRatio="true">
-        <Image url="@images/screenshot.png"/>
+        <Image url="@images/points_board.png"/>
     </ImageView>
     <!--Slider fx:id="tcoxl" blockIncrement="0.01" layoutX="10.0" layoutY="1114.0" max="0.7" min="1.0E-4" />
     <Slider fx:id="tcoxr" blockIncrement="0.01" layoutX="10.0" layoutY="1121.0" max="0.7" min="1.0E-4" />

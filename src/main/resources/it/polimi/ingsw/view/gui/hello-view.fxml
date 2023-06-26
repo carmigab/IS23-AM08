@@ -101,14 +101,4 @@
             <Image url="@images/Publisher_material/Publisher.png"/>
         </ImageView>
     </bottom>
-    <left>
-        <HBox minWidth="200" maxWidth="600">
-
-        </HBox>
-    </left>
-    <right>
-        <HBox minWidth="200" maxWidth="600">
-
-        </HBox>
-    </right>
 </BorderPane>

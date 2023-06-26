@@ -49,4 +49,6 @@ VBox{
 #menuHBox {
    -fx-background-color: rgba(74, 59, 47, 0.7);
    -fx-background-radius: 10;
+   -fx-max-height: 500;
+   -fx-max-width: 600;
 }

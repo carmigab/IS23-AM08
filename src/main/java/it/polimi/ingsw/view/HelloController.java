@@ -304,6 +304,7 @@ public class HelloController implements Initializable {
         this.errorLabel.setText("");
         if(nickname.matches("")) {this.errorLabel.setText("Insert something"); return;}
 
+        this.menuHBox.getChildren().remove(this.connectionVbox);
         this.menuHBox.getChildren().add(this.startGameVbox);
 
         try {
@@ -457,6 +458,8 @@ public class HelloController implements Initializable {
         }
 
     }
+
+
 
     /**
      * Method used to change scene of the stage

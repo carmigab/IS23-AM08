@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="gameContainer" stylesheets="@hello-style.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
+<BorderPane fx:id="gameContainer" stylesheets="@gui-style.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.GameViewController">
     <GridPane fx:id="gridPane">
       <columnConstraints>

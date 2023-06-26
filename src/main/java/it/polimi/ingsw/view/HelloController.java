@@ -1,20 +1,23 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.constants.ModelConstants;
+import it.polimi.ingsw.constants.ServerConstants;
 import it.polimi.ingsw.network.client.RmiClient;
 import it.polimi.ingsw.network.client.TcpClient;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
-import it.polimi.ingsw.constants.ServerConstants;
 import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.network.server.exceptions.*;
-import it.polimi.ingsw.view.View;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -120,7 +123,13 @@ public class HelloController implements Initializable {
      * Container of the whole scene
      */
     @FXML
-    private VBox container;
+    private BorderPane container;
+
+    /**
+     * Image of the title of the game
+     */
+    @FXML
+    private ImageView title;
 
     /**
      * View that connects to the server. It is passed between scenes

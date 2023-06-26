@@ -32,8 +32,9 @@ public class Tile implements Serializable {
     }
 
     /**
-     * this method is an alternative class constructor that returns a new tile, copy of the tile passed
-     * as parameter
+     *  this method is an alternative class constructor that returns a new tile, copy of the tile passed
+     *  as parameter
+     * @param copy tile we want the copy
      */
     public Tile(Tile copy){
         this.color = copy.color;

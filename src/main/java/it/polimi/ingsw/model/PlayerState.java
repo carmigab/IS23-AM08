@@ -229,13 +229,7 @@ public class PlayerState {
 
         return this.PGPoints == playerState.PGPoints;
 
-//        return this.myShelf.equals(playerState.myShelf) &&
-//                this.CGPoints == playerState.CGPoints &&
-//                this.firstPoint == playerState.firstPoint &&
-//                this.groupPoints == playerState.groupPoints &&
-//                this.nickname.equals(playerState.nickname) &&
-//                this.personalGoal.equals(playerState.personalGoal) &&
-//                this.PGPoints == playerState.PGPoints;
+
     }
 
     /**

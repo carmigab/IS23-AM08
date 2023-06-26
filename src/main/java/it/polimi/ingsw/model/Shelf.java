@@ -176,7 +176,7 @@ public class Shelf implements Serializable {
      * this method overrides the method equals. It assumes that two Shelf are equals if, taking a
      * position of the shelf, they have the same tile in this position. If the parameter isn't a shelf,
      * return false.
-     * * @param obj object to be compared with "this"
+     * @param obj object to be compared with "this"
      * @return a boolean : true if the shelf are equals
      */
     @Override

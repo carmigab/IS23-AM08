@@ -130,7 +130,7 @@ public class GameModel {
 
         Set<Integer> extractedPersonalGoals = new HashSet<>();
         Random r = RandomSingleton.getRandomSingleton();
-        int random = r.nextInt(ModelConstants.TOTAL_GOALS);;
+        int random = r.nextInt(ModelConstants.TOTAL_GOALS);
         for(String s: nicknames){
             while (extractedPersonalGoals.contains(random)) {
                 random = r.nextInt(ModelConstants.TOTAL_GOALS);

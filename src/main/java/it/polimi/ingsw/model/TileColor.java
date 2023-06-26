@@ -7,13 +7,38 @@ package it.polimi.ingsw.model;
  * of the board
  */
 public enum TileColor {
+    /**
+     * color green
+     */
     GREEN,
+    /**
+     * color white
+     */
     WHITE,
+
+    /**
+     * color blue
+     */
     BLUE,
+    /**
+     * color yellow
+     */
     YELLOW,
+    /**
+     * color cyan
+     */
     CYAN,
+    /**
+     * color violet
+     */
     VIOLET,
+    /**
+     * color empty
+     */
     EMPTY,
+    /**
+     * color invalid
+     */
     INVALID
 
 }

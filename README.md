@@ -26,10 +26,11 @@
 | RMI            | :green_circle:  |                         |
 | TCP            | :green_circle:  |                         |
 
+
 ## Project Requirements and Specifics
 
 Following the scoring table present in the pdf file "requirements.pdf"
-here are the functionalities that have been added to the project:
+here are the functionalities that have been added to the project: 
 
 * Complete Rules
 

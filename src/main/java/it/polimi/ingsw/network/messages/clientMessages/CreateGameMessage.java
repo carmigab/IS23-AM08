@@ -24,7 +24,7 @@ public class CreateGameMessage extends Message {
 
     /**
      * method to get the number of player slots chosen
-     * @return
+     * @return number of player slots
      */
     public int getNumberOfPlayers(){
         return this.num;

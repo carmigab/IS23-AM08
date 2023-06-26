@@ -41,8 +41,8 @@ public class EightTilesOfTheSameColor extends CommonGoal {
 
     /**
      *
-     * @param obj
-     * @return
+     * @param obj the object to compare
+     * @return true if the two objects are equal
      */
     @Override
     public boolean equals(Object obj) {

@@ -7,6 +7,9 @@ import it.polimi.ingsw.constants.ModelConstants;
  */
 public enum ClickableComponentSetup {
 
+    /**
+     * This enum contains all the information for the standard setup of the clickable component class
+     */
     STANDARD(
             1,
             1,
@@ -17,6 +20,10 @@ public enum ClickableComponentSetup {
             0.015,
             0.015,
             0.5),
+
+    /**
+     * This enum contains all the information for the setup of the clickable component class for the game board
+     */
     GAMEBOARD(
             ModelConstants.BOARD_DIMENSION,
             ModelConstants.BOARD_DIMENSION,
@@ -27,6 +34,10 @@ public enum ClickableComponentSetup {
             0.0,
             0.0,
             0.5),
+
+    /**
+     * This enum contains all the information for the setup of the clickable component class for the player shelf
+     */
     MYSHELF(
             ModelConstants.ROWS_NUMBER,
             ModelConstants.COLS_NUMBER,
@@ -37,6 +48,10 @@ public enum ClickableComponentSetup {
             0.027,
             0.019,
             0.4),
+
+    /**
+     * This enum contains all the information for the setup of the clickable component class for the common goals
+     */
     COMMONGOAL(
             1,
             1,
@@ -47,6 +62,10 @@ public enum ClickableComponentSetup {
             0.13,
             0.17,
             0.2),
+
+    /**
+     * This enum contains all the information for the setup of the clickable component class for the personal goals
+     */
     PERSONALGOAL(
             1,
             1,
@@ -57,6 +76,10 @@ public enum ClickableComponentSetup {
             0.027,
             0.019,
             0.3),
+
+    /**
+     * This enum contains all the information for the setup of the clickable component class for the selected cards
+     */
     MOVELIST(
             1,
             ModelConstants.MAX_NUM_OF_MOVES,
@@ -67,6 +90,10 @@ public enum ClickableComponentSetup {
             0.015,
             0.013,
             0.3),
+
+    /**
+     * This enum contains all the information for the setup of the clickable component class for the other player shelves
+     */
     OTHERSHELF(
             ModelConstants.ROWS_NUMBER,
             ModelConstants.COLS_NUMBER,
@@ -77,6 +104,10 @@ public enum ClickableComponentSetup {
             0.027,
             0.019,
             0.15),
+
+    /**
+     * This enum contains all the information for the setup of the clickable component class for the player common goals points
+     */
     MYPOINTS(
             1,
             ModelConstants.TOTAL_CG_PER_GAME+1,
@@ -87,6 +118,10 @@ public enum ClickableComponentSetup {
             0.015,
             0.013,
             0.3),
+
+    /**
+     * This enum contains all the information for the setup of the clickable component class for the other player common goals points
+     */
     OTHERPOINTS(1,
             ModelConstants.TOTAL_CG_PER_GAME+1,
             0.052,

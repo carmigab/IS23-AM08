@@ -21,7 +21,7 @@ public interface Client  {
      * possible nickname
      * @param nick the nickname
      * @return true if successful
-     * @throws ConnectionError
+     * @throws ConnectionError if there is a connection error
      */
     public boolean chooseNickname(String nick) throws ConnectionError;
 
@@ -29,37 +29,39 @@ public interface Client  {
      * This method has to be overridden in its subclasses, it tries to make a move
      * @param pos: list of tiles positions
      * @param col: column
-     * @throws InvalidNicknameException
-     * @throws InvalidMoveException
-     * @throws InvalidNicknameException
-     * @throws ConnectionError
-     * @throws GameEndedException
+     * @throws InvalidNicknameException if the nickname does not exist
+     * @throws InvalidMoveException if the move is not valid
+     * @throws InvalidNicknameException if the nickname does not exist
+     * @throws ConnectionError if there is a connection error
+     * @throws GameEndedException if the game has ended
      */
     public void makeMove(List<Position> pos, int col) throws InvalidMoveException, InvalidNicknameException, ConnectionError, GameEndedException;
 
     /**
      * This method has to be overridden in its subclasses, it tries to create a new game
      * @param num: number of players
-     * @throws NonExistentNicknameException
-     * @throws AlreadyInGameException
-     * @throws ConnectionError
+     * @throws NonExistentNicknameException if the nickname does not exist
+     * @throws AlreadyInGameException if the player is already in a game
+     * @throws ConnectionError if there is a connection error
      */
     public void createGame(int num) throws NonExistentNicknameException, AlreadyInGameException,ConnectionError;
 
     /**
      * This method has to be overridden in its subclasses, it tries to recover a new game
-     * @throws NoGamesAvailableException
-     * @throws ConnectionError
+     * @throws NoGameToRecoverException if there is no game to recover
+     * @throws ConnectionError if there is a connection error
      */
     public void recoverGame() throws NoGameToRecoverException, ConnectionError;
 
 
     /**
      * This method has to be overridden in its subclasses, it tries to join a new game
-     * @throws NoGamesAvailableException
-     * @throws NonExistentNicknameException
-     * @throws AlreadyInGameException
-     * @throws ConnectionError
+     * @throws NoGamesAvailableException if there are no active lobbies
+     * @throws NonExistentNicknameException if the nickname does not exist
+     * @throws AlreadyInGameException if the player is already in a game
+     * @throws ConnectionError if there is a connection error
+     * @throws WrongLobbyIndexException if the lobby index is wrong
+     * @throws LobbyFullException if the lobby is full
      */
     public void joinGame(String lobbyName) throws NoGamesAvailableException, NonExistentNicknameException, AlreadyInGameException, NoGameToRecoverException, ConnectionError, WrongLobbyIndexException, LobbyFullException;
 
@@ -67,20 +69,22 @@ public interface Client  {
      * This method has to be overridden in its subclasses, it tries to send a private message
      * @param message: the message
      * @param receiver: the one supposed to receive the message
-     * @throws ConnectionError
+     * @throws ConnectionError if there is a connection error
      */
     public void messageSomeone(String message, String receiver) throws ConnectionError;
 
     /**
      * This method has to be overridden in its subclasses, it tries to send a public message
      * @param message: the message
-     * @throws ConnectionError
+     * @throws ConnectionError if there is a connection error
      */
     public void messageAll(String message) throws ConnectionError;
 
     /**
      * This method retrieve the active lobbies on the server
      * @return the list of the active lobbies
+     * @throws NoGamesAvailableException if there are no active lobbies
+     * @throws ConnectionError if there is a connection error
      */
     public List<Lobby> getLobbies() throws NoGamesAvailableException, ConnectionError;
 }

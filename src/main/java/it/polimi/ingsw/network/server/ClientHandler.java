@@ -15,22 +15,22 @@ public abstract class ClientHandler {
      * new state and new game info
      * @param newState: the new state
      * @param newInfo: the new game info
-     * @throws TimeOutException
-     * @throws RemoteException
+     * @throws TimeOutException if the client is not online
+     * @throws RemoteException if there is a connection error
      */
     public void update(State newState, GameInfo newInfo) throws RemoteException, TimeOutException {}
 
     /**
      * This method throws and exception if the client is not online
-     * @throws TimeOutException
-     * @throws RemoteException
+     * @throws TimeOutException if the client is not online
+     * @throws RemoteException if there is a connection error
      */
     public void isAlive() throws RemoteException, TimeOutException {}
 
     /**
      * This method is called by the matchServer and returns the nickname of the player
      * @return the nickname of the player
-     * @throws RemoteException
+     * @throws RemoteException if there is a connection error
      */
     public String name() throws RemoteException {
         return null;
@@ -39,8 +39,8 @@ public abstract class ClientHandler {
     /**
      * This method sends a chat message to the client
      * @param message: the chat message
-     * @throws TimeOutException
-     * @throws RemoteException
+     * @throws TimeOutException if the client is not online
+     * @throws RemoteException if there is a connection error
      */
     public void receiveMessage(String message) throws RemoteException, TimeOutException {}
 

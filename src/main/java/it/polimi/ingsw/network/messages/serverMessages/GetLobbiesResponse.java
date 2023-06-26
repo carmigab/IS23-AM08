@@ -15,8 +15,8 @@ public class GetLobbiesResponse extends Message {
      * Constructor
      *
      * @param sender                    : the one who sends the message
-     * @param lobbyList
-     * @param noGamesAvailableException
+     * @param lobbyList                : the list of lobbies
+     * @param noGamesAvailableException : true if there are no games available
      */
     public GetLobbiesResponse(String sender, List<Lobby> lobbyList, boolean noGamesAvailableException) {
         super(sender);

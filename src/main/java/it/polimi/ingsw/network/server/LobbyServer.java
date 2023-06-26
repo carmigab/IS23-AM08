@@ -499,7 +499,7 @@ public class LobbyServer extends UnicastRemoteObject implements RMILobbyServerIn
      * @param nickname nickname of the player that calls the method
      * @param tcpClient reference to the methods of the client that can be called by the server using RMI
      * @return the information useful for the connection to the game
-     * @throws NoGamesAvailableException if no games are available
+     * @throws NoGameToRecoverException if no games are available to recover
      */
     public String recoverGame(String nickname, TcpClientHandler tcpClient) throws NoGameToRecoverException{
         return this.recoverGameTcpRmi(nickname, tcpClient);

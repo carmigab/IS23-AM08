@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.Tile;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This immutable class is used for transferring the data to be updated from the server to the client
@@ -104,6 +103,10 @@ public class GameInfo implements Serializable {
         return currentPlayerNickname;
     }
 
+    /**
+     * Getter
+     * @return the reference to the copied leader board
+     */
     public List<GameEnded> getLeaderBoard() {
         return leaderBoard;
     }

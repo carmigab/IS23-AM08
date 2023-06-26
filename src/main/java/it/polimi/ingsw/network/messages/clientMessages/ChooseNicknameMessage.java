@@ -24,7 +24,7 @@ public class ChooseNicknameMessage extends Message {
 
     /**
      * method to return the chosen nickname
-     * @return
+     * @return the chosen nickname
      */
     public String getNick(){
         return this.nick;

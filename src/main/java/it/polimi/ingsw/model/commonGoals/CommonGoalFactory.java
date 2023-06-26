@@ -5,6 +5,9 @@ import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
 import it.polimi.ingsw.utilities.UtilityFunctions;
 
+/**
+ * This class is a factory that creates common goals
+ */
 public class CommonGoalFactory {
 
     /**

@@ -656,7 +656,9 @@ public class CLI extends View{
     }
 
     /**
-     * This method is called by parseCommand to print an error message if the command is invalid
+     * This method is called to print a game message
+     * @param message the message to print
+     * @param message_type the type of the message
      */
     public void printMessage(String message, AnsiEscapeCodes message_type) {
         System.out.println(message_type.getCode() + message + AnsiEscapeCodes.ENDING_CODE.getCode());

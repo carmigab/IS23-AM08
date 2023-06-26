@@ -39,6 +39,7 @@ public class ChatSomeoneMessage extends Message {
 
     /**
      * method to get the receiver of the chat message
+     * @return the receiver of the chat message
      */
     public String getReceiver(){
         return this.receiver;

@@ -268,6 +268,10 @@ public abstract class View {
      */
     protected abstract void notifyClose(String message);
 
+    /**
+     * This method is called to print a message on the screen
+     * @param message the message to display
+     */
     public abstract void displayChatMessage(String message);
 
     protected String getLeaderBoardAsText(){

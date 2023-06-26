@@ -25,7 +25,7 @@ public class Message implements Serializable{
 
     /**
      * Method to return the sender of the message
-     * @return
+     * @return the sender of the message
      */
     public String sender() {
         return this.sender;

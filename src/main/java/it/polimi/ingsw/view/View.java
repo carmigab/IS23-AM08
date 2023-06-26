@@ -260,7 +260,7 @@ public abstract class View {
      */
     protected void close(String message) {
         notifyClose(message);
-        System.exit(0);
+        //System.exit(0);
     }
 
     /**

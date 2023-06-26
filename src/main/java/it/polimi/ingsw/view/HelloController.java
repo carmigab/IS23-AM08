@@ -193,7 +193,6 @@ public class HelloController implements Initializable {
                                 this.nicknameButton.setVisible(true);
                                 this.connectButton.setVisible(false);
 
-
                                 this.loadNextScene();
                             }
 

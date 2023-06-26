@@ -992,6 +992,7 @@ public class GameViewController implements Initializable{
             alert.setContentText(message);
 
             alert.showAndWait();
+            System.exit(0);
         });
 
     }

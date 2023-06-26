@@ -879,6 +879,7 @@ public class CLI extends View{
     @Override
     protected void notifyClose(String message) {
         printMessage(message, AnsiEscapeCodes.INFO_MESSAGE);
+        System.exit(0);
     }
 
     /**

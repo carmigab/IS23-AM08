@@ -1,7 +1,7 @@
 package it.polimi.ingsw.gameInfo;
 
 import com.google.gson.annotations.Expose;
-import it.polimi.ingsw.model.GameEnded;
+import it.polimi.ingsw.model.GameEndedScore;
 import it.polimi.ingsw.model.Tile;
 
 import java.io.Serializable;
@@ -36,7 +36,7 @@ public class GameInfo implements Serializable {
      * This attribute store the leader board of the game
      */
     @Expose
-    private final List<GameEnded> leaderBoard;
+    private final List<GameEndedScore> leaderBoard;
 
     /**
      * This attribute stores the nickname of the current player
@@ -54,7 +54,7 @@ public class GameInfo implements Serializable {
      * @param leaderBoard           reference to a copy of the leader board
      * @param currentPlayerNickname reference to the nickname of the current player
      */
-    public GameInfo(Tile[][] myGameBoard, List<Integer> commonGoalsCreated, List<Integer> commonGoalsStackTop, List<PlayerInfo> playerInfosList, List<GameEnded> leaderBoard, String currentPlayerNickname){
+    public GameInfo(Tile[][] myGameBoard, List<Integer> commonGoalsCreated, List<Integer> commonGoalsStackTop, List<PlayerInfo> playerInfosList, List<GameEndedScore> leaderBoard, String currentPlayerNickname){
         this.gameBoard =myGameBoard;
         this.commonGoalsCreated=commonGoalsCreated;
         this.commonGoalsStackTop=commonGoalsStackTop;
@@ -107,7 +107,7 @@ public class GameInfo implements Serializable {
      * Getter
      * @return the reference to the copied leader board
      */
-    public List<GameEnded> getLeaderBoard() {
+    public List<GameEndedScore> getLeaderBoard() {
         return leaderBoard;
     }
 }

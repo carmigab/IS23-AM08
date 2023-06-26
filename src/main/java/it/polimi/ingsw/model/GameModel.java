@@ -65,7 +65,7 @@ public class GameModel {
      * this attribute represents the final leaderboard of the game; it will be shown at the end of the game
      */
     @Expose
-    private List<GameEnded> leaderBoard;
+    private List<GameEndedScore> leaderBoard;
     /**
      * This attribute stores the information of the file name in the class, so that it does not have to
      * be constructed each time
@@ -300,7 +300,7 @@ public class GameModel {
         leaderBoard = new ArrayList<>();
         temp.sort(Comparator.comparingInt(PlayerState::getPoints));
         for(int i=temp.size()-1; i>=0;i--){
-            leaderBoard.add(new GameEnded(temp.get(i).getNickname(), temp.get(i).getPoints()));
+            leaderBoard.add(new GameEndedScore(temp.get(i).getNickname(), temp.get(i).getPoints()));
         }
     }
 
@@ -408,7 +408,7 @@ public class GameModel {
      * this method returns the final leaderboard of the game
      * @return the final leaderboard of the game
      */
-    public List<GameEnded> getLeaderBoard() {
+    public List<GameEndedScore> getLeaderBoard() {
         return leaderBoard;
     }
 

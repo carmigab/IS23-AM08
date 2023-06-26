@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.constants.ModelConstants;
-import it.polimi.ingsw.model.GameEnded;
+import it.polimi.ingsw.model.GameEndedScore;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.PlayerInfo;
@@ -279,7 +279,7 @@ public abstract class View {
     protected String getLeaderBoardAsText(){
         StringBuilder toReturn= new StringBuilder();
 
-        for(GameEnded g : gameInfo.getLeaderBoard()){
+        for(GameEndedScore g : gameInfo.getLeaderBoard()){
             toReturn.append(g.getNickname()).append(": ").append(g.getFinalPoints()).append(" points\n");
         }
 

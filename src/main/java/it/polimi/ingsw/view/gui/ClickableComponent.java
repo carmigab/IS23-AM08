@@ -136,7 +136,7 @@ public class   ClickableComponent {
      * Let l be the total length of the gameBoard
      * Let n be the total number of tiles per row/column
      * Let o% be the offset from one edge to the first tile in the board (in percentage values, note that the image has some offset between the left most tile and the edge of the image)
-     * Let d% be the space in betweeen two tiles (in percentage values, calculated once, we do *2 in the formula)
+     * Let d% be the space in between two tiles (in percentage values, calculated once, we do *2 in the formula)
      * Then o = o% * l and d = d% * l
      * So to get the length of the tile without any space in between (called y) we do
      * y = (l - 2o) / n -> (factor l) y = l * (1 - 2o%) / n
@@ -150,7 +150,7 @@ public class   ClickableComponent {
 
     /**
      * This method resizes the game board to a square which length is passed in input
-     * @param dim length of the dimenison of the game board
+     * @param dim length of the dimension of the game board
      */
     public void setComponentDimensions(Double dim){
         dim*=this.setup.getComponentPredefinedRatio();

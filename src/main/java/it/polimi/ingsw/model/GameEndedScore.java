@@ -6,7 +6,7 @@ import java.io.Serializable;
  * this class represents the "data structure" useful to create the final leaderboard of the game (which is a list
  * gameEnded objects)
  */
-public class GameEnded implements Serializable {
+public class GameEndedScore implements Serializable {
     /**
      * this attribute represents the nickname of a player
      */
@@ -22,7 +22,7 @@ public class GameEnded implements Serializable {
      * @param nickname the name of the player
      * @param finalPoints the final points of the player
      */
-    public GameEnded(String nickname, int finalPoints) {
+    public GameEndedScore(String nickname, int finalPoints) {
         this.nickname = nickname;
         this.finalPoints = finalPoints;
     }

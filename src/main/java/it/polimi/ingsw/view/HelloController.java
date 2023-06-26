@@ -42,7 +42,7 @@ public class HelloController implements Initializable {
     @FXML
     private TextField serverIP;
     /**
-     * Button used for the connnection to the server
+     * Button used for the connection to the server
      */
     @FXML
     private Button connectButton;
@@ -72,7 +72,7 @@ public class HelloController implements Initializable {
     @FXML
     private Button nicknameButton;
     /**
-     * Choice box containing all the lobbies retreived from the server
+     * Choice box containing all the lobbies retrieved from the server
      */
     @FXML
     private ChoiceBox<String> choiceLobbies;
@@ -210,7 +210,7 @@ public class HelloController implements Initializable {
 
                     Platform.runLater(()->
                             {
-                                this.connectionLabel.setText("Connected succesfully");
+                                this.connectionLabel.setText("Connected successfully");
                                 this.nicknameLabel.setVisible(true);
                                 this.nicknameTextField.setVisible(true);
                                 this.nicknameButton.setVisible(true);
@@ -238,7 +238,7 @@ public class HelloController implements Initializable {
 
                     Platform.runLater(()->
                             {
-                                this.connectionLabel.setText("Connected succesfully");
+                                this.connectionLabel.setText("Connected successfully");
                                 this.nicknameLabel.setVisible(true);
                                 this.nicknameTextField.setVisible(true);
                                 this.nicknameButton.setVisible(true);
@@ -290,7 +290,7 @@ public class HelloController implements Initializable {
 
     /**
      * Method called when the join button is clicked
-     * It tries to join a game and changes scene afterwards if successful
+     * It tries to join a game and changes scene afterward if successful
      */
     @FXML
     protected void onJoinRandomButtonClick(){
@@ -318,7 +318,7 @@ public class HelloController implements Initializable {
 
     /**
      * Method called when the join button is clicked
-     * It tries to join a game and changes scene afterwards if successful
+     * It tries to join a game and changes scene afterward if successful
      */
     @FXML
     protected void onJoinSelectedButtonClick(){
@@ -372,7 +372,7 @@ public class HelloController implements Initializable {
 
     /**
      * Method called when the go button is clicked
-     * It asks the server to create a new game and changes scene afterwards
+     * It asks the server to create a new game and changes scene afterward
      */
     @FXML
     protected void onGoButtonClick(){
@@ -389,7 +389,7 @@ public class HelloController implements Initializable {
     }
 
     /**
-     * This method displays all the lobbies retreived from the server in the choice box
+     * This method displays all the lobbies retrieved from the server in the choice box
      * @param lobbies list of all the lobbies
      */
     private void displayLobbies(List<Lobby> lobbies){

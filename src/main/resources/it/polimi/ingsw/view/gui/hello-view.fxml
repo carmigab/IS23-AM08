@@ -19,8 +19,8 @@
        </HBox>
    </top>
     <center>
-        <HBox>
-            <VBox>
+        <HBox fx:id="menuHBox">
+            <VBox fx:id="connectionVbox">
                 <ChoiceBox fx:id="connectionType" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" />
                 <TextField fx:id="serverIP" alignment="TOP_CENTER" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" promptText="Ip of the server">
                     <font>
@@ -39,7 +39,7 @@
                     <font>
                         <Font name="Comic Sans MS" size="16.0" />
                     </font></Label>
-                <Label fx:id="nicknameLabel" text="Insert your nickname: " visible="false">
+                <Label fx:id="nicknameLabel" text="Insert your nickname: " visible="false" textFill="#ffffff">
                     <font>
                         <Font name="Comic Sans MS" size="16.0" />
                     </font>
@@ -55,45 +55,60 @@
                     </font>
                 </Button>
             </VBox>
-            <VBox>
-                <ChoiceBox fx:id="choiceLobbies" prefWidth="150.0" visible="false" />
-                <Button fx:id="refreshLobbiesButton" mnemonicParsing="false" onAction="#onRefreshLobbiesButtonClick" text="Refresh" visible="false">
-                    <font>
-                        <Font name="Comic Sans MS" size="12.0" />
-                    </font>
-                </Button>
-                <Button fx:id="joinSelectedButton" mnemonicParsing="false" onAction="#onJoinSelectedButtonClick" text="Join Selected" visible="false">
-                    <font>
-                        <Font name="Comic Sans MS" size="12.0" />
-                    </font>
-                </Button>
-                <Button fx:id="joinRandomButton" mnemonicParsing="false" onAction="#onJoinRandomButtonClick" text=" Join Random" visible="false">
-                    <font>
-                        <Font name="Comic Sans MS" size="12.0" />
-                    </font>
-                </Button>
-                <Button fx:id="recoverButton" mnemonicParsing="false" onAction="#onRecoverButtonClick" text="Recover" visible="false">
-                    <font>
-                        <Font name="Comic Sans MS" size="12.0" />
-                    </font>
-                </Button>
-                <Button fx:id="createButton" mnemonicParsing="false" onAction="#onCreateButtonClick" text="Create" visible="false">
-                    <font>
-                        <Font name="Comic Sans MS" size="12.0" />
-                    </font>
-                </Button>
-                <Label fx:id="numPlayersLabel" text="Insert number of players" visible="false">
-                    <font>
-                        <Font name="Comic Sans MS" size="12.0" />
-                    </font>
-                </Label>
-                <ChoiceBox fx:id="numPlayers" prefWidth="150.0" visible="false" />
-                <Button fx:id="goButton" mnemonicParsing="false" onAction="#onGoButtonClick" text="Go" visible="false">
-                    <font>
-                        <Font name="Comic Sans MS" size="12.0" />
-                    </font>
-                </Button>
-            </VBox>
         </HBox>
     </center>
+    <VBox fx:id="startGameVbox">
+        <ChoiceBox fx:id="choiceLobbies" prefWidth="150.0" visible="false" />
+        <Button fx:id="refreshLobbiesButton" mnemonicParsing="false" onAction="#onRefreshLobbiesButtonClick" text="Refresh" visible="false">
+            <font>
+                <Font name="Comic Sans MS" size="12.0" />
+            </font>
+        </Button>
+        <Button fx:id="joinSelectedButton" mnemonicParsing="false" onAction="#onJoinSelectedButtonClick" text="Join Selected" visible="false">
+            <font>
+                <Font name="Comic Sans MS" size="12.0" />
+            </font>
+        </Button>
+        <Button fx:id="joinRandomButton" mnemonicParsing="false" onAction="#onJoinRandomButtonClick" text=" Join Random" visible="false">
+            <font>
+                <Font name="Comic Sans MS" size="12.0" />
+            </font>
+        </Button>
+        <Button fx:id="recoverButton" mnemonicParsing="false" onAction="#onRecoverButtonClick" text="Recover" visible="false">
+            <font>
+                <Font name="Comic Sans MS" size="12.0" />
+            </font>
+        </Button>
+        <Button fx:id="createButton" mnemonicParsing="false" onAction="#onCreateButtonClick" text="Create" visible="false">
+            <font>
+                <Font name="Comic Sans MS" size="12.0" />
+            </font>
+        </Button>
+        <Label fx:id="numPlayersLabel" text="Insert number of players" visible="false" textFill="#ffffff">
+            <font>
+                <Font name="Comic Sans MS" size="12.0" />
+            </font>
+        </Label>
+        <ChoiceBox fx:id="numPlayers" prefWidth="150.0" visible="false" />
+        <Button fx:id="goButton" mnemonicParsing="false" onAction="#onGoButtonClick" text="Go" visible="false">
+            <font>
+                <Font name="Comic Sans MS" size="12.0" />
+            </font>
+        </Button>
+    </VBox>
+    <bottom>
+        <ImageView fx:id="publisher" fitHeight="50" preserveRatio="true">
+            <Image url="@images/Publisher_material/Publisher.png"/>
+        </ImageView>
+    </bottom>
+    <left>
+        <HBox minWidth="200" maxWidth="600">
+
+        </HBox>
+    </left>
+    <right>
+        <HBox minWidth="200" maxWidth="600">
+
+        </HBox>
+    </right>
 </BorderPane>

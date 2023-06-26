@@ -1,5 +1,5 @@
 #container{
-   -fx-background-image: url("images/misc/sfondo_parquet.jpg");
+   -fx-background-image: url("images/Publisher_material/Display_5.jpg");
    -fx-background-repeat: repeat;
    -fx-background-size: 1920 1080;
    -fx-background-position: center center;
@@ -36,4 +36,17 @@ VBox{
 
 #sendMessageAnchorPane {
    -fx-max-height: 20;
+}
+
+#publisher {
+   -fx-padding: 10;
+}
+
+#startGameVbox, #connectionVbox {
+   -fx-spacing: 10;
+}
+
+#menuHBox {
+   -fx-background-color: rgba(74, 59, 47, 0.7);
+   -fx-background-radius: 10;
 }

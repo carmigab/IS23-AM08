@@ -18,6 +18,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -34,6 +36,23 @@ import java.util.ResourceBundle;
  * This class is the controller for all the interactions of the user before entering a game
  */
 public class HelloController implements Initializable {
+    /**
+     * Vbox containing all the elements of the connection to the server
+     */
+    @FXML
+    public VBox connectionVbox;
+
+    /**
+     * Vbox containing all the elements to start a game
+     */
+    @FXML
+    public VBox startGameVbox;
+
+    /**
+     * HBox containing all the elements of the menu
+     */
+    @FXML
+    public HBox menuHBox;
     /**
      * Choice box containing the information of the connection to be used (either tcp or rmi)
      */
@@ -130,6 +149,12 @@ public class HelloController implements Initializable {
      */
     @FXML
     private ImageView title;
+
+    /**
+     * Image of the publisher of the game
+     */
+    @FXML
+    public ImageView publisher;
 
     /**
      * View that connects to the server. It is passed between scenes
@@ -278,6 +303,9 @@ public class HelloController implements Initializable {
         String nickname=this.nicknameTextField.getText().trim();
         this.errorLabel.setText("");
         if(nickname.matches("")) {this.errorLabel.setText("Insert something"); return;}
+
+        this.menuHBox.getChildren().add(this.startGameVbox);
+
         try {
             if(!this.guiView.client.chooseNickname(nickname)) this.errorLabel.setText("Invalid name, try again");
             else {

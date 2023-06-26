@@ -298,6 +298,8 @@ public class CLI extends View{
             result.append(AnsiEscapeCodes.BOARD_BORDER_BACKGROUND.getCode()).append("   ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
         }
 
+        result.append(AnsiEscapeCodes.BOARD_BORDER_BACKGROUND.getCode()).append(" ").append(AnsiEscapeCodes.ENDING_CODE.getCode());
+
         result.append("   ");
         return result;
     }

@@ -7,6 +7,7 @@ import it.polimi.ingsw.constants.ServerConstants;
 import it.polimi.ingsw.network.server.Lobby;
 import it.polimi.ingsw.network.server.exceptions.*;
 import it.polimi.ingsw.view.View;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -38,11 +39,6 @@ public class HelloController implements Initializable {
      */
     @FXML
     private TextField serverIP;
-    /**
-     * Text field where the user inputs the port of the server
-     */
-    @FXML
-    private TextField serverPort;
     /**
      * Button used for the connnection to the server
      */
@@ -175,44 +171,71 @@ public class HelloController implements Initializable {
     protected void onConnectButtonClick(){
         String input=connectionType.getValue().trim();
         String ip=serverIP.getText().trim();
-        String port=serverPort.getText().trim();
         this.errorLabel.setText("");
         String zeroTo255 ="(\\d{1,2}|(0|1)\\d{2}|2[0-4]\\d|25[0-5])";
         String regexIP="|localhost|"+zeroTo255 + "\\." + zeroTo255 + "\\." + zeroTo255 + "\\." + zeroTo255;
         if(!ip.matches(regexIP)) {this.errorLabel.setText("Set a valid ip");return;}
-        if(!port.matches("|default|\\d+")) {this.errorLabel.setText("Set a valid port");return;}
 
         this.connectionLabel.setText("Trying to connect");
-        int intPort=ServerConstants.RMI_PORT;
 
         if (input.equals("rmi")) {
-            try {
-                if(port.equals("default") || port.equals("")) intPort= ServerConstants.RMI_PORT;
-                else intPort=Integer.valueOf(port);
-                this.guiView.client = new RmiClient(this.guiView.myNickname, this.guiView, ip, intPort);
-            } catch (RemoteException | NotBoundException | InterruptedException e) {
-                this.errorLabel.setText("error while connecting to the server");
+            new Thread(()->
+
+            {
+                try {
+                    this.guiView.client = new RmiClient(this.guiView.myNickname, this.guiView, ip, ServerConstants.RMI_PORT);
+
+                    Platform.runLater(()->
+                            {
+                                this.connectionLabel.setText("Connected succesfully");
+                                this.nicknameLabel.setVisible(true);
+                                this.nicknameTextField.setVisible(true);
+                                this.nicknameButton.setVisible(true);
+                                this.connectButton.setVisible(false);
+
+
+                                this.loadNextScene();
+                            }
+
+                            );
+
+                } catch (NotBoundException | InterruptedException | RemoteException e) {
+                    Platform.runLater(()-> this.errorLabel.setText("error while connecting to the server") );
+                }
             }
+
+                    ).start();
+
         }
         else {
-            try {
-                if (port.equals("default") || port.equals("")) intPort = ServerConstants.TCP_PORT;
-                else intPort = Integer.valueOf(port);
-                this.guiView.client = new TcpClient(this.guiView.myNickname, this.guiView, ip, intPort);
-            } catch (InterruptedException e) {
-                this.errorLabel.setText("error while connecting to the server");
-            } catch (ConnectionError e) {
-                this.errorLabel.setText("Connection error");
+            new Thread(()->
+
+            {
+                try {
+                    this.guiView.client = new TcpClient(this.guiView.myNickname, this.guiView, ip, ServerConstants.TCP_PORT);
+
+                    Platform.runLater(()->
+                            {
+                                this.connectionLabel.setText("Connected succesfully");
+                                this.nicknameLabel.setVisible(true);
+                                this.nicknameTextField.setVisible(true);
+                                this.nicknameButton.setVisible(true);
+                                this.connectButton.setVisible(false);
+
+
+                                this.loadNextScene();
+                            }
+
+                    );
+
+                } catch ( InterruptedException  | ConnectionError e) {
+                    Platform.runLater(()-> this.errorLabel.setText("error while connecting to the server") );
+                }
             }
+
+            ).start();
+
         }
-        this.connectionLabel.setText("Connected succesfully");
-        this.nicknameLabel.setVisible(true);
-        this.nicknameTextField.setVisible(true);
-        this.nicknameButton.setVisible(true);
-        this.connectButton.setVisible(false);
-
-
-        this.loadNextScene();
     }
 
     /**

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.network.client.RmiClient;
 import it.polimi.ingsw.network.client.TcpClient;
 import it.polimi.ingsw.network.client.exceptions.ConnectionError;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -70,10 +72,25 @@ public class HelloController implements Initializable {
     @FXML
     private Button nicknameButton;
     /**
+     * Choice box containing all the lobbies retreived from the server
+     */
+    @FXML
+    private ChoiceBox<String> choiceLobbies;
+    /**
+     * Button used to refresh the lobbies retrieved from the server
+     */
+    @FXML
+    private Button refreshLobbiesButton;
+    /**
+     * Button that the user can click to try and join a game selected in the choice box
+     */
+    @FXML
+    private Button joinSelectedButton;
+    /**
      * Button that the user can click to try and join a game
      */
     @FXML
-    private Button joinButton;
+    private Button joinRandomButton;
     /**
      * Button that the user can click to try and recover a game
      */
@@ -148,13 +165,19 @@ public class HelloController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        connectionType.getItems().removeAll(connectionType.getItems());
-        connectionType.getItems().addAll("rmi", "tcp");
-        connectionType.getSelectionModel().select("rmi");
+        this.connectionType.getItems().removeAll(this.connectionType.getItems());
+        this.connectionType.getItems().addAll("rmi", "tcp");
+        this.connectionType.getSelectionModel().select("rmi");
 
-        numPlayers.getItems().removeAll(numPlayers.getItems());
-        numPlayers.getItems().addAll(2,3,4);
-        numPlayers.getSelectionModel().select(2);
+        this.choiceLobbies.getItems().removeAll(this.choiceLobbies.getItems());
+
+        this.numPlayers.getItems().removeAll(this.numPlayers.getItems());
+
+        List<Integer> numPlayers=new ArrayList<>(ModelConstants.MAX_PLAYERS-1);
+        for(int i=2;i<=ModelConstants.MAX_PLAYERS;i++) numPlayers.add(i);
+
+        this.numPlayers.getItems().addAll(numPlayers);
+        this.numPlayers.getSelectionModel().select(2);
 
         container.setPrefWidth(Screen.getPrimary().getBounds().getMaxX()/2);
         container.setPrefHeight(Screen.getPrimary().getBounds().getMaxY()/2);
@@ -253,7 +276,10 @@ public class HelloController implements Initializable {
                 this.nicknameLabel.setVisible(false);
                 this.nicknameTextField.setVisible(false);
                 this.nicknameButton.setVisible(false);
-                this.joinButton.setVisible(true);
+                this.choiceLobbies.setVisible(true);
+                this.refreshLobbiesButton.setVisible(true);
+                this.joinSelectedButton.setVisible(true);
+                this.joinRandomButton.setVisible(true);
                 this.recoverButton.setVisible(true);
                 this.createButton.setVisible(true);
             }
@@ -267,11 +293,37 @@ public class HelloController implements Initializable {
      * It tries to join a game and changes scene afterwards if successful
      */
     @FXML
-    protected void onJoinButtonClick(){
+    protected void onJoinRandomButtonClick(){
         try {
             List<Lobby> activeLobbies = this.guiView.client.getLobbies();
-            String lobby = parseLobbyInput("r", activeLobbies);
+            String lobby = activeLobbies.get(new Random().nextInt(activeLobbies.size())).getLobbyName();
             this.guiView.client.joinGame(lobby);
+            this.changeScene();
+        } catch (NoGamesAvailableException e) {
+            this.errorLabel.setText("There are no games available");
+        } catch (NonExistentNicknameException e) {
+            this.errorLabel.setText("You did not put any nickname");
+        } catch (NoGameToRecoverException e){
+            this.errorLabel.setText("No games for recovery with your name");
+        } catch (AlreadyInGameException e) {
+            this.errorLabel.setText("You are already in a game");
+        } catch (ConnectionError e) {
+            this.errorLabel.setText("Connection error");
+        } catch (WrongLobbyIndexException e) {
+            this.errorLabel.setText("Wrong lobby index");
+        } catch (LobbyFullException e) {
+            this.errorLabel.setText("Lobby is full");
+        }
+    }
+
+    /**
+     * Method called when the join button is clicked
+     * It tries to join a game and changes scene afterwards if successful
+     */
+    @FXML
+    protected void onJoinSelectedButtonClick(){
+        try {
+            this.guiView.client.joinGame(this.choiceLobbies.getValue().split(" ")[0]);
             this.changeScene();
         } catch (NoGamesAvailableException e) {
             this.errorLabel.setText("There are no games available");
@@ -306,18 +358,6 @@ public class HelloController implements Initializable {
         }
     }
 
-    private String parseLobbyInput(String input, List<Lobby> activeLobbies) {
-        if (input.equalsIgnoreCase("r")) {
-            Random random = new Random();
-            return activeLobbies.get(random.nextInt(activeLobbies.size())).getLobbyName();
-        }
-        return "nothing to see here";
-//        else {
-//            if (Integer.parseInt(input) >= activeLobbies.size()) throw new WrongLobbyIndexException();
-//            return activeLobbies.get(Integer.parseInt(input)).lobbyName();
-//        }
-    }
-
     /**
      * Method called when the create game button is clicked
      * It displays all the information for the correct creation of the game
@@ -345,6 +385,37 @@ public class HelloController implements Initializable {
         } catch (ConnectionError e) {
             this.errorLabel.setText("Connection error");
         }
+    }
+
+    /**
+     * This method displays all the lobbies retreived from the server in the choice box
+     * @param lobbies list of all the lobbies
+     */
+    private void displayLobbies(List<Lobby> lobbies){
+
+        this.choiceLobbies.getItems().removeAll(this.choiceLobbies.getItems());
+
+        for(Lobby lobby: lobbies){
+            if(!lobby.isRecovered()) this.choiceLobbies.getItems().add(lobby.getLobbyName()+" "+lobby.getPlayerInGame()+"/"+lobby.getPlayersNum());
+        }
+
+    }
+
+    /**
+     * This method is called when the corresponding button is clicked.
+     * It asks the server which lobbies are available and displays them in the choice box
+     */
+    @FXML
+    protected void onRefreshLobbiesButtonClick(){
+
+        try {
+            this.displayLobbies(this.guiView.client.getLobbies());
+        } catch (NoGamesAvailableException e) {
+            this.errorLabel.setText("There are no games available");
+        } catch (ConnectionError e) {
+            this.errorLabel.setText("Connection error");
+        }
+
     }
 
     /**

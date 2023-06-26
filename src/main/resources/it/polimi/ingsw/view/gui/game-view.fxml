@@ -71,12 +71,6 @@
     <ImageView fx:id="myPointsImage" pickOnBounds="true" preserveRatio="true">
         <Image url="@images/points_board.png"/>
     </ImageView>
-    <!--Slider fx:id="tcoxl" blockIncrement="0.01" layoutX="10.0" layoutY="1114.0" max="0.7" min="1.0E-4" />
-    <Slider fx:id="tcoxr" blockIncrement="0.01" layoutX="10.0" layoutY="1121.0" max="0.7" min="1.0E-4" />
-    <Slider fx:id="tcoyu" blockIncrement="0.01" layoutX="10.0" layoutY="1128.0" max="0.7" min="1.0E-4" />
-    <Slider fx:id="tcoyd" blockIncrement="0.01" layoutX="10.0" layoutY="1135.0" max="0.7" min="1.0E-4" />
-    <Slider fx:id="tcodx" blockIncrement="0.01" layoutX="10.0" layoutY="1142.0" max="0.7" min="1.0E-4" />
-    <Slider fx:id="tcody" blockIncrement="0.01" layoutX="10.0" layoutY="1149.0" max="0.7" min="1.0E-4" /-->
     <TabPane fx:id="chatPane">
     </TabPane>
 </BorderPane>

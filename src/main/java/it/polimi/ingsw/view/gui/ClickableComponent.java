@@ -250,31 +250,4 @@ public class   ClickableComponent {
         return this.componentAnchorPane;
     }
 
-
-    /*
-    public void setTileComponentOffsetXLeft(Double tileComponentOffsetXLeft) {
-        this.tileComponentOffsetXLeft = tileComponentOffsetXLeft;
-    }
-
-    public void setTileComponentOffsetXRight(Double tileComponentOffsetXRight) {
-        this.tileComponentOffsetXRight = tileComponentOffsetXRight;
-    }
-
-    public void setTileComponentOffsetYUp(Double tileComponentOffsetYUp) {
-        this.tileComponentOffsetYUp = tileComponentOffsetYUp;
-    }
-
-    public void setTileComponentOffsetYDown(Double tileComponentOffsetYDown) {
-        this.tileComponentOffsetYDown = tileComponentOffsetYDown;
-    }
-
-    public void setTileComponentDistanceX(Double tileComponentDistanceX) {
-        this.tileComponentDistanceX = tileComponentDistanceX;
-    }
-
-    public void setTileComponentDistanceY(Double tileComponentDistanceY) {
-        this.tileComponentDistanceY = tileComponentDistanceY;
-    }
-     */
-
 }

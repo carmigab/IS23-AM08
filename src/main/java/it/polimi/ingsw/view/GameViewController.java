@@ -189,21 +189,6 @@ public class GameViewController implements Initializable{
      */
     private final DataFormat dft=new DataFormat("gameBoardPosition");
 
-    /*
-    @FXML
-    private Slider tcoxl;
-    @FXML
-    private Slider tcoxr;
-    @FXML
-    private Slider tcoyu;
-    @FXML
-    private Slider tcoyd;
-    @FXML
-    private Slider tcodx;
-    @FXML
-    private Slider tcody;
-    */
-
     /**
      * This attribute is a component that collects all the information of the game board
      */
@@ -327,57 +312,6 @@ public class GameViewController implements Initializable{
         this.initializeChatPane();
 
         this.initializeScene();
-
-        /*
-        tcoxl.valueProperty().addListener((
-                     observableValue,
-                    oldValue,
-                    newValue) ->{
-            System.out.println("tcoxl: "+newValue.doubleValue());
-            moveList.setTileComponentOffsetXLeft(newValue.doubleValue());
-            moveList.draw();
-                });
-        tcoxr.valueProperty().addListener((
-                observableValue,
-                oldValue,
-                newValue) ->{
-            System.out.println("tcoxr: "+newValue.doubleValue());
-            moveList.setTileComponentOffsetXRight(newValue.doubleValue());
-            moveList.draw();
-        });
-        tcoyu.valueProperty().addListener((
-                observableValue,
-                oldValue,
-                newValue) ->{
-            System.out.println("tcoyu: "+newValue.doubleValue());
-            moveList.setTileComponentOffsetYUp(newValue.doubleValue());
-            moveList.draw();
-        });
-        tcoyd.valueProperty().addListener((
-                observableValue,
-                oldValue,
-                newValue) ->{
-            System.out.println("tcoyd: "+newValue.doubleValue());
-            moveList.setTileComponentOffsetYDown(newValue.doubleValue());
-            moveList.draw();
-        });
-        tcodx.valueProperty().addListener((
-                observableValue,
-                oldValue,
-                newValue) ->{
-            System.out.println("tcodx: "+newValue.doubleValue());
-            moveList.setTileComponentDistanceX(newValue.doubleValue());
-            moveList.draw();
-        });
-        tcody.valueProperty().addListener((
-                observableValue,
-                oldValue,
-                newValue) ->{
-            System.out.println("tcody: "+newValue.doubleValue());
-            moveList.setTileComponentDistanceY(newValue.doubleValue());
-            moveList.draw();
-        });
-         */
 
 
     }

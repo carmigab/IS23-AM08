@@ -138,7 +138,7 @@ public class CLI extends View{
                             .append("   ");
                 }
 
-                String commonGoalPointsString = "   Common Goal Points: " + playerInfo.getComGoalPoints()[0] + "," + playerInfo.getComGoalPoints()[1];
+                String commonGoalPointsString = "   Common Goal Points: " + playerInfo.getComGoalPoints().get(0) + "," + playerInfo.getComGoalPoints().get(1);
                 commonGoalPoints.append(commonGoalPointsString).append(" ".repeat(Math.max(0, ViewConstants.MAX_NICKNAME_LENGTH - commonGoalPointsString.length())));
             }
         }
@@ -177,7 +177,7 @@ public class CLI extends View{
                     System.out.println(line);
                 }
 
-                printCommonGoalsPoints(Arrays.asList(playerInfo.getComGoalPoints()[0], playerInfo.getComGoalPoints()[1]));
+                printCommonGoalsPoints(Arrays.asList(playerInfo.getComGoalPoints().get(0), playerInfo.getComGoalPoints().get(1)));
                 return;
             }
         }

@@ -28,7 +28,7 @@ public class PlayerInfo implements Serializable {
      * This attribute stores the points of the player for each common goal
      */
     @Expose
-    private final int[] comGoalPoints;
+    private final List<Integer> comGoalPoints;
 
     /**
      * This attribute stores the points of the player for the first player
@@ -72,7 +72,7 @@ public class PlayerInfo implements Serializable {
      * @param personalGoal  of the player
      * @param personalGoalNumber of the player
      */
-    public PlayerInfo(String nickname, int pgPoints, int[] comGoalPoints, int firstPoint, int groupPoints, Tile[][] shelf, List<SingleGoal> personalGoal, int personalGoalNumber) {
+    public PlayerInfo(String nickname, int pgPoints, List<Integer> comGoalPoints, int firstPoint, int groupPoints, Tile[][] shelf, List<SingleGoal> personalGoal, int personalGoalNumber) {
         this.nickname = nickname;
         this.pgPoints = pgPoints;
         this.comGoalPoints = comGoalPoints;
@@ -106,7 +106,7 @@ public class PlayerInfo implements Serializable {
      *
      * @return the points of the player for each common goal
      */
-    public int[] getComGoalPoints() {
+    public List<Integer> getComGoalPoints() {
         return comGoalPoints;
     }
 
@@ -165,8 +165,8 @@ public class PlayerInfo implements Serializable {
      */
     public int getScore(){
         int scores = pgPoints + firstPoint + groupPoints;
-        for (int i = 0; i < comGoalPoints.length; i++) {
-            scores += comGoalPoints[i];
+        for (int i = 0; i < comGoalPoints.size(); i++) {
+            scores += comGoalPoints.get(i);
         }
         return scores;
     }

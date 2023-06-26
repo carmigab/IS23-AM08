@@ -4,6 +4,9 @@ import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.constants.ModelConstants;
 import it.polimi.ingsw.gameInfo.PlayerInfo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * this class represents a generic player of the match
  */
@@ -239,9 +242,14 @@ public class PlayerState {
      */
     public PlayerInfo getPlayerInfo(){
 
+        // We create an arraylist
+        List<Integer> cg = new ArrayList<>();
+        cg.add(this.CGPoints[0]);
+        cg.add(this.CGPoints[1]);
+
         return new PlayerInfo(this.nickname,
                 this.PGPoints,
-                this.CGPoints,
+                cg,
                 this.firstPoint,
                 this.groupPoints,
                 this.myShelf.getCopy(),

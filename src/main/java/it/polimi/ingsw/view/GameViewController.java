@@ -615,13 +615,13 @@ public class GameViewController implements Initializable{
             PlayerInfo playerInfo = this.guiView.gameInfo.getPlayerInfosList().get(i);
 
             Consumer<ClickableComponent> action = (component)->{
-                if(playerInfo.getComGoalPoints()[0]!=0){
-                    component.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(playerInfo.getComGoalPoints()[0]), 0, 0 );
+                if(playerInfo.getComGoalPoints().get(0)!=0){
+                    component.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(playerInfo.getComGoalPoints().get(0)), 0, 0 );
                 }
                 else component.setComponentSavedImageFromPositions(null, 0, 0);
 
-                if(playerInfo.getComGoalPoints()[1]!=0){
-                    component.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(playerInfo.getComGoalPoints()[1]), 0, 1 );
+                if(playerInfo.getComGoalPoints().get(1)!=0){
+                    component.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(playerInfo.getComGoalPoints().get(1)), 0, 1 );
                 }
                 else component.setComponentSavedImageFromPositions(null, 0, 1);
 

@@ -25,9 +25,16 @@ public class VirtualView implements Observer{
      */
     private GameInfo gameInfo;
 
+    /**
+     * this attribute represents a server
+     */
     private final MatchServer server;
 
-
+    /**
+     * this class is the class constructor; it receives a server and creates a new VirtualView, setting
+     * currentState to "TURN" and gameInfo to null
+     * @param server the server passed by parameter
+     */
     public VirtualView(MatchServer server){
         this.server=server;
         this.currentState=State.TURN0;
@@ -38,7 +45,6 @@ public class VirtualView implements Observer{
     /**
      * This method is the override of the observer pattern
      * It updates the gameInfo which has to be sent to the client with copies of what is present in the model
-     * TODO: And also tells the server to update
      * @param model that will be observed
      */
     @Override

@@ -278,6 +278,7 @@ public class GameViewController implements Initializable{
         this.otherPointsObtained = new ArrayList<>(ModelConstants.MAX_PLAYERS-1);
         this.chatLabels   =new ArrayList<>(ModelConstants.MAX_PLAYERS);
 
+        this.chatPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         this.initializeClickableComponents();
 

@@ -103,7 +103,7 @@ public abstract class View {
     public void checkForShutdown() {
         //while (true) {
             if (currentState.equals(State.GRACEFULDISCONNECTION)) {
-                close("One player has crashed, the game will be closed...\nThank you for playing with us!");
+                close("Someone has crashed, the game will be closed...\nThank you for playing with us!");
             }
            // try {
              //   wait();

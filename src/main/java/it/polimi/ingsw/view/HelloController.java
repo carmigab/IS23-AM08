@@ -72,7 +72,12 @@ public class HelloController implements Initializable {
      * Label where any error (or exception) will be shown
      */
     @FXML
-    private Label errorLabel;
+    private Label startGameErrorLabel;
+    /**
+     * Label where any error (or exception) will be shown
+     */
+    @FXML
+    private Label connectionErrorLabel;
     /**
      * Label that prompts the user if the connection to the server was successful
      */
@@ -211,7 +216,7 @@ public class HelloController implements Initializable {
         for(int i=2;i<=ModelConstants.MAX_PLAYERS;i++) numPlayers.add(i);
 
         this.numPlayers.getItems().addAll(numPlayers);
-        this.numPlayers.getSelectionModel().select(2);
+        this.numPlayers.getSelectionModel().select(0);
 
         container.setPrefWidth(Screen.getPrimary().getBounds().getMaxX()/2);
         container.setPrefHeight(Screen.getPrimary().getBounds().getMaxY()/2);
@@ -228,10 +233,10 @@ public class HelloController implements Initializable {
     protected void onConnectButtonClick(){
         String input=connectionType.getValue().trim();
         String ip=serverIP.getText().trim();
-        this.errorLabel.setText("");
+        this.connectionErrorLabel.setText("");
         String zeroTo255 ="(\\d{1,2}|(0|1)\\d{2}|2[0-4]\\d|25[0-5])";
         String regexIP="|localhost|"+zeroTo255 + "\\." + zeroTo255 + "\\." + zeroTo255 + "\\." + zeroTo255;
-        if(!ip.matches(regexIP)) {this.errorLabel.setText("Set a valid ip");return;}
+        if(!ip.matches(regexIP)) {this.connectionErrorLabel.setText("Set a valid ip");return;}
 
         this.connectionLabel.setText("Trying to connect");
 
@@ -256,7 +261,7 @@ public class HelloController implements Initializable {
                             );
 
                 } catch (NotBoundException | InterruptedException | RemoteException e) {
-                    Platform.runLater(()-> this.errorLabel.setText("error while connecting to the server") );
+                    Platform.runLater(()-> this.connectionErrorLabel.setText("error while connecting to the server") );
                 }
             }
 
@@ -285,7 +290,7 @@ public class HelloController implements Initializable {
                     );
 
                 } catch ( InterruptedException  | ConnectionError e) {
-                    Platform.runLater(()-> this.errorLabel.setText("error while connecting to the server") );
+                    Platform.runLater(()-> this.connectionErrorLabel.setText("error while connecting to the server") );
                 }
             }
 
@@ -301,15 +306,16 @@ public class HelloController implements Initializable {
     @FXML
     protected void onInsertNameButtonClick(){
         String nickname=this.nicknameTextField.getText().trim();
-        this.errorLabel.setText("");
-        if(nickname.matches("")) {this.errorLabel.setText("Insert something"); return;}
-
-        this.menuHBox.getChildren().remove(this.connectionVbox);
-        this.menuHBox.getChildren().add(this.startGameVbox);
+        this.connectionErrorLabel.setText("");
+        if(nickname.matches("")) {this.connectionErrorLabel.setText("Insert something"); return;}
 
         try {
-            if(!this.guiView.client.chooseNickname(nickname)) this.errorLabel.setText("Invalid name, try again");
+            if(!this.guiView.client.chooseNickname(nickname)) this.connectionErrorLabel.setText("Invalid name, try again");
             else {
+
+                this.menuHBox.getChildren().remove(this.connectionVbox);
+                this.menuHBox.getChildren().add(this.startGameVbox);
+
                 this.guiView.myNickname=nickname;
                 this.nicknameLabel.setVisible(false);
                 this.nicknameTextField.setVisible(false);
@@ -322,7 +328,7 @@ public class HelloController implements Initializable {
                 this.createButton.setVisible(true);
             }
         } catch (ConnectionError e) {
-            this.errorLabel.setText("Connection error");
+            this.connectionErrorLabel.setText("Connection error");
         }
     }
 
@@ -338,19 +344,19 @@ public class HelloController implements Initializable {
             this.guiView.client.joinGame(lobby);
             this.changeScene();
         } catch (NoGamesAvailableException e) {
-            this.errorLabel.setText("There are no games available");
+            this.startGameErrorLabel.setText("There are no games available");
         } catch (NonExistentNicknameException e) {
-            this.errorLabel.setText("You did not put any nickname");
+            this.startGameErrorLabel.setText("You did not put any nickname");
         } catch (NoGameToRecoverException e){
-            this.errorLabel.setText("No games for recovery with your name");
+            this.startGameErrorLabel.setText("No games for recovery with your name");
         } catch (AlreadyInGameException e) {
-            this.errorLabel.setText("You are already in a game");
+            this.startGameErrorLabel.setText("You are already in a game");
         } catch (ConnectionError e) {
-            this.errorLabel.setText("Connection error");
+            this.startGameErrorLabel.setText("Connection error");
         } catch (WrongLobbyIndexException e) {
-            this.errorLabel.setText("Wrong lobby index");
+            this.startGameErrorLabel.setText("Wrong lobby index");
         } catch (LobbyFullException e) {
-            this.errorLabel.setText("Lobby is full");
+            this.startGameErrorLabel.setText("Lobby is full");
         }
     }
 
@@ -361,23 +367,23 @@ public class HelloController implements Initializable {
     @FXML
     protected void onJoinSelectedButtonClick(){
         try {
-            if(this.choiceLobbies.getItems().isEmpty()) {this.errorLabel.setText("Please click Refresh first"); return;}
+            if(this.choiceLobbies.getItems().isEmpty()) {this.startGameErrorLabel.setText("Please click Refresh first"); return;}
             this.guiView.client.joinGame(this.choiceLobbies.getValue().split(" ")[0]);
             this.changeScene();
         } catch (NoGamesAvailableException e) {
-            this.errorLabel.setText("There are no games available");
+            this.startGameErrorLabel.setText("There are no games available");
         } catch (NonExistentNicknameException e) {
-            this.errorLabel.setText("You did not put any nickname");
+            this.startGameErrorLabel.setText("You did not put any nickname");
         } catch (NoGameToRecoverException e){
-            this.errorLabel.setText("No games for recovery with your name");
+            this.startGameErrorLabel.setText("No games for recovery with your name");
         } catch (AlreadyInGameException e) {
-            this.errorLabel.setText("You are already in a game");
+            this.startGameErrorLabel.setText("You are already in a game");
         } catch (ConnectionError e) {
-            this.errorLabel.setText("Connection error");
+            this.startGameErrorLabel.setText("Connection error");
         } catch (WrongLobbyIndexException e) {
-            this.errorLabel.setText("Wrong lobby index");
+            this.startGameErrorLabel.setText("Wrong lobby index");
         } catch (LobbyFullException e) {
-            this.errorLabel.setText("Lobby is full");
+            this.startGameErrorLabel.setText("Lobby is full");
         }
     }
 
@@ -391,9 +397,9 @@ public class HelloController implements Initializable {
             this.guiView.client.recoverGame();
             this.changeScene();
         } catch (NoGameToRecoverException e) {
-            this.errorLabel.setText("No games for recovery with your name");
+            this.startGameErrorLabel.setText("No games for recovery with your name");
         } catch (ConnectionError e) {
-            this.errorLabel.setText("Connection error");
+            this.startGameErrorLabel.setText("Connection error");
         }
     }
 
@@ -418,11 +424,11 @@ public class HelloController implements Initializable {
             this.guiView.client.createGame(this.numPlayers.getValue());
             this.changeScene();
         } catch (NonExistentNicknameException e) {
-            this.errorLabel.setText("You did not put any nickname");
+            this.startGameErrorLabel.setText("You did not put any nickname");
         } catch (AlreadyInGameException e) {
-            this.errorLabel.setText("You are already in a game");
+            this.startGameErrorLabel.setText("You are already in a game");
         } catch (ConnectionError e) {
-            this.errorLabel.setText("Connection error");
+            this.startGameErrorLabel.setText("Connection error");
         }
     }
 
@@ -452,9 +458,9 @@ public class HelloController implements Initializable {
         try {
             this.displayLobbies(this.guiView.client.getLobbies());
         } catch (NoGamesAvailableException e) {
-            this.errorLabel.setText("There are no games available");
+            this.startGameErrorLabel.setText("There are no games available");
         } catch (ConnectionError e) {
-            this.errorLabel.setText("Connection error");
+            this.startGameErrorLabel.setText("Connection error");
         }
 
     }

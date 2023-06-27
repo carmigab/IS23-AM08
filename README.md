@@ -68,11 +68,13 @@ know the server name it will not be able to connect to it.
 
 The default settings (which should be kept this way for the best gaming experience) are:
 
-```brainfuck
---tcp-port    42070
---rmi-port    42069
---server-name LobbyServer
---game-name   Game
+```json
+{
+  "serverPortRMI": 42069,
+  "serverPortTCP": 42070,
+  "serverName": "LobbyServer",
+  "startingName": "Game"
+}
 ```
 
 ## Project Requirements and Specifics

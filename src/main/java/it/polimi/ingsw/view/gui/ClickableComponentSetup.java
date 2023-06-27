@@ -110,12 +110,12 @@ public enum ClickableComponentSetup {
      */
     MYPOINTS(
             1,
-            ModelConstants.TOTAL_CG_PER_GAME+1,
-            0.001,
-            0.001,
-            0.014,
-            0.73,
-            0.045,
+            ModelConstants.TOTAL_CG_PER_GAME+2,
+            0.01,
+            0.01,
+            0.017,
+            0.74,
+            0.04,
             0.010,
             0.3),
 
@@ -123,12 +123,12 @@ public enum ClickableComponentSetup {
      * This enum contains all the information for the setup of the clickable component class for the other player common goals points
      */
     OTHERPOINTS(1,
-            ModelConstants.TOTAL_CG_PER_GAME+1,
-            0.001,
-            0.001,
-            0.014,
-            0.73,
-            0.045,
+            ModelConstants.TOTAL_CG_PER_GAME+2,
+            0.01,
+            0.01,
+            0.017,
+            0.74,
+            0.04,
             0.010,
             0.15);
 

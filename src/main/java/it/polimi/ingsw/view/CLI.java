@@ -424,7 +424,7 @@ public class CLI extends View{
                 case "/chat" -> chatCommand();
                 case "/exit" -> confirmExit();
 
-                case "/shrek"-> shrek();
+                //case "/shrek"-> shrek();
                 case "/rickroll" -> rickroll();
 
                 default -> printMessage("Invalid command, please try again ", AnsiEscapeCodes.ERROR_MESSAGE);

@@ -37,11 +37,6 @@ import java.util.function.Predicate;
  */
 public class GameViewController implements Initializable{
     /**
-     * This attribute stores the grid panel that decides how to view each component
-     */
-    @FXML
-    private GridPane gridPane;
-    /**
      * This attribute stores the image information of the game board
      */
     @FXML
@@ -362,30 +357,6 @@ public class GameViewController implements Initializable{
         for(ClickableComponent clickableComponent: this.otherPointsObtained) clickableComponent.draw();
     }
 
-    /**
-     * This method sets up the grid pane to show everything correctly
-     * The method add() is structured as follows: node, column, row, colspan, rowspan
-     */
-    private void initializeGridPane(){
-
-        this.gridPane.add(this.gameBoardAnchorPane   , 0, 0, 1, 2);
-        this.gridPane.add(this.myShelfAnchorPane     , 1, 0, 1, 2);
-        this.gridPane.add(this.commonGoal1AnchorPane , 0, 2, 1, 1);
-        this.gridPane.add(this.commonGoal2AnchorPane , 0, 3, 1, 1);
-        this.gridPane.add(this.personalGoalAnchorPane, 2, 0, 1, 1);
-        this.gridPane.add(this.moveListAnchorPane    , 1, 2, 1, 1);
-        this.gridPane.add(this.errorLabel            , 1, 3, 1, 1);
-        this.gridPane.add(this.chatPane              , 2, 2, 1, 1);
-        for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
-            this.gridPane.add(this.otherShelf.get(i).getComponentAnchorPane(), 3, i, 1, 1);
-        this.gridPane.add(this.myPointsAnchorPane    , 1, 4, 1, 1);
-        for(int i=0;i<ModelConstants.MAX_PLAYERS-1;i++)
-            this.gridPane.add(this.otherPointsObtained.get(i).getComponentAnchorPane(), 4, i, 1, 1);
-
-        this.gridPane.setHgap(10);
-        this.gridPane.setVgap(10);
-    }
-
 
     private void initializeScene() {
         title.setFitHeight(100);
@@ -615,22 +586,30 @@ public class GameViewController implements Initializable{
             PlayerInfo playerInfo = this.guiView.gameInfo.getPlayerInfosList().get(i);
 
             Consumer<ClickableComponent> action = (component)->{
-                if(playerInfo.getComGoalPoints().get(0)!=0){
-                    component.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(playerInfo.getComGoalPoints().get(0)), 0, 0 );
+
+                if(this.guiView.gameInfo.getPlayerInfosList().get(0).getNickname().equals(playerInfo.getNickname())){
+                    component.setComponentSavedImageFromPositions(
+                            new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath(
+                            "gui/images/misc/firstplayertoken.png", this.getClass())), 0, 0);
                 }
                 else component.setComponentSavedImageFromPositions(null, 0, 0);
 
-                if(playerInfo.getComGoalPoints().get(1)!=0){
-                    component.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(playerInfo.getComGoalPoints().get(1)), 0, 1 );
+                if(playerInfo.getComGoalPoints().get(0)!=0){
+                    component.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(playerInfo.getComGoalPoints().get(0)), 0, 1 );
                 }
                 else component.setComponentSavedImageFromPositions(null, 0, 1);
+
+                if(playerInfo.getComGoalPoints().get(1)!=0){
+                    component.setComponentSavedImageFromPositions(this.getImageFromCommonGoalPoints(playerInfo.getComGoalPoints().get(1)), 0, 2 );
+                }
+                else component.setComponentSavedImageFromPositions(null, 0, 2);
 
                 if(playerInfo.getFirstPoint()!=0){
                     component.setComponentSavedImageFromPositions(
                             new Image(UtilityFunctions.getInputStreamFromFileNameRelativePath(
-                                    "gui/images/scoring_tokens/end_game.jpg", this.getClass())), 0, 2 );
+                                    "gui/images/scoring_tokens/end_game.jpg", this.getClass())), 0, 3 );
                 }
-                else component.setComponentSavedImageFromPositions(null, 0, 2);
+                else component.setComponentSavedImageFromPositions(null, 0, 3);
             };
 
             //display my points

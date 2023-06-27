@@ -12,7 +12,7 @@
 <!--        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />-->
 <!--    </padding>-->
    <top>
-       <HBox>
+       <HBox fx:id="titleHBox">
            <ImageView fx:id="title" fitHeight="100" preserveRatio="true">
                <Image url="@images/Publisher_material/Title_2000x618px.png"/>
            </ImageView>

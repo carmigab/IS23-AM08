@@ -54,6 +54,11 @@ public class HelloController implements Initializable {
     @FXML
     public HBox menuHBox;
     /**
+     * HBox containing all the elements of the title
+     */
+    @FXML
+    public HBox titleHBox;
+    /**
      * Choice box containing the information of the connection to be used (either tcp or rmi)
      */
     @FXML

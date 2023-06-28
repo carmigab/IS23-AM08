@@ -4,14 +4,25 @@ import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
 import it.polimi.ingsw.view.View;
 
+/**
+ * This class is a fake view used for testing purposes
+ */
 public class FakeView extends View {
-    GameInfo currentInfo;
-    State currentState;
-
+    /**
+     * This method updates the view
+     *
+     * @param newState  the new state of the game
+     * @param newInfo the new info of the game
+     */
     public void update(State newState, GameInfo newInfo){
         System.out.println("Received view update");
     }
 
+    /**
+     * This method displays a message
+     *
+     * @param message the message to display
+     */
     public void displayChatMessage(String message){
         System.out.println(message);
     }

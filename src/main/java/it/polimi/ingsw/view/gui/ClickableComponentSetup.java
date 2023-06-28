@@ -111,10 +111,10 @@ public enum ClickableComponentSetup {
     MYPOINTS(
             1,
             ModelConstants.TOTAL_CG_PER_GAME+2,
-            0.01,
-            0.01,
+            0.015,
+            0.015,
             0.017,
-            0.74,
+            0.78,
             0.04,
             0.010,
             0.3),
@@ -127,7 +127,7 @@ public enum ClickableComponentSetup {
             0.01,
             0.01,
             0.017,
-            0.74,
+            0.78,
             0.04,
             0.010,
             0.15);

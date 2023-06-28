@@ -285,11 +285,4 @@ public abstract class View {
 
         return toReturn.toString();
     }
-
-
-    protected GameViewController controller;
-
-    public void setGameViewController(GameViewController controller){
-        this.controller=controller;
-    }
 }

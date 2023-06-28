@@ -317,8 +317,11 @@ public class GameModel {
                 try{
                     this.gameBoard.fillBoard();
                 }
-                catch (NoMoreTilesAtStartFillBoardException | NoMoreTilesToFillBoardException e) {
+                catch (NoMoreTilesAtStartFillBoardException e){
                     forceEndGame(false);
+                }
+                catch (NoMoreTilesToFillBoardException e) {
+                    //do nothing
                 }
             }
         }

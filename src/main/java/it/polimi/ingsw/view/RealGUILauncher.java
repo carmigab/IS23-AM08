@@ -29,7 +29,7 @@ public class RealGUILauncher extends Application {
     /**
      * View containing the information used to connect to the server
      */
-    private View guiView;
+    private GUIView guiView;
 
     /**
      * Method that launches the gui

@@ -5,6 +5,20 @@ package it.polimi.ingsw.view;
  */
 public class GUIView extends View{
 
+
+    /**
+     * This attribute stores the information relative to the game controller
+     */
+    private GameViewController controller;
+
+    /**
+     * Setter of the game controller
+     * @param controller game controller
+     */
+    public void setGameViewController(GameViewController controller){
+        this.controller=controller;
+    }
+
     /**
      * Method to display the information received from the server
      * It notifies the controller to update it

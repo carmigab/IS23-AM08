@@ -164,7 +164,7 @@ public class HelloController implements Initializable {
     /**
      * View that connects to the server. It is passed between scenes
      */
-    private View guiView;
+    private GUIView guiView;
     /**
      * Stage of the entire application
      */
@@ -185,7 +185,7 @@ public class HelloController implements Initializable {
      * Setter of the view
      * @param guiView view of the application
      */
-    public void setGuiView(View guiView){
+    public void setGuiView(GUIView guiView){
         this.guiView=guiView;
     }
     /**

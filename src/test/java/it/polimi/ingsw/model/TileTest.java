@@ -40,6 +40,9 @@ public class TileTest {
         assertFalse(c.isEmpty());
     }
 
+    /**
+     * this method tests isInvalid method of Tile class
+     */
 
     @Test
     void isInvalid(){
@@ -49,6 +52,7 @@ public class TileTest {
         assertFalse(c.isInvalid());
     }
 
+
     @Test
     void setEmpty(){
         Tile c = new Tile(TileColor.INVALID, 2);
@@ -56,6 +60,9 @@ public class TileTest {
         assertTrue(c.isEmpty());
     }
 
+    /**
+     * this method tests setInvalid method of Tile class
+     */
     @Test
     void setInvalid(){
         Tile c = new Tile(TileColor.INVALID, 2);
@@ -63,6 +70,9 @@ public class TileTest {
         assertTrue(c.isInvalid());
     }
 
+    /**
+     * this method tests equals method of Tile class
+     */
     @Test
     void equals(){
         Tile c = new Tile(TileColor.INVALID, 2);

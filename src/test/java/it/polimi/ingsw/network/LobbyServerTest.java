@@ -18,10 +18,19 @@ import java.rmi.RemoteException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class tests if the methods of the lobby server are correct
+ */
 class LobbyServerTest {
 
+    /**
+     * This test checks if the server can correctly respond for when a name is chosen.
+     * @throws RemoteException RMI exception
+     * @throws ExistentNicknameException exception for when an already existing nickname is chosen
+     * @throws IllegalNicknameException exception for when a prohibited nickname is chosen
+     */
     @Test
-    public void testChooseNickNameAndConstructors() throws RemoteException, ExistentNicknameException, IllegalNicknameException, FileNotFoundException {
+    public void testChooseNickNameAndConstructors() throws RemoteException, ExistentNicknameException, IllegalNicknameException {
         LobbyServer ls1= new LobbyServer(new LobbyServerConfig(ServerConstants.RMI_PORT, ServerConstants.TCP_PORT, "dummy","gamedummy"));
 
         //create a player with a correct nickname
@@ -33,13 +42,19 @@ class LobbyServerTest {
         assertThrows(IllegalNicknameException.class, ()-> ls1.chooseNickname(bannedName));
     }
 
+    /**
+     * This test checks if the server can correctly identify which names are banned and which not
+     * @throws RemoteException RMI exception
+     * @throws ExistentNicknameException exception for when an already existing nickname is chosen
+     * @throws IllegalNicknameException exception for when a prohibited nickname is chosen
+     */
     @Test
     public void testCorrectRegex() throws RemoteException, ExistentNicknameException, IllegalNicknameException {
         LobbyServer ls=new LobbyServer(new LobbyServerConfig(ServerConstants.RMI_PORT, ServerConstants.TCP_PORT, "dummy","gamedummy"));
 
         // add a non banned name
         assertTrue(ls.chooseNickname("Gabriele"));
-        // add a name with a banned regex (there is a space
+        // add a name with a banned regex (there is an underscore)
         assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("Gabriele_"));
         // try another one in different positions also
         assertThrows(IllegalNicknameException.class, ()-> ls.chooseNickname("Gab riele "));
@@ -56,6 +71,17 @@ class LobbyServerTest {
         assertTrue(ls.chooseNickname("All"));
     }
 
+    /**
+     * This method checks if a game is created correctly.
+     * It is disabled since it is tested in other classes
+     * @throws RemoteException RMI exception
+     * @throws ExistentNicknameException exception for when an already existing nickname is chosen
+     * @throws IllegalNicknameException exception for when a prohibited nickname is chosen
+     * @throws NonExistentNicknameException exception for when someone with no nickname is trying to join
+     * @throws AlreadyInGameException exception for when someone is making a request when already in game
+     * @throws NotBoundException connection exception
+     * @throws InterruptedException thread exception
+     */
     @Disabled
     @Test
     public void testCreateGame() throws RemoteException, ExistentNicknameException, IllegalNicknameException, NonExistentNicknameException, AlreadyInGameException, NotBoundException, InterruptedException {

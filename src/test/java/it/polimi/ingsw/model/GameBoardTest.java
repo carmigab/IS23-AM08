@@ -10,8 +10,15 @@ import java.util.List;
 
 import java.util.ArrayList;
 
-public class GameBoardTest {
+/**
+ * This class tests all the methods for the correct creation of the game board
+ */
+    public class GameBoardTest {
 
+    /**
+     * This test checks if the gameboard for two players is created correctly.
+     * It checks some positions if they are part of the board or not
+     */
     @Test
     void testCorrectGameBoard2Creation(){
         List<Integer> co=new ArrayList<>(2);
@@ -26,6 +33,10 @@ public class GameBoardTest {
         assertFalse(gb.positionOccupied(new Position(BoardConstants.BOARD_DIMENSION-1, BoardConstants.BOARD_DIMENSION-1)));
     }
 
+    /**
+     * This test checks if the gameboard for three players is created correctly.
+     * It checks some positions if they are part of the board or not
+     */
     @Test
     void testCorrectGameBoard3Creation(){
         List<Integer> co=new ArrayList<>(2);
@@ -42,6 +53,10 @@ public class GameBoardTest {
         assertFalse(gb.positionOccupied(new Position(BoardConstants.BOARD_DIMENSION-1, BoardConstants.BOARD_DIMENSION-1)));
     }
 
+    /**
+     * This test checks if the gameboard for four players is created correctly.
+     * It checks some positions if they are part of the board or not
+     */
     @Test
     void testCorrectGameBoard4Creation(){
         List<Integer> co=new ArrayList<>(2);
@@ -60,6 +75,10 @@ public class GameBoardTest {
         assertFalse(gb.positionOccupied(new Position(BoardConstants.BOARD_DIMENSION-1, BoardConstants.BOARD_DIMENSION-1)));
     }
 
+    /**
+     * This test checks if the methods controlling if the tile has some free adjacent.
+     * It also tests the correct removal of a tile from the board
+     */
     @Test
     void testHasFreeAdjacentAndRemoveTile(){
         List<Integer> co=new ArrayList<>(2);
@@ -84,6 +103,10 @@ public class GameBoardTest {
 
     }
 
+    /**
+     * This test checks if the check for when the board has to be filled is tested correctly.
+     * It removes the tiles from the board and it checks progressively when the board needs to be filled
+     */
     @Test
     void testHasToBeFilled(){
         List<Integer> co=new ArrayList<>(2);
@@ -157,6 +180,11 @@ public class GameBoardTest {
 
     }
 
+    /**
+     * This method checks if the board is filled correctly
+     * @throws NoMoreTilesAtStartFillBoardException exception for when there are no more tiles at the start of the filling process (game should end after)
+     * @throws NoMoreTilesToFillBoardException exception for when there are no more tiles in the bag in the process of filling (game should continue)
+     */
     @Test
     void testFillBoard() throws NoMoreTilesAtStartFillBoardException, NoMoreTilesToFillBoardException{
         List<Integer> co=new ArrayList<>(2);
@@ -197,6 +225,11 @@ public class GameBoardTest {
         assertThrows(NoMoreTilesAtStartFillBoardException.class, gb::fillBoard);
     }
 
+    /**
+     * This method is a utility used for when a board for 4 players needs to be filled.
+     * It takes a gameboard and removes the crucial tiles
+     * @param gb gameboard to be prepared
+     */
     static void prepareBoard4PlayersToBeFilled(GameBoard gb){
         gb.removeTile(new Position(0,4));
         gb.removeTile(new Position(0,5));

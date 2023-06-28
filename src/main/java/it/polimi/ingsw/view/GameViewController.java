@@ -358,6 +358,9 @@ public class GameViewController implements Initializable{
     }
 
 
+    /**
+     * This method initializes the positions of all the components of the game view
+     */
     private void initializeScene() {
         title.setFitHeight(100);
         title.setPreserveRatio(true);
@@ -384,6 +387,9 @@ public class GameViewController implements Initializable{
         this.gameContainer.setLeft(otherShelfVBox);
     }
 
+    /**
+     * This method initializes the tab pane containing both the private and all chat
+     */
     private void initializeChatPane(){
 
         this.chatPane.setSide(Side.BOTTOM);
@@ -462,6 +468,10 @@ public class GameViewController implements Initializable{
         }
     }
 
+    /**
+     * This method is called whenever the game is started.
+     * It takes the number of players and removes the components in excess
+     */
     private void setupDynamicComponents(){
 
         for(int i=ModelConstants.MAX_PLAYERS-2; i>this.guiView.gameInfo.getPlayerInfosList().size()-2;i--){

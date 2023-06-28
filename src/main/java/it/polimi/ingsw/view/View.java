@@ -65,7 +65,7 @@ public abstract class View {
     public synchronized void getUserInput() {
         chooseConnectionType();
         askNickname();
-        while (iWantToPlay) {
+//        while (iWantToPlay) {
             welcome();
             createOrJoinGame();
             waitForGameStart();
@@ -78,12 +78,12 @@ public abstract class View {
                 parseCommand(command); // il client deve gestire la remote exception e settare shutdown a true
             }
 
-            iWantToPlay = false;
-            // ask the player if he wants to play again
-            if (!currentState.equals(State.GRACEFULDISCONNECTION)) {
-                iWantToPlay = askIfWantToPlayAgain();
-            }
-        }
+//            iWantToPlay = false;
+//            // ask the player if he wants to play again
+//            if (!currentState.equals(State.GRACEFULDISCONNECTION)) {
+//                iWantToPlay = askIfWantToPlayAgain();
+//            }
+//        }
         close("The session has ended\nThank you for playing with us!");
     }
 

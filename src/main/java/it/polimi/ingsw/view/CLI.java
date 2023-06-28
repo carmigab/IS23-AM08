@@ -71,7 +71,7 @@ public class CLI extends View{
                 printLeaderBoard();
                 printMessage("The winner is : " + gameInfo.getLeaderBoard().get(0).getNickname(), AnsiEscapeCodes.INFO_MESSAGE);
 
-
+                printMessage("\nPress enter to exit", AnsiEscapeCodes.INFO_MESSAGE);
 
                 return;
             }

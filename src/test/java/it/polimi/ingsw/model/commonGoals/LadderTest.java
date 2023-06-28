@@ -7,8 +7,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit test for Ladder
+ */
 class LadderTest {
 
+    /**
+     * This method test the evaluate method of Ladder
+     */
     @Test
     void evaluate() {
         Ladder cg12 = new Ladder();

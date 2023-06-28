@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model;
 
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit test for Tile class
@@ -28,6 +29,9 @@ public class TileTest {
         assertEquals(2, c.getSprite());
     }
 
+    /**
+     * This method tests the isEmpty method of the Tile class
+     */
     @Test
     void isEmpty(){
         Tile c = new Tile(TileColor.EMPTY, 2);

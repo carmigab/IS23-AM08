@@ -15,8 +15,14 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This is a set of tests for the class GameModel
+ */
 class GameModelTest {
 
+    /**
+     * This method tests the persistence
+     */
     @Test
     @Disabled
     public void testPersistence(){
@@ -26,6 +32,10 @@ class GameModelTest {
         assertTrue(true);
     }
 
+    /**
+     * This method tests the method loadFromFile of the class GameModel
+     * @throws FileNotFoundException if the file didn't find
+     */
     @Test
     public void testLoadFromFile() throws FileNotFoundException {
         List<String> players=new ArrayList<>(4);
@@ -39,10 +49,9 @@ class GameModelTest {
 
     /**
      * this method tests the method makeMove of the class GameModel
-     * @throws FileNotFoundException if the file didn't find
      */
     @Test
-    public void makeMove() throws FileNotFoundException {
+    public void makeMove() {
         List<String> players=new ArrayList<>(4);
         players.add("MatteCenz"); players.add("GabriCarr"); players.add("GabriCarm"); players.add("AleCappe");
         String file= "src/main/resources/testMatches/MatchTestMakeMove.json";

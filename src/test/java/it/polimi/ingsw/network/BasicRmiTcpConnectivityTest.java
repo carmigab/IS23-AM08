@@ -20,6 +20,9 @@ import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * This class tests the basic connectivity between a client and a server
+ */
 public class BasicRmiTcpConnectivityTest {
 
     @Test

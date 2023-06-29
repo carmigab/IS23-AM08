@@ -20,6 +20,9 @@ class SingleGoalTest {
         assertEquals(p,s.getPosition());
     }
 
+    /**
+     * this method tests the method getColor; we created a new singleObjective, and we verified if getColor return the
+     */
     @Test
     void getColor() {
         SingleGoal s = new SingleGoal(new Position(5,5), TileColor.EMPTY);

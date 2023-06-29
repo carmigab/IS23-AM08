@@ -25,6 +25,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class BasicRmiTcpConnectivityTest {
 
+    /**
+     * This method tests the basic connectivity between a client and a server
+     */
     @Test
     public void basicTcpClientServerConnectionTest(){
         boolean testSuccessful = true;

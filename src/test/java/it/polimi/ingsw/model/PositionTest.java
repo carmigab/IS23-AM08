@@ -8,6 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit test for Position class
  */
 public class PositionTest {
+    /**
+     * attribute used to test the methods of the class
+     */
 
     Position p = new Position(5, 5);
 

@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model;
 
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit test for Tile class
@@ -28,6 +29,9 @@ public class TileTest {
         assertEquals(2, c.getSprite());
     }
 
+    /**
+     * This method tests the isEmpty method of the Tile class
+     */
     @Test
     void isEmpty(){
         Tile c = new Tile(TileColor.EMPTY, 2);
@@ -36,6 +40,9 @@ public class TileTest {
         assertFalse(c.isEmpty());
     }
 
+    /**
+     * this method tests isInvalid method of Tile class
+     */
 
     @Test
     void isInvalid(){
@@ -45,6 +52,7 @@ public class TileTest {
         assertFalse(c.isInvalid());
     }
 
+
     @Test
     void setEmpty(){
         Tile c = new Tile(TileColor.INVALID, 2);
@@ -52,6 +60,9 @@ public class TileTest {
         assertTrue(c.isEmpty());
     }
 
+    /**
+     * this method tests setInvalid method of Tile class
+     */
     @Test
     void setInvalid(){
         Tile c = new Tile(TileColor.INVALID, 2);
@@ -59,6 +70,9 @@ public class TileTest {
         assertTrue(c.isInvalid());
     }
 
+    /**
+     * this method tests equals method of Tile class
+     */
     @Test
     void equals(){
         Tile c = new Tile(TileColor.INVALID, 2);

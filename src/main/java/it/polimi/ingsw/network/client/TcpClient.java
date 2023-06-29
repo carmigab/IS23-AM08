@@ -217,59 +217,37 @@ public class TcpClient implements Client{
 
 
     /**
-     * This method manages the whole tcp conversation by creating a thread to send a message and waiting for a response
-     * This method waits only for a finite amount of time and then throws an exception if no response has arrived
+     * This method manages the whole tcp conversation by trying to send a message and waiting for a response
+     * This method synchronizes on the lock passed as parameter to manage the conversation
+     * This method also stop the client from pinging the thread till the conversation ends
      * @param lock the lock used for synchronization
      * @param message the message
      * @return the retrieved message
      * @throws ConnectionError if the connection fails
      */
     private Message manageTcpConversation(Lock lock, Message message) throws ConnectionError {
-        // This locks exists only in the method
-        Lock manageTcpConversationLock = new Lock();
-
-        // here we create a thread that manages the inbound message
-        Thread t = new Thread(()->{
-            try {
-                synchronized (manageTcpConversationLock) {
-                    synchronized (lock) {
-                        this.sendTcpMessage(message);
-                        long time1 = System.currentTimeMillis();
-
-                        // Version 1: infinite wait
-                        while (lock.toWait()) lock.wait();
-                        // Version 2: finite wait
-                        //lock.wait(ServerConstants.TCP_WAIT_TIME);
-
-                        long time2 = System.currentTimeMillis();
-
-                        if(!mute && !essential) System.out.println("Waited response for: "+ (time2-time1) + " ms");
-
-                        manageTcpConversationLock.setToWait(false);
-                        manageTcpConversationLock.notifyAll();
-                    }
-                }
-            } catch (InterruptedException e) {
-                if (!mute && !essential) System.out.println("Interrupted Exception from manageTcpConversation");
-                this.gracefulDisconnection(true);
-            }
-        });
-
-        // Here we start the thread and release the lock
+        // Alternative version
         try {
-            synchronized (manageTcpConversationLock) {
-                // we block the ping thread from sending new pings till the conversation ends
-                synchronized (pingThreadLock) {
-                    t.start();
+            // we block the ping thread from sending new pings till the conversation ends
+            synchronized (pingThreadLock) {
+                synchronized (lock) {
+                    this.sendTcpMessage(message);
+                    long time1 = System.currentTimeMillis();
 
-                    manageTcpConversationLock.setToWait(true);
-                    while (manageTcpConversationLock.toWait()) manageTcpConversationLock.wait();
+                    // Version 1: infinite wait
+                    while (lock.toWait()) lock.wait();
+                    // Version 2: finite wait
+                    //lock.wait(ServerConstants.TCP_WAIT_TIME);
+
+                    long time2 = System.currentTimeMillis();
+
+                    if(!mute && !essential) System.out.println("Waited response for: "+ (time2-time1) + " ms");
 
                     return this.retrieveMessageFromLock(lock);
                 }
             }
         }
-         catch (ConnectionError e) {
+        catch (ConnectionError e) {
             if (!mute && !essential) System.out.println("Connection error from "+ message.toString());
             this.gracefulDisconnection(true);
             throw new ConnectionError();
@@ -278,6 +256,67 @@ public class TcpClient implements Client{
             this.gracefulDisconnection(true);
             throw new ConnectionError();
         }
+
+
+
+        // Old version
+//        // This locks exists only in the method
+//        Lock manageTcpConversationLock = new Lock();
+//
+//        // here we create a thread that manages the inbound message
+//        Thread t = new Thread(()->{
+//            try {
+//                synchronized (manageTcpConversationLock) {
+//                    synchronized (lock) {
+//                        this.sendTcpMessage(message);
+//                        long time1 = System.currentTimeMillis();
+//
+//                        // Version 1: infinite wait
+//                        while (lock.toWait()) lock.wait();
+//                        // Version 2: finite wait
+//                        //lock.wait(ServerConstants.TCP_WAIT_TIME);
+//
+//                        long time2 = System.currentTimeMillis();
+//
+//                        if(!mute && !essential) System.out.println("Waited response for: "+ (time2-time1) + " ms");
+//
+//                        manageTcpConversationLock.setToWait(false);
+//                        manageTcpConversationLock.notifyAll();
+//                    }
+//                }
+//            } catch (InterruptedException e) {
+//                if (!mute && !essential) System.out.println("Interrupted Exception from manageTcpConversation");
+//                this.gracefulDisconnection(true);
+//            }
+//        });
+//
+//        // Here we start the thread and release the lock
+//        try {
+//            synchronized (manageTcpConversationLock) {
+//                // we block the ping thread from sending new pings till the conversation ends
+//                synchronized (pingThreadLock) {
+//                    t.start();
+//
+//                    manageTcpConversationLock.setToWait(true);
+//                    while (manageTcpConversationLock.toWait()) manageTcpConversationLock.wait();
+//
+//                    return this.retrieveMessageFromLock(lock);
+//                }
+//            }
+//        }
+//         catch (ConnectionError e) {
+//            if (!mute && !essential) System.out.println("Connection error from "+ message.toString());
+//            this.gracefulDisconnection(true);
+//            throw new ConnectionError();
+//        } catch (InterruptedException e) {
+//            if (!mute && !essential) System.out.println("Interrupted Exception from "+ message.toString());
+//            this.gracefulDisconnection(true);
+//            throw new ConnectionError();
+//        }
+
+
+
+
     }
 
 
@@ -515,9 +554,10 @@ public class TcpClient implements Client{
      * closing the socket and updating the view
      * @param connectionError: boolean that indicates if an error occurred
      */
-    private synchronized void gracefulDisconnection(boolean connectionError){
+    private void gracefulDisconnection(boolean connectionError){
         if (isClientOnline) {
-            if (connectionError && !mute && essential) System.out.println("Connection error");
+            this.isClientOnline = false;
+            if (connectionError && !mute && !essential) System.out.println("Connection error");
             else if (!connectionError && !mute) System.out.println("Game Aborted");
             if (!mute) System.out.println("Initializing graceful disconnection");
             if (!mute && !essential) System.out.println("Terminating Ping thread");
@@ -532,15 +572,12 @@ public class TcpClient implements Client{
                 if (!mute && !essential) System.out.println("Error while closing socket");
             }
 
-            //Notifying lock to stop
-            synchronized (actionLock) {
-                this.actionLock.setOffline(true);
-                this.actionLock.notifyAll();
-            }
+            // Notifying lock to stop
+            this.actionLock.setOffline(true);
 
+            // Updating the view
             view.update(State.GRACEFULDISCONNECTION, null);
 
-            this.isClientOnline = false;
         }
     }
 }

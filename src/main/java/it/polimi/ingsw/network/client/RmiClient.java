@@ -386,7 +386,7 @@ public class RmiClient extends UnicastRemoteObject implements Client, RmiClientI
      */
     private synchronized void gracefulDisconnection(boolean connectionError) {
         if (isClientOnline) {
-            if (connectionError && !mute && essential) System.out.println("Connection error");
+            if (connectionError && !mute && !essential) System.out.println("Connection error");
             if (!connectionError && !mute) System.out.println("Game Aborted");
             if (!mute) System.out.println("Initializing graceful disconnection");
             if (!mute && !essential) System.out.println("Terminating Ping Thread");

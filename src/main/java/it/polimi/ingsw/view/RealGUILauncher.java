@@ -45,7 +45,9 @@ public class RealGUILauncher extends Application {
         Scene scene=new Scene(fxmlLoader.load());
         stage.setScene(scene);
 
-        stage.setResizable(false);
+        stage.setResizable(true);
+        stage.minWidthProperty().bind(scene.heightProperty().multiply(1.5));
+        stage.minHeightProperty().bind(scene.heightProperty().divide(1.5));
 
         stage.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
             if(KeyCode.F11.equals(keyEvent.getCode())) stage.setFullScreen(!stage.isFullScreen());

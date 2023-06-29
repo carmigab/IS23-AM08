@@ -4,6 +4,7 @@ module AM08 {
     requires com.google.gson;
     requires java.rmi;
 
+
     opens it.polimi.ingsw.model.commonGoals to com.google.gson;
     opens it.polimi.ingsw.model to com.google.gson;
     opens it.polimi.ingsw.controller to com.google.gson;
@@ -26,5 +27,7 @@ module AM08 {
     exports it.polimi.ingsw.utilities;
     exports it.polimi.ingsw.view;
     exports it.polimi.ingsw.view.gui;
+
+
 
 }

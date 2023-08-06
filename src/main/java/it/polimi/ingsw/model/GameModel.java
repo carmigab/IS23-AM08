@@ -149,7 +149,8 @@ public class GameModel {
      */
     private void initializePersistenceFile(List<String> nicks){
         this.fileName= ModelConstants.PATH_SAVED_MATCHES + UtilityFunctionsModel.getJSONFileName(nicks);
-        saveCurrentState();
+        //Commented to save time
+        //saveCurrentState();
     }
 
     /**
@@ -343,7 +344,8 @@ public class GameModel {
             }
         }
         // save the state of the game to be reloaded in case of server crash
-        saveCurrentState();
+        //Commented to save time
+        //saveCurrentState();
 
         // Notifies all observers at hte end of the turn
         this.notifyObservers();

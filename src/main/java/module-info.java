@@ -3,6 +3,7 @@ module AM08 {
     requires javafx.fxml;
     requires com.google.gson;
     requires java.rmi;
+    requires py4j;
 
     opens it.polimi.ingsw.model.commonGoals to com.google.gson;
     opens it.polimi.ingsw.model to com.google.gson;

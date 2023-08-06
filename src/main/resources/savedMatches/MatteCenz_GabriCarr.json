@@ -73,12 +73,12 @@
           ],
           [
             {
-              "color": "WHITE",
+              "color": "GREEN",
               "sprite": 3
             },
             {
-              "color": "WHITE",
-              "sprite": 2
+              "color": "YELLOW",
+              "sprite": 3
             },
             {
               "color": "EMPTY",
@@ -212,50 +212,6 @@
         "myShelf": [
           [
             {
-              "color": "GREEN",
-              "sprite": 3
-            },
-            {
-              "color": "CYAN",
-              "sprite": 1
-            },
-            {
-              "color": "WHITE",
-              "sprite": 1
-            },
-            {
-              "color": "CYAN",
-              "sprite": 2
-            },
-            {
-              "color": "YELLOW",
-              "sprite": 2
-            }
-          ],
-          [
-            {
-              "color": "GREEN",
-              "sprite": 3
-            },
-            {
-              "color": "CYAN",
-              "sprite": 1
-            },
-            {
-              "color": "WHITE",
-              "sprite": 1
-            },
-            {
-              "color": "GREEN",
-              "sprite": 3
-            },
-            {
-              "color": "GREEN",
-              "sprite": 1
-            }
-          ],
-          [
-            {
               "color": "VIOLET",
               "sprite": 2
             },
@@ -268,12 +224,56 @@
               "sprite": 1
             },
             {
+              "color": "VIOLET",
+              "sprite": 3
+            },
+            {
+              "color": "VIOLET",
+              "sprite": 3
+            }
+          ],
+          [
+            {
               "color": "WHITE",
+              "sprite": 2
+            },
+            {
+              "color": "CYAN",
+              "sprite": 1
+            },
+            {
+              "color": "WHITE",
+              "sprite": 1
+            },
+            {
+              "color": "BLUE",
+              "sprite": 3
+            },
+            {
+              "color": "GREEN",
+              "sprite": 2
+            }
+          ],
+          [
+            {
+              "color": "GREEN",
               "sprite": 3
             },
             {
               "color": "CYAN",
-              "sprite": 2
+              "sprite": 1
+            },
+            {
+              "color": "WHITE",
+              "sprite": 1
+            },
+            {
+              "color": "VIOLET",
+              "sprite": 1
+            },
+            {
+              "color": "WHITE",
+              "sprite": 3
             }
           ],
           [
@@ -466,12 +466,12 @@
           "sprite": 1
         },
         {
-          "color": "BLUE",
-          "sprite": 3
+          "color": "YELLOW",
+          "sprite": 2
         },
         {
           "color": "EMPTY",
-          "sprite": 2
+          "sprite": 3
         },
         {
           "color": "INVALID",
@@ -501,82 +501,6 @@
         },
         {
           "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "WHITE",
-          "sprite": 3
-        },
-        {
-          "color": "GREEN",
-          "sprite": 2
-        },
-        {
-          "color": "EMPTY",
-          "sprite": 3
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        }
-      ],
-      [
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "VIOLET",
-          "sprite": 1
-        },
-        {
-          "color": "WHITE",
-          "sprite": 1
-        },
-        {
-          "color": "GREEN",
-          "sprite": 3
-        },
-        {
-          "color": "EMPTY",
-          "sprite": 2
-        },
-        {
-          "color": "EMPTY",
-          "sprite": 3
-        },
-        {
-          "color": "EMPTY",
-          "sprite": 3
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        }
-      ],
-      [
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "BLUE",
-          "sprite": 2
-        },
-        {
-          "color": "CYAN",
           "sprite": 1
         },
         {
@@ -584,12 +508,122 @@
           "sprite": 2
         },
         {
-          "color": "BLUE",
+          "color": "YELLOW",
+          "sprite": 3
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 3
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        }
+      ],
+      [
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "CYAN",
+          "sprite": 2
+        },
+        {
+          "color": "WHITE",
+          "sprite": 1
+        },
+        {
+          "color": "GREEN",
           "sprite": 1
         },
         {
           "color": "EMPTY",
           "sprite": 3
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 2
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 2
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        }
+      ],
+      [
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "YELLOW",
+          "sprite": 2
+        },
+        {
+          "color": "WHITE",
+          "sprite": 2
+        },
+        {
+          "color": "WHITE",
+          "sprite": 2
+        },
+        {
+          "color": "CYAN",
+          "sprite": 3
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 1
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 3
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 3
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        }
+      ],
+      [
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "BLUE",
+          "sprite": 2
+        },
+        {
+          "color": "WHITE",
+          "sprite": 3
+        },
+        {
+          "color": "CYAN",
+          "sprite": 1
+        },
+        {
+          "color": "BLUE",
+          "sprite": 1
         },
         {
           "color": "EMPTY",
@@ -602,9 +636,63 @@
         {
           "color": "INVALID",
           "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
         }
       ],
       [
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "CYAN",
+          "sprite": 1
+        },
+        {
+          "color": "YELLOW",
+          "sprite": 2
+        },
+        {
+          "color": "EMPTY",
+          "sprite": 2
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        }
+      ],
+      [
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
+        {
+          "color": "INVALID",
+          "sprite": 1
+        },
         {
           "color": "INVALID",
           "sprite": 1
@@ -614,96 +702,8 @@
           "sprite": 3
         },
         {
-          "color": "WHITE",
+          "color": "EMPTY",
           "sprite": 3
-        },
-        {
-          "color": "BLUE",
-          "sprite": 3
-        },
-        {
-          "color": "WHITE",
-          "sprite": 2
-        },
-        {
-          "color": "EMPTY",
-          "sprite": 2
-        },
-        {
-          "color": "EMPTY",
-          "sprite": 2
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        }
-      ],
-      [
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "VIOLET",
-          "sprite": 3
-        },
-        {
-          "color": "CYAN",
-          "sprite": 2
-        },
-        {
-          "color": "EMPTY",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        }
-      ],
-      [
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "INVALID",
-          "sprite": 1
-        },
-        {
-          "color": "BLUE",
-          "sprite": 1
-        },
-        {
-          "color": "EMPTY",
-          "sprite": 2
         },
         {
           "color": "INVALID",
@@ -786,7 +786,7 @@
       },
       {
         "color": "BLUE",
-        "sprite": 2
+        "sprite": 1
       },
       {
         "color": "BLUE",
@@ -807,6 +807,14 @@
       {
         "color": "BLUE",
         "sprite": 2
+      },
+      {
+        "color": "BLUE",
+        "sprite": 2
+      },
+      {
+        "color": "BLUE",
+        "sprite": 3
       },
       {
         "color": "BLUE",
@@ -859,6 +867,14 @@
       {
         "color": "GREEN",
         "sprite": 2
+      },
+      {
+        "color": "GREEN",
+        "sprite": 3
+      },
+      {
+        "color": "GREEN",
+        "sprite": 3
       },
       {
         "color": "GREEN",
@@ -890,7 +906,11 @@
       },
       {
         "color": "WHITE",
-        "sprite": 2
+        "sprite": 3
+      },
+      {
+        "color": "WHITE",
+        "sprite": 3
       },
       {
         "color": "WHITE",
@@ -910,10 +930,6 @@
       },
       {
         "color": "CYAN",
-        "sprite": 1
-      },
-      {
-        "color": "CYAN",
         "sprite": 2
       },
       {
@@ -930,7 +946,11 @@
       },
       {
         "color": "CYAN",
-        "sprite": 3
+        "sprite": 2
+      },
+      {
+        "color": "CYAN",
+        "sprite": 2
       },
       {
         "color": "CYAN",
@@ -951,10 +971,6 @@
       {
         "color": "CYAN",
         "sprite": 3
-      },
-      {
-        "color": "YELLOW",
-        "sprite": 1
       },
       {
         "color": "YELLOW",
@@ -970,7 +986,7 @@
       },
       {
         "color": "YELLOW",
-        "sprite": 2
+        "sprite": 1
       },
       {
         "color": "YELLOW",
@@ -987,18 +1003,6 @@
       {
         "color": "YELLOW",
         "sprite": 2
-      },
-      {
-        "color": "YELLOW",
-        "sprite": 2
-      },
-      {
-        "color": "YELLOW",
-        "sprite": 3
-      },
-      {
-        "color": "YELLOW",
-        "sprite": 3
       },
       {
         "color": "YELLOW",
@@ -1047,10 +1051,6 @@
       {
         "color": "VIOLET",
         "sprite": 2
-      },
-      {
-        "color": "VIOLET",
-        "sprite": 3
       },
       {
         "color": "VIOLET",

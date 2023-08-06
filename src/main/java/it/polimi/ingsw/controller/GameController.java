@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.observers.VirtualView;
+import it.polimi.ingsw.launchers.TrainingLauncher;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.model.Position;
 import it.polimi.ingsw.network.server.MatchServer;
@@ -40,6 +41,7 @@ public class GameController {
      */
     private final VirtualView gameStateObserver;
 
+    /*
     /**
      * this class is the class constructor; it receives the list of nicknames of the players, the number of the
      * players and the server where the controller resides and creates a new controller
@@ -47,7 +49,7 @@ public class GameController {
      * @param numPlayers number of the players
      * @param server server where the controller resides
      */
-
+    /*
     public GameController(List<String> nicknames, int numPlayers, MatchServer server){
         playersList = new ArrayList<>(nicknames);
         this.numPlayers = numPlayers;
@@ -58,16 +60,31 @@ public class GameController {
 
     }
 
+     */
+
+    /*
     /**
      * This method initializes a new gameController from a pre-existing model
      * @param model: the model to load
      * @param server: the server where the controller resides
      */
+    /*
     public GameController(GameModel model, MatchServer server){
         this.model = model;
         this.model.removeObservers();
         this.numPlayers = this.model.getPlayerListCopy().size();
         this.playersList = null;
+
+        this.gameStateObserver = new VirtualView(server);
+        this.model.addObserver(gameStateObserver);
+    }
+
+     */
+
+    public GameController(List<String> nicknames, int numPlayers, TrainingLauncher server){
+        playersList = new ArrayList<>(nicknames);
+        this.numPlayers = numPlayers;
+        this.model = new GameModel(numPlayers, nicknames);
 
         this.gameStateObserver = new VirtualView(server);
         this.model.addObserver(gameStateObserver);

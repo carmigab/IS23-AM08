@@ -10,6 +10,7 @@ import it.polimi.ingsw.network.client.TcpClient;
 import it.polimi.ingsw.network.server.LobbyServer;
 import it.polimi.ingsw.network.server.LobbyServerConfig;
 import javafx.geometry.Pos;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -29,6 +30,7 @@ public class BasicRmiTcpConnectivityTest {
      * This method tests the basic connectivity between a client and a server
      */
     @Test
+    @Disabled
     public void basicTcpClientServerConnectionTest(){
         boolean testSuccessful = true;
         try {

@@ -172,7 +172,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
 
         // we notify the clients to wait only if the players are not all here
         if (this.getFreeSpaces() != 0) this.updateClients(State.WAITINGFORPLAYERS, null);
-        if (this.getFreeSpaces() == 0) this.startGame();
+        //if (this.getFreeSpaces() == 0) this.startGame();
 
     }
 
@@ -186,10 +186,12 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
     }
 
 
+    /*
     /**
      * This method creates a new controller and launches a new thread that pings the clients
      * oss: note that the first update to the server is called when the model is created
      */
+    /*
     public void startGame(){
         if (!this.toLoadGame) {
             if(!mute) System.out.println("MS: Starting new game");
@@ -202,6 +204,7 @@ public class MatchServer extends UnicastRemoteObject implements RmiServerInterfa
             this.gameController = new GameController(gameToLoad, this);
         }
     }
+     */
 
     /**
      * Method to create a ping thread

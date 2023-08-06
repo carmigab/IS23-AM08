@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller.observers;
 
 import it.polimi.ingsw.gameInfo.GameInfo;
 import it.polimi.ingsw.gameInfo.State;
+import it.polimi.ingsw.launchers.TrainingLauncher;
 import it.polimi.ingsw.model.GameModel;
 import it.polimi.ingsw.network.server.MatchServer;
 
@@ -25,20 +26,32 @@ public class VirtualView implements Observer{
      */
     private GameInfo gameInfo;
 
+    /*
     /**
      * this attribute represents a server
      */
-    private final MatchServer server;
+    //private final MatchServer server;
 
+    /*
     /**
      * this class is the class constructor; it receives a server and creates a new VirtualView, setting
      * currentState to "TURN" and gameInfo to null
      * @param server the server passed by parameter
      */
+    /*
     public VirtualView(MatchServer server){
         this.server=server;
         this.currentState=State.TURN0;
         this.gameInfo=null;
+    }
+     */
+
+    private final TrainingLauncher server;
+
+    public VirtualView(TrainingLauncher server){
+        this.currentState=State.TURN0;
+        this.gameInfo=null;
+        this.server=server;
     }
 
 

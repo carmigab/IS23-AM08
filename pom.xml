@@ -50,56 +50,63 @@
     <artifactId>javafx-fxml</artifactId>
     <version>19.0.2.1</version>
   </dependency>
-    <dependency>
-        <groupId>org.mockito</groupId>
-        <artifactId>mockito-core</artifactId>
-        <version>5.3.0</version>
-        <scope>test</scope>
-    </dependency>
+  <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>5.3.0</version>
+      <scope>test</scope>
+  </dependency>
+  <!-- https://mvnrepository.com/artifact/net.sf.py4j/py4j -->
+  <dependency>
+    <groupId>net.sf.py4j</groupId>
+    <artifactId>py4j</artifactId>
+    <version>0.10.9.7</version>
+  </dependency>
 
-    <!-- UNCOMMENT WHEN PACKAGING WITH WSL >
 
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-media</artifactId>
-      <version>17-ea+11</version>
-      <classifier>win</classifier>
-    </dependency>
+  <!-- UNCOMMENT WHEN PACKAGING WITH WSL >
 
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-media</artifactId>
-      <version>17-ea+11</version>
-      <classifier>linux</classifier>
-    </dependency>
+  <dependency>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-media</artifactId>
+    <version>17-ea+11</version>
+    <classifier>win</classifier>
+  </dependency>
 
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-media</artifactId>
-      <version>17-ea+11</version>
-      <classifier>mac</classifier>
-    </dependency>
+  <dependency>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-media</artifactId>
+    <version>17-ea+11</version>
+    <classifier>linux</classifier>
+  </dependency>
 
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-graphics</artifactId>
-      <version>17-ea+11</version>
-      <classifier>win</classifier>
-    </dependency>
+  <dependency>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-media</artifactId>
+    <version>17-ea+11</version>
+    <classifier>mac</classifier>
+  </dependency>
 
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-graphics</artifactId>
-      <version>17-ea+11</version>
-      <classifier>linux</classifier>
-    </dependency>
+  <dependency>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-graphics</artifactId>
+    <version>17-ea+11</version>
+    <classifier>win</classifier>
+  </dependency>
 
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx-graphics</artifactId>
-      <version>17-ea+11</version>
-      <classifier>mac</classifier>
-    </dependency -->
+  <dependency>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-graphics</artifactId>
+    <version>17-ea+11</version>
+    <classifier>linux</classifier>
+  </dependency>
+
+  <dependency>
+    <groupId>org.openjfx</groupId>
+    <artifactId>javafx-graphics</artifactId>
+    <version>17-ea+11</version>
+    <classifier>mac</classifier>
+  </dependency -->
 
 </dependencies>
 
@@ -139,7 +146,7 @@
             <outputFile>shade\${project.artifactId}.jar</outputFile>
             <transformers>
               <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                <mainClass>it.polimi.ingsw.launchers.App</mainClass>
+                <mainClass>it.polimi.ingsw.launchers.TrainingLauncher</mainClass>
               </transformer>
             </transformers>
           </configuration>

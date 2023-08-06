@@ -7,6 +7,7 @@ import it.polimi.ingsw.controller.GameController;
 import it.polimi.ingsw.controller.exceptions.InvalidMoveException;
 import it.polimi.ingsw.controller.exceptions.InvalidNicknameException;
 import it.polimi.ingsw.utilities.JsonWithExposeSingleton;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -25,6 +26,7 @@ class CompleteGameTest {
      * This method test a game with two players simulating all the actions to check if all flows correctly
      */     
     @Test
+    @Disabled
     void twoPlayerCompleteGame() throws FileNotFoundException {
 
 

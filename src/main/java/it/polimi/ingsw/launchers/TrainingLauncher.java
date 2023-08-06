@@ -22,10 +22,10 @@ public class TrainingLauncher {
         this.controller = controller;
     }
 
-    public void update(State currentState, GameInfo gameInfo){
+    public void update(State currentState, GameInfo currentGameInfo){
 
         System.out.println(currentState);
-        System.out.println(gameInfo.getCurrentPlayerNickname());
+        System.out.println(currentGameInfo.getCurrentPlayerNickname());
 
         this.currentState=currentState;
         this.currentGameInfo=currentGameInfo;
@@ -33,6 +33,8 @@ public class TrainingLauncher {
     }
 
     public boolean isGameEnded(){ return this.currentState.equals(State.ENDGAME); }
+
+    public String getCurrentPlayer(){ return this.currentGameInfo.getCurrentPlayerNickname(); }
 
     public boolean makeMove(List<Integer> positions, int size, int column, String nickname){
         List<Position> positionList=new ArrayList<>(size);

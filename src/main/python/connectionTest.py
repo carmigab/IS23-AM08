@@ -7,7 +7,7 @@ nicknames = ["Pippo", "Topolino"]
 server=gateway.entry_point
 random=gateway.jvm.java.util.Random()
 currentPlayer=0
-while server.isGameEnded()==False:
+while not server.isGameEnded():
     if server.getCurrentPlayer() == nicknames[currentPlayer]:
         server.makeMove(
             listConverter.convert([random.nextInt(9), random.nextInt(9)], gateway._gateway_client),

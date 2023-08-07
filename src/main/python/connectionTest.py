@@ -120,7 +120,15 @@ model = nn.Sequential(
 
 print(model)
 
-inputs=[1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0]
+inputs=[]
+for i in range(12+12):
+    inputs.append(0)
+
+inputs[gameinfo.getPlayerInfosList().get(0).getPersonalGoalNumber()]=1
+
+inputs[12+gameinfo.getCommonGoalsCreated().get(0)]=1
+inputs[12+gameinfo.getCommonGoalsCreated().get(1)]=1
+
 inputs=torch.tensor(inputs, dtype=torch.float32)
 
 print(inputs)
@@ -128,6 +136,29 @@ print(inputs)
 outputs=model(inputs)
 
 print(outputs)
+
+outputs=outputs.tolist()
+
+for i in range(len(all_moves)):
+    outputs[i]=outputs[i]*mask_available_actions[i]
+
+print(outputs)
+
+outputs_move=[]
+outputs_cols=[]
+
+for i in range(len(all_moves)):
+    outputs_move.append(outputs[i])
+
+for i in range(len(all_moves), len(outputs)):
+    outputs_cols.append(outputs[i])
+
+print("Best move")
+print(max(outputs_move))
+print("Best column")
+print(max(outputs_cols))
+
+#TODO fitness function, backpropagation, game advancement, save results
 
 ########################################################################################################################
 

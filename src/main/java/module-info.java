@@ -27,5 +27,6 @@ module AM08 {
     exports it.polimi.ingsw.utilities;
     exports it.polimi.ingsw.view;
     exports it.polimi.ingsw.view.gui;
+    exports it.polimi.ingsw.computer;
 
 }

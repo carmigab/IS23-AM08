@@ -23,6 +23,11 @@ public class TrainingLauncher {
     private GameController controller;
     private State currentState;
     private GameInfo currentGameInfo;
+    private final Map<Action, Move> moveActionMap;
+
+    public TrainingLauncher() {
+        this.moveActionMap=new HashMap<>();
+    }
 
     public void setController(GameController controller) {
         this.controller = controller;
@@ -46,13 +51,16 @@ public class TrainingLauncher {
         return currentGameInfo;
     }
 
-    public boolean makeMove(List<Integer> positions, int size, int column, String nickname){
-        List<Position> positionList=new ArrayList<>(size);
-        for(int i=0;i<size;i+=2){
-            positionList.add(new Position(positions.get(i), positions.get(i+1)));
+    public Move getBestMove(List<TileColor> tiles, int column){
+        for(Action a: this.moveActionMap.keySet()){
+            if(new HashSet<>(a.getTiles()).containsAll(tiles) && new HashSet<>(tiles).containsAll(a.getTiles())) return this.moveActionMap.get(a);
         }
+        return null;
+    }
+
+    public boolean makeMove(List<Position> positions, int column, String nickname){
         try {
-            this.controller.makeMove(positionList,column, nickname);
+            this.controller.makeMove(positions,column, nickname);
         } catch (InvalidMoveException e) {
             System.out.println("Invalid Move");
             return false;
@@ -109,6 +117,9 @@ public class TrainingLauncher {
     }
 
     public Set<Action> getAvailableActions() {
+
+        this.moveActionMap.clear();
+
         Set<Action> availableActions = new HashSet<>();
 
         List<Position> availablePositions = getAdj(new ArrayList<>());
@@ -194,6 +205,10 @@ public class TrainingLauncher {
         List<TileColor> tileColors = positions.stream().
                 map(position -> this.currentGameInfo.getGameBoard()[position.y()][position.x()].getColor())
                 .toList();
+
+        Action action = new Action(tileColors, move.column());
+
+        moveActionMap.put(action, move);
 
         return new Action(tileColors, move.column());
     }

@@ -28,6 +28,14 @@ colors_map={
     tilecolor.CYAN  : 4,
     tilecolor.VIOLET: 5
     }
+colors_map_reversed={
+    0 : tilecolor.GREEN,
+    1 : tilecolor.WHITE,
+    2 : tilecolor.BLUE,
+    3 : tilecolor.YELLOW,
+    4 : tilecolor.CYAN,
+    5 : tilecolor.VIOLET,
+    }
 
 colors_array=[0,1,2,3,4,5]
 
@@ -87,32 +95,6 @@ all_moves={0: [0], 1: [1], 2: [2], 3: [3], 4: [4], 5: [5], 6: [0, 0], 7: [0, 1],
 
 ########################################################################################################################
 
-gameinfo=server.getCurrentGameInfo()
-
-availablemoves=server.getAvailableActions()
-
-#print("Available moves")
-
-# for move in availablemoves:
-#     print(move.getTiles())
-
-mask_available_actions=[]
-
-for i in range(len(all_moves)):
-    mask_available_actions.append(0)
-
-for move in availablemoves:
-
-    index=list(all_moves.values()).index(
-        list(map(lambda x: colors_map[x], move.getTiles()))
-    )
-    mask_available_actions[index]=1
-
-print("Mask available actions")
-print(mask_available_actions)
-
-########################################################################################################################
-
 model = nn.Sequential(
     nn.Linear(INPUT_SIZE, OUTPUT_SIZE, bias=False),
     nn.Sigmoid()
@@ -120,61 +102,145 @@ model = nn.Sequential(
 
 print(model)
 
-inputs=[]
-for i in range(INPUT_SIZE):
-    inputs.append(0)
-
-inputs[gameinfo.getPlayerInfosList().get(0).getPersonalGoalNumber()]=1
-
-inputs[PERSONAL_GOALS+gameinfo.getCommonGoalsCreated().get(0)]=1
-inputs[PERSONAL_GOALS+gameinfo.getCommonGoalsCreated().get(1)]=1
-
-inputs=torch.tensor(inputs, dtype=torch.float32)
-
-print(inputs)
-
-outputs=model(inputs)
-
-print(outputs)
-
-outputs=outputs.tolist()
-
-for i in range(len(all_moves)):
-    outputs[i]=outputs[i]*mask_available_actions[i]
-
-print(outputs)
-
-outputs_move=[]
-outputs_cols=[]
-
-for i in range(len(all_moves)):
-    outputs_move.append(outputs[i])
-
-for i in range(len(all_moves), len(outputs)):
-    outputs_cols.append(outputs[i])
-
-print("Best move")
-print(max(outputs_move))
-print("Best column")
-print(max(outputs_cols))
-
-#TODO fitness function, backpropagation, game advancement, save results
+#TODO backpropagation, save results, fix selection of moves
 
 ########################################################################################################################
 
-print("Fitness of player 0")
-print(shelf_fitness_evaluation(gameinfo.getPlayerInfosList().get(0).getShelf(), gameinfo.getPlayerInfosList().get(0).getPersonalGoal(), colors_map))
+gameinfo=server.getCurrentGameInfo()
 
-########################################################################################################################
+while not server.isGameEnded():
+    if gameinfo.getCurrentPlayerNickname() == nicknames[currentPlayer]:
+
+        #######################
+        # GET THE GAME INFORMATION
+        #######################
+
+        availablemoves=server.getAvailableActions()
+
+        #print("Available moves")
+
+        # for move in availablemoves:
+        #     print(move.getTiles())
+
+        #######################
+        # PREPARE THE MASK FOR THE AVAILABLE ACTIONS
+        #######################
+
+        mask_available_actions=[]
+
+        for i in range(len(all_moves)):
+            mask_available_actions.append(0)
+
+        for move in availablemoves:
+
+            index=list(all_moves.values()).index(
+                list(map(lambda x: colors_map[x], move.getTiles()))
+            )
+            mask_available_actions[index]=1
+
+        #print("Mask available actions")
+        print(mask_available_actions)
+
+        #######################
+        # PREPARE THE INPUTS
+        #######################
+
+        inputs=[]
+        for i in range(INPUT_SIZE):
+            inputs.append(0)
+
+        inputs[gameinfo.getPlayerInfosList().get(0).getPersonalGoalNumber()]=1
+
+        inputs[PERSONAL_GOALS+gameinfo.getCommonGoalsCreated().get(0)]=1
+        inputs[PERSONAL_GOALS+gameinfo.getCommonGoalsCreated().get(1)]=1
+
+        inputs=torch.tensor(inputs, dtype=torch.float32)
+
+        #print(inputs)
+
+        #######################
+        # CALCULATE THE OUTPUTS WITH THE FEEDFORWARD AND TRANSFORM IT TO POSITIONS ON THE BOARD
+        #######################
+
+        outputs=model(inputs)
+
+        #print(outputs)
+
+        outputs=outputs.tolist()
+
+        for i in range(len(all_moves)):
+            outputs[i]=outputs[i]*mask_available_actions[i]
+
+        #print(outputs)
+
+        outputs_move=[]
+        outputs_cols=[]
+
+        for i in range(len(all_moves)):
+            outputs_move.append(outputs[i])
+
+        for i in range(len(all_moves), len(outputs)):
+            outputs_cols.append(outputs[i])
+
+        best_colors=outputs_move.index(max(outputs_move))
+        #print("Best move")
+        #print(best_colors)
+        best_column=outputs_cols.index(max(outputs_cols))
+        #print("Best column")
+        #print(best_column)
+
+        temp_list=[]
+
+        for color in all_moves[best_colors]:
+            temp_list.append(colors_map_reversed[color])
+
+        java_list=ListConverter().convert(temp_list, gateway._gateway_client)
+
+        best_move=server.getBestMove(java_list, best_column)
+
+        print("Best position on the board")
+        for tile in best_move.positions():
+            print(tile.x())
+            print(tile.y())
+            print("-")
+
+        #######################
+        # EVALUATE THE FITNESS BEFORE
+        #######################
+
+        #print("Fitness")
+        #print(shelf_fitness_evaluation(gameinfo.getPlayerInfosList().get(0).getShelf(), gameinfo.getPlayerInfosList().get(0).getPersonalGoal(), colors_map))
+
+        #######################
+        # MAKE THE MOVE ON THE SERVER
+        #######################
+
+        server.makeMove(
+            ListConverter().convert(best_move.positions(), gateway._gateway_client),
+            best_column,
+            nicknames[currentPlayer])
+
+        #######################
+        # GET NEW INFORMATION AND EVALUATE FITNESS AFTER
+        #######################
+
+        gameinfo=server.getCurrentGameInfo()
+
+        #print("New fitness")
+        #print(shelf_fitness_evaluation(gameinfo.getPlayerInfosList().get(0).getShelf(), gameinfo.getPlayerInfosList().get(0).getPersonalGoal(), colors_map))
+
+        #######################
+        # BACKPROPAGATE
+        #######################
+
+        #TODO
+
+        #######################
+        # SAVE SCORES
+        #######################
+
+        #TODO
 
 
-
-# while not server.isGameEnded():
-#     if server.getCurrentPlayer() == nicknames[currentPlayer]:
-#         server.makeMove(
-#             listConverter.convert([random.nextInt(9), random.nextInt(9)], gateway._gateway_client),
-#             1,
-#             random.nextInt(5),
-#             nicknames[currentPlayer])
-#     currentPlayer=(currentPlayer+1)%2
-# print("Game done")
+    currentPlayer=(currentPlayer+1)%2
+print("Game done")

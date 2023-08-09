@@ -95,14 +95,12 @@ all_moves={0: [0], 1: [1], 2: [2], 3: [3], 4: [4], 5: [5], 6: [0, 0], 7: [0, 1],
 
 ########################################################################################################################
 
-move_action_map={}
-
 def get_mask_available_actions(gameboard):
 
     mask_available_actions=[]
 
     for i in range(len(all_moves)):
-        mask_available_actions.append(0)
+        mask_available_actions.append([0, [[],[],[]]])
 
     single_available_positions=get_adj([], gameboard)
 
@@ -110,7 +108,10 @@ def get_mask_available_actions(gameboard):
 
         color_mapped=colors_map[gameboard[position[1]][position[0]].getColor()]
 
-        mask_available_actions[color_mapped]=1
+        idx1=list(all_moves.keys())[list(all_moves.values()).index([color_mapped])]
+
+        mask_available_actions[idx1][0]=1
+        mask_available_actions[idx1][1][0]=position
 
         double_available_positions=get_adj([position], gameboard)
 
@@ -118,7 +119,11 @@ def get_mask_available_actions(gameboard):
 
             color_first_neighbour_mapped=colors_map[gameboard[first_neighbour[1]][first_neighbour[0]].getColor()]
 
-            mask_available_actions[list(all_moves.keys())[list(all_moves.values()).index([color_mapped, color_first_neighbour_mapped])]]=1
+            idx2=list(all_moves.keys())[list(all_moves.values()).index([color_mapped, color_first_neighbour_mapped])]
+
+            mask_available_actions[idx2][0]=1
+            mask_available_actions[idx2][1][0]=position
+            mask_available_actions[idx2][1][1]=first_neighbour
 
             triple_available_positions=get_adj([position, first_neighbour], gameboard)
 
@@ -126,7 +131,12 @@ def get_mask_available_actions(gameboard):
 
                 color_second_neighbour_mapped=colors_map[gameboard[second_neighbour[1]][second_neighbour[0]].getColor()]
 
-                mask_available_actions[list(all_moves.keys())[list(all_moves.values()).index([color_mapped, color_first_neighbour_mapped, color_second_neighbour_mapped])]]=1
+                idx3=list(all_moves.keys())[list(all_moves.values()).index([color_mapped, color_first_neighbour_mapped, color_second_neighbour_mapped])]
+
+                mask_available_actions[idx3][0]=1
+                mask_available_actions[idx3][1][0]=position
+                mask_available_actions[idx3][1][1]=first_neighbour
+                mask_available_actions[idx3][1][2]=second_neighbour
 
     return mask_available_actions
 
@@ -213,7 +223,7 @@ model = nn.Sequential(
 
 print(model)
 
-#TODO backpropagation, save results, fix selection of moves
+#TODO backpropagation, save results, fix selection of moves (in particular column selection when is full)
 
 ########################################################################################################################
 
@@ -235,7 +245,7 @@ while not server.isGameEnded():
         mask_available_actions=get_mask_available_actions(gameinfo.getGameBoard())
 
         #print("Mask available actions")
-        print(mask_available_actions)
+        #print(mask_available_actions)
 
         #######################
         # PREPARE THE INPUTS
@@ -265,7 +275,7 @@ while not server.isGameEnded():
         outputs=outputs.tolist()
 
         for i in range(len(all_moves)):
-            outputs[i]=outputs[i]*mask_available_actions[i]
+            outputs[i]=outputs[i]*mask_available_actions[i][0]
 
         #print(outputs)
 
@@ -285,22 +295,14 @@ while not server.isGameEnded():
         #print("Best column")
         #print(best_column)
 
-        temp_list=[]
-
-        for color in all_moves[best_colors]:
-            temp_list.append(colors_map_reversed[color])
-
-        print(temp_list)
-
-        java_list=ListConverter().convert(temp_list, gateway._gateway_client)
-
-        best_move=server.getBestMove(java_list, best_column)
+        best_move=mask_available_actions[best_colors][1]
 
         print("Best position on the board")
-        for tile in best_move.positions():
-            print(tile.x())
-            print(tile.y())
-            print("-")
+        for pos in best_move:
+            if pos:
+                print(pos[0])
+                print(pos[1])
+                print("-")
 
         #######################
         # EVALUATE THE FITNESS BEFORE
@@ -313,8 +315,28 @@ while not server.isGameEnded():
         # MAKE THE MOVE ON THE SERVER
         #######################
 
+        list_to_java=[]
+        for pos in best_move:
+            if pos:
+                list_to_java.append(gateway.jvm.it.polimi.ingsw.model.Position(pos[0],pos[1]))
+
+        # print(list_to_java)
+
+        # for i in range(BOARD_DIMENSION):
+        #     str=""
+        #     for j in range(BOARD_DIMENSION):
+        #         if gameinfo.getGameBoard()[i][j].isInvalid():
+        #             str=str+" 0"
+        #         elif gameinfo.getGameBoard()[i][j].isEmpty():
+        #             str=str+" 1"
+        #         else:
+        #             str=str+" 2"
+        #     print(str)
+
+
+
         server.makeMove(
-            ListConverter().convert(best_move.positions(), gateway._gateway_client),
+            ListConverter().convert(list_to_java, gateway._gateway_client),
             best_column,
             nicknames[currentPlayer])
 

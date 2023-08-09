@@ -10,7 +10,7 @@ def shelf_fitness_evaluation(shelf, personal_goal, colors_map):
         i=ROWS_NUMBER-1
         tile=shelf[i][j]
         while not tile.isEmpty() and i>0:
-            fitness=fitness+tile_fitness_evaluation(shelf, i, j)
+            fitness=fitness+tile_fitness_evaluation(shelf, i, j, colors_map)
             i=i-1
             tile=shelf[i][j]
 

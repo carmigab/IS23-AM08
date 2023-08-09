@@ -1,6 +1,7 @@
 PERSONAL_GOALS=12
 PERSONAL_GOALS_SIZE=6
 COMMON_GOALS=12
+BOARD_DIMENSION=9
 INPUT_SIZE=PERSONAL_GOALS+COMMON_GOALS
 ########################################################################################################################
 COLORS_NUMBER=6

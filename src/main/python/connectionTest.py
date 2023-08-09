@@ -95,6 +95,117 @@ all_moves={0: [0], 1: [1], 2: [2], 3: [3], 4: [4], 5: [5], 6: [0, 0], 7: [0, 1],
 
 ########################################################################################################################
 
+move_action_map={}
+
+def get_mask_available_actions(gameboard):
+
+    mask_available_actions=[]
+
+    for i in range(len(all_moves)):
+        mask_available_actions.append(0)
+
+    single_available_positions=get_adj([], gameboard)
+
+    for position in single_available_positions:
+
+        color_mapped=colors_map[gameboard[position[1]][position[0]].getColor()]
+
+        mask_available_actions[color_mapped]=1
+
+        double_available_positions=get_adj([position], gameboard)
+
+        for first_neighbour in double_available_positions:
+
+            color_first_neighbour_mapped=colors_map[gameboard[first_neighbour[1]][first_neighbour[0]].getColor()]
+
+            mask_available_actions[list(all_moves.keys())[list(all_moves.values()).index([color_mapped, color_first_neighbour_mapped])]]=1
+
+            triple_available_positions=get_adj([position, first_neighbour], gameboard)
+
+            for second_neighbour in triple_available_positions:
+
+                color_second_neighbour_mapped=colors_map[gameboard[second_neighbour[1]][second_neighbour[0]].getColor()]
+
+                mask_available_actions[list(all_moves.keys())[list(all_moves.values()).index([color_mapped, color_first_neighbour_mapped, color_second_neighbour_mapped])]]=1
+
+    return mask_available_actions
+
+def get_adj(positions, gameboard):
+
+    result=[]
+
+    if len(positions)==0:
+        for i in range(BOARD_DIMENSION):
+            for j in range(BOARD_DIMENSION):
+                result.append([i, j])
+
+    elif len(positions)==1:
+        result.append([(positions[0])[0], (positions[0])[1]+1])
+        result.append([(positions[0])[0], (positions[0])[1]-1])
+        result.append([(positions[0])[0]+1, (positions[0])[1]])
+        result.append([(positions[0])[0]-1, (positions[0])[1]])
+
+    else:
+        if (positions[0])[0]==(positions[1])[0]:
+            result.append([(positions[0])[0], min([(positions[0])[1]-1,(positions[1])[1]-1])])
+            result.append([(positions[0])[0], max([(positions[0])[1]+1,(positions[1])[1]+1])])
+        else:
+            result.append([min([(positions[0])[0]-1,(positions[1])[0]-1]), (positions[0])[1]])
+            result.append([max([(positions[0])[0]+1,(positions[1])[0]+1]), (positions[0])[1]])
+
+    return reduce_adjacent(result, gameboard)
+
+def reduce_adjacent(adjacent, gameboard):
+
+    result=[]
+
+    for element in adjacent:
+        if check_single_position(element, gameboard):
+            result.append(element)
+
+    return result
+
+def check_single_position(position, gameboard):
+
+    if position[0]<0 or position[0]>BOARD_DIMENSION:
+        return False
+    if position[1]<0 or position[1]>BOARD_DIMENSION:
+        return False
+    if gameboard[position[1]][position[0]].isEmpty() or gameboard[position[1]][position[0]].isInvalid():
+        return False
+
+    return has_free_adjacent(position, gameboard)
+
+def has_free_adjacent(position, gameboard):
+
+    adjacents=get_adjacent_positions(position)
+
+    if len(adjacents)<4:
+        return True
+    for pos in adjacents:
+        if gameboard[pos[1]][pos[0]].isEmpty() or gameboard[pos[1]][pos[0]].isInvalid():
+            return True
+
+    return False
+
+def get_adjacent_positions(position):
+
+    adjacent_positions=[]
+
+    if position[0] < BOARD_DIMENSION-1:
+        adjacent_positions.append([position[0]+1, position[1]])
+    if position[1] < BOARD_DIMENSION-1:
+        adjacent_positions.append([position[0], position[1]+1])
+    if position[0] > 0:
+        adjacent_positions.append([position[0]-1, position[1]])
+    if position[1] > 0:
+        adjacent_positions.append([position[0], position[1]-1])
+
+    return adjacent_positions
+
+
+########################################################################################################################
+
 model = nn.Sequential(
     nn.Linear(INPUT_SIZE, OUTPUT_SIZE, bias=False),
     nn.Sigmoid()
@@ -115,28 +226,13 @@ while not server.isGameEnded():
         # GET THE GAME INFORMATION
         #######################
 
-        availablemoves=server.getAvailableActions()
-
-        #print("Available moves")
-
-        # for move in availablemoves:
-        #     print(move.getTiles())
+        gameinfo=server.getCurrentGameInfo()
 
         #######################
         # PREPARE THE MASK FOR THE AVAILABLE ACTIONS
         #######################
 
-        mask_available_actions=[]
-
-        for i in range(len(all_moves)):
-            mask_available_actions.append(0)
-
-        for move in availablemoves:
-
-            index=list(all_moves.values()).index(
-                list(map(lambda x: colors_map[x], move.getTiles()))
-            )
-            mask_available_actions[index]=1
+        mask_available_actions=get_mask_available_actions(gameinfo.getGameBoard())
 
         #print("Mask available actions")
         print(mask_available_actions)
@@ -193,6 +289,8 @@ while not server.isGameEnded():
 
         for color in all_moves[best_colors]:
             temp_list.append(colors_map_reversed[color])
+
+        print(temp_list)
 
         java_list=ListConverter().convert(temp_list, gateway._gateway_client)
 

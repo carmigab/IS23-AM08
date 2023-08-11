@@ -55,24 +55,14 @@ public class TrainingLauncher {
         try {
             this.controller.makeMove(positions,column, nickname);
         } catch (InvalidMoveException e) {
-            //System.out.println("Invalid Move");
+            System.out.println("Invalid Move");
             return false;
         } catch (InvalidNicknameException e) {
-            //System.out.println("Invalid Nickname");
+            System.out.println("Invalid Nickname");
             return false;
         }
-        //System.out.println("Move done");
+        System.out.println("Move done");
         return true;
-    }
-
-
-    private boolean checkSinglePosition(Position pos){
-        if(pos.x() < 0 || pos.x() >= ModelConstants.BOARD_DIMENSION) return false;
-        if(pos.y() < 0 || pos.y() >= ModelConstants.BOARD_DIMENSION) return false;
-        if(this.currentGameInfo.getGameBoard()[pos.y()] [pos.x()].isEmpty() || this.currentGameInfo.getGameBoard()[pos.y()] [pos.x()].isInvalid()){
-            return false;
-        }
-        return UtilityFunctionsModel.hasFreeAdjacent(this.currentGameInfo.getGameBoard(), pos);
     }
 
     public static void main(String[] args) {

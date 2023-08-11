@@ -8,6 +8,7 @@ from constants import *
 from fitness_functions import shelf_fitness_evaluation
 from itertools import product
 import torch.optim as optim
+import time
 
 ########################################################################################################################
 
@@ -38,6 +39,37 @@ colors_map_reversed={
     }
 
 colors_array=[0,1,2,3,4,5]
+
+########################################################################################################################
+
+class Tile:
+
+    isInvalid=False
+    isEmpty=False
+    color=1
+
+    def __init__(self, tile):
+        if tile.isEmpty():
+            self.isEmpty=True
+        elif tile.isInvalid():
+            self.isInvalid=True
+        else:
+            self.color=colors_map[tile.getColor()]
+
+class GameBoard:
+    tiles=[]
+
+    def __init__(self, game_board):
+        for y in range(BOARD_DIMENSION):
+            self.tiles.append([])
+            for x in range(BOARD_DIMENSION):
+                self.tiles[y].append(Tile(game_board[y][x]))
+                if game_board[y][x].isEmpty():
+                    print("Empty")
+                    print(y)
+                    print(x)
+                    print(self.tiles[y][x].isEmpty)
+
 
 ########################################################################################################################
 
@@ -98,25 +130,236 @@ all_moves={0: [0], 1: [1], 2: [2], 3: [3], 4: [4], 5: [5], 6: [0, 0], 7: [0, 1],
 mask_single_move=[1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 mask_double_move=[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
-#it is available if it is not full
-def get_mask_available_columns(shelf):
+mask_available_columns=[]
+mask_available_actions=[]
 
-    mask_available_columns=[]
+outputs=[]
+
+def setup_mask_available_columns():
+    for i in range(COLUMNS_NUMBER):
+            mask_available_columns.append(0)
+
+def setup_mask_available_actions():
+    for i in range(len(all_moves)):
+        mask_available_actions.append([0, [[],[],[]]])
+
+def reset_mask_available_acitons():
+    for i in range(len(all_moves)):
+        mask_available_actions[i]=[0, [[],[],[]]]
+
+setup_mask_available_columns()
+setup_mask_available_actions()
+
+#it is available if it is not full
+def calculate_mask_available_columns(shelf):
 
     for i in range(COLUMNS_NUMBER):
         if shelf[0][i].isEmpty():
-            mask_available_columns.append(1)
+            mask_available_columns[i]=1
         else:
-            mask_available_columns.append(0)
+            mask_available_columns[i]=0
 
     return mask_available_columns
 
-def get_mask_available_actions(gameboard):
+def calculate_mask_available_actions_optimized(gameboard):
 
-    mask_available_actions=[]
+    print("Elapsed time 1: %f" %( time.time()-start_time) )
 
-    for i in range(len(all_moves)):
-        mask_available_actions.append([0, [[],[],[]]])
+    for i in range(BOARD_DIMENSION):
+        str=""
+        for j in range(BOARD_DIMENSION):
+            if gameboard[i][j].isInvalid():
+                str=str+" 0"
+            elif gameboard[i][j].isEmpty():
+                str=str+" 1"
+            else:
+                str=str+" 2"
+        print(str)
+
+    gameboard=GameBoard(gameboard)
+
+    for i in range(BOARD_DIMENSION):
+        str=""
+        for j in range(BOARD_DIMENSION):
+            if gameboard.tiles[i][j].isInvalid:
+                str=str+" 0"
+            elif gameboard.tiles[i][j].isEmpty:
+                str=str+" 1"
+            else:
+                str=str+" 2"
+        print(str)
+
+    print("Elapsed time 2: %f" %( time.time()-start_time) )
+
+    reset_mask_available_acitons()
+
+    #Search first the single positions
+
+    #[Y,X]
+    #Y ROWS
+    #X COLUMNS
+
+    list_all_moves_keys=list(all_moves.keys())
+    list_all_moves_values=list(all_moves.values())
+
+
+    for y in range(BOARD_DIMENSION):
+        for x in range(BOARD_DIMENSION):
+            if not gameboard.tiles[y][x].isEmpty and not gameboard.tiles[y][x].isInvalid:
+
+                neighbours=[]
+                count =0
+
+                #Check its neigbours and see if it is vaild
+                #note that in a game with 2 players you do not need to check if it is in an edge (just to save some time in training)
+
+                if not(gameboard.tiles[y][x].isEmpty or gameboard.tiles[y][x+1].isInvalid):
+                    neighbours.append([0,1])
+                    count=count+1
+                if not(gameboard.tiles[y][x].isEmpty or gameboard.tiles[y][x-1].isInvalid):
+                    neighbours.append([0,-1])
+                    count=count+1
+                if not(gameboard.tiles[y][x].isEmpty or gameboard.tiles[y+1][x].isInvalid):
+                    neighbours.append([1,0])
+                    count=count+1
+                if not(gameboard.tiles[y][x].isEmpty or gameboard.tiles[y-1][x].isInvalid):
+                    neighbours.append([-1,0])
+                    count=count+1
+
+                #if it has every potential then it is not a valid move because it has every neighbour
+                if not count==4:
+
+                    #then add it as a single move
+
+                    color_mapped=gameboard.tiles[y][x].color
+
+                    idx1=list_all_moves_keys[list_all_moves_values.index([color_mapped])]
+
+                    mask_available_actions[idx1][0]=1
+                    mask_available_actions[idx1][1][0]=[x,y]
+
+                    #and check its neighbours because they could be double moves
+
+                    for neighbour in neighbours:
+
+                        neighbours_neighbour=0
+
+                        potential_triple=False
+
+                        #we check every neighbour except the one we came from
+
+
+
+                        #this means we have to move in the y direction
+                        if neighbour[0]!=0:
+                            if not(gameboard.tiles[y+neighbour[0]][x+neighbour[0]].isEmpty or gameboard.tiles[y+neighbour[0]][x+neighbour[0]].isInvalid):
+                                neighbours_neighbour=neighbours_neighbour+1
+                            if not(gameboard.tiles[y+neighbour[0]][x-neighbour[0]].isEmpty or gameboard.tiles[y+neighbour[0]][x-neighbour[0]].isInvalid):
+                                neighbours_neighbour=neighbours_neighbour+1
+                            if not(gameboard.tiles[y+neighbour[0]*2][x].isEmpty or gameboard.tiles[y+neighbour[0]*2][x].isInvalid):
+                                neighbours_neighbour=neighbours_neighbour+1
+                                potential_triple=True
+                        #or else we move in the x direction and do the same checks
+                        else:
+                            if not(gameboard.tiles[y+neighbour[1]][x+neighbour[1]].isEmpty or gameboard.tiles[y+neighbour[1]][x+neighbour[1]].isInvalid):
+                                neighbours_neighbour=neighbours_neighbour+1
+                            if not(gameboard.tiles[y-neighbour[1]][x+neighbour[1]].isEmpty or gameboard.tiles[y-neighbour[1]][x+neighbour[1]].isInvalid):
+                                neighbours_neighbour=neighbours_neighbour+1
+                            if not(gameboard.tiles[y][x+neighbour[1]*2].isEmpty or gameboard.tiles[y][x+neighbour[1]*2].isInvalid):
+                                neighbours_neighbour=neighbours_neighbour+1
+                                potential_triple=True
+
+                        #if not every neighbour is occupied then it is a valid move to add
+                        if neighbours_neighbour!=3:
+
+                            color_first_neighbour_mapped=gameboard.tiles[y+neighbour[0]][x+neighbour[1]].color
+
+                            idx2=list_all_moves_keys[list_all_moves_values.index([color_mapped, color_first_neighbour_mapped])]
+
+                            mask_available_actions[idx2][0]=1
+                            mask_available_actions[idx2][1][0]=[x,y]
+                            mask_available_actions[idx2][1][1]=[x+neighbour[1],y+neighbour[0]]
+
+                            #if it is a potential triple then we need to check the neighbours in that direction too
+                            if potential_triple:
+
+                                neighbours_neighbour=0
+
+                                #we check every neighbour except the one we came from
+
+                                #this means we have to move in the y direction
+                                if neighbour[0]!=0:
+                                    if not(gameboard.tiles[y+neighbour[0]*2][x+neighbour[0]].isEmpty or gameboard.tiles[y+neighbour[0]*2][x+neighbour[0]].isInvalid):
+                                        neighbours_neighbour=neighbours_neighbour+1
+                                    if not(gameboard.tiles[y+neighbour[0]*2][x-neighbour[0]].isEmpty or gameboard.tiles[y+neighbour[0]*2][x-neighbour[0]].isInvalid):
+                                        neighbours_neighbour=neighbours_neighbour+1
+                                    if not(gameboard.tiles[y+neighbour[0]*3][x].isEmpty or gameboard.tiles[y+neighbour[0]*3][x].isInvalid):
+                                        neighbours_neighbour=neighbours_neighbour+1
+                                #or else we move in the x direction and do the same checks
+                                else:
+                                    if not(gameboard.tiles[y+neighbour[1]][x+neighbour[1]*2].isEmpty or gameboard.tiles[y+neighbour[1]][x+neighbour[1]*2].isInvalid):
+                                        neighbours_neighbour=neighbours_neighbour+1
+                                    if not(gameboard.tiles[y-neighbour[1]][x+neighbour[1]*2].isEmpty or gameboard.tiles[y-neighbour[1]][x+neighbour[1]*2].isInvalid):
+                                        neighbours_neighbour=neighbours_neighbour+1
+                                    if not(gameboard.tiles[y][x+neighbour[1]*3].isEmpty or gameboard.tiles[y][x+neighbour[1]*3].isInvalid):
+                                        neighbours_neighbour=neighbours_neighbour+1
+
+                                #if not every neighbour is occupied then it is a valid move to add
+                                if neighbours_neighbour!=3:
+
+                                    color_second_neighbour_mapped=gameboard.tiles[y+neighbour[0]*2][x+neighbour[1]*2].color
+
+                                    idx3=list_all_moves_keys[list_all_moves_values.index([color_mapped, color_first_neighbour_mapped, color_second_neighbour_mapped])]
+
+                                    mask_available_actions[idx3][0]=1
+                                    mask_available_actions[idx3][1][0]=[x,y]
+                                    mask_available_actions[idx3][1][1]=[x+neighbour[1],y+neighbour[0]]
+                                    mask_available_actions[idx3][1][2]=[x+neighbour[1]*2,y+neighbour[0]*2]
+
+                                    #i am missing all the other 4 permutations which are not seen by the algorithm
+
+                                    idx4=list_all_moves_keys[list_all_moves_values.index([color_mapped, color_second_neighbour_mapped, color_first_neighbour_mapped])]
+                                    idx5=list_all_moves_keys[list_all_moves_values.index([color_second_neighbour_mapped, color_mapped, color_first_neighbour_mapped])]
+                                    idx6=list_all_moves_keys[list_all_moves_values.index([color_first_neighbour_mapped, color_mapped, color_second_neighbour_mapped])]
+                                    idx7=list_all_moves_keys[list_all_moves_values.index([color_first_neighbour_mapped, color_second_neighbour_mapped, color_mapped])]
+
+                                    if mask_available_actions[idx4][0]==0:
+                                        mask_available_actions[idx4][0]=1
+                                        mask_available_actions[idx4][1][0]=[x,y]
+                                        mask_available_actions[idx4][1][1]=[x+neighbour[1]*2,y+neighbour[0]*2]
+                                        mask_available_actions[idx4][1][2]=[x+neighbour[1],y+neighbour[0]]
+                                    if mask_available_actions[idx5][0]==0:
+                                        mask_available_actions[idx5][0]=1
+                                        mask_available_actions[idx5][1][0]=[x+neighbour[1]*2,y+neighbour[0]*2]
+                                        mask_available_actions[idx5][1][1]=[x,y]
+                                        mask_available_actions[idx5][1][2]=[x+neighbour[1],y+neighbour[0]]
+                                    if mask_available_actions[idx6][0]==0:
+                                        mask_available_actions[idx6][0]=1
+                                        mask_available_actions[idx6][1][0]=[x+neighbour[1],y+neighbour[0]]
+                                        mask_available_actions[idx6][1][1]=[x,y]
+                                        mask_available_actions[idx6][1][2]=[x+neighbour[1]*2,y+neighbour[0]*2]
+                                    if mask_available_actions[idx7][0]==0:
+                                        mask_available_actions[idx7][0]=1
+                                        mask_available_actions[idx7][1][0]=[x+neighbour[1],y+neighbour[0]]
+                                        mask_available_actions[idx7][1][1]=[x+neighbour[1]*2,y+neighbour[0]*2]
+                                        mask_available_actions[idx7][1][2]=[x,y]
+
+    print("Elapsed time 3: %f" %( time.time()-start_time) )
+
+
+
+
+
+
+
+
+
+
+
+
+def calculate_mask_available_actions(gameboard):
+
+    reset_mask_available_acitons()
 
     single_available_positions=get_adj([], gameboard)
 
@@ -245,6 +488,32 @@ print(model)
 
 gameinfo=server.getCurrentGameInfo()
 
+# calculate_mask_available_actions_optimized(gameinfo.getGameBoard())
+#
+# print("Mask available actions")
+# str=""
+# for action in mask_available_actions:
+#     if action[0]==0:
+#         str=str+"0 "
+#     else:
+#         str=str+"1 "
+# print(str)
+# print(mask_available_actions)
+#
+# calculate_mask_available_actions(gameinfo.getGameBoard())
+#
+# print("Mask available actions")
+# str=""
+# for action in mask_available_actions:
+#     if action[0]==0:
+#         str=str+"0 "
+#     else:
+#         str=str+"1 "
+# print(str)
+# print(mask_available_actions)
+
+start_time=time.time()
+
 while not server.isGameEnded():
     if gameinfo.getCurrentPlayerNickname() == nicknames[currentPlayer]:
 
@@ -258,15 +527,19 @@ while not server.isGameEnded():
         # PREPARE THE MASK FOR THE AVAILABLE ACTIONS
         #######################
 
-        mask_available_actions=get_mask_available_actions(gameinfo.getGameBoard())
-        mask_available_columns=get_mask_available_columns(gameinfo.getPlayerInfosList().get(currentPlayer).getShelf())
 
-        #print("Mask available actions")
-        #print(mask_available_actions)
+
+        calculate_mask_available_actions_optimized(gameinfo.getGameBoard())
+        calculate_mask_available_columns(gameinfo.getPlayerInfosList().get(currentPlayer).getShelf())
+
+        # print("Mask available actions")
+        # print(mask_available_actions)
 
         #######################
         # PREPARE THE INPUTS
         #######################
+
+
 
         inputs=[]
         for i in range(INPUT_SIZE):
@@ -285,11 +558,9 @@ while not server.isGameEnded():
         # CALCULATE THE OUTPUTS WITH THE FEEDFORWARD AND TRANSFORM IT TO POSITIONS ON THE BOARD
         #######################
 
-        outputs=model(inputs)
+        outputs=model(inputs).tolist()
 
         #print(outputs)
-
-        outputs=outputs.tolist()
 
         for i in range(len(all_moves)):
             outputs[i]=outputs[i]*mask_available_actions[i][0]
@@ -318,8 +589,6 @@ while not server.isGameEnded():
         #print(best_column)
 
         best_move=mask_available_actions[best_colors][1]
-
-        #TODO check if free_spaces(column)<size(best_move) and adjust accordingly
 
         free_spaces=0
 
@@ -359,12 +628,12 @@ while not server.isGameEnded():
 
             best_move=mask_available_actions[best_colors][1]
 
-        # print("Best position on the board")
-        # for pos in best_move:
-        #     if pos:
-        #         print(pos[0])
-        #         print(pos[1])
-        #         print("-")
+        print("Best position on the board")
+        for pos in best_move:
+            if pos:
+                print(pos[0])
+                print(pos[1])
+                print("-")
 
         #######################
         # EVALUATE THE FITNESS BEFORE
@@ -395,8 +664,6 @@ while not server.isGameEnded():
         #             str=str+" 2"
         #     print(str)
 
-
-
         server.makeMove(
             ListConverter().convert(list_to_java, gateway._gateway_client),
             best_column,
@@ -405,6 +672,8 @@ while not server.isGameEnded():
         #######################
         # GET NEW INFORMATION AND EVALUATE FITNESS AFTER
         #######################
+
+        time.sleep(1)
 
         gameinfo=server.getCurrentGameInfo()
 

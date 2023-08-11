@@ -96,8 +96,7 @@ all_moves={0: [0], 1: [1], 2: [2], 3: [3], 4: [4], 5: [5], 6: [0, 0], 7: [0, 1],
 ########################################################################################################################
 
 mask_single_move=[1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-mask_double_move=[0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-mask_triple_move=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+mask_double_move=[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
 #it is available if it is not full
 def get_mask_available_columns(shelf):
@@ -296,8 +295,9 @@ while not server.isGameEnded():
             outputs[i]=outputs[i]*mask_available_actions[i][0]
 
         for i in range(len(all_moves), len(outputs)):
-            outputs[i]=outputs[i]*mask_available_columns[i]
+            outputs[i]=outputs[i]*mask_available_columns[i-len(all_moves)]
 
+        #print(mask_available_columns)
 
         #print(outputs)
 
@@ -321,12 +321,50 @@ while not server.isGameEnded():
 
         #TODO check if free_spaces(column)<size(best_move) and adjust accordingly
 
-        print("Best position on the board")
-        for pos in best_move:
-            if pos:
-                print(pos[0])
-                print(pos[1])
-                print("-")
+        free_spaces=0
+
+        while free_spaces!=ROWS_NUMBER and gameinfo.getPlayerInfosList().get(currentPlayer).getShelf()[free_spaces][best_column].isEmpty() :
+            free_spaces=free_spaces+1
+
+        #print(free_spaces)
+
+        diff=free_spaces - len(best_move)
+
+        #print("Diff")
+        #print(diff)
+
+        if diff<0:
+            if diff==-1 and free_spaces==2:
+                for i in range(len(all_moves)):
+                    outputs[i]=outputs[i]*mask_double_move[i]
+            else:
+                for i in range(len(all_moves)):
+                    outputs[i]=outputs[i]*mask_single_move[i]
+
+            outputs_move=[]
+            outputs_cols=[]
+
+            for i in range(len(all_moves)):
+                outputs_move.append(outputs[i])
+
+            for i in range(len(all_moves), len(outputs)):
+                outputs_cols.append(outputs[i])
+
+            best_colors=outputs_move.index(max(outputs_move))
+            #print("New best move")
+            #print(best_colors)
+            best_column=outputs_cols.index(max(outputs_cols))
+            #print("New best column")
+            #print(best_column)
+
+            best_move=mask_available_actions[best_colors][1]
+
+        # print("Best position on the board")
+        # for pos in best_move:
+        #     if pos:
+        #         print(pos[0])
+        #         print(pos[1])
+        #         print("-")
 
         #######################
         # EVALUATE THE FITNESS BEFORE
@@ -346,12 +384,12 @@ while not server.isGameEnded():
 
         # print(list_to_java)
 
-        # for i in range(BOARD_DIMENSION):
+        # for i in range(ROWS_NUMBER):
         #     str=""
-        #     for j in range(BOARD_DIMENSION):
-        #         if gameinfo.getGameBoard()[i][j].isInvalid():
+        #     for j in range(COLUMNS_NUMBER):
+        #         if gameinfo.getPlayerInfosList().get(currentPlayer).getShelf()[i][j].isInvalid():
         #             str=str+" 0"
-        #         elif gameinfo.getGameBoard()[i][j].isEmpty():
+        #         elif gameinfo.getPlayerInfosList().get(currentPlayer).getShelf()[i][j].isEmpty():
         #             str=str+" 1"
         #         else:
         #             str=str+" 2"

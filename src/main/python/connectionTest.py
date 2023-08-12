@@ -46,15 +46,23 @@ class Tile:
 
     isInvalid=False
     isEmpty=False
-    color=1
+    color=0
 
-    def __init__(self, tile):
-        if tile.isEmpty():
-            self.isEmpty=True
-        elif tile.isInvalid():
-            self.isInvalid=True
-        else:
-            self.color=colors_map[tile.getColor()]
+    def set_empty(self):
+        self.isEmpty=True
+        self.isInvalid=False
+        self.color=0
+
+    def set_invalid(self):
+        self.isInvalid=True
+        self.isEmpty=False
+        self.color=0
+
+
+    def set_color(self,color_number):
+        self.color=color_number
+        self.isInvalid=False
+        self.isEmpty=False
 
 class GameBoard:
     tiles=[]
@@ -63,12 +71,29 @@ class GameBoard:
         for y in range(BOARD_DIMENSION):
             self.tiles.append([])
             for x in range(BOARD_DIMENSION):
-                self.tiles[y].append(Tile(game_board[y][x]))
-                if game_board[y][x].isEmpty():
-                    print("Empty")
-                    print(y)
-                    print(x)
-                    print(self.tiles[y][x].isEmpty)
+                self.tiles[y].append(Tile())
+                if game_board[y][x].isInvalid():
+                    self.tiles[y][x].set_invalid()
+                elif game_board[y][x].isEmpty():
+                    self.tiles[y][x].set_empty()
+                else:
+                    self.tiles[y][x].set_color(colors_map[game_board[y][x].getColor()])
+
+    def has_to_be_filled(self):
+        for y in range(BOARD_DIMENSION):
+            for x in range(BOARD_DIMENSION):
+                if not self.tiles[y][x].isInvalid and not self.tiles[y][x].isEmpty:
+                    #check if it has every adjacent empty
+                    if not self.tiles[y][x+1].isInvalid and not self.tiles[y][x+1].isEmpty:
+                        return False
+                    if not self.tiles[y][x-1].isInvalid and not self.tiles[y][x-1].isEmpty:
+                        return False
+                    if not self.tiles[y+1][x].isInvalid and not self.tiles[y+1][x].isEmpty:
+                        return False
+                    if not self.tiles[y-1][x].isInvalid and not self.tiles[y+1][x].isEmpty:
+                        return False
+        return True
+
 
 
 ########################################################################################################################
@@ -163,34 +188,6 @@ def calculate_mask_available_columns(shelf):
 
 def calculate_mask_available_actions_optimized(gameboard):
 
-    print("Elapsed time 1: %f" %( time.time()-start_time) )
-
-    for i in range(BOARD_DIMENSION):
-        str=""
-        for j in range(BOARD_DIMENSION):
-            if gameboard[i][j].isInvalid():
-                str=str+" 0"
-            elif gameboard[i][j].isEmpty():
-                str=str+" 1"
-            else:
-                str=str+" 2"
-        print(str)
-
-    gameboard=GameBoard(gameboard)
-
-    for i in range(BOARD_DIMENSION):
-        str=""
-        for j in range(BOARD_DIMENSION):
-            if gameboard.tiles[i][j].isInvalid:
-                str=str+" 0"
-            elif gameboard.tiles[i][j].isEmpty:
-                str=str+" 1"
-            else:
-                str=str+" 2"
-        print(str)
-
-    print("Elapsed time 2: %f" %( time.time()-start_time) )
-
     reset_mask_available_acitons()
 
     #Search first the single positions
@@ -213,16 +210,16 @@ def calculate_mask_available_actions_optimized(gameboard):
                 #Check its neigbours and see if it is vaild
                 #note that in a game with 2 players you do not need to check if it is in an edge (just to save some time in training)
 
-                if not(gameboard.tiles[y][x].isEmpty or gameboard.tiles[y][x+1].isInvalid):
+                if not(gameboard.tiles[y][x+1].isEmpty or gameboard.tiles[y][x+1].isInvalid):
                     neighbours.append([0,1])
                     count=count+1
-                if not(gameboard.tiles[y][x].isEmpty or gameboard.tiles[y][x-1].isInvalid):
+                if not(gameboard.tiles[y][x-1].isEmpty or gameboard.tiles[y][x-1].isInvalid):
                     neighbours.append([0,-1])
                     count=count+1
-                if not(gameboard.tiles[y][x].isEmpty or gameboard.tiles[y+1][x].isInvalid):
+                if not(gameboard.tiles[y+1][x].isEmpty or gameboard.tiles[y+1][x].isInvalid):
                     neighbours.append([1,0])
                     count=count+1
-                if not(gameboard.tiles[y][x].isEmpty or gameboard.tiles[y-1][x].isInvalid):
+                if not(gameboard.tiles[y-1][x].isEmpty or gameboard.tiles[y-1][x].isInvalid):
                     neighbours.append([-1,0])
                     count=count+1
 
@@ -343,16 +340,6 @@ def calculate_mask_available_actions_optimized(gameboard):
                                         mask_available_actions[idx7][1][0]=[x+neighbour[1],y+neighbour[0]]
                                         mask_available_actions[idx7][1][1]=[x+neighbour[1]*2,y+neighbour[0]*2]
                                         mask_available_actions[idx7][1][2]=[x,y]
-
-    print("Elapsed time 3: %f" %( time.time()-start_time) )
-
-
-
-
-
-
-
-
 
 
 
@@ -488,6 +475,8 @@ print(model)
 
 gameinfo=server.getCurrentGameInfo()
 
+gameboard=GameBoard(gameinfo.getGameBoard())
+
 # calculate_mask_available_actions_optimized(gameinfo.getGameBoard())
 #
 # print("Mask available actions")
@@ -527,9 +516,36 @@ while not server.isGameEnded():
         # PREPARE THE MASK FOR THE AVAILABLE ACTIONS
         #######################
 
+        # print("Elapsed time 1: %f" %( time.time()-start_time) )
+        #
+        # for i in range(BOARD_DIMENSION):
+        #     str=""
+        #     for j in range(BOARD_DIMENSION):
+        #         if gameinfo.getGameBoard()[i][j].isInvalid():
+        #             str=str+" 0"
+        #         elif gameinfo.getGameBoard()[i][j].isEmpty():
+        #             str=str+" 1"
+        #         else:
+        #             str=str+" 2"
+        #     print(str)
+        #
+        # print("--")
 
+        if gameboard.has_to_be_filled():
+            gameboard=GameBoard(gameinfo.getGameBoard())
 
-        calculate_mask_available_actions_optimized(gameinfo.getGameBoard())
+        # for i in range(BOARD_DIMENSION):
+        #     str=""
+        #     for j in range(BOARD_DIMENSION):
+        #         if gameboard.tiles[i][j].isInvalid:
+        #             str=str+" 0"
+        #         elif gameboard.tiles[i][j].isEmpty:
+        #             str=str+" 1"
+        #         else:
+        #             str=str+" 2"
+        #     print(str)
+
+        calculate_mask_available_actions_optimized(gameboard)
         calculate_mask_available_columns(gameinfo.getPlayerInfosList().get(currentPlayer).getShelf())
 
         # print("Mask available actions")
@@ -559,6 +575,7 @@ while not server.isGameEnded():
         #######################
 
         outputs=model(inputs).tolist()
+
 
         #print(outputs)
 
@@ -628,12 +645,12 @@ while not server.isGameEnded():
 
             best_move=mask_available_actions[best_colors][1]
 
-        print("Best position on the board")
-        for pos in best_move:
-            if pos:
-                print(pos[0])
-                print(pos[1])
-                print("-")
+        # print("Best position on the board")
+        # for pos in best_move:
+        #     if pos:
+        #         print(pos[0])
+        #         print(pos[1])
+        #         print("-")
 
         #######################
         # EVALUATE THE FITNESS BEFORE
@@ -650,6 +667,9 @@ while not server.isGameEnded():
         for pos in best_move:
             if pos:
                 list_to_java.append(gateway.jvm.it.polimi.ingsw.model.Position(pos[0],pos[1]))
+
+                #when we have done the move we can remove the positions from our gameboard
+                gameboard.tiles[pos[1]][pos[0]].set_empty()
 
         # print(list_to_java)
 
@@ -673,8 +693,6 @@ while not server.isGameEnded():
         # GET NEW INFORMATION AND EVALUATE FITNESS AFTER
         #######################
 
-        time.sleep(1)
-
         gameinfo=server.getCurrentGameInfo()
 
         #print("New fitness")
@@ -694,4 +712,6 @@ while not server.isGameEnded():
 
 
     currentPlayer=(currentPlayer+1)%2
+
+print("Elapsed time END: %f" %( time.time()-start_time) )
 print("Game done")

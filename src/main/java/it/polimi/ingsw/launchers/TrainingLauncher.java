@@ -55,13 +55,13 @@ public class TrainingLauncher {
         try {
             this.controller.makeMove(positions,column, nickname);
         } catch (InvalidMoveException e) {
-            System.out.println("Invalid Move");
+            //System.out.println("Invalid Move");
             return false;
         } catch (InvalidNicknameException e) {
-            System.out.println("Invalid Nickname");
+            //System.out.println("Invalid Nickname");
             return false;
         }
-        System.out.println("Move done");
+        //System.out.println("Move done");
         return true;
     }
 

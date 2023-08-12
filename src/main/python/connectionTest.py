@@ -44,9 +44,10 @@ colors_array=[0,1,2,3,4,5]
 
 class Tile:
 
-    isInvalid=False
-    isEmpty=False
-    color=0
+    def __init__(self):
+        self.isEmpty=False
+        self.isInvalid=False
+        self.color=0
 
     def set_empty(self):
         self.isEmpty=True
@@ -65,9 +66,9 @@ class Tile:
         self.isEmpty=False
 
 class GameBoard:
-    tiles=[]
 
     def __init__(self, game_board):
+        self.tiles=[]
         for y in range(BOARD_DIMENSION):
             self.tiles.append([])
             for x in range(BOARD_DIMENSION):
@@ -93,6 +94,41 @@ class GameBoard:
                     if not self.tiles[y-1][x].isInvalid and not self.tiles[y+1][x].isEmpty:
                         return False
         return True
+
+class Shelf:
+
+    def __init__(self):
+        self.tiles=[]
+
+    def initialize(self):
+        for y in range(ROWS_NUMBER):
+            self.tiles.append([])
+            for x in range(COLUMNS_NUMBER):
+                self.tiles[y].append(Tile())
+                self.tiles[y][x].set_empty()
+
+    #move is a list of colors
+    def make_move(self, move, column):
+
+        row_to_insert=ROWS_NUMBER-1
+
+        while not self.tiles[row_to_insert][column].isEmpty:
+            row_to_insert=row_to_insert-1
+
+        for single in move:
+            self.tiles[row_to_insert][column].set_color(single)
+            row_to_insert=row_to_insert-1
+
+class PersonalGoal:
+
+    #it contains a list of positions and colors
+    def __init__(self):
+        self.single_goals=[]
+
+    def initialize(self, personal_goal):
+
+        for single_goal in personal_goal:
+            self.single_goals.append([[single_goal.getPosition().x(), single_goal.getPosition().y()], colors_map[single_goal.getColor()]])
 
 
 
@@ -477,6 +513,16 @@ gameinfo=server.getCurrentGameInfo()
 
 gameboard=GameBoard(gameinfo.getGameBoard())
 
+personal_goals=[PersonalGoal() for i in range(2)]
+
+personal_goals[0].initialize(gameinfo.getPlayerInfosList().get(0).getPersonalGoal())
+personal_goals[1].initialize(gameinfo.getPlayerInfosList().get(1).getPersonalGoal())
+
+shelves=[Shelf() for i in range(2)]
+
+shelves[0].initialize()
+shelves[1].initialize()
+
 # calculate_mask_available_actions_optimized(gameinfo.getGameBoard())
 #
 # print("Mask available actions")
@@ -599,8 +645,8 @@ while not server.isGameEnded():
             outputs_cols.append(outputs[i])
 
         best_colors=outputs_move.index(max(outputs_move))
-        #print("Best move")
-        #print(best_colors)
+        # print("Best move")
+        # print(best_colors)
         best_column=outputs_cols.index(max(outputs_cols))
         #print("Best column")
         #print(best_column)
@@ -673,21 +719,12 @@ while not server.isGameEnded():
 
         # print(list_to_java)
 
-        # for i in range(ROWS_NUMBER):
-        #     str=""
-        #     for j in range(COLUMNS_NUMBER):
-        #         if gameinfo.getPlayerInfosList().get(currentPlayer).getShelf()[i][j].isInvalid():
-        #             str=str+" 0"
-        #         elif gameinfo.getPlayerInfosList().get(currentPlayer).getShelf()[i][j].isEmpty():
-        #             str=str+" 1"
-        #         else:
-        #             str=str+" 2"
-        #     print(str)
-
         server.makeMove(
             ListConverter().convert(list_to_java, gateway._gateway_client),
             best_column,
             nicknames[currentPlayer])
+
+        shelves[currentPlayer].make_move(all_moves[best_colors], best_column)
 
         #######################
         # GET NEW INFORMATION AND EVALUATE FITNESS AFTER
@@ -695,8 +732,10 @@ while not server.isGameEnded():
 
         gameinfo=server.getCurrentGameInfo()
 
-        #print("New fitness")
-        #print(shelf_fitness_evaluation(gameinfo.getPlayerInfosList().get(0).getShelf(), gameinfo.getPlayerInfosList().get(0).getPersonalGoal(), colors_map))
+        fitness=shelf_fitness_evaluation(shelves[currentPlayer], personal_goals[currentPlayer])
+
+        # print("New fitness")
+        # print(fitness)
 
         #######################
         # BACKPROPAGATE

@@ -1,4 +1,5 @@
-# IS23-AM08
+# Software Engineering project - a.y. 2022-23
+![Box image](https://www.craniocreations.it/storage/media/products/54/112/My_Shelfie_box_ITA-ENG.png)  
 
 ## Group members
 * Gabriele Carminati
@@ -27,7 +28,7 @@
 | TCP            | :green_circle:  |                         |
 
 
-# Launching the application
+# How to run
 
 To launch the application you can open the CMD in the folder where the file AM08.jar is located and write
 
@@ -187,15 +188,5 @@ can be read as follows:
 * the name cannot be empty
 
 ----------------------------------
-
-To demonstrate the persistance our group has prepared some games (stored in */deliverables/savedMatchesTest* )
-which can be used to play some already existing games.
-
-For the proper setup one must follow these few simple steps:
-
-* pick one file with the saved match and **COPY** it in the folder */savedMatches* created by the server application (**NOTE:** you can also decide not to copy it and just drop it there, but if some client crashes or the game ends it will not be possible to reuse that template again since it will be lost)
-* launch the application in server mode so that it can recover those games correctly
-* enter as a client and choose the nickname suitable for the recovered game
-* choose the options to recover a game (in TUI you need to select the "join" option and then the "recovery" option)
-
-E.G. if the file name is *alfaStart_betaStart_.json* two clients, one named **alfaStart** and one **betaStart** need to connect and both select the option to **RECOVER** a game. (If one chooses to join another game it will be lost and the process will have to be done again)
+## Copyright disclaimer
+My Shelfie is property of Cranio Creations and all of the copyrighted graphical assets used in this project were supplied by Politecnico di Milano in collaboration with their rights' holders.

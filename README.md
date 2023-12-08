@@ -20,7 +20,6 @@ Inside the [deliverables](https://github.com/gabricarm/IS23-AM08/tree/master/del
 | GUI | :green_circle: | JavaFX on clients |
 | Multiple matches | :green_circle: | The server supports multiple matches at the same time |
 | Persistence | :green_circle: | The status of each match is saved on the server and can be restored |
-| Disconnection handling | :red_circle: | If a client crashes, the match continues skipping its turns; clients can reconnect |
 | Chat | :green_circle: | Messages between players during the match |
 
 ## How to run

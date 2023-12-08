@@ -72,7 +72,7 @@ The default settings are:
   "startingName": "Game"
 }
 ```
-## Some notes for when playing the game
+### Some notes for when playing the game
 
 There is a maximum length for the nickname of a player:
 

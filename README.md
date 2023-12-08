@@ -1,34 +1,29 @@
 # Software Engineering project - a.y. 2022-23
 ![Box image](https://www.craniocreations.it/storage/media/products/54/112/My_Shelfie_box_ITA-ENG.png)  
 
-## Group members
-* Gabriele Carminati
-* Gabriele Carrino
-* Matteo Cenzato 
-* Alessandro Capellino
+## Project task
+Implementation of [My Shelfie](https://www.craniocreations.it/prodotto/my-shelfie), a board game created by Cranio Creations.
 
+The project task is to implement in Java a distributed system composed of a single server and multiple clients (one per player) that simulates the board game My Shelfie.  
+Clients can interact with the server both via CLI and GUI, JavaFX is used for the latter. The network layer is implemented both using sockets and Java RMI.
 
-| Functionality  | State           | Test Coverage (Methods) |
-|----------------|-----------------|-------------------------|
-| GameModel      | :green_circle:  | 100%                    |
-| GameBoard      | :green_circle:  | 100%                    |  
-| PlayerState    | :green_circle:  | 100%                    |
-| Shelf          | :green_circle:  | 100%                    |
-| CommonGoal     | :green_circle:  | 63%                     |
-| PersonalGoal   | :green_circle:  | 100%                    | 
-| SingleGoal     | :green_circle:  | 100%                    | 
-| GameController | :green_circle:  | 100%                    |
-| Tile           | :green_circle:  | 100%                    |
-| Position       | :green_circle:  | 100%                    |
-| Server         | :green_circle:  |                         |
-| Client         | :green_circle:  |                         |
-| CLI            | :green_circle:  |                         |
-| GUI            | :green_circle:  |                         |
-| RMI            | :green_circle:  |                         |
-| TCP            | :green_circle:  |                         |
+### Documentation
+Inside the [deliverables](https://github.com/gabricarm/IS23-AM08/tree/master/deliverables) folder there are UML diagrams and pdf documents to show the structure of the code and explain each design choice. Classes, interfaces and methods are well described using [javadoc](https://github.com/gabricarm/IS23-AM08/tree/master/deliverables/Javadoc).
 
+## Implemented features
+| Feature | Status | Description |
+| --- | :---: | --- |
+| Complete game | :green_circle: ||
+| RMI | :green_circle: | Network layer using RMI |
+| Socket | :green_circle: | Network layer using sockets |
+| CLI | :green_circle: | Command line interface, on clients |
+| GUI | :green_circle: | JavaFX on clients |
+| Multiple matches | :green_circle: | The server supports multiple matches at the same time |
+| Persistence | :green_circle: | The status of each match is saved on the server and can be restored |
+| Disconnection handling | :red_circle: | If a client crashes, the match continues skipping its turns; clients can reconnect |
+| Chat | :green_circle: | Messages between players during the match |
 
-# How to run
+## How to run
 
 To launch the application you can open the CMD in the folder where the file AM08.jar is located and write
 
@@ -77,78 +72,6 @@ The default settings are:
   "startingName": "Game"
 }
 ```
-
-## Project Requirements and Specifics
-
-Following the scoring table present in the pdf file "requirements.pdf"
-those are the functionalities that we choose to implement: 
-
-* **Complete Rules**
-
-The game includes all the rules specified in the ITALIAN rulebook.
-
-* **TUI**
-
-When the file AM08.jar is launched in client mode the application will start by default with the TUI.
-
-* **GUI**
-
-At very start the user will be prompted if he wants to play with GUI or TUI (cli/gui).
-If the selected mode is GUI, a new window will be opened.
-
-**NOTE:** the gui is done in JavaFX.
-
-* **RMI and SOCKET**
-
-The application can communicate using both RMI and TCP.
-The server will open the ports 42069 and 42070 for RMI and TCP respectively.
-The client will be asked which connection does he want to use and the ip he wants to 
-connect to.
-
-**NOTE:** if you leave blank or type *default* the client will connect to the ip **127.0.0.1** (or localhost).
-
-**NOTE:** the connection type is transparent to the final user, so he can join and
-play games created both via TCP and RMI, and also no visible interface difference will be
-shown if a connection is chosen.
-
-* **MULTIPLE GAMES**
-
-The server can accept the creation of multiple games at the same time.
-The client, after the successful connection to the server, can choose to either create
-a game (with also the number of players) or to join a match.
-It can both join a random match or select one of the possible games not already started.
-
-* **PERSISTENCE**
-
-Whenever the server crashes each ongoing game will be saved
-in a folder called *savedMatches* and will be able to be recovered when the server is restarted.
-
-The first time the server is launched on a machine, it will create the folder *savedMatches*.
-If it has already been created a message will be shown in the server logs and the server will
-automatically look for all files ".json" in it. The standard format for each file is
-"name1_name2_.json". If files matching the format are found the server will load them and 
-make them available to be recovered.
-
-For a user to rejoin a match it needs to have the exact same nickname (case-sensitive),
-then he needs to select the option to recover a game.
-
-**NOTE:** when a client crashes it does not fall under the persistence case, hence
-the game won't be able to be recovered.
-
-**NOTE:** it is better to not touch the folder savedMatches whenever the server is running
-(preferably also when the server is off, since if you corrupt a file or put some random json file in it 
-the flow of the server application will be disrupted).
-
-**NOTE:** if a player can recover a game, but decides to join a new one instead,
-the recovered game will be completely lost, and it will not be possible to re-access it.
-This is to ensure that no player waits for someone that has started a new match.
-
-* **CHAT**
-
-While playing the users will be able to use both a private and common chat.
-The TUI provides different commands for each mode, 
-the GUI instead provides different tabs.
-
 ## Some notes for when playing the game
 
 There is a maximum length for the nickname of a player:
@@ -186,6 +109,12 @@ can be read as follows:
 * the name cannot contain an opened square bracket ( [ )
 * the name cannot contain a closed square bracket ( ] )
 * the name cannot be empty
+
+## Team members
+- __Gabriele Carminati__ _@gabricarm_ gabriele.carminati@mail.polimi.it
+- __Gabriele Carrino__ _@gabricarr_ gabriele.carrino@mail.polimi.it
+- __Matteo Cenzato__ _@mattecenz_ matteo.cenzato@mail.polimi.it
+- __Alessandro Capellino__ _@alecappe_ alessandro.capellino@mail.polimi.it
 
 ----------------------------------
 ## Copyright disclaimer
